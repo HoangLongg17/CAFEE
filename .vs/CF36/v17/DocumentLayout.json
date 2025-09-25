@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\classcpp\\CF36\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\classcpp\\cf36\\cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\classcpp\\cf36\\cf36\\nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -178,7 +182,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Home.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\Home.cs",
               "RelativeDocumentMoniker": "CF36\\Home.cs",
@@ -191,6 +195,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "App.config",
+              "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\App.config",
+              "RelativeDocumentMoniker": "CF36\\App.config",
+              "ToolTip": "D:\\classcpp\\CF36\\CF36\\App.config",
+              "RelativeToolTip": "CF36\\App.config",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-09-25T11:27:58.015Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "NHANVIEN.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\NHANVIEN.cs",
               "RelativeDocumentMoniker": "CF36\\NHANVIEN.cs",
@@ -202,7 +219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "DanhSachNhanVien.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\DanhSachNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\DanhSachNhanVien.cs",
@@ -213,7 +230,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "DANHSACHSANPHAM.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\DANHSACHSANPHAM.cs",
               "RelativeDocumentMoniker": "CF36\\DANHSACHSANPHAM.cs",
@@ -224,7 +241,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "THONGKE.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\THONGKE.cs",
               "RelativeDocumentMoniker": "CF36\\THONGKE.cs",
@@ -235,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "QuanLi.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\QuanLi.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLi.cs",
@@ -246,7 +263,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "QuanLiKho.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\QuanLiKho.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLiKho.cs",
@@ -257,7 +274,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "XemSanPhamNhanVien.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\XemSanPhamNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\XemSanPhamNhanVien.cs",
@@ -268,7 +285,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "BANHANG.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\BANHANG.cs",
               "RelativeDocumentMoniker": "CF36\\BANHANG.cs",
@@ -279,7 +296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "QuanLiKhachHang.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\QuanLiKhachHang.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLiKhachHang.cs",
@@ -290,7 +307,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "QuanLiMAGIAMGIA.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\QuanLiMAGIAMGIA.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLiMAGIAMGIA.cs",
@@ -301,7 +318,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "ThanhToan.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThanhToan.cs",
               "RelativeDocumentMoniker": "CF36\\ThanhToan.cs",
@@ -312,7 +329,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "ThemTonKho.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThemTonKho.cs",
               "RelativeDocumentMoniker": "CF36\\ThemTonKho.cs",
@@ -323,7 +340,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "LichSuNhapKho.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\LichSuNhapKho.cs",
               "RelativeDocumentMoniker": "CF36\\LichSuNhapKho.cs",
@@ -334,7 +351,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "ThemMaGiamGia.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThemMaGiamGia.cs",
               "RelativeDocumentMoniker": "CF36\\ThemMaGiamGia.cs",
@@ -345,7 +362,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "ThemMaGiamGia1tang1.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThemMaGiamGia1tang1.cs",
               "RelativeDocumentMoniker": "CF36\\ThemMaGiamGia1tang1.cs",
@@ -356,7 +373,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "QuanLiKho.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\QuanLiKho.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLiKho.cs",
@@ -368,7 +385,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "LichSuNhapKho.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\LichSuNhapKho.cs",
               "RelativeDocumentMoniker": "CF36\\LichSuNhapKho.cs",
@@ -380,7 +397,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "ThemSanPham.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThemSanPham.cs",
               "RelativeDocumentMoniker": "CF36\\ThemSanPham.cs",
@@ -391,7 +408,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "SuaSanPham.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\SuaSanPham.cs",
               "RelativeDocumentMoniker": "CF36\\SuaSanPham.cs",
@@ -402,7 +419,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "SuaNhanVien.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\SuaNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\SuaNhanVien.cs",
@@ -413,7 +430,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "SuaMaGiamGiaMua1Tang1.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\SuaMaGiamGiaMua1Tang1.cs",
               "RelativeDocumentMoniker": "CF36\\SuaMaGiamGiaMua1Tang1.cs",
@@ -424,7 +441,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "SuaMaGiamGia.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\SuaMaGiamGia.cs",
               "RelativeDocumentMoniker": "CF36\\SuaMaGiamGia.cs",
@@ -435,7 +452,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "SuaTaiKhoanNhanVien.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\SuaTaiKhoanNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\SuaTaiKhoanNhanVien.cs",
@@ -446,7 +463,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "QuanLiMAGIAMGIA.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\QuanLiMAGIAMGIA.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLiMAGIAMGIA.cs",
@@ -458,7 +475,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "ThemNhanVien.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThemNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\ThemNhanVien.cs",
@@ -469,7 +486,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "ThemKhachHang.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThemKhachHang.cs",
               "RelativeDocumentMoniker": "CF36\\ThemKhachHang.cs",
@@ -480,7 +497,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "SuaKhachHang.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\SuaKhachHang.cs",
               "RelativeDocumentMoniker": "CF36\\SuaKhachHang.cs",
@@ -491,7 +508,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "LICHSUHOADON.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\LICHSUHOADON.cs",
               "RelativeDocumentMoniker": "CF36\\LICHSUHOADON.cs",
@@ -502,7 +519,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "DoiMatKhauQuanLi.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\DoiMatKhauQuanLi.cs",
               "RelativeDocumentMoniker": "CF36\\DoiMatKhauQuanLi.cs",
@@ -513,7 +530,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "DoiMatKhauNhanVien.cs [Design]",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\DoiMatKhauNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\DoiMatKhauNhanVien.cs",
@@ -524,7 +541,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "QuanLiKhachHang.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\QuanLiKhachHang.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLiKhachHang.cs",
@@ -536,7 +553,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "Home.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\Home.cs",
               "RelativeDocumentMoniker": "CF36\\Home.cs",
@@ -548,7 +565,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "NHANVIEN.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\NHANVIEN.cs",
               "RelativeDocumentMoniker": "CF36\\NHANVIEN.cs",
@@ -556,11 +573,12 @@
               "RelativeToolTip": "CF36\\NHANVIEN.cs",
               "ViewState": "AQIAAA8AAAAAAAAAAAAvwB8AAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T07:08:21.818Z"
+              "WhenOpened": "2025-09-23T07:08:21.818Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "BANHANG.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\BANHANG.cs",
               "RelativeDocumentMoniker": "CF36\\BANHANG.cs",
@@ -572,7 +590,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "QuanLi.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\QuanLi.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLi.cs",
@@ -584,7 +602,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 38,
               "Title": "SuaNhanVien.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\SuaNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\SuaNhanVien.cs",
@@ -596,7 +614,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "DanhSachNhanVien.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\DanhSachNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\DanhSachNhanVien.cs",
@@ -608,7 +626,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "ThemMaGiamGia.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThemMaGiamGia.cs",
               "RelativeDocumentMoniker": "CF36\\ThemMaGiamGia.cs",
@@ -620,7 +638,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 40,
               "Title": "DANHSACHSANPHAM.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\DANHSACHSANPHAM.cs",
               "RelativeDocumentMoniker": "CF36\\DANHSACHSANPHAM.cs",
@@ -632,7 +650,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 41,
               "Title": "ThemSanPham.cs",
               "DocumentMoniker": "D:\\classcpp\\CF36\\CF36\\ThemSanPham.cs",
               "RelativeDocumentMoniker": "CF36\\ThemSanPham.cs",
