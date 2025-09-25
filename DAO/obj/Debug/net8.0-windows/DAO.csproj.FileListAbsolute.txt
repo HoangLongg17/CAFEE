@@ -1,0 +1,15 @@
+D:\classcpp\CF36\DAO\bin\Debug\net8.0-windows\DAO.deps.json
+D:\classcpp\CF36\DAO\bin\Debug\net8.0-windows\DAO.dll
+D:\classcpp\CF36\DAO\bin\Debug\net8.0-windows\DAO.pdb
+D:\classcpp\CF36\DAO\bin\Debug\net8.0-windows\DTO.dll
+D:\classcpp\CF36\DAO\bin\Debug\net8.0-windows\DTO.pdb
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\DAO.csproj.AssemblyReference.cache
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\DAO.GeneratedMSBuildEditorConfig.editorconfig
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\DAO.AssemblyInfoInputs.cache
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\DAO.AssemblyInfo.cs
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\DAO.csproj.CoreCompileInputs.cache
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\DAO.csproj.Up2Date
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\DAO.dll
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\refint\DAO.dll
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\DAO.pdb
+D:\classcpp\CF36\DAO\obj\Debug\net8.0-windows\ref\DAO.dll

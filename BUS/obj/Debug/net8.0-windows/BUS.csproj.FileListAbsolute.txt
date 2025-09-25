@@ -1,0 +1,17 @@
+D:\classcpp\CF36\BUS\bin\Debug\net8.0-windows\BUS.deps.json
+D:\classcpp\CF36\BUS\bin\Debug\net8.0-windows\BUS.dll
+D:\classcpp\CF36\BUS\bin\Debug\net8.0-windows\BUS.pdb
+D:\classcpp\CF36\BUS\bin\Debug\net8.0-windows\DAO.dll
+D:\classcpp\CF36\BUS\bin\Debug\net8.0-windows\DTO.dll
+D:\classcpp\CF36\BUS\bin\Debug\net8.0-windows\DAO.pdb
+D:\classcpp\CF36\BUS\bin\Debug\net8.0-windows\DTO.pdb
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\BUS.csproj.AssemblyReference.cache
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\BUS.GeneratedMSBuildEditorConfig.editorconfig
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\BUS.AssemblyInfoInputs.cache
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\BUS.AssemblyInfo.cs
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\BUS.csproj.CoreCompileInputs.cache
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\BUS.csproj.Up2Date
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\BUS.dll
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\refint\BUS.dll
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\BUS.pdb
+D:\classcpp\CF36\BUS\obj\Debug\net8.0-windows\ref\BUS.dll

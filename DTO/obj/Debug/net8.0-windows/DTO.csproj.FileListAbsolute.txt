@@ -1,0 +1,11 @@
+D:\classcpp\CF36\DTO\bin\Debug\net8.0-windows\DTO.deps.json
+D:\classcpp\CF36\DTO\bin\Debug\net8.0-windows\DTO.dll
+D:\classcpp\CF36\DTO\bin\Debug\net8.0-windows\DTO.pdb
+D:\classcpp\CF36\DTO\obj\Debug\net8.0-windows\DTO.GeneratedMSBuildEditorConfig.editorconfig
+D:\classcpp\CF36\DTO\obj\Debug\net8.0-windows\DTO.AssemblyInfoInputs.cache
+D:\classcpp\CF36\DTO\obj\Debug\net8.0-windows\DTO.AssemblyInfo.cs
+D:\classcpp\CF36\DTO\obj\Debug\net8.0-windows\DTO.csproj.CoreCompileInputs.cache
+D:\classcpp\CF36\DTO\obj\Debug\net8.0-windows\DTO.dll
+D:\classcpp\CF36\DTO\obj\Debug\net8.0-windows\refint\DTO.dll
+D:\classcpp\CF36\DTO\obj\Debug\net8.0-windows\DTO.pdb
+D:\classcpp\CF36\DTO\obj\Debug\net8.0-windows\ref\DTO.dll
