@@ -37,11 +37,11 @@
             txtTimKiem = new TextBox();
             txtSoLuong = new TextBox();
             lbNhapSoLuong = new Label();
+            lbGiaNhap = new Label();
+            txtGiaNhap = new TextBox();
             dgvSanPham = new DataGridView();
             tlpend = new TableLayoutPanel();
             btnThoat = new Button();
-            lbGiaNhap = new Label();
-            txtGiaNhap = new TextBox();
             btnThem = new Button();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
@@ -156,6 +156,25 @@
             lbNhapSoLuong.TabIndex = 5;
             lbNhapSoLuong.Text = "Số lượng nhập vào kho";
             // 
+            // lbGiaNhap
+            // 
+            lbGiaNhap.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lbGiaNhap.AutoSize = true;
+            lbGiaNhap.Location = new Point(397, 13);
+            lbGiaNhap.Name = "lbGiaNhap";
+            lbGiaNhap.Size = new Size(68, 20);
+            lbGiaNhap.TabIndex = 6;
+            lbGiaNhap.Text = "Giá nhập";
+            lbGiaNhap.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // txtGiaNhap
+            // 
+            txtGiaNhap.Anchor = AnchorStyles.Left;
+            txtGiaNhap.Location = new Point(397, 36);
+            txtGiaNhap.Name = "txtGiaNhap";
+            txtGiaNhap.Size = new Size(387, 27);
+            txtGiaNhap.TabIndex = 7;
+            // 
             // dgvSanPham
             // 
             dgvSanPham.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -190,25 +209,6 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
-            // 
-            // lbGiaNhap
-            // 
-            lbGiaNhap.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lbGiaNhap.AutoSize = true;
-            lbGiaNhap.Location = new Point(397, 13);
-            lbGiaNhap.Name = "lbGiaNhap";
-            lbGiaNhap.Size = new Size(68, 20);
-            lbGiaNhap.TabIndex = 6;
-            lbGiaNhap.Text = "Giá nhập";
-            lbGiaNhap.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // txtGiaNhap
-            // 
-            txtGiaNhap.Anchor = AnchorStyles.Left;
-            txtGiaNhap.Location = new Point(397, 36);
-            txtGiaNhap.Name = "txtGiaNhap";
-            txtGiaNhap.Size = new Size(387, 27);
-            txtGiaNhap.TabIndex = 7;
             // 
             // btnThem
             // 
