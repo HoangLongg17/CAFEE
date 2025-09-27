@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\classcpp\\CF36\\CF36\\CF36.csproj": {}
+    "C:\\Users\\ADMIN\\CAFEE\\CF36\\CF36.csproj": {}
   },
   "projects": {
-    "D:\\classcpp\\CF36\\BUS\\BUS.csproj": {
+    "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\classcpp\\CF36\\BUS\\BUS.csproj",
+        "projectUniqueName": "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj",
         "projectName": "BUS",
-        "projectPath": "D:\\classcpp\\CF36\\BUS\\BUS.csproj",
-        "packagesPath": "C:\\Users\\longnguyen\\.nuget\\packages\\",
-        "outputPath": "D:\\classcpp\\CF36\\BUS\\obj\\",
+        "projectPath": "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ADMIN\\CAFEE\\BUS\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\longnguyen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,17 +26,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "D:\\classcpp\\CF36\\DAO\\DAO.csproj": {
-                "projectPath": "D:\\classcpp\\CF36\\DAO\\DAO.csproj"
+              "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj": {
+                "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj"
               },
-              "D:\\classcpp\\CF36\\DTO\\DTO.csproj": {
-                "projectPath": "D:\\classcpp\\CF36\\DTO\\DTO.csproj"
+              "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj": {
+                "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj"
               }
             }
           }
@@ -50,11 +51,26 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[6.1.1, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -74,24 +90,24 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\classcpp\\CF36\\CF36\\CF36.csproj": {
+    "C:\\Users\\ADMIN\\CAFEE\\CF36\\CF36.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\classcpp\\CF36\\CF36\\CF36.csproj",
+        "projectUniqueName": "C:\\Users\\ADMIN\\CAFEE\\CF36\\CF36.csproj",
         "projectName": "CF36",
-        "projectPath": "D:\\classcpp\\CF36\\CF36\\CF36.csproj",
-        "packagesPath": "C:\\Users\\longnguyen\\.nuget\\packages\\",
-        "outputPath": "D:\\classcpp\\CF36\\CF36\\obj\\",
+        "projectPath": "C:\\Users\\ADMIN\\CAFEE\\CF36\\CF36.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ADMIN\\CAFEE\\CF36\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\longnguyen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -100,20 +116,21 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "D:\\classcpp\\CF36\\BUS\\BUS.csproj": {
-                "projectPath": "D:\\classcpp\\CF36\\BUS\\BUS.csproj"
+              "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj": {
+                "projectPath": "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj"
               },
-              "D:\\classcpp\\CF36\\DAO\\DAO.csproj": {
-                "projectPath": "D:\\classcpp\\CF36\\DAO\\DAO.csproj"
+              "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj": {
+                "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj"
               },
-              "D:\\classcpp\\CF36\\DTO\\DTO.csproj": {
-                "projectPath": "D:\\classcpp\\CF36\\DTO\\DTO.csproj"
+              "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj": {
+                "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj"
               }
             }
           }
@@ -127,11 +144,26 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[6.1.1, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -151,24 +183,24 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\classcpp\\CF36\\DAO\\DAO.csproj": {
+    "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\classcpp\\CF36\\DAO\\DAO.csproj",
+        "projectUniqueName": "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj",
         "projectName": "DAO",
-        "projectPath": "D:\\classcpp\\CF36\\DAO\\DAO.csproj",
-        "packagesPath": "C:\\Users\\longnguyen\\.nuget\\packages\\",
-        "outputPath": "D:\\classcpp\\CF36\\DAO\\obj\\",
+        "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ADMIN\\CAFEE\\DAO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\longnguyen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -177,14 +209,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "D:\\classcpp\\CF36\\DTO\\DTO.csproj": {
-                "projectPath": "D:\\classcpp\\CF36\\DTO\\DTO.csproj"
+              "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj": {
+                "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj"
               }
             }
           }
@@ -198,11 +231,26 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[6.1.1, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -222,24 +270,24 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\classcpp\\CF36\\DTO\\DTO.csproj": {
+    "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\classcpp\\CF36\\DTO\\DTO.csproj",
+        "projectUniqueName": "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj",
         "projectName": "DTO",
-        "projectPath": "D:\\classcpp\\CF36\\DTO\\DTO.csproj",
-        "packagesPath": "C:\\Users\\longnguyen\\.nuget\\packages\\",
-        "outputPath": "D:\\classcpp\\CF36\\DTO\\obj\\",
+        "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ADMIN\\CAFEE\\DTO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\longnguyen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -248,6 +296,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -265,11 +314,26 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[6.1.1, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -289,7 +353,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

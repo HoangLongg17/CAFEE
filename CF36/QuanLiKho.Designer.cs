@@ -35,10 +35,13 @@
             lbTimKiem = new Label();
             btnThemKho = new Button();
             dgvKho = new DataGridView();
+            MaSP = new DataGridViewTextBoxColumn();
+            TenSP = new DataGridViewTextBoxColumn();
+            Size = new DataGridViewTextBoxColumn();
+            SoLuong = new DataGridViewTextBoxColumn();
             tlpend = new TableLayoutPanel();
             btnThoat = new Button();
             btnLamMoi = new Button();
-            btnLichSuKho = new Button();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             tlpBoLoc.SuspendLayout();
@@ -56,22 +59,24 @@
             tlpall.Controls.Add(tlpend, 0, 3);
             tlpall.Dock = DockStyle.Fill;
             tlpall.Location = new Point(0, 0);
+            tlpall.Margin = new Padding(3, 2, 3, 2);
             tlpall.Name = "tlpall";
             tlpall.RowCount = 4;
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 17.5555553F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 22.4444447F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 46.4444427F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 13.333333F));
-            tlpall.Size = new Size(800, 450);
+            tlpall.Size = new Size(700, 338);
             tlpall.TabIndex = 0;
             // 
             // picLogo
             // 
             picLogo.Dock = DockStyle.Fill;
             picLogo.Image = Properties.Resources.logo;
-            picLogo.Location = new Point(3, 3);
+            picLogo.Location = new Point(3, 2);
+            picLogo.Margin = new Padding(3, 2, 3, 2);
             picLogo.Name = "picLogo";
-            picLogo.Size = new Size(794, 73);
+            picLogo.Size = new Size(694, 55);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
             picLogo.TabIndex = 0;
             picLogo.TabStop = false;
@@ -86,40 +91,42 @@
             tlpBoLoc.Controls.Add(txtTimKiem, 2, 0);
             tlpBoLoc.Controls.Add(lbTimKiem, 1, 0);
             tlpBoLoc.Controls.Add(btnThemKho, 3, 1);
-            tlpBoLoc.Controls.Add(btnLichSuKho, 2, 1);
             tlpBoLoc.Dock = DockStyle.Fill;
-            tlpBoLoc.Location = new Point(3, 82);
+            tlpBoLoc.Location = new Point(3, 61);
+            tlpBoLoc.Margin = new Padding(3, 2, 3, 2);
             tlpBoLoc.Name = "tlpBoLoc";
             tlpBoLoc.RowCount = 2;
             tlpBoLoc.RowStyles.Add(new RowStyle(SizeType.Percent, 34.7368431F));
             tlpBoLoc.RowStyles.Add(new RowStyle(SizeType.Percent, 65.26316F));
-            tlpBoLoc.Size = new Size(794, 95);
+            tlpBoLoc.Size = new Size(694, 72);
             tlpBoLoc.TabIndex = 1;
             // 
             // txtTimKiem
             // 
             txtTimKiem.Anchor = AnchorStyles.Left;
-            txtTimKiem.Location = new Point(399, 3);
+            txtTimKiem.Location = new Point(349, 2);
+            txtTimKiem.Margin = new Padding(3, 2, 3, 2);
             txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(192, 27);
+            txtTimKiem.Size = new Size(167, 23);
             txtTimKiem.TabIndex = 0;
             // 
             // lbTimKiem
             // 
             lbTimKiem.Anchor = AnchorStyles.Right;
             lbTimKiem.AutoSize = true;
-            lbTimKiem.Location = new Point(323, 6);
+            lbTimKiem.Location = new Point(287, 5);
             lbTimKiem.Name = "lbTimKiem";
-            lbTimKiem.Size = new Size(70, 20);
+            lbTimKiem.Size = new Size(56, 15);
             lbTimKiem.TabIndex = 1;
             lbTimKiem.Text = "Tìm kiếm";
             // 
             // btnThemKho
             // 
             btnThemKho.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnThemKho.Location = new Point(597, 36);
+            btnThemKho.Location = new Point(522, 28);
+            btnThemKho.Margin = new Padding(3, 2, 3, 2);
             btnThemKho.Name = "btnThemKho";
-            btnThemKho.Size = new Size(146, 56);
+            btnThemKho.Size = new Size(128, 42);
             btnThemKho.TabIndex = 2;
             btnThemKho.Text = "Thêm tồn kho";
             btnThemKho.UseVisualStyleBackColor = true;
@@ -127,13 +134,40 @@
             // 
             // dgvKho
             // 
+            dgvKho.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvKho.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvKho.Columns.AddRange(new DataGridViewColumn[] { MaSP, TenSP, Size, SoLuong });
             dgvKho.Dock = DockStyle.Fill;
-            dgvKho.Location = new Point(3, 183);
+            dgvKho.Location = new Point(3, 137);
+            dgvKho.Margin = new Padding(3, 2, 3, 2);
             dgvKho.Name = "dgvKho";
             dgvKho.RowHeadersWidth = 51;
-            dgvKho.Size = new Size(794, 203);
+            dgvKho.Size = new Size(694, 153);
             dgvKho.TabIndex = 2;
+            // 
+            // MaSP
+            // 
+            MaSP.DataPropertyName = "MaSP";
+            MaSP.HeaderText = "Mã sản phẩm";
+            MaSP.Name = "MaSP";
+            // 
+            // TenSP
+            // 
+            TenSP.DataPropertyName = "TenSP";
+            TenSP.HeaderText = "Tên sản phẩm";
+            TenSP.Name = "TenSP";
+            // 
+            // Size
+            // 
+            Size.DataPropertyName = "Size";
+            Size.HeaderText = "Size";
+            Size.Name = "Size";
+            // 
+            // SoLuong
+            // 
+            SoLuong.DataPropertyName = "SoLuong";
+            SoLuong.HeaderText = "Số lượng";
+            SoLuong.Name = "SoLuong";
             // 
             // tlpend
             // 
@@ -145,18 +179,20 @@
             tlpend.Controls.Add(btnThoat, 3, 0);
             tlpend.Controls.Add(btnLamMoi, 2, 0);
             tlpend.Dock = DockStyle.Fill;
-            tlpend.Location = new Point(3, 392);
+            tlpend.Location = new Point(3, 294);
+            tlpend.Margin = new Padding(3, 2, 3, 2);
             tlpend.Name = "tlpend";
             tlpend.RowCount = 1;
             tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpend.Size = new Size(794, 55);
+            tlpend.Size = new Size(694, 42);
             tlpend.TabIndex = 3;
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(597, 3);
+            btnThoat.Location = new Point(521, 2);
+            btnThoat.Margin = new Padding(3, 2, 3, 2);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(94, 49);
+            btnThoat.Size = new Size(82, 37);
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
@@ -164,30 +200,21 @@
             // btnLamMoi
             // 
             btnLamMoi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnLamMoi.Location = new Point(490, 3);
+            btnLamMoi.Location = new Point(428, 2);
+            btnLamMoi.Margin = new Padding(3, 2, 3, 2);
             btnLamMoi.Name = "btnLamMoi";
-            btnLamMoi.Size = new Size(101, 49);
+            btnLamMoi.Size = new Size(87, 37);
             btnLamMoi.TabIndex = 0;
             btnLamMoi.Text = "LÀM MỚI";
             btnLamMoi.UseVisualStyleBackColor = true;
             // 
-            // btnLichSuKho
-            // 
-            btnLichSuKho.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnLichSuKho.Location = new Point(453, 36);
-            btnLichSuKho.Name = "btnLichSuKho";
-            btnLichSuKho.Size = new Size(138, 56);
-            btnLichSuKho.TabIndex = 3;
-            btnLichSuKho.Text = "Lịch sử nhập kho";
-            btnLichSuKho.UseVisualStyleBackColor = true;
-            btnLichSuKho.Click += btnLichSuKho_Click;
-            // 
             // QuanLiKho
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
             Controls.Add(tlpall);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "QuanLiKho";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản lí kho";
@@ -212,6 +239,9 @@
         private TableLayoutPanel tlpend;
         private Button btnThoat;
         private Button btnLamMoi;
-        private Button btnLichSuKho;
+        private DataGridViewTextBoxColumn MaSP;
+        private DataGridViewTextBoxColumn TenSP;
+        private DataGridViewTextBoxColumn Size;
+        private DataGridViewTextBoxColumn SoLuong;
     }
 }
