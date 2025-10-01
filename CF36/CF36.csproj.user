@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="BANHANG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DanhSachNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DANHSACHSANPHAM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DoiMatKhauNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DoiMatKhauQuanLi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LICHSUHOADON.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LichSuNhapKho.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="NHANVIEN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="QuanLi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="QuanLiKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="QuanLiKho.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="QuanLiMAGIAMGIA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SuaKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SuaMaGiamGia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SuaMaGiamGiaMua1Tang1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SuaNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SuaSanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SuaTaiKhoanNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ThanhToan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ThemKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ThemMaGiamGia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ThemMaGiamGia1tang1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ThemNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ThemSanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ThemTonKho.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="THONGKE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="XemSanPhamNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
