@@ -4,6 +4,12 @@
     <Compile Update="BANHANG.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="DangNhapNV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DangNhapQL.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="DanhSachNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
