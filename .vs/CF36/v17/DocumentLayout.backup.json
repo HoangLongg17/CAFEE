@@ -3,12 +3,56 @@
   "WorkspaceRootPath": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\dao\\thongkedao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\thongkedao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\dto\\loaisanphamdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\loaisanphamdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\bus\\thongkebus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\thongkebus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\bus\\sanphambus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\sanphambus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\dto\\sanphamdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\sanphamdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\dao\\khodao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\khodao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\dao\\sanphamdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\sanphamdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\dto\\thongkedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\thongkedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\dto\\khodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\khodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\bus\\khobus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\khobus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\cf36\\lichsuhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\lichsuhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\toiye\\downloads\\cafee-master\\cafee-master\\cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
@@ -26,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,32 +86,164 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "THONGKE.cs",
-              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\THONGKE.cs",
-              "RelativeDocumentMoniker": "CF36\\THONGKE.cs",
-              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\THONGKE.cs",
-              "RelativeToolTip": "CF36\\THONGKE.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAmwCYAAAApAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "LoaiSanPhamDTO.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DTO\\LoaiSanPhamDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\LoaiSanPhamDTO.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DTO\\LoaiSanPhamDTO.cs",
+              "RelativeToolTip": "DTO\\LoaiSanPhamDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-01T01:45:57.038Z",
+              "WhenOpened": "2025-10-06T07:19:59.252Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "SanPhamBUS.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\BUS\\SanPhamBUS.cs",
+              "RelativeDocumentMoniker": "BUS\\SanPhamBUS.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\BUS\\SanPhamBUS.cs",
+              "RelativeToolTip": "BUS\\SanPhamBUS.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:14:31.85Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SanPhamDAO.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DAO\\SanPhamDAO.cs",
+              "RelativeDocumentMoniker": "DAO\\SanPhamDAO.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DAO\\SanPhamDAO.cs",
+              "RelativeToolTip": "DAO\\SanPhamDAO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:14:07.828Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ThongKeBUS.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\BUS\\ThongKeBUS.cs",
+              "RelativeDocumentMoniker": "BUS\\ThongKeBUS.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\BUS\\ThongKeBUS.cs",
+              "RelativeToolTip": "BUS\\ThongKeBUS.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:10:55.486Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ThongKeDAO.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DAO\\ThongKeDAO.cs",
+              "RelativeDocumentMoniker": "DAO\\ThongKeDAO.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DAO\\ThongKeDAO.cs",
+              "RelativeToolTip": "DAO\\ThongKeDAO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:09:56.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SanPhamDTO.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DTO\\SanPhamDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\SanPhamDTO.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DTO\\SanPhamDTO.cs",
+              "RelativeToolTip": "DTO\\SanPhamDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:09:28.519Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ThongKeDTO.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DTO\\ThongKeDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\ThongKeDTO.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DTO\\ThongKeDTO.cs",
+              "RelativeToolTip": "DTO\\ThongKeDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:08:51.639Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "KHODTO.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DTO\\KHODTO.cs",
+              "RelativeDocumentMoniker": "DTO\\KHODTO.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DTO\\KHODTO.cs",
+              "RelativeToolTip": "DTO\\KHODTO.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:04:45.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "KHOBUS.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\BUS\\KHOBUS.cs",
+              "RelativeDocumentMoniker": "BUS\\KHOBUS.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\BUS\\KHOBUS.cs",
+              "RelativeToolTip": "BUS\\KHOBUS.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:04:02.854Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "KHODAO.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DAO\\KHODAO.cs",
+              "RelativeDocumentMoniker": "DAO\\KHODAO.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\DAO\\KHODAO.cs",
+              "RelativeToolTip": "DAO\\KHODAO.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAIwEwAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-06T07:03:32.984Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "THONGKE.cs [Design]",
               "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\THONGKE.cs",
               "RelativeDocumentMoniker": "CF36\\THONGKE.cs",
               "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\THONGKE.cs [Design]",
               "RelativeToolTip": "CF36\\THONGKE.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-01T01:25:12.585Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-10-01T01:25:12.585Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
+              "Title": "THONGKE.cs",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\THONGKE.cs",
+              "RelativeDocumentMoniker": "CF36\\THONGKE.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\THONGKE.cs",
+              "RelativeToolTip": "CF36\\THONGKE.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-01T01:45:57.038Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "LICHSUHOADON.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\LICHSUHOADON.cs",
+              "RelativeDocumentMoniker": "CF36\\LICHSUHOADON.cs",
+              "ToolTip": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\LICHSUHOADON.cs [Design]",
+              "RelativeToolTip": "CF36\\LICHSUHOADON.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-01T04:24:39.371Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "App.config",
               "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\App.config",
               "RelativeDocumentMoniker": "CF36\\App.config",
@@ -75,12 +251,11 @@
               "RelativeToolTip": "CF36\\App.config",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-09-25T11:27:58.015Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-25T11:27:58.015Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 14,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\toiye\\Downloads\\CAFEE-master\\CAFEE-master\\CF36\\Program.cs",
               "RelativeDocumentMoniker": "CF36\\Program.cs",
@@ -88,8 +263,7 @@
               "RelativeToolTip": "CF36\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T11:28:13.228Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-26T11:28:13.228Z"
             }
           ]
         },

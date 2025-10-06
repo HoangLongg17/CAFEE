@@ -374,3 +374,4 @@ C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\CF36\obj\Debug\net8.0-windows
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\CF36\obj\Debug\net8.0-windows\CF36.pdb
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\CF36\obj\Debug\net8.0-windows\CF36.genruntimeconfig.cache
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\CF36\obj\Debug\net8.0-windows\ref\CF36.dll
+C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\CF36\obj\Debug\net8.0-windows\CF36.sourcelink.json

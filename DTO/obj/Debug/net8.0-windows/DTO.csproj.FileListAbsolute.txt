@@ -47,3 +47,4 @@ C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\DTO\obj\Debug\net8.0-windows\
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\DTO\obj\Debug\net8.0-windows\refint\DTO.dll
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\DTO\obj\Debug\net8.0-windows\DTO.pdb
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\DTO\obj\Debug\net8.0-windows\ref\DTO.dll
+C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\DTO\obj\Debug\net8.0-windows\DTO.sourcelink.json

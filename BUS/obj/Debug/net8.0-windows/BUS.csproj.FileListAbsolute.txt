@@ -68,3 +68,4 @@ C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\BUS\obj\Debug\net8.0-windows\
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\BUS\obj\Debug\net8.0-windows\refint\BUS.dll
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\BUS\obj\Debug\net8.0-windows\BUS.pdb
 C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\BUS\obj\Debug\net8.0-windows\ref\BUS.dll
+C:\Users\toiye\Downloads\CAFEE-master\CAFEE-master\BUS\obj\Debug\net8.0-windows\BUS.sourcelink.json
