@@ -35,3 +35,16 @@ C:\Users\ADMIN\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.dll
 C:\Users\ADMIN\CAFEE\DTO\obj\Debug\net8.0-windows\refint\DTO.dll
 C:\Users\ADMIN\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.pdb
 C:\Users\ADMIN\CAFEE\DTO\obj\Debug\net8.0-windows\ref\DTO.dll
+D:\Project_CNPM\CAFEE\DTO\bin\Debug\net8.0-windows\DTO.deps.json
+D:\Project_CNPM\CAFEE\DTO\bin\Debug\net8.0-windows\DTO.dll
+D:\Project_CNPM\CAFEE\DTO\bin\Debug\net8.0-windows\DTO.pdb
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.csproj.AssemblyReference.cache
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.AssemblyInfoInputs.cache
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.AssemblyInfo.cs
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.csproj.CoreCompileInputs.cache
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.sourcelink.json
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.dll
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\refint\DTO.dll
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\DTO.pdb
+D:\Project_CNPM\CAFEE\DTO\obj\Debug\net8.0-windows\ref\DTO.dll

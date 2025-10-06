@@ -1826,23 +1826,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ADMIN\\.nuget\\packages\\": {},
+    "C:\\Users\\duy\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ADMIN\\CAFEE\\CF36\\CF36.csproj",
+      "projectUniqueName": "D:\\Project_CNPM\\CAFEE\\CF36\\CF36.csproj",
       "projectName": "CF36",
-      "projectPath": "C:\\Users\\ADMIN\\CAFEE\\CF36\\CF36.csproj",
-      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ADMIN\\CAFEE\\CF36\\obj\\",
+      "projectPath": "D:\\Project_CNPM\\CAFEE\\CF36\\CF36.csproj",
+      "packagesPath": "C:\\Users\\duy\\.nuget\\packages\\",
+      "outputPath": "D:\\Project_CNPM\\CAFEE\\CF36\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\duy\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1851,21 +1851,20 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj": {
-              "projectPath": "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj"
+            "D:\\Project_CNPM\\CAFEE\\BUS\\BUS.csproj": {
+              "projectPath": "D:\\Project_CNPM\\CAFEE\\BUS\\BUS.csproj"
             },
-            "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj": {
-              "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj"
+            "D:\\Project_CNPM\\CAFEE\\DAO\\DAO.csproj": {
+              "projectPath": "D:\\Project_CNPM\\CAFEE\\DAO\\DAO.csproj"
             },
-            "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj": {
-              "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj"
+            "D:\\Project_CNPM\\CAFEE\\DTO\\DTO.csproj": {
+              "projectPath": "D:\\Project_CNPM\\CAFEE\\DTO\\DTO.csproj"
             }
           }
         }

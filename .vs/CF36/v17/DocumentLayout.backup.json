@@ -1,201 +1,273 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ADMIN\\CAFEE\\",
+  "WorkspaceRootPath": "D:\\Project_CNPM\\CAFEE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|c:\\users\\admin\\cafee\\bus\\khobus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\khobus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\dangnhapql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\dangnhapql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|c:\\users\\admin\\cafee\\dto\\khodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\khodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\dangnhapql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\dangnhapql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|c:\\users\\admin\\cafee\\dao\\khodao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\khodao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\dangnhapnv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\dangnhapnv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\quanlikho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlikho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|d:\\project_cnpm\\cafee\\dao\\dangnhapqldao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\dangnhapqldao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\quanlikho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlikho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|d:\\project_cnpm\\cafee\\dao\\dangnhapnvdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\dangnhapnvdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\themtonkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themtonkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|d:\\project_cnpm\\cafee\\bus\\dangnhapqlbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\dangnhapqlbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\themtonkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themtonkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|d:\\project_cnpm\\cafee\\bus\\dangnhapnvbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\dangnhapnvbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\themtonkho.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themtonkho.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|d:\\project_cnpm\\cafee\\dto\\dangnhapnvdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\dangnhapnvdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|d:\\project_cnpm\\cafee\\dto\\dangnhapqldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\dangnhapqldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|d:\\project_cnpm\\cafee\\dto\\khachhangdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\khachhangdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\dangnhapnv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\dangnhapnv.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\cf36.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\cf36.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\quanlikhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlikhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|c:\\users\\admin\\cafee\\bus\\sanphambus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\sanphambus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|d:\\project_cnpm\\cafee\\dao\\dataprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\dataprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\danhsachsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\danhsachsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|d:\\project_cnpm\\cafee\\bus\\khobus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\khobus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\xemsanphamnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\xemsanphamnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\currentuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\currentuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\banhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\banhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|d:\\project_cnpm\\cafee\\dao\\khodao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\khodao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\quanlimagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlimagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|d:\\project_cnpm\\cafee\\dao\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\thanhtoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\thanhtoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|d:\\project_cnpm\\cafee\\dto\\khodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\khodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\lichsunhapkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\lichsunhapkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|d:\\project_cnpm\\cafee\\dao\\sanphamdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63DB6CAE-3855-4C2A-9AFD-01C3CB098E1C}|DAO\\DAO.csproj|solutionrelative:dao\\sanphamdao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\themmagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themmagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|d:\\project_cnpm\\cafee\\dto\\sanphamdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07330972-7D88-4FFB-A308-134899C1D5F8}|DTO\\DTO.csproj|solutionrelative:dto\\sanphamdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\themmagiamgia1tang1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themmagiamgia1tang1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\lichsunhapkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\lichsunhapkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\themsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\suasanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suasanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\suamagiamgiamua1tang1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suamagiamgiamua1tang1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\suamagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suamagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\suataikhoannhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suataikhoannhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\quanlimagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlimagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\themnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\themkhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themkhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\suakhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suakhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\lichsuhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\lichsuhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\doimatkhauquanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\doimatkhauquanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\cf36\\doimatkhaunhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\doimatkhaunhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\quanlikhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlikhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\quanlikhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlikhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\quanlikhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlikhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|d:\\project_cnpm\\cafee\\bus\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|d:\\project_cnpm\\cafee\\bus\\sanphambus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E39FBDBC-FA77-4C65-9DAE-E3E844B5C45B}|BUS\\BUS.csproj|solutionrelative:bus\\sanphambus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\quanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\cf36.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\cf36.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\themtonkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themtonkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\themtonkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themtonkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\quanlikho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlikho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\quanlikho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlikho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\themtonkho.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themtonkho.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\thongke.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\danhsachsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\danhsachsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\xemsanphamnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\xemsanphamnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\banhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\banhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\quanlimagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlimagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\thanhtoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\thanhtoan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\lichsunhapkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\lichsunhapkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\themmagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themmagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\themmagiamgia1tang1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themmagiamgia1tang1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\lichsunhapkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\lichsunhapkho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\themsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\suasanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suasanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\suamagiamgiamua1tang1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suamagiamgiamua1tang1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\suamagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suamagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\suataikhoannhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suataikhoannhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\quanlimagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanlimagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\themnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\themkhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themkhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\suakhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suakhachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\lichsuhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\lichsuhoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\doimatkhauquanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\doimatkhauquanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|D:\\Project_CNPM\\CAFEE\\cf36\\doimatkhaunhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\doimatkhaunhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\nhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\banhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\banhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\banhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\quanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\quanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\quanli.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\themmagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\themmagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themmagiamgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\danhsachsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\danhsachsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\danhsachsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|c:\\users\\admin\\cafee\\cf36\\themsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|d:\\project_cnpm\\cafee\\cf36\\themsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2147E74-4AA1-4171-9607-EF4B8EBC3991}|CF36\\CF36.csproj|solutionrelative:cf36\\themsanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -206,67 +278,366 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 22,
               "Title": "Home.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\Home.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\Home.cs",
               "RelativeDocumentMoniker": "CF36\\Home.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\Home.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\Home.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\Home.cs [Design]",
+              "RelativeToolTip": "CF36\\Home.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-17T11:56:53.379Z",
               "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 13,
               "Title": "KHOBUS.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\BUS\\KHOBUS.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\BUS\\KHOBUS.cs",
               "RelativeDocumentMoniker": "BUS\\KHOBUS.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\BUS\\KHOBUS.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\BUS\\KHOBUS.cs",
               "RelativeToolTip": "BUS\\KHOBUS.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAAAEcAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAuwEcAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-26T09:44:18.018Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "KHODTO.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\DTO\\KHODTO.cs",
-              "RelativeDocumentMoniker": "DTO\\KHODTO.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\DTO\\KHODTO.cs",
-              "RelativeToolTip": "DTO\\KHODTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T09:44:56.554Z",
               "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 16,
               "Title": "KHODAO.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\DAO\\KHODAO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DAO\\KHODAO.cs",
               "RelativeDocumentMoniker": "DAO\\KHODAO.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\DAO\\KHODAO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DAO\\KHODAO.cs",
               "RelativeToolTip": "DAO\\KHODAO.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAAAKsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-26T09:44:38.276Z",
               "IsPinned": true
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DangNhapNV.cs [Design]",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DangNhapNV.cs",
+              "RelativeDocumentMoniker": "CF36\\DangNhapNV.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DangNhapNV.cs [Design]",
+              "RelativeToolTip": "CF36\\DangNhapNV.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T09:18:29.709Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DangNhapQL.cs [Design]",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DangNhapQL.cs",
+              "RelativeDocumentMoniker": "CF36\\DangNhapQL.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DangNhapQL.cs [Design]",
+              "RelativeToolTip": "CF36\\DangNhapQL.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T09:21:24.401Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DangNhapQL.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DangNhapQL.cs",
+              "RelativeDocumentMoniker": "CF36\\DangNhapQL.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DangNhapQL.cs",
+              "RelativeToolTip": "CF36\\DangNhapQL.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAMwBAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T11:12:34.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DangNhapQLDAO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DAO\\DangNhapQLDAO.cs",
+              "RelativeDocumentMoniker": "DAO\\DangNhapQLDAO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DAO\\DangNhapQLDAO.cs",
+              "RelativeToolTip": "DAO\\DangNhapQLDAO.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAAAB8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T11:15:42.503Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DangNhapNVDAO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DAO\\DangNhapNVDAO.cs",
+              "RelativeDocumentMoniker": "DAO\\DangNhapNVDAO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DAO\\DangNhapNVDAO.cs",
+              "RelativeToolTip": "DAO\\DangNhapNVDAO.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAgwDYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T10:16:53.256Z"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "DangNhapQLBUS.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\BUS\\DangNhapQLBUS.cs",
+              "RelativeDocumentMoniker": "BUS\\DangNhapQLBUS.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\BUS\\DangNhapQLBUS.cs",
+              "RelativeToolTip": "BUS\\DangNhapQLBUS.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T11:13:44.205Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DangNhapNVBUS.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\BUS\\DangNhapNVBUS.cs",
+              "RelativeDocumentMoniker": "BUS\\DangNhapNVBUS.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\BUS\\DangNhapNVBUS.cs",
+              "RelativeToolTip": "BUS\\DangNhapNVBUS.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T10:16:20.222Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DangNhapNVDTO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DTO\\DangNhapNVDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\DangNhapNVDTO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DTO\\DangNhapNVDTO.cs",
+              "RelativeToolTip": "DTO\\DangNhapNVDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T09:42:14.262Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "DangNhapQLDTO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DTO\\DangNhapQLDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\DangNhapQLDTO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DTO\\DangNhapQLDTO.cs",
+              "RelativeToolTip": "DTO\\DangNhapQLDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T09:42:54.588Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "KhachHangDTO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DTO\\KhachHangDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\KhachHangDTO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DTO\\KhachHangDTO.cs",
+              "RelativeToolTip": "DTO\\KhachHangDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T08:44:57.233Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "DangNhapNV.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DangNhapNV.cs",
+              "RelativeDocumentMoniker": "CF36\\DangNhapNV.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DangNhapNV.cs",
+              "RelativeToolTip": "CF36\\DangNhapNV.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAswCwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T09:23:27.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "NHANVIEN.cs [Design]",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\NHANVIEN.cs",
+              "RelativeDocumentMoniker": "CF36\\NHANVIEN.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\NHANVIEN.cs [Design]",
+              "RelativeToolTip": "CF36\\NHANVIEN.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T07:05:12.358Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "DataProvider.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DAO\\DataProvider.cs",
+              "RelativeDocumentMoniker": "DAO\\DataProvider.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DAO\\DataProvider.cs",
+              "RelativeToolTip": "DAO\\DataProvider.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAmwBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T10:19:50.788Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "App.config",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\App.config",
+              "RelativeDocumentMoniker": "CF36\\App.config",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\App.config",
+              "RelativeToolTip": "CF36\\App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-09-25T11:27:58.015Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CurrentUser.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\CurrentUser.cs",
+              "RelativeDocumentMoniker": "CF36\\CurrentUser.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\CurrentUser.cs",
+              "RelativeToolTip": "CF36\\CurrentUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T10:46:04.295Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DAO\\Class1.cs",
+              "RelativeDocumentMoniker": "DAO\\Class1.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DAO\\Class1.cs",
+              "RelativeToolTip": "DAO\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T10:19:12.296Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "KHODTO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DTO\\KHODTO.cs",
+              "RelativeDocumentMoniker": "DTO\\KHODTO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DTO\\KHODTO.cs",
+              "RelativeToolTip": "DTO\\KHODTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T09:44:56.554Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "SanPhamDAO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DAO\\SanPhamDAO.cs",
+              "RelativeDocumentMoniker": "DAO\\SanPhamDAO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DAO\\SanPhamDAO.cs",
+              "RelativeToolTip": "DAO\\SanPhamDAO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T09:47:47.432Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "SanPhamDTO.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\DTO\\SanPhamDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\SanPhamDTO.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\DTO\\SanPhamDTO.cs",
+              "RelativeToolTip": "DTO\\SanPhamDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T08:45:00.324Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Home.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\Home.cs",
+              "RelativeDocumentMoniker": "CF36\\Home.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\Home.cs",
+              "RelativeToolTip": "CF36\\Home.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T11:58:09.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "QuanLiKhachHang.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiKhachHang.cs",
+              "RelativeDocumentMoniker": "CF36\\QuanLiKhachHang.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiKhachHang.cs",
+              "RelativeToolTip": "CF36\\QuanLiKhachHang.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-23T02:40:30.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "QuanLiKhachHang.cs [Design]",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiKhachHang.cs",
+              "RelativeDocumentMoniker": "CF36\\QuanLiKhachHang.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiKhachHang.cs [Design]",
+              "RelativeToolTip": "CF36\\QuanLiKhachHang.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-21T10:16:53.538Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\Program.cs",
+              "RelativeDocumentMoniker": "CF36\\Program.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\Program.cs",
+              "RelativeToolTip": "CF36\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T11:28:13.228Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "CF36",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\CF36.csproj",
+              "RelativeDocumentMoniker": "CF36\\CF36.csproj",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\CF36.csproj",
+              "RelativeToolTip": "CF36\\CF36.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-05T08:43:19.779Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "QuanLi.cs [Design]",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLi.cs",
+              "RelativeDocumentMoniker": "CF36\\QuanLi.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLi.cs [Design]",
+              "RelativeToolTip": "CF36\\QuanLi.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T08:43:36.043Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\BUS\\Class1.cs",
+              "RelativeDocumentMoniker": "BUS\\Class1.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\BUS\\Class1.cs",
+              "RelativeToolTip": "BUS\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-05T08:44:03.285Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
               "Title": "ThemTonKho.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemTonKho.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemTonKho.cs",
               "RelativeDocumentMoniker": "CF36\\ThemTonKho.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemTonKho.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemTonKho.cs",
               "RelativeToolTip": "CF36\\ThemTonKho.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -275,92 +646,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ThemTonKho.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemTonKho.cs",
-              "RelativeDocumentMoniker": "CF36\\ThemTonKho.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\ThemTonKho.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\ThemTonKho.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T03:03:23.475Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "QuanLiKho.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiKho.cs",
-              "RelativeDocumentMoniker": "CF36\\QuanLiKho.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\QuanLiKho.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\QuanLiKho.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T12:04:27.886Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "QuanLiKho.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiKho.cs",
-              "RelativeDocumentMoniker": "CF36\\QuanLiKho.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiKho.cs",
-              "RelativeToolTip": "CF36\\QuanLiKho.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T03:03:08.931Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\Program.cs",
-              "RelativeDocumentMoniker": "CF36\\Program.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\Program.cs",
-              "RelativeToolTip": "CF36\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T11:28:13.228Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ThemTonKho.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemTonKho.Designer.cs",
-              "RelativeDocumentMoniker": "CF36\\ThemTonKho.Designer.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemTonKho.Designer.cs",
-              "RelativeToolTip": "CF36\\ThemTonKho.Designer.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAhwBYAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-26T09:47:43.628Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "App.config",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\App.config",
-              "RelativeDocumentMoniker": "CF36\\App.config",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\App.config",
-              "RelativeToolTip": "CF36\\App.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-09-25T11:27:58.015Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "QuanLiKhachHang.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiKhachHang.cs",
-              "RelativeDocumentMoniker": "CF36\\QuanLiKhachHang.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\QuanLiKhachHang.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\QuanLiKhachHang.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-21T10:16:53.538Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 27,
               "Title": "SanPhamBUS.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\BUS\\SanPhamBUS.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\BUS\\SanPhamBUS.cs",
               "RelativeDocumentMoniker": "BUS\\SanPhamBUS.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\BUS\\SanPhamBUS.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\BUS\\SanPhamBUS.cs",
               "RelativeToolTip": "BUS\\SanPhamBUS.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -368,143 +658,167 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "CF36",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\CF36.csproj",
-              "RelativeDocumentMoniker": "CF36\\CF36.csproj",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\CF36.csproj",
-              "RelativeToolTip": "CF36\\CF36.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-26T06:46:09.373Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "NHANVIEN.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\NHANVIEN.cs",
-              "RelativeDocumentMoniker": "CF36\\NHANVIEN.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\NHANVIEN.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\NHANVIEN.cs [Design]",
+              "DocumentIndex": 31,
+              "Title": "ThemTonKho.cs [Design]",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemTonKho.cs",
+              "RelativeDocumentMoniker": "CF36\\ThemTonKho.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemTonKho.cs [Design]",
+              "RelativeToolTip": "CF36\\ThemTonKho.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T07:05:12.358Z"
+              "WhenOpened": "2025-09-22T03:03:23.475Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 33,
+              "Title": "QuanLiKho.cs [Design]",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiKho.cs",
+              "RelativeDocumentMoniker": "CF36\\QuanLiKho.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiKho.cs [Design]",
+              "RelativeToolTip": "CF36\\QuanLiKho.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T12:04:27.886Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "QuanLiKho.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiKho.cs",
+              "RelativeDocumentMoniker": "CF36\\QuanLiKho.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiKho.cs",
+              "RelativeToolTip": "CF36\\QuanLiKho.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-22T03:03:08.931Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "ThemTonKho.Designer.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemTonKho.Designer.cs",
+              "RelativeDocumentMoniker": "CF36\\ThemTonKho.Designer.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemTonKho.Designer.cs",
+              "RelativeToolTip": "CF36\\ThemTonKho.Designer.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAhwBYAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-26T09:47:43.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
               "Title": "DanhSachNhanVien.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\DanhSachNhanVien.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DanhSachNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\DanhSachNhanVien.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\DanhSachNhanVien.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\DanhSachNhanVien.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DanhSachNhanVien.cs [Design]",
+              "RelativeToolTip": "CF36\\DanhSachNhanVien.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-21T10:02:42.658Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 36,
               "Title": "DANHSACHSANPHAM.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\DANHSACHSANPHAM.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DANHSACHSANPHAM.cs",
               "RelativeDocumentMoniker": "CF36\\DANHSACHSANPHAM.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\DANHSACHSANPHAM.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\DANHSACHSANPHAM.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DANHSACHSANPHAM.cs [Design]",
+              "RelativeToolTip": "CF36\\DANHSACHSANPHAM.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T05:37:19.588Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 35,
               "Title": "THONGKE.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\THONGKE.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\THONGKE.cs",
               "RelativeDocumentMoniker": "CF36\\THONGKE.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\THONGKE.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\THONGKE.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\THONGKE.cs [Design]",
+              "RelativeToolTip": "CF36\\THONGKE.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-21T07:51:16.943Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 38,
               "Title": "XemSanPhamNhanVien.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\XemSanPhamNhanVien.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\XemSanPhamNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\XemSanPhamNhanVien.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\XemSanPhamNhanVien.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\XemSanPhamNhanVien.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\XemSanPhamNhanVien.cs [Design]",
+              "RelativeToolTip": "CF36\\XemSanPhamNhanVien.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-23T07:09:42.416Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 39,
               "Title": "BANHANG.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\BANHANG.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\BANHANG.cs",
               "RelativeDocumentMoniker": "CF36\\BANHANG.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\BANHANG.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\BANHANG.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\BANHANG.cs [Design]",
+              "RelativeToolTip": "CF36\\BANHANG.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-23T00:50:41.827Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 40,
               "Title": "QuanLiMAGIAMGIA.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLiMAGIAMGIA.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs [Design]",
+              "RelativeToolTip": "CF36\\QuanLiMAGIAMGIA.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-20T11:57:46.57Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 41,
               "Title": "ThanhToan.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThanhToan.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThanhToan.cs",
               "RelativeDocumentMoniker": "CF36\\ThanhToan.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\ThanhToan.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\ThanhToan.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThanhToan.cs [Design]",
+              "RelativeToolTip": "CF36\\ThanhToan.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-23T06:49:34.324Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 42,
               "Title": "LichSuNhapKho.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\LichSuNhapKho.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\LichSuNhapKho.cs",
               "RelativeDocumentMoniker": "CF36\\LichSuNhapKho.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\LichSuNhapKho.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\LichSuNhapKho.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\LichSuNhapKho.cs [Design]",
+              "RelativeToolTip": "CF36\\LichSuNhapKho.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-24T09:56:59.045Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 43,
               "Title": "ThemMaGiamGia.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemMaGiamGia.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemMaGiamGia.cs",
               "RelativeDocumentMoniker": "CF36\\ThemMaGiamGia.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\ThemMaGiamGia.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\ThemMaGiamGia.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemMaGiamGia.cs [Design]",
+              "RelativeToolTip": "CF36\\ThemMaGiamGia.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-20T14:02:25.939Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 44,
               "Title": "ThemMaGiamGia1tang1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemMaGiamGia1tang1.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemMaGiamGia1tang1.cs",
               "RelativeDocumentMoniker": "CF36\\ThemMaGiamGia1tang1.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\ThemMaGiamGia1tang1.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\ThemMaGiamGia1tang1.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemMaGiamGia1tang1.cs [Design]",
+              "RelativeToolTip": "CF36\\ThemMaGiamGia1tang1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-24T10:08:02.808Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 45,
               "Title": "LichSuNhapKho.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\LichSuNhapKho.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\LichSuNhapKho.cs",
               "RelativeDocumentMoniker": "CF36\\LichSuNhapKho.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\LichSuNhapKho.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\LichSuNhapKho.cs",
               "RelativeToolTip": "CF36\\LichSuNhapKho.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -512,77 +826,77 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 46,
               "Title": "ThemSanPham.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemSanPham.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemSanPham.cs",
               "RelativeDocumentMoniker": "CF36\\ThemSanPham.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\ThemSanPham.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\ThemSanPham.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemSanPham.cs [Design]",
+              "RelativeToolTip": "CF36\\ThemSanPham.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-20T02:31:12.995Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 47,
               "Title": "SuaSanPham.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\SuaSanPham.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaSanPham.cs",
               "RelativeDocumentMoniker": "CF36\\SuaSanPham.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\SuaSanPham.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\SuaSanPham.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaSanPham.cs [Design]",
+              "RelativeToolTip": "CF36\\SuaSanPham.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-20T04:35:06.12Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 48,
               "Title": "SuaNhanVien.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\SuaNhanVien.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\SuaNhanVien.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\SuaNhanVien.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\SuaNhanVien.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaNhanVien.cs [Design]",
+              "RelativeToolTip": "CF36\\SuaNhanVien.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T07:04:51.778Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 49,
               "Title": "SuaMaGiamGiaMua1Tang1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\SuaMaGiamGiaMua1Tang1.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaMaGiamGiaMua1Tang1.cs",
               "RelativeDocumentMoniker": "CF36\\SuaMaGiamGiaMua1Tang1.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\SuaMaGiamGiaMua1Tang1.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\SuaMaGiamGiaMua1Tang1.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaMaGiamGiaMua1Tang1.cs [Design]",
+              "RelativeToolTip": "CF36\\SuaMaGiamGiaMua1Tang1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-24T09:49:53.52Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 50,
               "Title": "SuaMaGiamGia.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\SuaMaGiamGia.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaMaGiamGia.cs",
               "RelativeDocumentMoniker": "CF36\\SuaMaGiamGia.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\SuaMaGiamGia.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\SuaMaGiamGia.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaMaGiamGia.cs [Design]",
+              "RelativeToolTip": "CF36\\SuaMaGiamGia.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-24T06:33:55.375Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 51,
               "Title": "SuaTaiKhoanNhanVien.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\SuaTaiKhoanNhanVien.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaTaiKhoanNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\SuaTaiKhoanNhanVien.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\SuaTaiKhoanNhanVien.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\SuaTaiKhoanNhanVien.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaTaiKhoanNhanVien.cs [Design]",
+              "RelativeToolTip": "CF36\\SuaTaiKhoanNhanVien.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T00:33:41.852Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 52,
               "Title": "QuanLiMAGIAMGIA.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLiMAGIAMGIA.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLiMAGIAMGIA.cs",
               "RelativeToolTip": "CF36\\QuanLiMAGIAMGIA.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAArwBYAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -590,101 +904,77 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 53,
               "Title": "ThemNhanVien.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemNhanVien.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\ThemNhanVien.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\ThemNhanVien.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\ThemNhanVien.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemNhanVien.cs [Design]",
+              "RelativeToolTip": "CF36\\ThemNhanVien.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T06:37:47.613Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 54,
               "Title": "ThemKhachHang.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemKhachHang.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemKhachHang.cs",
               "RelativeDocumentMoniker": "CF36\\ThemKhachHang.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\ThemKhachHang.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\ThemKhachHang.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemKhachHang.cs [Design]",
+              "RelativeToolTip": "CF36\\ThemKhachHang.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-23T01:57:12.515Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 55,
               "Title": "SuaKhachHang.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\SuaKhachHang.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaKhachHang.cs",
               "RelativeDocumentMoniker": "CF36\\SuaKhachHang.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\SuaKhachHang.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\SuaKhachHang.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaKhachHang.cs [Design]",
+              "RelativeToolTip": "CF36\\SuaKhachHang.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-24T06:22:44.899Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 56,
               "Title": "LICHSUHOADON.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\LICHSUHOADON.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\LICHSUHOADON.cs",
               "RelativeDocumentMoniker": "CF36\\LICHSUHOADON.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\LICHSUHOADON.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\LICHSUHOADON.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\LICHSUHOADON.cs [Design]",
+              "RelativeToolTip": "CF36\\LICHSUHOADON.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-21T06:32:22.749Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 57,
               "Title": "DoiMatKhauQuanLi.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\DoiMatKhauQuanLi.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DoiMatKhauQuanLi.cs",
               "RelativeDocumentMoniker": "CF36\\DoiMatKhauQuanLi.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\DoiMatKhauQuanLi.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\DoiMatKhauQuanLi.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DoiMatKhauQuanLi.cs [Design]",
+              "RelativeToolTip": "CF36\\DoiMatKhauQuanLi.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T00:48:27.403Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 58,
               "Title": "DoiMatKhauNhanVien.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\DoiMatKhauNhanVien.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DoiMatKhauNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\DoiMatKhauNhanVien.cs",
-              "ToolTip": "C:\\CAFEE\\CF36\\DoiMatKhauNhanVien.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\CAFEE\\CF36\\DoiMatKhauNhanVien.cs [Design]",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DoiMatKhauNhanVien.cs [Design]",
+              "RelativeToolTip": "CF36\\DoiMatKhauNhanVien.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-23T11:42:57.071Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
-              "Title": "QuanLiKhachHang.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiKhachHang.cs",
-              "RelativeDocumentMoniker": "CF36\\QuanLiKhachHang.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLiKhachHang.cs",
-              "RelativeToolTip": "CF36\\QuanLiKhachHang.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAEwB8AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T02:40:30.533Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "Home.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\Home.cs",
-              "RelativeDocumentMoniker": "CF36\\Home.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\Home.cs",
-              "RelativeToolTip": "CF36\\Home.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAwBsAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-17T11:58:09.83Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 59,
               "Title": "NHANVIEN.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\NHANVIEN.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\NHANVIEN.cs",
               "RelativeDocumentMoniker": "CF36\\NHANVIEN.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\NHANVIEN.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\NHANVIEN.cs",
               "RelativeToolTip": "CF36\\NHANVIEN.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAvwB8AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -692,11 +982,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 60,
               "Title": "BANHANG.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\BANHANG.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\BANHANG.cs",
               "RelativeDocumentMoniker": "CF36\\BANHANG.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\BANHANG.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\BANHANG.cs",
               "RelativeToolTip": "CF36\\BANHANG.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAArwBwAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -704,11 +994,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 61,
               "Title": "QuanLi.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLi.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLi.cs",
               "RelativeDocumentMoniker": "CF36\\QuanLi.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\QuanLi.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\QuanLi.cs",
               "RelativeToolTip": "CF36\\QuanLi.cs",
               "ViewState": "AgIAAEoAAAAAAAAAAAAvwFgAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -716,11 +1006,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 63,
               "Title": "SuaNhanVien.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\SuaNhanVien.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\SuaNhanVien.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\SuaNhanVien.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\SuaNhanVien.cs",
               "RelativeToolTip": "CF36\\SuaNhanVien.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAEwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -728,11 +1018,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 62,
               "Title": "DanhSachNhanVien.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\DanhSachNhanVien.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DanhSachNhanVien.cs",
               "RelativeDocumentMoniker": "CF36\\DanhSachNhanVien.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\DanhSachNhanVien.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DanhSachNhanVien.cs",
               "RelativeToolTip": "CF36\\DanhSachNhanVien.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAArwB4AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -740,11 +1030,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 64,
               "Title": "ThemMaGiamGia.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemMaGiamGia.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemMaGiamGia.cs",
               "RelativeDocumentMoniker": "CF36\\ThemMaGiamGia.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemMaGiamGia.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemMaGiamGia.cs",
               "RelativeToolTip": "CF36\\ThemMaGiamGia.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAEwBgAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -752,11 +1042,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 65,
               "Title": "DANHSACHSANPHAM.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\DANHSACHSANPHAM.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\DANHSACHSANPHAM.cs",
               "RelativeDocumentMoniker": "CF36\\DANHSACHSANPHAM.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\DANHSACHSANPHAM.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\DANHSACHSANPHAM.cs",
               "RelativeToolTip": "CF36\\DANHSACHSANPHAM.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAADgvxwAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -764,11 +1054,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 66,
               "Title": "ThemSanPham.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemSanPham.cs",
+              "DocumentMoniker": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemSanPham.cs",
               "RelativeDocumentMoniker": "CF36\\ThemSanPham.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\CF36\\ThemSanPham.cs",
+              "ToolTip": "D:\\Project_CNPM\\CAFEE\\CF36\\ThemSanPham.cs",
               "RelativeToolTip": "CF36\\ThemSanPham.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAEwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

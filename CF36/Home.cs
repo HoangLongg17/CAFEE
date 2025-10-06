@@ -14,18 +14,23 @@
 
         private void btnDangNhapQuanLi_Click(object sender, EventArgs e)
         {
-            QuanLi quanLi = new QuanLi();
+            DangNhapQL dangNhapQL = new DangNhapQL();
             this.Hide();
-            quanLi.ShowDialog();
+            dangNhapQL.ShowDialog();
             this.Show();
         }
 
         private void btnDangNhapNhanVien_Click(object sender, EventArgs e)
         {
-            NHANVIEN nHANVIEN = new NHANVIEN();
+            DangNhapNV dangNhapNV = new DangNhapNV();
             this.Hide();
-            nHANVIEN.ShowDialog();
+            dangNhapNV.ShowDialog();
             this.Show();
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            Close();    
         }
     }
 }
