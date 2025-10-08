@@ -375,3 +375,5 @@ D:\Project_CNPM\CAFEE\CF36\obj\Debug\net8.0-windows\CF36.genruntimeconfig.cache
 D:\Project_CNPM\CAFEE\CF36\obj\Debug\net8.0-windows\ref\CF36.dll
 D:\Project_CNPM\CAFEE\CF36\obj\Debug\net8.0-windows\CF36.DangNhapNV.resources
 D:\Project_CNPM\CAFEE\CF36\obj\Debug\net8.0-windows\CF36.DangNhapQL.resources
+C:\Users\ADMIN\CAFEE\CF36\obj\Debug\net8.0-windows\CF36.DangNhapNV.resources
+C:\Users\ADMIN\CAFEE\CF36\obj\Debug\net8.0-windows\CF36.DangNhapQL.resources

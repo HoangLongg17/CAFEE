@@ -68,7 +68,7 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "Microsoft.Data.SqlClient/6.1.1": {
+      "Microsoft.Data.SqlClient/6.1.2": {
         "type": "package",
         "dependencies": {
           "Azure.Core": "1.47.1",
@@ -679,7 +679,7 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "DTO": "1.0.0",
-          "Microsoft.Data.SqlClient": "6.1.1",
+          "Microsoft.Data.SqlClient": "6.1.2",
           "System.Configuration.ConfigurationManager": "9.0.9",
           "System.Data.SqlClient": "4.9.0"
         },
@@ -697,7 +697,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "Microsoft.Data.SqlClient": "6.1.1",
+          "Microsoft.Data.SqlClient": "6.1.2",
           "System.Configuration.ConfigurationManager": "9.0.9",
           "System.Data.SqlClient": "4.9.0"
         },
@@ -804,10 +804,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Data.SqlClient/6.1.1": {
-      "sha512": "syGQmIUPAYYHAHyTD8FCkTNThpQWvoA7crnIQRMfp8dyB5A2cWU3fQexlRTFkVmV7S0TjVmthi0LJEFVjHo8AQ==",
+    "Microsoft.Data.SqlClient/6.1.2": {
+      "sha512": "q0GxRC0fgwfZgU14pU34ro0MW7Gs8S6NDmKCcEqymvZljT8UQa633BbEmk/Rb5upNF9NHZ3/jVm7zLiWbM8uTA==",
       "type": "package",
-      "path": "microsoft.data.sqlclient/6.1.1",
+      "path": "microsoft.data.sqlclient/6.1.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -860,7 +860,7 @@
         "lib/net9.0/zh-Hant/Microsoft.Data.SqlClient.resources.dll",
         "lib/netstandard2.0/Microsoft.Data.SqlClient.dll",
         "lib/netstandard2.0/Microsoft.Data.SqlClient.xml",
-        "microsoft.data.sqlclient.6.1.1.nupkg.sha512",
+        "microsoft.data.sqlclient.6.1.2.nupkg.sha512",
         "microsoft.data.sqlclient.nuspec",
         "ref/net462/Microsoft.Data.SqlClient.dll",
         "ref/net462/Microsoft.Data.SqlClient.xml",
@@ -1794,29 +1794,29 @@
     "net8.0-windows7.0": [
       "DAO >= 1.0.0",
       "DTO >= 1.0.0",
-      "Microsoft.Data.SqlClient >= 6.1.1",
+      "Microsoft.Data.SqlClient >= 6.1.2",
       "System.Configuration.ConfigurationManager >= 9.0.9",
       "System.Data.SqlClient >= 4.9.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\duy\\.nuget\\packages\\": {},
+    "C:\\Users\\ADMIN\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project_CNPM\\CAFEE\\BUS\\BUS.csproj",
+      "projectUniqueName": "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj",
       "projectName": "BUS",
-      "projectPath": "D:\\Project_CNPM\\CAFEE\\BUS\\BUS.csproj",
-      "packagesPath": "C:\\Users\\duy\\.nuget\\packages\\",
-      "outputPath": "D:\\Project_CNPM\\CAFEE\\BUS\\obj\\",
+      "projectPath": "C:\\Users\\ADMIN\\CAFEE\\BUS\\BUS.csproj",
+      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ADMIN\\CAFEE\\BUS\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\duy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1825,17 +1825,18 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "D:\\Project_CNPM\\CAFEE\\DAO\\DAO.csproj": {
-              "projectPath": "D:\\Project_CNPM\\CAFEE\\DAO\\DAO.csproj"
+            "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj": {
+              "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DAO\\DAO.csproj"
             },
-            "D:\\Project_CNPM\\CAFEE\\DTO\\DTO.csproj": {
-              "projectPath": "D:\\Project_CNPM\\CAFEE\\DTO\\DTO.csproj"
+            "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj": {
+              "projectPath": "C:\\Users\\ADMIN\\CAFEE\\DTO\\DTO.csproj"
             }
           }
         }
@@ -1858,7 +1859,7 @@
         "dependencies": {
           "Microsoft.Data.SqlClient": {
             "target": "Package",
-            "version": "[6.1.1, )"
+            "version": "[6.1.2, )"
           },
           "System.Configuration.ConfigurationManager": {
             "target": "Package",

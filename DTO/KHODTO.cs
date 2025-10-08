@@ -19,6 +19,9 @@ namespace DTO
         public decimal GiaNhap { get; set; }
         public int? MaNCC { get; set; }
         public decimal ThanhTien { get; set; }
+        public bool IsLowStock { get; set; }
+        public int CanhBaoTonKho { get; set; }
+
 
     }
 
