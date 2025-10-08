@@ -33,6 +33,8 @@ namespace CF36
             txtGiaNhap.TextChanged += InputChanged_UpdateTotal;
 
             this.Load += ThemTonKho_Load;
+            this.dgvThemkho.CellFormatting += dgvThemkho_CellFormatting;
+
         }
 
         private void ThemTonKho_Load(object sender, EventArgs e)
@@ -75,23 +77,28 @@ namespace CF36
             var row = dgvThemkho.Rows[e.RowIndex];
             selectedMaSP = row.Cells["MaSP"].Value?.ToString() ?? "";
             selectedSize = row.Cells["Size"].Value?.ToString() ?? "";
-            txtsize.Text = selectedSize;
+            
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            var kho = new KhoDTO
-            {
-                MaSP = selectedMaSP,
-                Size = selectedSize,
-                SoLuongNhap = int.TryParse(txtSoLuong.Text, out int sl) ? sl : 0,
-                GiaNhap = decimal.TryParse(txtGiaNhap.Text, out decimal g) ? g : -1,
-                MaNCC = cbbNhaCungCap.SelectedValue != null
-                            ? Convert.ToInt32(cbbNhaCungCap.SelectedValue)
-                            : (int?)null
-            };
+           
 
-            var result = KhoBUS.ThemTonKho(kho);
+            var danhSach = dgvThemkho.SelectedRows
+                .Cast<DataGridViewRow>()
+                .Select(r => new KhoDTO
+                {
+                    MaSP = r.Cells["MaSP"].Value?.ToString(),
+                    Size = r.Cells["Size"].Value?.ToString(),
+                    SoLuongNhap = int.TryParse(txtSoLuong.Text, out int sl) ? sl : 0,
+                    GiaNhap = decimal.TryParse(txtGiaNhap.Text, out decimal g) ? g : -1,
+                    MaNCC = cbbNhaCungCap.SelectedValue != null
+                                ? Convert.ToInt32(cbbNhaCungCap.SelectedValue)
+                                : (int?)null
+                })
+                .ToList();
+
+            var result = KhoBUS.ThemTonKho(danhSach);
             MessageBox.Show(result.message);
 
             if (result.success)
@@ -100,6 +107,28 @@ namespace CF36
                 texttongtien.Text = result.tongTien.ToString("N0");
                 txtSoLuong.Clear();
                 txtGiaNhap.Clear();
+            }
+        }
+
+        private void dgvThemkho_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var col = dgvThemkho.Columns[e.ColumnIndex];
+
+            if (col.DataPropertyName == "SoLuong")
+            {
+                var item = dgvThemkho.Rows[e.RowIndex].DataBoundItem as KhoDTO;
+                if (item != null && item.IsLowStock)
+                {
+                    e.CellStyle.BackColor = Color.Red;
+                    e.CellStyle.ForeColor = Color.White;
+                }
+                else
+                {
+                    e.CellStyle.BackColor = dgvThemkho.DefaultCellStyle.BackColor;
+                    e.CellStyle.ForeColor = dgvThemkho.DefaultCellStyle.ForeColor;
+                }
             }
         }
 

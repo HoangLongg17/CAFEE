@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             tlpend = new TableLayoutPanel();
             btnThem = new Button();
             btnThoat = new Button();
@@ -39,7 +42,6 @@
             Size = new DataGridViewTextBoxColumn();
             SoLuong = new DataGridViewTextBoxColumn();
             tlpThongtin = new TableLayoutPanel();
-            txtsize = new TextBox();
             lbChonNhaCungCap = new Label();
             lbChonSanPham = new Label();
             txtTimKiem = new TextBox();
@@ -49,7 +51,6 @@
             lbNhapSoLuong = new Label();
             txtGiaNhap = new TextBox();
             lbltongtien = new Label();
-            label1 = new Label();
             texttongtien = new TextBox();
             tlpend.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
@@ -132,13 +133,38 @@
             // dgvThemkho
             // 
             dgvThemkho.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(0, 192, 0);
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvThemkho.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvThemkho.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvThemkho.Columns.AddRange(new DataGridViewColumn[] { MaSP, TenSP, Size, SoLuong });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(0, 192, 0);
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvThemkho.DefaultCellStyle = dataGridViewCellStyle2;
             dgvThemkho.Dock = DockStyle.Fill;
             dgvThemkho.Location = new Point(3, 235);
             dgvThemkho.Margin = new Padding(3, 2, 3, 2);
             dgvThemkho.Name = "dgvThemkho";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(0, 192, 0);
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvThemkho.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvThemkho.RowHeadersWidth = 51;
+            dgvThemkho.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvThemkho.Size = new Size(678, 144);
             dgvThemkho.TabIndex = 4;
             // 
@@ -171,7 +197,6 @@
             tlpThongtin.ColumnCount = 2;
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlpThongtin.Controls.Add(txtsize, 0, 5);
             tlpThongtin.Controls.Add(lbChonNhaCungCap, 0, 0);
             tlpThongtin.Controls.Add(lbChonSanPham, 0, 2);
             tlpThongtin.Controls.Add(txtTimKiem, 0, 3);
@@ -181,7 +206,6 @@
             tlpThongtin.Controls.Add(lbNhapSoLuong, 1, 2);
             tlpThongtin.Controls.Add(txtGiaNhap, 1, 1);
             tlpThongtin.Controls.Add(lbltongtien, 1, 4);
-            tlpThongtin.Controls.Add(label1, 0, 4);
             tlpThongtin.Controls.Add(texttongtien, 1, 5);
             tlpThongtin.Dock = DockStyle.Fill;
             tlpThongtin.Location = new Point(3, 73);
@@ -197,15 +221,6 @@
             tlpThongtin.Size = new Size(678, 158);
             tlpThongtin.TabIndex = 1;
             tlpThongtin.Paint += tlpThongtin_Paint;
-            // 
-            // txtsize
-            // 
-            txtsize.Location = new Point(3, 128);
-            txtsize.Margin = new Padding(3, 2, 3, 2);
-            txtsize.Name = "txtsize";
-            txtsize.ReadOnly = true;
-            txtsize.Size = new Size(333, 23);
-            txtsize.TabIndex = 14;
             // 
             // lbChonNhaCungCap
             // 
@@ -223,9 +238,9 @@
             lbChonSanPham.AutoSize = true;
             lbChonSanPham.Location = new Point(3, 64);
             lbChonSanPham.Name = "lbChonSanPham";
-            lbChonSanPham.Size = new Size(145, 15);
+            lbChonSanPham.Size = new Size(114, 15);
             lbChonSanPham.TabIndex = 2;
-            lbChonSanPham.Text = "Chọn sản phẩm/Tìm kiếm";
+            lbChonSanPham.Text = "Tìm kiếm sản phẩm ";
             // 
             // txtTimKiem
             // 
@@ -293,17 +308,6 @@
             lbltongtien.Text = "Tổng tiền";
             lbltongtien.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 111);
-            label1.Name = "label1";
-            label1.Size = new Size(29, 15);
-            label1.TabIndex = 12;
-            label1.Text = "SIZE";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // texttongtien
             // 
             texttongtien.Location = new Point(342, 128);
@@ -355,8 +359,6 @@
         private Label lbNhapSoLuong;
         private TextBox txtGiaNhap;
         private Label lbltongtien;
-        private Label label1;
         private TextBox texttongtien;
-        private TextBox txtsize;
     }
 }

@@ -16,7 +16,13 @@ namespace BUS
         {
             try
             {
-                return KhoDAO.GetAll();
+                var list = KhoDAO.GetAll();
+                foreach (var item in list)
+                {
+                    item.IsLowStock = item.SoLuong < item.CanhBaoTonKho;
+
+                }
+                return list;
             }
             catch (Exception)
             {
@@ -24,11 +30,18 @@ namespace BUS
             }
         }
 
+
         public static List<KhoDTO> TimKiem(string keyword)
         {
             try
             {
-                return KhoDAO.Search(keyword);
+                var list = KhoDAO.Search(keyword);
+                foreach (var item in list)
+                {
+                    item.IsLowStock = item.SoLuong < item.CanhBaoTonKho;
+
+                }
+                return list;
             }
             catch (Exception)
             {
@@ -53,39 +66,79 @@ namespace BUS
             return soLuong * giaNhap;
         }
 
-        public static (bool success, string message, decimal tongTien) ThemTonKho(KhoDTO kho)
+        public static (bool success, string message, decimal tongTien) ThemTonKho(IEnumerable<KhoDTO> danhSachKho)
         {
-            if (string.IsNullOrWhiteSpace(kho.MaSP) || string.IsNullOrWhiteSpace(kho.Size))
-                return (false, "Vui lòng chọn sản phẩm và size.", 0);
+            if (danhSachKho == null || !danhSachKho.Any())
+                return (false, "Không có sản phẩm nào được chọn.", 0);
 
-            if (kho.SoLuongNhap <= 0)
-                return (false, "Số lượng nhập phải lớn hơn 0.", 0);
+            decimal tongTien = 0;
+            int demThanhCong = 0;
+            var thongBaoLoi = new List<string>();
 
-            if (!kho.MaNCC.HasValue)
-                return (false, "Vui lòng chọn nhà cung cấp.", 0);
-
-            if (kho.GiaNhap < 0)
-                return (false, "Giá nhập không hợp lệ.", 0);
-
-            try
+            foreach (var kho in danhSachKho)
             {
-                bool inserted = KhoDAO.InsertNhapKho(kho);
-                if (!inserted)
-                    return (false, "Không lưu được bản ghi nhập kho.", 0);
+                // Kiểm tra dữ liệu cơ bản
+                if (string.IsNullOrWhiteSpace(kho.MaSP))
+                {
+                    thongBaoLoi.Add($"• Sản phẩm thiếu mã SP.");
+                    continue;
+                }
+                if (string.IsNullOrWhiteSpace(kho.Size))
+                {
+                    thongBaoLoi.Add($"• {kho.MaSP}: Chưa chọn size.");
+                    continue;
+                }
+                if (kho.SoLuongNhap <= 0)
+                {
+                    thongBaoLoi.Add($"• {kho.MaSP}: Số lượng phải > 0.");
+                    continue;
+                }
+                if (!kho.MaNCC.HasValue)
+                {
+                    thongBaoLoi.Add($"• {kho.MaSP}: Chưa chọn nhà cung cấp.");
+                    continue;
+                }
+                if (kho.GiaNhap < 0)
+                {
+                    thongBaoLoi.Add($"• {kho.MaSP}: Giá nhập không hợp lệ.");
+                    continue;
+                }
 
-                bool updated = KhoDAO.UpdateSoLuong(kho);
-                if (!updated)
-                    return (false, "Không cập nhật được số lượng tồn.", 0);
+                try
+                {
+                    bool inserted = KhoDAO.InsertNhapKho(kho);
+                    bool updated = KhoDAO.UpdateSoLuong(kho);
 
-                decimal tong = TinhTongTien(kho.SoLuongNhap, kho.GiaNhap);
-                return (true, "Thêm tồn kho thành công.", tong);
+                    if (!inserted || !updated)
+                    {
+                        thongBaoLoi.Add($"• {kho.MaSP}: Lỗi khi lưu dữ liệu.");
+                        continue;
+                    }
+
+                    tongTien += TinhTongTien(kho.SoLuongNhap, kho.GiaNhap);
+                    demThanhCong++;
+                }
+                catch
+                {
+                    thongBaoLoi.Add($"• {kho.MaSP}: Lỗi hệ thống khi thêm tồn kho.");
+                }
             }
-            catch (Exception ex)
+
+            if (demThanhCong == 0)
             {
-                var userMessage = "Có lỗi trong quá trình thêm tồn kho. Vui lòng thử lại hoặc liên hệ quản trị.";
-
-                return (false, userMessage, 0);
+                string msg = thongBaoLoi.Count > 0
+                    ? "Không thêm được sản phẩm nào:\n" + string.Join("\n", thongBaoLoi)
+                    : "Không có sản phẩm hợp lệ để thêm.";
+                return (false, msg, 0);
             }
+
+            string msgTongHop = $"Thêm thành công {demThanhCong}/{danhSachKho.Count()} sản phẩm.";
+            if (thongBaoLoi.Count > 0)
+                msgTongHop += "\nMột số sản phẩm bị lỗi:\n" + string.Join("\n", thongBaoLoi);
+
+            return (true, msgTongHop, tongTien);
         }
+
+
     }
 }

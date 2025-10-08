@@ -16,18 +16,20 @@ namespace DAO
         {
             return new KhoDTO
             {
-                MaSP = r["masp"] != DBNull.Value ? r["masp"].ToString() : "",
-                TenSP = r["tensp"] != DBNull.Value ? r["tensp"].ToString() : "",
-                Size = r["kichco"] != DBNull.Value ? r["kichco"].ToString() : "",
-                SoLuong = r["soluongton"] != DBNull.Value ? Convert.ToInt32(r["soluongton"]) : 0
+                MaSP = r["masp"]?.ToString(),
+                TenSP = r["tensp"]?.ToString(),
+                Size = r["kichco"]?.ToString(),
+                SoLuong = Convert.ToInt32(r["soluongton"]),
+                CanhBaoTonKho = Convert.ToInt32(r["canhbaotonkho"])
             };
         }
+
 
         public static List<KhoDTO> GetAll()
         {
             var list = new List<KhoDTO>();
             string sql = @"
-                SELECT k.masp, s.tensp, kc.kichco, k.soluongton
+            SELECT k.masp, s.tensp, kc.kichco, k.soluongton, k.canhbaotonkho
                 FROM KICHCOSP k
                 JOIN SANPHAM s ON k.masp = s.masp
                 JOIN KICHCO kc ON k.makichco = kc.makichco";
