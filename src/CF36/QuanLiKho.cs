@@ -1,4 +1,5 @@
 ﻿using BUS;
+using DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,8 @@ namespace CF36
             this.txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
             this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
+            this.dgvKho.CellFormatting += dgvKho_CellFormatting;
+
 
         }
         private void QuanLiKho_Load(object sender, EventArgs e)
@@ -50,7 +53,28 @@ namespace CF36
             ThemTonKho themTonKho = new ThemTonKho();
             themTonKho.Show();
         }
+        private void dgvKho_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
 
-        
+            var col = dgvKho.Columns[e.ColumnIndex];
+
+            if (col.DataPropertyName == "SoLuong")
+            {
+                var item = dgvKho.Rows[e.RowIndex].DataBoundItem as KhoDTO;
+                if (item != null && item.IsLowStock)
+                {
+                    e.CellStyle.BackColor = Color.Red;
+                    e.CellStyle.ForeColor = Color.White;
+                }
+                else
+                {
+                    e.CellStyle.BackColor = dgvKho.DefaultCellStyle.BackColor;
+                    e.CellStyle.ForeColor = dgvKho.DefaultCellStyle.ForeColor;
+                }
+            }
+        }
+
+
     }
 }

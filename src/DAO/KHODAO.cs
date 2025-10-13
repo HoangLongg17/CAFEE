@@ -16,18 +16,20 @@ namespace DAO
         {
             return new KhoDTO
             {
-                MaSP = r["masp"] != DBNull.Value ? r["masp"].ToString() : "",
-                TenSP = r["tensp"] != DBNull.Value ? r["tensp"].ToString() : "",
-                Size = r["kichco"] != DBNull.Value ? r["kichco"].ToString() : "",
-                SoLuong = r["soluongton"] != DBNull.Value ? Convert.ToInt32(r["soluongton"]) : 0
+                MaSP = r["masp"]?.ToString(),
+                TenSP = r["tensp"]?.ToString(),
+                Size = r["kichco"]?.ToString(),
+                SoLuong = Convert.ToInt32(r["soluongton"]),
+                CanhBaoTonKho = Convert.ToInt32(r["canhbaotonkho"])
             };
         }
+
 
         public static List<KhoDTO> GetAll()
         {
             var list = new List<KhoDTO>();
             string sql = @"
-                SELECT k.masp, s.tensp, kc.kichco, k.soluongton
+            SELECT k.masp, s.tensp, kc.kichco, k.soluongton, k.canhbaotonkho
                 FROM KICHCOSP k
                 JOIN SANPHAM s ON k.masp = s.masp
                 JOIN KICHCO kc ON k.makichco = kc.makichco";
@@ -133,30 +135,48 @@ namespace DAO
             }
         }
 
-        public static bool InsertNhapKho(KhoDTO kho)
+        public static int InsertPhieuNhap(int maNCC)
         {
-            string sql = @"
-                INSERT INTO NHAPKHO(Idkcsp, Soluongnhap, Gianhap, Manhacc, Ngaynhap)
-                VALUES (
-                  (SELECT TOP 1 kc.id
-                   FROM KICHCOSP kc
-                   JOIN KICHCO c ON kc.makichco = c.makichco
-                   WHERE kc.masp = @masp AND c.kichco = @size),
-                  @qty, @gianhap, @mancc, @ngay)";
+            string sql = "INSERT INTO NHAPKHO(Manhacc, Ngaynhap) OUTPUT INSERTED.Mank VALUES (@mancc, GETDATE())";
             try
             {
-                using (var conn = new SqlConnection(connStr))
-                using (var cmd = new SqlCommand(sql, conn))
+                using (SqlConnection conn = new SqlConnection(connStr))
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
                 {
+                    cmd.Parameters.AddWithValue("@mancc", maNCC);
+                    conn.Open();
+                    return (int)cmd.ExecuteScalar(); // Trả về mã phiếu nhập vừa thêm
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi thêm phiếu nhập.", ex);
+            }
+        }
+
+        public static bool InsertChiTietNhapKho(int maNK, KhoDTO kho)
+        {
+            string sql = @"
+        INSERT INTO CHITIETNHAPKHO (Mank, Idkcsp, Soluongnhap, Gianhap)
+        VALUES (
+            @mank,
+            (SELECT TOP 1 kc.id
+             FROM KICHCOSP kc
+             JOIN KICHCO c ON kc.makichco = c.makichco
+             WHERE kc.masp = @masp AND c.kichco = @size),
+            @soluong,
+            @gianhap
+        )";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@mank", maNK);
                     cmd.Parameters.AddWithValue("@masp", kho.MaSP);
                     cmd.Parameters.AddWithValue("@size", kho.Size ?? "");
-                    cmd.Parameters.AddWithValue("@qty", kho.SoLuongNhap);
+                    cmd.Parameters.AddWithValue("@soluong", kho.SoLuongNhap);
                     cmd.Parameters.AddWithValue("@gianhap", kho.GiaNhap);
-                    if (kho.MaNCC.HasValue)
-                        cmd.Parameters.AddWithValue("@mancc", kho.MaNCC.Value);
-                    else
-                        cmd.Parameters.AddWithValue("@mancc", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ngay", DateTime.Now);
 
                     conn.Open();
                     return cmd.ExecuteNonQuery() > 0;
@@ -164,8 +184,9 @@ namespace DAO
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi khi lưu nhập kho.", ex);
+                throw new Exception("Lỗi khi thêm chi tiết nhập kho.", ex);
             }
         }
+
     }
 }
