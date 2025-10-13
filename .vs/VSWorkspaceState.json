@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\CF36"
+    "\\src",
+    "\\src\\CF36"
   ],
-  "SelectedNode": "\\CF36\\ThemTonKho.cs",
+  "SelectedNode": "\\src\\CF36\\Home.cs",
   "PreviewInSolutionExplorer": false
 }

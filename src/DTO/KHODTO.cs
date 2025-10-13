@@ -15,10 +15,16 @@ namespace DTO
         public string Size { get; set; }
         public int SoLuong { get; set; }
 
+
+        public int MaCTNK { get; set; }
+        public int MaNK { get; set; }
         public int SoLuongNhap { get; set; }
         public decimal GiaNhap { get; set; }
         public int? MaNCC { get; set; }
         public decimal ThanhTien { get; set; }
+        public bool IsLowStock { get; set; }
+        public int CanhBaoTonKho { get; set; }
+
 
     }
 

@@ -16,7 +16,13 @@ namespace BUS
         {
             try
             {
-                return KhoDAO.GetAll();
+                var list = KhoDAO.GetAll();
+                foreach (var item in list)
+                {
+                    item.IsLowStock = item.SoLuong < item.CanhBaoTonKho;
+
+                }
+                return list;
             }
             catch (Exception)
             {
@@ -24,11 +30,18 @@ namespace BUS
             }
         }
 
+
         public static List<KhoDTO> TimKiem(string keyword)
         {
             try
             {
-                return KhoDAO.Search(keyword);
+                var list = KhoDAO.Search(keyword);
+                foreach (var item in list)
+                {
+                    item.IsLowStock = item.SoLuong < item.CanhBaoTonKho;
+
+                }
+                return list;
             }
             catch (Exception)
             {
@@ -53,39 +66,69 @@ namespace BUS
             return soLuong * giaNhap;
         }
 
-        public static (bool success, string message, decimal tongTien) ThemTonKho(KhoDTO kho)
+        public static (bool success, string message, decimal tongTien) ThemTonKho(IEnumerable<KhoDTO> danhSachKho)
         {
-            if (string.IsNullOrWhiteSpace(kho.MaSP) || string.IsNullOrWhiteSpace(kho.Size))
-                return (false, "Vui lòng chọn sản phẩm và size.", 0);
+            if (danhSachKho == null || !danhSachKho.Any())
+                return (false, "Không có sản phẩm nào được chọn.", 0);
 
-            if (kho.SoLuongNhap <= 0)
-                return (false, "Số lượng nhập phải lớn hơn 0.", 0);
+            int? maNCC = danhSachKho.First().MaNCC;
+            if (!maNCC.HasValue)
+                return (false, "Chưa chọn nhà cung cấp.", 0);
 
-            if (!kho.MaNCC.HasValue)
-                return (false, "Vui lòng chọn nhà cung cấp.", 0);
-
-            if (kho.GiaNhap < 0)
-                return (false, "Giá nhập không hợp lệ.", 0);
-
+            int maNK;
             try
             {
-                bool inserted = KhoDAO.InsertNhapKho(kho);
-                if (!inserted)
-                    return (false, "Không lưu được bản ghi nhập kho.", 0);
-
-                bool updated = KhoDAO.UpdateSoLuong(kho);
-                if (!updated)
-                    return (false, "Không cập nhật được số lượng tồn.", 0);
-
-                decimal tong = TinhTongTien(kho.SoLuongNhap, kho.GiaNhap);
-                return (true, "Thêm tồn kho thành công.", tong);
+                maNK = KhoDAO.InsertPhieuNhap(maNCC.Value);
             }
             catch (Exception ex)
             {
-                var userMessage = "Có lỗi trong quá trình thêm tồn kho. Vui lòng thử lại hoặc liên hệ quản trị.";
-
-                return (false, userMessage, 0);
+                return (false, "Lỗi khi tạo phiếu nhập: " + ex.Message, 0);
             }
+
+            decimal tongTien = 0;
+            int demThanhCong = 0;
+            List<string> loi = new();
+
+            foreach (var kho in danhSachKho)
+            {
+                if (string.IsNullOrWhiteSpace(kho.MaSP) || string.IsNullOrWhiteSpace(kho.Size) || kho.SoLuongNhap <= 0)
+                {
+                    loi.Add($"• {kho.MaSP}: Dữ liệu không hợp lệ.");
+                    continue;
+                }
+
+                try
+                {
+                    bool insertedCT = KhoDAO.InsertChiTietNhapKho(maNK, kho);
+                    bool updatedSL = KhoDAO.UpdateSoLuong(kho);
+
+                    if (insertedCT && updatedSL)
+                    {
+                        tongTien += kho.SoLuongNhap * kho.GiaNhap;
+                        demThanhCong++;
+                    }
+                    else
+                    {
+                        loi.Add($"• {kho.MaSP}: Không thể lưu chi tiết nhập kho.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    loi.Add($"• {kho.MaSP}: Lỗi khi thêm chi tiết nhập kho ({ex.Message}).");
+                }
+            }
+
+            if (demThanhCong == 0)
+                return (false, "Không thêm được sản phẩm nào.", 0);
+
+            string msg = $"Tạo phiếu nhập #{maNK} thành công ({demThanhCong}/{danhSachKho.Count()}).";
+            if (loi.Count > 0)
+                msg += "\nMột số lỗi:\n" + string.Join("\n", loi);
+
+            return (true, msg, tongTien);
         }
+
+
+
     }
 }
