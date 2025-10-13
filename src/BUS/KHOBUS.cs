@@ -75,7 +75,6 @@ namespace BUS
             if (!maNCC.HasValue)
                 return (false, "Chưa chọn nhà cung cấp.", 0);
 
-            // 1️⃣ Tạo phiếu nhập mới
             int maNK;
             try
             {
@@ -86,7 +85,6 @@ namespace BUS
                 return (false, "Lỗi khi tạo phiếu nhập: " + ex.Message, 0);
             }
 
-            // 2️⃣ Lưu chi tiết nhập kho
             decimal tongTien = 0;
             int demThanhCong = 0;
             List<string> loi = new();
