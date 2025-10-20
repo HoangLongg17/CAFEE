@@ -141,6 +141,7 @@
             dgvKho.Location = new Point(3, 137);
             dgvKho.Margin = new Padding(3, 2, 3, 2);
             dgvKho.Name = "dgvKho";
+            dgvKho.ReadOnly = true;
             dgvKho.RowHeadersWidth = 51;
             dgvKho.Size = new Size(694, 153);
             dgvKho.TabIndex = 2;
@@ -150,24 +151,28 @@
             MaSP.DataPropertyName = "MaSP";
             MaSP.HeaderText = "Mã sản phẩm";
             MaSP.Name = "MaSP";
+            MaSP.ReadOnly = true;
             // 
             // TenSP
             // 
             TenSP.DataPropertyName = "TenSP";
             TenSP.HeaderText = "Tên sản phẩm";
             TenSP.Name = "TenSP";
+            TenSP.ReadOnly = true;
             // 
             // Size
             // 
             Size.DataPropertyName = "Size";
             Size.HeaderText = "Size";
             Size.Name = "Size";
+            Size.ReadOnly = true;
             // 
             // SoLuong
             // 
             SoLuong.DataPropertyName = "SoLuong";
             SoLuong.HeaderText = "Số lượng";
             SoLuong.Name = "SoLuong";
+            SoLuong.ReadOnly = true;
             // 
             // tlpend
             // 

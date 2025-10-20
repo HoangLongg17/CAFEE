@@ -99,5 +99,16 @@ namespace CF36
             bANHANG.ShowDialog();
             this.Show();
         }
+
+        private void lịchSửNhậpKhoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LichSuNhapKho lichSuNhapKho = new LichSuNhapKho();
+            lichSuNhapKho.ShowDialog();
+            this.Show();
+
+
+        }
     }
+    
 }
