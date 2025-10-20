@@ -1,36 +1,38 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ADMIN\\CAFEE\\",
+  "WorkspaceRootPath": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|c:\\users\\admin\\cafee\\src\\cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "AbsoluteMoniker": "D:0:0:{29FCA730-0C67-4F0D-9360-E805BFC95746}|src\\DAO\\DAO.csproj|c:\\t\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\cafee\\src\\dao\\nhanviendao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29FCA730-0C67-4F0D-9360-E805BFC95746}|src\\DAO\\DAO.csproj|solutionrelative:src\\dao\\nhanviendao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C604619-42D5-4066-83EF-69AABABE7626}|src\\DTO\\DTO.csproj|c:\\t\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\cafee\\src\\dto\\nhanviendto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C604619-42D5-4066-83EF-69AABABE7626}|src\\DTO\\DTO.csproj|solutionrelative:src\\dto\\nhanviendto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C51DA0B-6563-4ED5-9E75-03DBDFF327D1}|src\\BUS\\BUS.csproj|c:\\t\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\cafee\\src\\bus\\nhanvienbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C51DA0B-6563-4ED5-9E75-03DBDFF327D1}|src\\BUS\\BUS.csproj|solutionrelative:src\\bus\\nhanvienbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|c:\\t\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\cafee\\src\\cf36\\themnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|solutionrelative:src\\cf36\\themnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|c:\\t\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\cafee\\src\\cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|solutionrelative:src\\cf36\\suanhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|c:\\t\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\cafee\\src\\cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|solutionrelative:src\\cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|c:\\t\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\cafee\\src\\cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|solutionrelative:src\\cf36\\danhsachnhanvien.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|c:\\t\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\cafee\\src\\cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|solutionrelative:src\\cf36\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|c:\\users\\admin\\cafee\\src\\cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|solutionrelative:src\\cf36\\home.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|C:\\Users\\ADMIN\\CAFEE\\src\\cf36\\properties\\resources.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
-      "RelativeMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|solutionrelative:src\\cf36\\properties\\resources.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F29D83C-4A39-4D2F-99CE-894479A0A34A}|Solution Items{4F29D83C-4A39-4D2F-99CE-894479A0A34A}|C:\\Users\\ADMIN\\CAFEE\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{4F29D83C-4A39-4D2F-99CE-894479A0A34A}|Solution Items{4F29D83C-4A39-4D2F-99CE-894479A0A34A}|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F29D83C-4A39-4D2F-99CE-894479A0A34A}|Solution Items{4F29D83C-4A39-4D2F-99CE-894479A0A34A}|C:\\Users\\ADMIN\\CAFEE\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{4F29D83C-4A39-4D2F-99CE-894479A0A34A}|Solution Items{4F29D83C-4A39-4D2F-99CE-894479A0A34A}|solutionrelative:README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|c:\\users\\admin\\cafee\\src\\cf36\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}|src\\CF36\\CF36.csproj|solutionrelative:src\\cf36\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\longnguyen\\Pictures\\logo.png||{58961B49-13E0-48C0-9258-13CBC4D40279}"
     }
   ],
   "DocumentGroupContainers": [
@@ -40,112 +42,109 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Home.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\src\\CF36\\Home.cs",
-              "RelativeDocumentMoniker": "src\\CF36\\Home.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\src\\CF36\\Home.cs [Design]",
-              "RelativeToolTip": "src\\CF36\\Home.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T07:04:54.995Z",
-              "IsPinned": true,
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Resources.resx",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\src\\CF36\\Properties\\Resources.resx",
-              "RelativeDocumentMoniker": "src\\CF36\\Properties\\Resources.resx",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\src\\CF36\\Properties\\Resources.resx",
-              "RelativeToolTip": "src\\CF36\\Properties\\Resources.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2025-10-13T08:15:58.761Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Microsoft.Common.CurrentVersion.targets",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeDocumentMoniker": "..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeToolTip": "..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ViewState": "AgIAACkNAAAAAAAAAAAYwDcNAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-10-13T08:15:20.422Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "logo.png",
-              "DocumentMoniker": "C:\\Users\\longnguyen\\Pictures\\logo.png",
-              "RelativeDocumentMoniker": "..\\..\\longnguyen\\Pictures\\logo.png",
-              "ToolTip": "C:\\Users\\longnguyen\\Pictures\\logo.png",
-              "RelativeToolTip": "..\\..\\longnguyen\\Pictures\\logo.png",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
-              "WhenOpened": "2025-10-13T08:06:37.415Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": ".gitignore",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\.gitignore",
-              "RelativeDocumentMoniker": ".gitignore",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\.gitignore",
-              "RelativeToolTip": ".gitignore",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-10-13T07:25:59.452Z",
+              "Title": "SuaNhanVien.cs",
+              "DocumentMoniker": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\SuaNhanVien.cs",
+              "RelativeDocumentMoniker": "src\\CF36\\SuaNhanVien.cs",
+              "ToolTip": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\SuaNhanVien.cs*",
+              "RelativeToolTip": "src\\CF36\\SuaNhanVien.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T08:49:58.322Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "README.md",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\README.md",
-              "RelativeDocumentMoniker": "README.md",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\README.md",
-              "RelativeToolTip": "README.md",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-10-13T07:16:47.223Z",
+              "Title": "DanhSachNhanVien.cs",
+              "DocumentMoniker": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\DanhSachNhanVien.cs",
+              "RelativeDocumentMoniker": "src\\CF36\\DanhSachNhanVien.cs",
+              "ToolTip": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\DanhSachNhanVien.cs*",
+              "RelativeToolTip": "src\\CF36\\DanhSachNhanVien.cs*",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAJIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T08:31:57.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ThemNhanVien.cs",
+              "DocumentMoniker": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\ThemNhanVien.cs",
+              "RelativeDocumentMoniker": "src\\CF36\\ThemNhanVien.cs",
+              "ToolTip": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\ThemNhanVien.cs*",
+              "RelativeToolTip": "src\\CF36\\ThemNhanVien.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T08:43:13.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NhanVienBUS.cs",
+              "DocumentMoniker": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\BUS\\NhanVienBUS.cs",
+              "RelativeDocumentMoniker": "src\\BUS\\NhanVienBUS.cs",
+              "ToolTip": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\BUS\\NhanVienBUS.cs*",
+              "RelativeToolTip": "src\\BUS\\NhanVienBUS.cs*",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAmwF8AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T08:34:29.523Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "NhanVienDTO.cs",
+              "DocumentMoniker": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\DTO\\NhanVienDTO.cs",
+              "RelativeDocumentMoniker": "src\\DTO\\NhanVienDTO.cs",
+              "ToolTip": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\DTO\\NhanVienDTO.cs",
+              "RelativeToolTip": "src\\DTO\\NhanVienDTO.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T08:34:55.427Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "App.config",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\src\\CF36\\App.config",
-              "RelativeDocumentMoniker": "src\\CF36\\App.config",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\src\\CF36\\App.config*",
-              "RelativeToolTip": "src\\CF36\\App.config*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAB3AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-10-13T07:12:51.851Z",
+              "Title": "NhanVienDAO.cs",
+              "DocumentMoniker": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\DAO\\NhanVienDAO.cs",
+              "RelativeDocumentMoniker": "src\\DAO\\NhanVienDAO.cs",
+              "ToolTip": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\DAO\\NhanVienDAO.cs",
+              "RelativeToolTip": "src\\DAO\\NhanVienDAO.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAuwJUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T08:34:42.807Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\CAFEE\\src\\CF36\\Program.cs",
-              "RelativeDocumentMoniker": "src\\CF36\\Program.cs",
-              "ToolTip": "C:\\Users\\ADMIN\\CAFEE\\src\\CF36\\Program.cs",
-              "RelativeToolTip": "src\\CF36\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "DanhSachNhanVien.cs [Design]",
+              "DocumentMoniker": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\DanhSachNhanVien.cs",
+              "RelativeDocumentMoniker": "src\\CF36\\DanhSachNhanVien.cs",
+              "ToolTip": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\DanhSachNhanVien.cs [Design]*",
+              "RelativeToolTip": "src\\CF36\\DanhSachNhanVien.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T07:06:21.85Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-19T13:52:50.328Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\App.config",
+              "RelativeDocumentMoniker": "src\\CF36\\App.config",
+              "ToolTip": "C:\\T\u00E0i li\u1EC7u h\u1ECDc t\u1EADp\\dep trai\\CAFEE\\src\\CF36\\App.config",
+              "RelativeToolTip": "src\\CF36\\App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-10-13T07:12:51.851Z"
             }
           ]
         }
