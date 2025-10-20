@@ -11,7 +11,6 @@ namespace BUS
 {
     public static class KhoBUS
     {
-        // ✅ Lấy danh sách kho
         public static List<KhoDTO> LayTatCa()
         {
             try
@@ -28,7 +27,6 @@ namespace BUS
             }
         }
 
-        // ✅ Tìm kiếm
         public static List<KhoDTO> TimKiem(string keyword)
         {
             try
@@ -45,7 +43,6 @@ namespace BUS
             }
         }
 
-        // ✅ Lấy danh sách nhà cung cấp
         public static DataTable LayNhaCungCap()
         {
             try
@@ -58,13 +55,11 @@ namespace BUS
             }
         }
 
-        // ✅ Tính tổng tiền (chỉ dùng cho giao diện)
         public static decimal TinhTongTien(int soLuong, decimal giaNhap)
         {
             return soLuong * giaNhap;
         }
 
-        // ✅ Nghiệp vụ thêm phiếu nhập kho
         public static (bool success, string message, decimal tongTien) ThemTonKho(IEnumerable<KhoDTO> danhSachKho)
         {
             if (danhSachKho == null || !danhSachKho.Any())
@@ -74,7 +69,6 @@ namespace BUS
             if (!maNCC.HasValue)
                 return (false, "Chưa chọn nhà cung cấp.", 0);
 
-            // Kiểm tra dữ liệu hợp lệ
             var invalids = danhSachKho
                 .Where(k => string.IsNullOrWhiteSpace(k.MaSP)
                             || string.IsNullOrWhiteSpace(k.Size)

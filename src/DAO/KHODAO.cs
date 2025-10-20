@@ -12,7 +12,6 @@ namespace DAO
         private static readonly string connStr =
             ConfigurationManager.ConnectionStrings["QUANLICAFE36"].ConnectionString;
 
-        // ✅ Map dữ liệu DB → DTO
         private static KhoDTO MapToKho(SqlDataReader r)
         {
             return new KhoDTO
@@ -25,7 +24,6 @@ namespace DAO
             };
         }
 
-        // ✅ Lấy danh sách kho
         public static List<KhoDTO> GetAll()
         {
             var list = new List<KhoDTO>();
@@ -48,7 +46,6 @@ namespace DAO
             return list;
         }
 
-        // ✅ Tìm kiếm sản phẩm trong kho
         public static List<KhoDTO> Search(string keyword)
         {
             var list = new List<KhoDTO>();
@@ -76,7 +73,6 @@ namespace DAO
             return list;
         }
 
-        // ✅ Lấy danh sách nhà cung cấp
         public static DataTable LayNhaCungCap()
         {
             string sql = "SELECT Manhacc, Tennhacc FROM NHACUNGCAP";
@@ -89,7 +85,6 @@ namespace DAO
             }
         }
 
-        // ✅ Lấy số lượng tồn hiện tại của sản phẩm
         public static int LaySoLuongHienTai(SqlConnection conn, SqlTransaction trans, string maSP, string size)
         {
             string sql = @"
@@ -107,7 +102,6 @@ namespace DAO
             }
         }
 
-        // ✅ Thêm phiếu nhập + chi tiết + cập nhật tồn kho
         public static bool LuuPhieuNhapKho(int maNCC, List<KhoDTO> danhSach)
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -117,7 +111,6 @@ namespace DAO
 
                 try
                 {
-                    // 1️⃣ Tạo phiếu nhập (Không có cột Tongtien)
                     string sqlInsertPhieu = @"
                         INSERT INTO NHAPKHO (Manhacc, Ngaynhap)
                         OUTPUT INSERTED.Mank
@@ -130,10 +123,8 @@ namespace DAO
                         maNK = (int)cmd.ExecuteScalar();
                     }
 
-                    // 2️⃣ Lưu chi tiết nhập kho
                     foreach (var kho in danhSach)
                     {
-                        // ➕ Thêm chi tiết
                         string sqlCT = @"
                             INSERT INTO CHITIETNHAPKHO (Mank, Idkcsp, Soluongnhap, Gianhap)
                             VALUES (
@@ -156,7 +147,6 @@ namespace DAO
                             cmd.ExecuteNonQuery();
                         }
 
-                        // ➕ Cập nhật số lượng tồn
                         int soLuongHienTai = LaySoLuongHienTai(conn, trans, kho.MaSP, kho.Size);
                         int soLuongMoi = soLuongHienTai + kho.SoLuongNhap;
 
@@ -174,7 +164,6 @@ namespace DAO
                         }
                     }
 
-                    // ✅ Commit toàn bộ
                     trans.Commit();
                     return true;
                 }
