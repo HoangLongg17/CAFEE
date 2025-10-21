@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\CF36"
+    "\\src\\CF36",
+    "\\src\\DAO"
   ],
-  "SelectedNode": "\\src\\CF36\\Home.cs",
+  "SelectedNode": "\\src\\DAO\\NhanVienDAO.cs",
   "PreviewInSolutionExplorer": false
 }

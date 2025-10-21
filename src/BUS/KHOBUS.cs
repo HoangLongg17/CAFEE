@@ -3,10 +3,9 @@ using DTO;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BUS
 {
@@ -18,18 +17,15 @@ namespace BUS
             {
                 var list = KhoDAO.GetAll();
                 foreach (var item in list)
-                {
                     item.IsLowStock = item.SoLuong < item.CanhBaoTonKho;
 
-                }
                 return list;
             }
-            catch (Exception)
+            catch
             {
                 return new List<KhoDTO>();
             }
         }
-
 
         public static List<KhoDTO> TimKiem(string keyword)
         {
@@ -37,13 +33,11 @@ namespace BUS
             {
                 var list = KhoDAO.Search(keyword);
                 foreach (var item in list)
-                {
                     item.IsLowStock = item.SoLuong < item.CanhBaoTonKho;
 
-                }
                 return list;
             }
-            catch (Exception)
+            catch
             {
                 return new List<KhoDTO>();
             }
@@ -55,7 +49,7 @@ namespace BUS
             {
                 return KhoDAO.LayNhaCungCap();
             }
-            catch (Exception)
+            catch
             {
                 return new DataTable();
             }
@@ -75,60 +69,33 @@ namespace BUS
             if (!maNCC.HasValue)
                 return (false, "Chưa chọn nhà cung cấp.", 0);
 
-            int maNK;
+            var invalids = danhSachKho
+                .Where(k => string.IsNullOrWhiteSpace(k.MaSP)
+                            || string.IsNullOrWhiteSpace(k.Size)
+                            || k.SoLuongNhap <= 0
+                            || k.GiaNhap <= 0M)
+                .ToList();
+
+            if (invalids.Any())
+            {
+                string loi = string.Join("\n", invalids.Select(k =>
+                    $"• {k.MaSP} ({k.Size}) - SL: {k.SoLuongNhap}, Giá: {k.GiaNhap}"));
+                return (false, "Một hoặc nhiều sản phẩm chưa hợp lệ:\n" + loi, 0);
+            }
+
+            decimal tongTien = danhSachKho.Sum(k => k.SoLuongNhap * k.GiaNhap);
+
             try
             {
-                maNK = KhoDAO.InsertPhieuNhap(maNCC.Value);
+                bool ok = KhoDAO.LuuPhieuNhapKho(maNCC.Value, danhSachKho.ToList());
+                if (ok)
+                    return (true, $"Tạo phiếu nhập thành công (Tổng tiền: {tongTien:N0} đ)", tongTien);
+                return (false, "Không thể lưu phiếu nhập.", 0);
             }
             catch (Exception ex)
             {
-                return (false, "Lỗi khi tạo phiếu nhập: " + ex.Message, 0);
+                return (false, "Lỗi khi nhập kho: " + ex.Message, 0);
             }
-
-            decimal tongTien = 0;
-            int demThanhCong = 0;
-            List<string> loi = new();
-
-            foreach (var kho in danhSachKho)
-            {
-                if (string.IsNullOrWhiteSpace(kho.MaSP) || string.IsNullOrWhiteSpace(kho.Size) || kho.SoLuongNhap <= 0)
-                {
-                    loi.Add($"• {kho.MaSP}: Dữ liệu không hợp lệ.");
-                    continue;
-                }
-
-                try
-                {
-                    bool insertedCT = KhoDAO.InsertChiTietNhapKho(maNK, kho);
-                    bool updatedSL = KhoDAO.UpdateSoLuong(kho);
-
-                    if (insertedCT && updatedSL)
-                    {
-                        tongTien += kho.SoLuongNhap * kho.GiaNhap;
-                        demThanhCong++;
-                    }
-                    else
-                    {
-                        loi.Add($"• {kho.MaSP}: Không thể lưu chi tiết nhập kho.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    loi.Add($"• {kho.MaSP}: Lỗi khi thêm chi tiết nhập kho ({ex.Message}).");
-                }
-            }
-
-            if (demThanhCong == 0)
-                return (false, "Không thêm được sản phẩm nào.", 0);
-
-            string msg = $"Tạo phiếu nhập #{maNK} thành công ({demThanhCong}/{danhSachKho.Count()}).";
-            if (loi.Count > 0)
-                msg += "\nMột số lỗi:\n" + string.Join("\n", loi);
-
-            return (true, msg, tongTien);
         }
-
-
-
     }
 }

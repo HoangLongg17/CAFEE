@@ -155,6 +155,7 @@
             dgvThemkho.Location = new Point(3, 235);
             dgvThemkho.Margin = new Padding(3, 2, 3, 2);
             dgvThemkho.Name = "dgvThemkho";
+            dgvThemkho.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = SystemColors.Control;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
@@ -173,24 +174,28 @@
             MaSP.DataPropertyName = "MaSP";
             MaSP.HeaderText = "Mã sản phẩm";
             MaSP.Name = "MaSP";
+            MaSP.ReadOnly = true;
             // 
             // TenSP
             // 
             TenSP.DataPropertyName = "TenSP";
             TenSP.HeaderText = "Tên sản phẩm";
             TenSP.Name = "TenSP";
+            TenSP.ReadOnly = true;
             // 
             // Size
             // 
             Size.DataPropertyName = "Size";
             Size.HeaderText = "Size";
             Size.Name = "Size";
+            Size.ReadOnly = true;
             // 
             // SoLuong
             // 
             SoLuong.DataPropertyName = "SoLuong";
             SoLuong.HeaderText = "Số lượng";
             SoLuong.Name = "SoLuong";
+            SoLuong.ReadOnly = true;
             // 
             // tlpThongtin
             // 

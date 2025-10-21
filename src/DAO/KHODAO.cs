@@ -24,169 +24,155 @@ namespace DAO
             };
         }
 
-
         public static List<KhoDTO> GetAll()
         {
             var list = new List<KhoDTO>();
             string sql = @"
-            SELECT k.masp, s.tensp, kc.kichco, k.soluongton, k.canhbaotonkho
+                SELECT k.masp, s.tensp, kc.kichco, k.soluongton, k.canhbaotonkho
                 FROM KICHCOSP k
                 JOIN SANPHAM s ON k.masp = s.masp
                 JOIN KICHCO kc ON k.makichco = kc.makichco";
 
-            try
+            using (SqlConnection conn = new SqlConnection(connStr))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
             {
-                using (SqlConnection conn = new SqlConnection(connStr))
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                conn.Open();
+                using (var r = cmd.ExecuteReader())
                 {
-                    conn.Open();
-                    using (var r = cmd.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            list.Add(MapToKho(r));
-                        }
-                    }
+                    while (r.Read())
+                        list.Add(MapToKho(r));
                 }
-                return list;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Lỗi khi lấy dữ liệu kho.", ex);
-            }
+            return list;
         }
 
         public static List<KhoDTO> Search(string keyword)
         {
             var list = new List<KhoDTO>();
-            if (string.IsNullOrWhiteSpace(keyword)) return GetAll();
+            if (string.IsNullOrWhiteSpace(keyword))
+                return GetAll();
 
             string sql = @"
-                SELECT k.masp, s.tensp, kc.kichco, k.soluongton
+                SELECT k.masp, s.tensp, kc.kichco, k.soluongton, k.canhbaotonkho
                 FROM KICHCOSP k
                 JOIN SANPHAM s ON k.masp = s.masp
                 JOIN KICHCO kc ON k.makichco = kc.makichco
                 WHERE k.masp LIKE @kw OR s.tensp LIKE @kw";
 
-            try
+            using (SqlConnection conn = new SqlConnection(connStr))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
             {
-                using (SqlConnection conn = new SqlConnection(connStr))
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                cmd.Parameters.AddWithValue("@kw", "%" + keyword.Trim() + "%");
+                conn.Open();
+                using (var r = cmd.ExecuteReader())
                 {
-                    cmd.Parameters.AddWithValue("@kw", "%" + keyword.Trim() + "%");
-                    conn.Open();
-                    using (var r = cmd.ExecuteReader())
-                    {
-                        while (r.Read())
-                        {
-                            list.Add(MapToKho(r));
-                        }
-                    }
+                    while (r.Read())
+                        list.Add(MapToKho(r));
                 }
-                return list;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Lỗi khi tìm kiếm kho.", ex);
-            }
+            return list;
         }
 
         public static DataTable LayNhaCungCap()
         {
             string sql = "SELECT Manhacc, Tennhacc FROM NHACUNGCAP";
-            try
+            using (var conn = new SqlConnection(connStr))
+            using (var da = new SqlDataAdapter(sql, conn))
             {
-                using (var conn = new SqlConnection(connStr))
-                using (var da = new SqlDataAdapter(sql, conn))
-                {
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    return dt;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Lỗi khi lấy danh sách nhà cung cấp.", ex);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
             }
         }
 
-        public static bool UpdateSoLuong(KhoDTO kho)
+        public static int LaySoLuongHienTai(SqlConnection conn, SqlTransaction trans, string maSP, string size)
         {
             string sql = @"
-                UPDATE KICHCOSP
-                SET soluongton = ISNULL(soluongton,0) + @add
-                WHERE masp = @masp 
+                SELECT ISNULL(soluongton, 0)
+                FROM KICHCOSP
+                WHERE masp = @masp
                   AND makichco = (SELECT makichco FROM KICHCO WHERE kichco = @size)";
-            try
+
+            using (SqlCommand cmd = new SqlCommand(sql, conn, trans))
             {
-                using (var conn = new SqlConnection(connStr))
-                using (var cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@add", kho.SoLuongNhap);
-                    cmd.Parameters.AddWithValue("@masp", kho.MaSP);
-                    cmd.Parameters.AddWithValue("@size", kho.Size ?? "");
-                    conn.Open();
-                    return cmd.ExecuteNonQuery() > 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Lỗi khi cập nhật số lượng tồn.", ex);
+                cmd.Parameters.AddWithValue("@masp", maSP);
+                cmd.Parameters.AddWithValue("@size", size ?? "");
+                object result = cmd.ExecuteScalar();
+                return (result == null || result == DBNull.Value) ? 0 : Convert.ToInt32(result);
             }
         }
 
-        public static int InsertPhieuNhap(int maNCC)
+        public static bool LuuPhieuNhapKho(int maNCC, List<KhoDTO> danhSach)
         {
-            string sql = "INSERT INTO NHAPKHO(Manhacc, Ngaynhap) OUTPUT INSERTED.Mank VALUES (@mancc, GETDATE())";
-            try
+            using (SqlConnection conn = new SqlConnection(connStr))
             {
-                using (SqlConnection conn = new SqlConnection(connStr))
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                try
                 {
-                    cmd.Parameters.AddWithValue("@mancc", maNCC);
-                    conn.Open();
-                    return (int)cmd.ExecuteScalar(); // Trả về mã phiếu nhập vừa thêm
+                    string sqlInsertPhieu = @"
+                        INSERT INTO NHAPKHO (Manhacc, Ngaynhap)
+                        OUTPUT INSERTED.Mank
+                        VALUES (@mancc, GETDATE())";
+
+                    int maNK;
+                    using (SqlCommand cmd = new SqlCommand(sqlInsertPhieu, conn, trans))
+                    {
+                        cmd.Parameters.AddWithValue("@mancc", maNCC);
+                        maNK = (int)cmd.ExecuteScalar();
+                    }
+
+                    foreach (var kho in danhSach)
+                    {
+                        string sqlCT = @"
+                            INSERT INTO CHITIETNHAPKHO (Mank, Idkcsp, Soluongnhap, Gianhap)
+                            VALUES (
+                                @mank,
+                                (SELECT TOP 1 kc.id
+                                 FROM KICHCOSP kc
+                                 JOIN KICHCO c ON kc.makichco = c.makichco
+                                 WHERE kc.masp = @masp AND c.kichco = @size),
+                                @soluong,
+                                @gianhap
+                            )";
+
+                        using (SqlCommand cmd = new SqlCommand(sqlCT, conn, trans))
+                        {
+                            cmd.Parameters.AddWithValue("@mank", maNK);
+                            cmd.Parameters.AddWithValue("@masp", kho.MaSP);
+                            cmd.Parameters.AddWithValue("@size", kho.Size ?? "");
+                            cmd.Parameters.AddWithValue("@soluong", kho.SoLuongNhap);
+                            cmd.Parameters.AddWithValue("@gianhap", kho.GiaNhap);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        int soLuongHienTai = LaySoLuongHienTai(conn, trans, kho.MaSP, kho.Size);
+                        int soLuongMoi = soLuongHienTai + kho.SoLuongNhap;
+
+                        string sqlUpdate = @"
+                            UPDATE KICHCOSP
+                            SET soluongton = @soluong
+                            WHERE masp = @masp
+                              AND makichco = (SELECT makichco FROM KICHCO WHERE kichco = @size)";
+                        using (SqlCommand cmd = new SqlCommand(sqlUpdate, conn, trans))
+                        {
+                            cmd.Parameters.AddWithValue("@soluong", soLuongMoi);
+                            cmd.Parameters.AddWithValue("@masp", kho.MaSP);
+                            cmd.Parameters.AddWithValue("@size", kho.Size ?? "");
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    trans.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    throw new Exception("Lỗi khi lưu phiếu nhập: " + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Lỗi khi thêm phiếu nhập.", ex);
-            }
         }
-
-        public static bool InsertChiTietNhapKho(int maNK, KhoDTO kho)
-        {
-            string sql = @"
-        INSERT INTO CHITIETNHAPKHO (Mank, Idkcsp, Soluongnhap, Gianhap)
-        VALUES (
-            @mank,
-            (SELECT TOP 1 kc.id
-             FROM KICHCOSP kc
-             JOIN KICHCO c ON kc.makichco = c.makichco
-             WHERE kc.masp = @masp AND c.kichco = @size),
-            @soluong,
-            @gianhap
-        )";
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connStr))
-                using (SqlCommand cmd = new SqlCommand(sql, conn))
-                {
-                    cmd.Parameters.AddWithValue("@mank", maNK);
-                    cmd.Parameters.AddWithValue("@masp", kho.MaSP);
-                    cmd.Parameters.AddWithValue("@size", kho.Size ?? "");
-                    cmd.Parameters.AddWithValue("@soluong", kho.SoLuongNhap);
-                    cmd.Parameters.AddWithValue("@gianhap", kho.GiaNhap);
-
-                    conn.Open();
-                    return cmd.ExecuteNonQuery() > 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Lỗi khi thêm chi tiết nhập kho.", ex);
-            }
-        }
-
     }
 }
