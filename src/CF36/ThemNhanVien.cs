@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BUS;
+using DAO;
 using DTO;
 namespace CF36
 {
@@ -26,14 +27,6 @@ namespace CF36
             KhoiTaoComboBox();
             dTPNgaySinh.Value = DateTime.Now;
         }
-        private bool IsValidUsername(string username)
-        {
-            return Regex.IsMatch(username, @"^[a-zA-Z0-9]+$");
-        }
-        private bool IsValidMaNhanVien(string maNhanVien)
-        {
-            return Regex.IsMatch(maNhanVien, @"^(NV|AD)\d{2}$", RegexOptions.IgnoreCase);
-        }
         private void KhoiTaoComboBox()
         {
             cbbViTri.Items.Clear();
@@ -46,31 +39,35 @@ namespace CF36
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            if (!IsValidMaNhanVien(txtMaNhanVien.Text))
+            // mã nhân viên
+            if (!NhanVienBUS.IsValidMaNhanVien(txtMaNhanVien.Text.Trim()))
             {
                 MessageBox.Show("Mã nhân viên không hợp lệ. Mã phải có định dạng 'NVxx' hoặc 'ADxx' (x là chữ số).", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaNhanVien.Focus();
                 return;
             }
-
-            if (!IsValidUsername(txtTenTaiKhoan.Text))
-            {
+            //tên tài khoản
+            if(!NhanVienBUS.IsValidUsername(txtTenTaiKhoan.Text.Trim()))
+    {
                 MessageBox.Show("Tên tài khoản không hợp lệ. Vui lòng chỉ sử dụng chữ cái (không dấu) và số.", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenTaiKhoan.Focus();
                 return;
             }
+            // mật khẩu
             if (txtMatKhau.Text != txtNhapLaiMatKhau.Text)
             {
                 MessageBox.Show("Mật khẩu và Nhập lại mật khẩu không khớp.", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNhapLaiMatKhau.Focus();
                 return;
             }
+            // lương
             if (!decimal.TryParse(txtLuongTheoGio.Text, out decimal luongTheoGio))
             {
                 MessageBox.Show("Lương không hợp lệ. Vui lòng nhập số.", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtLuongTheoGio.Focus();
                 return;
             }
+
             NhanVienDTO nvMoi = new NhanVienDTO
             {
                 Mand = txtMaNhanVien.Text.Trim(),
