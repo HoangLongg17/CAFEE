@@ -173,6 +173,7 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // btnLuu
             // 
@@ -183,6 +184,7 @@
             btnLuu.TabIndex = 1;
             btnLuu.Text = "LƯU";
             btnLuu.UseVisualStyleBackColor = true;
+            btnLuu.Click += btnLuu_Click;
             // 
             // SuaKhachHang
             // 
@@ -193,6 +195,7 @@
             Name = "SuaKhachHang";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SuaKhachHang";
+            Load += SuaKhachHang_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpThongtin.ResumeLayout(false);

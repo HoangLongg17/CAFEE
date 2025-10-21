@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DTO;
+using DAO;
+namespace BUS
+{
+    public class KhachHangBUS
+    {
+        public static List<KhachHangDTO> LayDSKH()
+        {
+            return KhachHangDAO.layDSKH();
+        }
+
+        public static bool ThemKH(KhachHangDTO kh)
+        {
+            try
+            {
+                KhachHangDAO.themKH(kh);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool XoaKH(int makh)
+        {
+            try
+            {
+                KhachHangDAO.xoaKH(makh);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public static bool SuaKH(KhachHangDTO kh)
+        {
+            try
+            {
+                KhachHangDAO.suaKH(kh);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static List<KhachHangDTO> TimKH(string keyword)
+        {
+            return KhachHangDAO.timTheoTenHoacSDT(keyword);
+        }
+
+    }
+}

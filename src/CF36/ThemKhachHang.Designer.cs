@@ -36,9 +36,9 @@
             lbTichDiem = new Label();
             btnLuu = new Button();
             btnThoat = new Button();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
+            txtTenKH = new TextBox();
+            txtTichDiem = new TextBox();
+            txtSDT = new TextBox();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             tlpThongTin.SuspendLayout();
@@ -83,9 +83,9 @@
             tlpThongTin.Controls.Add(lbTichDiem, 1, 2);
             tlpThongTin.Controls.Add(btnLuu, 1, 3);
             tlpThongTin.Controls.Add(btnThoat, 2, 3);
-            tlpThongTin.Controls.Add(textBox1, 2, 0);
-            tlpThongTin.Controls.Add(textBox2, 2, 2);
-            tlpThongTin.Controls.Add(textBox3, 2, 1);
+            tlpThongTin.Controls.Add(txtTenKH, 2, 0);
+            tlpThongTin.Controls.Add(txtTichDiem, 2, 2);
+            tlpThongTin.Controls.Add(txtSDT, 2, 1);
             tlpThongTin.Dock = DockStyle.Fill;
             tlpThongTin.Location = new Point(3, 59);
             tlpThongTin.Name = "tlpThongTin";
@@ -136,6 +136,7 @@
             btnLuu.TabIndex = 1;
             btnLuu.Text = "LƯU";
             btnLuu.UseVisualStyleBackColor = true;
+            btnLuu.Click += btnLuu_Click;
             // 
             // btnThoat
             // 
@@ -145,30 +146,31 @@
             btnThoat.TabIndex = 1;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
-            // textBox1
+            // txtTenKH
             // 
-            textBox1.Anchor = AnchorStyles.Left;
-            textBox1.Location = new Point(204, 9);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(194, 27);
-            textBox1.TabIndex = 2;
+            txtTenKH.Anchor = AnchorStyles.Left;
+            txtTenKH.Location = new Point(204, 9);
+            txtTenKH.Name = "txtTenKH";
+            txtTenKH.Size = new Size(194, 27);
+            txtTenKH.TabIndex = 2;
             // 
-            // textBox2
+            // txtTichDiem
             // 
-            textBox2.Anchor = AnchorStyles.Left;
-            textBox2.Location = new Point(204, 99);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(194, 27);
-            textBox2.TabIndex = 2;
+            txtTichDiem.Anchor = AnchorStyles.Left;
+            txtTichDiem.Location = new Point(204, 99);
+            txtTichDiem.Name = "txtTichDiem";
+            txtTichDiem.Size = new Size(194, 27);
+            txtTichDiem.TabIndex = 2;
             // 
-            // textBox3
+            // txtSDT
             // 
-            textBox3.Anchor = AnchorStyles.Left;
-            textBox3.Location = new Point(204, 54);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(194, 27);
-            textBox3.TabIndex = 2;
+            txtSDT.Anchor = AnchorStyles.Left;
+            txtSDT.Location = new Point(204, 54);
+            txtSDT.Name = "txtSDT";
+            txtSDT.Size = new Size(194, 27);
+            txtSDT.TabIndex = 2;
             // 
             // ThemKhachHang
             // 
@@ -179,6 +181,7 @@
             Name = "ThemKhachHang";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thêm khách hàng";
+            Load += ThemKhachHang_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpThongTin.ResumeLayout(false);
@@ -196,8 +199,8 @@
         private Label lbTichDiem;
         private Button btnLuu;
         private Button btnThoat;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox txtTenKH;
+        private TextBox txtTichDiem;
+        private TextBox txtSDT;
     }
 }

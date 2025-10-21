@@ -38,7 +38,7 @@
             dgvKhachHang = new DataGridView();
             tlpend = new TableLayoutPanel();
             btnThoat = new Button();
-            btnQuayLai = new Button();
+            btnXoa = new Button();
             btnLamMoi = new Button();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
@@ -112,6 +112,7 @@
             txtTimKiem.Name = "txtTimKiem";
             txtTimKiem.Size = new Size(190, 27);
             txtTimKiem.TabIndex = 1;
+            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             // 
             // btnThemKhachHang
             // 
@@ -142,6 +143,8 @@
             dgvKhachHang.RowHeadersWidth = 51;
             dgvKhachHang.Size = new Size(794, 265);
             dgvKhachHang.TabIndex = 2;
+            dgvKhachHang.CellContentClick += dgvKhachHang_CellContentClick;
+            dgvKhachHang.RowHeaderMouseClick += dgvKhachHang_RowHeaderMouseClick;
             // 
             // tlpend
             // 
@@ -150,7 +153,7 @@
             tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.6246853F));
             tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.6246853F));
             tlpend.Controls.Add(btnThoat, 2, 0);
-            tlpend.Controls.Add(btnQuayLai, 1, 0);
+            tlpend.Controls.Add(btnXoa, 1, 0);
             tlpend.Controls.Add(btnLamMoi, 0, 0);
             tlpend.Dock = DockStyle.Fill;
             tlpend.Location = new Point(3, 455);
@@ -168,15 +171,17 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
-            // btnQuayLai
+            // btnXoa
             // 
-            btnQuayLai.Location = new Point(532, 3);
-            btnQuayLai.Name = "btnQuayLai";
-            btnQuayLai.Size = new Size(125, 51);
-            btnQuayLai.TabIndex = 1;
-            btnQuayLai.Text = "QUAY LẠI";
-            btnQuayLai.UseVisualStyleBackColor = true;
+            btnXoa.Location = new Point(532, 3);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(125, 51);
+            btnXoa.TabIndex = 1;
+            btnXoa.Text = "XÓA";
+            btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
             // 
             // btnLamMoi
             // 
@@ -187,6 +192,7 @@
             btnLamMoi.TabIndex = 2;
             btnLamMoi.Text = "LÀM MỚI";
             btnLamMoi.UseVisualStyleBackColor = true;
+            btnLamMoi.Click += btnLamMoi_Click;
             // 
             // QuanLiKhachHang
             // 
@@ -197,6 +203,7 @@
             Name = "QuanLiKhachHang";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản lí khách hàng";
+            Load += QuanLiKhachHang_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpBoLoc.ResumeLayout(false);
@@ -218,7 +225,7 @@
         private DataGridView dgvKhachHang;
         private TableLayoutPanel tlpend;
         private Button btnThoat;
-        private Button btnQuayLai;
+        private Button btnXoa;
         private Button btnLamMoi;
     }
 }
