@@ -89,37 +89,27 @@ namespace CF36
                 MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message + "\nVui lòng kiểm tra kết nối database.", "Lỗi Hệ thống", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+        private bool IsValidUsername(string username)
+        {
+            return Regex.IsMatch(username, @"^[a-zA-Z0-9]+$");
+        }
+        private bool IsValidMaNhanVien(string maNhanVien)
+        {
+            return Regex.IsMatch(maNhanVien, @"^(NV|AD)\d{2}$", RegexOptions.IgnoreCase);
+        }
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (!NhanVienBUS.IsValidMaNhanVien(txtMaNhanVien.Text))
+            if (!IsValidMaNhanVien(txtMaNhanVien.Text))
             {
                 MessageBox.Show("Mã nhân viên không hợp lệ. Mã phải có định dạng 'NVxx' hoặc 'ADxx' (x là chữ số).", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaNhanVien.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtTenTaiKhoan.Text) || string.IsNullOrWhiteSpace(txtMatKhau.Text))
-            {
-                MessageBox.Show("Tên tài khoản và Mật khẩu không được để trống.", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (!NhanVienBUS.IsValidUsername(txtTenTaiKhoan.Text))
+            if (!IsValidUsername(txtTenTaiKhoan.Text))
             {
                 MessageBox.Show("Tên tài khoản không hợp lệ. Vui lòng chỉ sử dụng chữ cái (không dấu) và số.", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenTaiKhoan.Focus();
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(txtSoDienThoai.Text))
-            {
-                MessageBox.Show("Số điện thoại không được để trống.", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtSoDienThoai.Focus();
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                MessageBox.Show("Email không được để trống.", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtEmail.Focus();
                 return;
             }
 
