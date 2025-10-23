@@ -32,7 +32,7 @@
             picLogo = new PictureBox();
             tlpthongtin = new TableLayoutPanel();
             lbLoaiMa = new Label();
-            comboBox1 = new ComboBox();
+            cbbLoaiMaGG = new ComboBox();
             lbMaGiamGia = new Label();
             lbTenMa = new Label();
             txtMaGiamGia = new TextBox();
@@ -107,7 +107,7 @@
             tlpthongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.1097851F));
             tlpthongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 37.70883F));
             tlpthongtin.Controls.Add(lbLoaiMa, 0, 0);
-            tlpthongtin.Controls.Add(comboBox1, 1, 0);
+            tlpthongtin.Controls.Add(cbbLoaiMaGG, 1, 0);
             tlpthongtin.Controls.Add(lbMaGiamGia, 2, 0);
             tlpthongtin.Controls.Add(lbTenMa, 2, 1);
             tlpthongtin.Controls.Add(txtMaGiamGia, 3, 0);
@@ -133,14 +133,15 @@
             lbLoaiMa.TabIndex = 0;
             lbLoaiMa.Text = "Chọn loại mã giảm giá";
             // 
-            // comboBox1
+            // cbbLoaiMaGG
             // 
-            comboBox1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(212, 6);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(172, 28);
-            comboBox1.TabIndex = 1;
+            cbbLoaiMaGG.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            cbbLoaiMaGG.FormattingEnabled = true;
+            cbbLoaiMaGG.Location = new Point(212, 6);
+            cbbLoaiMaGG.Name = "cbbLoaiMaGG";
+            cbbLoaiMaGG.Size = new Size(172, 28);
+            cbbLoaiMaGG.TabIndex = 1;
+            cbbLoaiMaGG.SelectedIndexChanged += cbbLoaiMaGG_SelectedIndexChanged;
             // 
             // lbMaGiamGia
             // 
@@ -359,6 +360,7 @@
             btnLuu.TabIndex = 0;
             btnLuu.Text = "THÊM";
             btnLuu.UseVisualStyleBackColor = true;
+            btnLuu.Click += btnLuu_Click;
             // 
             // lbChonDongSanPham
             // 
@@ -426,6 +428,7 @@
             Name = "ThemMaGiamGia";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thêm mã giảm giá";
+            Load += ThemMaGiamGia_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpthongtin.ResumeLayout(false);
@@ -446,7 +449,7 @@
         private PictureBox picLogo;
         private TableLayoutPanel tlpthongtin;
         private Label lbLoaiMa;
-        private ComboBox comboBox1;
+        private ComboBox cbbLoaiMaGG;
         private Label lbMaGiamGia;
         private Label lbTenMa;
         private TextBox txtMaGiamGia;

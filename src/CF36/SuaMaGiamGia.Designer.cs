@@ -172,6 +172,7 @@
             cbbLoaiMaGiamGia.Name = "cbbLoaiMaGiamGia";
             cbbLoaiMaGiamGia.Size = new Size(170, 28);
             cbbLoaiMaGiamGia.TabIndex = 2;
+            cbbLoaiMaGiamGia.SelectedIndexChanged += cbbLoaiMaGiamGia_SelectedIndexChanged;
             // 
             // txtMaGiamGia
             // 
@@ -419,6 +420,7 @@
             btnLuu.TabIndex = 0;
             btnLuu.Text = "LƯU";
             btnLuu.UseVisualStyleBackColor = true;
+            btnLuu.Click += btnLuu_Click;
             // 
             // btnLamMoi
             // 
@@ -438,6 +440,7 @@
             Name = "SuaMaGiamGia";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sửa mã giảm giá";
+            Load += SuaMaGiamGia_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpTren.ResumeLayout(false);
