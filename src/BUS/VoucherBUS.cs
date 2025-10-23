@@ -102,5 +102,9 @@ namespace BUS
         {
             return VoucherDAO.Instance.GetAllVouchersWithJoin();
         }
+        public DataTable GetVouchersByTypeWithJoin(int maloaivc)
+        {
+            return VoucherDAO.Instance.GetVouchersByTypeWithJoin(maloaivc);
+        }
     }
 }

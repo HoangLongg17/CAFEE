@@ -17,28 +17,28 @@ namespace CF36
         {
             InitializeComponent();
         }
-        void SetColumnHeader(string columnName, string headerText, string newName)
+        void SetColumnHeader(string columnName, string headerText)
         {
             if (dgvMaGiamGia.Columns.Contains(columnName))
             {
                 dgvMaGiamGia.Columns[columnName].HeaderText = headerText;
-                dgvMaGiamGia.Columns[columnName].Name = newName;
             }
         }
         private void LoadVouchers()
         {
             DataTable dt = VoucherBUS.Instance.GetAllVouchersWithJoin();
             dgvMaGiamGia.DataSource = dt;
-            SetColumnHeader("Code", "Mã giảm giá", "colMa");
-            SetColumnHeader("Giatri", "Giá trị giảm", "colGiaTri");
-            SetColumnHeader("Ngaybd", "Ngày bắt đầu", "colNgayBD");
-            SetColumnHeader("Ngaykt", "Ngày kết thúc", "colNgayKT");
-            SetColumnHeader("DieuKien", "Đơn tối thiểu", "colDieuKien");
-            SetColumnHeader("TenLoaiVoucher", "Loại mã", "colLoaiMa");
-            SetColumnHeader("Maloaivc", "Kiểu mã", "colKieuMa");
-            SetColumnHeader("maloai", "Loại sản phẩm áp dụng", "colLoaiSPApDung");
-            SetColumnHeader("SizeSanPham", "Size", "colSize");
-            SetColumnHeader("GiaSanPham", "Giá sản phẩm", "colGiaSP");
+            SetColumnHeader("Mavc", "Mã giảm giá");
+            SetColumnHeader("Code", "Mã code");
+            SetColumnHeader("Giatri", "Giá trị giảm");
+            SetColumnHeader("Ngaybd", "Ngày bắt đầu");
+            SetColumnHeader("Ngaykt", "Ngày kết thúc");
+            SetColumnHeader("DieuKien", "Đơn tối thiểu");
+            SetColumnHeader("Maloaivc", "Loại mã");
+            SetColumnHeader("maloai", "Mã loại sản phẩm mua");
+            SetColumnHeader("TenLoaiSanPhamApDung", "Loại SP áp dụng");
+            SetColumnHeader("TenLoaiSanPhamTang", "Loại SP tặng");
+
         }
         private void LoadVoucherTypes()
         {
@@ -51,18 +51,18 @@ namespace CF36
 
         private void btnThemMaGiamGia_Click(object sender, EventArgs e)
         {
-            ThemMaGiamGia themMaGiamGia = new ThemMaGiamGia();
-            var result = themMaGiamGia.ShowDialog();
-
-            // Sau khi form thêm đóng, reload lại danh sách
-            LoadVouchers();
+            ThemMaGiamGia form = new ThemMaGiamGia();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LoadVouchers(); // cập nhật lại sau khi thêm
+            }
 
         }
 
         private void QuanLiMAGIAMGIA_Load(object sender, EventArgs e)
         {
-            LoadVouchers();
             LoadVoucherTypes();
+            LoadVouchers();
         }
 
         private void btnSuaMaGiamGia_Click(object sender, EventArgs e)
@@ -97,14 +97,28 @@ namespace CF36
         {
             this.Close();
         }
-
+        private void SetAllColumnHeaders()
+        {
+            SetColumnHeader("Mavc", "Mã giảm giá");
+            SetColumnHeader("Code", "Mã code");
+            SetColumnHeader("Giatri", "Giá trị giảm");
+            SetColumnHeader("Ngaybd", "Ngày bắt đầu");
+            SetColumnHeader("Ngaykt", "Ngày kết thúc");
+            SetColumnHeader("DieuKien", "Đơn tối thiểu");
+            SetColumnHeader("Maloaivc", "Loại mã");
+            SetColumnHeader("maloai", "Mã loại sản phẩm mua");
+            SetColumnHeader("TenLoaiSanPhamApDung", "Loại SP áp dụng");
+            SetColumnHeader("TenLoaiSanPhamTang", "Loại SP tặng");
+        }
         private void cbbLoaiVoucher_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbbLoaiVoucher.SelectedIndex != -1)
             {
                 int maloaivc = Convert.ToInt32(((DataRowView)cbbLoaiVoucher.SelectedItem)["Maloaivc"]);
-                DataTable dt = VoucherBUS.Instance.GetVouchersByType(maloaivc);
+                DataTable dt = VoucherBUS.Instance.GetVouchersByTypeWithJoin(maloaivc);
                 dgvMaGiamGia.DataSource = dt;
+
+                SetAllColumnHeaders(); // cập nhật lại tiêu đề cột
             }
 
         }
@@ -119,7 +133,7 @@ namespace CF36
             if (dgvMaGiamGia.SelectedRows.Count > 0)
             {
                 int mavc = Convert.ToInt32(dgvMaGiamGia.SelectedRows[0].Cells["Mavc"].Value);
-                string code = dgvMaGiamGia.SelectedRows[0].Cells["colMa"].Value.ToString();
+                string code = dgvMaGiamGia.SelectedRows[0].Cells["Code"].Value.ToString();
 
                 var confirm = MessageBox.Show($"Bạn có chắc muốn xóa mã giảm giá '{code}'?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm == DialogResult.Yes)
@@ -141,7 +155,7 @@ namespace CF36
             if (dgvMaGiamGia.SelectedRows.Count > 0)
             {
                 int mavc = Convert.ToInt32(dgvMaGiamGia.SelectedRows[0].Cells["Mavc"].Value);
-                int maloaivc = Convert.ToInt32(dgvMaGiamGia.SelectedRows[0].Cells["colKieuMa"].Value);
+                int maloaivc = Convert.ToInt32(dgvMaGiamGia.SelectedRows[0].Cells["Maloaivc"].Value);
 
                 if (maloaivc == 2 || maloaivc == 4)
                 {

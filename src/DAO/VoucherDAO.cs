@@ -96,29 +96,68 @@ namespace DAO
         public DataTable GetAllVouchersWithJoin()
         {
             string query = @"
-            SELECT 
+        SELECT 
             v.Mavc,
             v.Code,
             v.Giatri,
             v.Ngaybd,
             v.Ngaykt,
             v.DieuKien,
-            kv.Tenloai AS TenLoaiVoucher,
             v.Maloaivc,
+            kv.Tenloai AS TenLoaiVoucher,
             v.maloai,
-            lsp.tenloai AS TenLoaiSanPham,
-            kc2.kichco AS SizeSanPham,
-            kc.giaban AS GiaSanPham
-            FROM VOUCHER v
-            JOIN KIEUVC kv ON v.Maloaivc = kv.Maloaivc
-            LEFT JOIN LOAISP lsp ON v.maloai = lsp.maloai
-            LEFT JOIN CHITIETVC ct ON v.Mavc = ct.Mavc
-            LEFT JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
-            LEFT JOIN KICHCO kc2 ON kc.makichco = kc2.makichco
-            ";
+            lsp_mua.tenloai AS TenLoaiSanPhamApDung,
+            lsp_tang.TenLoaiSanPhamTang
+        FROM VOUCHER v
+        JOIN KIEUVC kv ON v.Maloaivc = kv.Maloaivc
+        LEFT JOIN LOAISP lsp_mua ON v.maloai = lsp_mua.maloai
+        LEFT JOIN (
+            SELECT vc.Mavc, MIN(lsp.tenloai) AS TenLoaiSanPhamTang
+            FROM CHITIETVC ct
+            JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
+            JOIN SANPHAM sp ON kc.masp = sp.masp
+            JOIN LOAISP lsp ON sp.maloai = lsp.maloai
+            JOIN VOUCHER vc ON ct.Mavc = vc.Mavc
+            GROUP BY vc.Mavc
+        ) lsp_tang ON v.Mavc = lsp_tang.Mavc
+    ";
 
-            return DataProvider.Instance.ExecuteQuery(query);
+            return provider.ExecuteQuery(query);
+        }
+        public DataTable GetVouchersByTypeWithJoin(int maloaivc)
+        {
+            string query = @"
+        SELECT 
+            v.Mavc,
+            v.Code,
+            v.Giatri,
+            v.Ngaybd,
+            v.Ngaykt,
+            v.DieuKien,
+            v.Maloaivc,
+            kv.Tenloai AS TenLoaiVoucher,
+            v.maloai,
+            lsp_mua.tenloai AS TenLoaiSanPhamApDung,
+            lsp_tang.TenLoaiSanPhamTang
+        FROM VOUCHER v
+        JOIN KIEUVC kv ON v.Maloaivc = kv.Maloaivc
+        LEFT JOIN LOAISP lsp_mua ON v.maloai = lsp_mua.maloai
+        LEFT JOIN (
+            SELECT vc.Mavc, MIN(lsp.tenloai) AS TenLoaiSanPhamTang
+            FROM CHITIETVC ct
+            JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
+            JOIN SANPHAM sp ON kc.masp = sp.masp
+            JOIN LOAISP lsp ON sp.maloai = lsp.maloai
+            JOIN VOUCHER vc ON ct.Mavc = vc.Mavc
+            GROUP BY vc.Mavc
+        ) lsp_tang ON v.Mavc = lsp_tang.Mavc
+        WHERE v.Maloaivc = @Maloaivc";
 
+            SqlParameter[] parameters = {
+        new SqlParameter("@Maloaivc", maloaivc)
+    };
+
+            return provider.ExecuteQuery(query, parameters);
         }
         public VoucherDTO GetVoucherByID(int mavc)
         {

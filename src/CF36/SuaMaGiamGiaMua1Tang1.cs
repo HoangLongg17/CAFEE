@@ -56,7 +56,7 @@ namespace CF36
             if (row != null)
             {
                 txtMaGiamGia.Text = row["Code"].ToString();
-                txtTenMaGiamGia.Text = row["Code"].ToString(); // nếu có cột tên riêng thì sửa lại
+                txtTenMaGiamGia.Text = row["Code"].ToString();
                 txtHoaDonToiThieu.Text = row["DieuKien"].ToString();
                 cbbSanPhamMua.SelectedValue = Convert.ToInt32(row["maloai"]);
 
