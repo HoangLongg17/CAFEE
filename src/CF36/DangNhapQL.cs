@@ -27,7 +27,7 @@ namespace CF36
             if (DangNhapQLBUS.Instance.Login(username, password))
             {
                 // Giả sử bạn đã kiểm tra thông tin đăng nhập thành công và lấy được EmployeeID
-                int mand = DangNhapQLBUS.Instance.GetEmployeeIDByUsername(username);
+                string mand = DangNhapQLBUS.Instance.GetEmployeeIDByUsername(username);
 
                 // Thiết lập thông tin người dùng hiện tại
                 CurrentUser.Mand = mand;

@@ -36,7 +36,6 @@
             dgvSanPham = new DataGridView();
             tlpend = new TableLayoutPanel();
             btnThoat = new Button();
-            btnLamMoi = new Button();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             tlpTimKiem.SuspendLayout();
@@ -88,6 +87,7 @@
             tlpTimKiem.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpTimKiem.Size = new Size(794, 39);
             tlpTimKiem.TabIndex = 1;
+            tlpTimKiem.Paint += tlpTimKiem_Paint;
             // 
             // lbTimKiem
             // 
@@ -106,9 +106,11 @@
             txtTimKiem.Name = "txtTimKiem";
             txtTimKiem.Size = new Size(358, 27);
             txtTimKiem.TabIndex = 1;
+            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             // 
             // dgvSanPham
             // 
+            dgvSanPham.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvSanPham.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSanPham.Location = new Point(3, 136);
             dgvSanPham.Name = "dgvSanPham";
@@ -124,7 +126,6 @@
             tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tlpend.Controls.Add(btnThoat, 3, 0);
-            tlpend.Controls.Add(btnLamMoi, 2, 0);
             tlpend.Dock = DockStyle.Fill;
             tlpend.Location = new Point(3, 418);
             tlpend.Name = "tlpend";
@@ -141,16 +142,7 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
-            // 
-            // btnLamMoi
-            // 
-            btnLamMoi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnLamMoi.Location = new Point(466, 3);
-            btnLamMoi.Name = "btnLamMoi";
-            btnLamMoi.Size = new Size(125, 58);
-            btnLamMoi.TabIndex = 0;
-            btnLamMoi.Text = "LÀM MỚI";
-            btnLamMoi.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // XemSanPhamNhanVien
             // 
@@ -161,6 +153,7 @@
             Name = "XemSanPhamNhanVien";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Xem sản phẩm";
+            Load += XemSanPhamNhanVien_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpTimKiem.ResumeLayout(false);
@@ -180,6 +173,5 @@
         private DataGridView dgvSanPham;
         private TableLayoutPanel tlpend;
         private Button btnThoat;
-        private Button btnLamMoi;
     }
 }

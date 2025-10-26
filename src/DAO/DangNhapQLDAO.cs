@@ -30,27 +30,20 @@ namespace DAO
             int result = Convert.ToInt32(DataProvider.Instance.ExecuteScalar(query, parameters));
             return result == 1;
         }
-        public int GetEmployeeIDByUsername(string username)
+        public string GetEmployeeIDByUsername(string username)
         {
-            string query = @"SELECT a.Mand FROM NGUOIDUNG a 
-                   
-                    WHERE a.Tk = @Username 
-                    AND (LOWER(a.Tk) LIKE 'ad%' OR a.Tk NOT LIKE 'nv%')";
+            string query = @"
+        SELECT Mand 
+        FROM NGUOIDUNG 
+        WHERE Tk = @Username 
+        AND (LOWER(Tk) LIKE 'ad%' OR Vitri = 'Admin')";
 
-            SqlParameter[] parameters = new SqlParameter[]
-            {
+            SqlParameter[] parameters = {
         new SqlParameter("@Username", username)
-            };
+    };
 
             object result = DataProvider.Instance.ExecuteScalar(query, parameters);
-            if (result != null)
-            {
-                string mand = result.ToString();
-                // Trích xuất số từ chuỗi "NV01" → "01" → 1
-                string numbers = new string(mand.Where(char.IsDigit).ToArray());
-                return int.TryParse(numbers, out int id) ? id : 0;
-            }
-            return 0;
+            return result != null ? result.ToString() : null;
         }
     }
 }

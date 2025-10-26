@@ -24,7 +24,7 @@ namespace BUS
             return DangNhapNVDAO.Instance.Login(username, password);
         }
 
-        public int GetEmployeeIDByUsername(string username)
+        public string GetEmployeeIDByUsername(string username)
         {
             return DangNhapNVDAO.Instance.GetEmployeeIDByUsername(username);
         }

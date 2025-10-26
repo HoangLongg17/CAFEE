@@ -22,7 +22,7 @@ namespace BUS
         {
             return DangNhapQLDAO.Instance.Login(username, password);
         }
-        public int GetEmployeeIDByUsername(string username)
+        public string GetEmployeeIDByUsername(string username)
         {
             return DangNhapQLDAO.Instance.GetEmployeeIDByUsername(username);
         }

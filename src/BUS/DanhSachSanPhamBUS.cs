@@ -46,7 +46,14 @@ namespace BUS
         {
             return DanhSachSanPhamDAO.Instance.GetChiTietVoucher(mavc);
         }
-
+        public DataTable GetSanPhamTable()
+        {
+            return DanhSachSanPhamDAO.Instance.GetSanPhamTable();
+        }
+        public DataTable GetSanPhamWithVoucher()
+        {
+            return DanhSachSanPhamDAO.Instance.GetSanPhamWithVoucher();
+        }
 
     }
 }

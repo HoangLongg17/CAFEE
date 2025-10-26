@@ -43,6 +43,7 @@
             btnChamCong = new Button();
             lbThoiGian = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
+            lblTrangThai = new Label();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             menuStrip1.SuspendLayout();
@@ -56,6 +57,7 @@
             tlpall.Controls.Add(picLogo, 0, 0);
             tlpall.Controls.Add(menuStrip1, 0, 1);
             tlpall.Controls.Add(tlpend, 0, 3);
+            tlpall.Controls.Add(lblTrangThai, 0, 2);
             tlpall.Dock = DockStyle.Fill;
             tlpall.Location = new Point(0, 0);
             tlpall.Name = "tlpall";
@@ -114,11 +116,12 @@
             đỔIMẬTKHẨToolStripMenuItem.Name = "đỔIMẬTKHẨToolStripMenuItem";
             đỔIMẬTKHẨToolStripMenuItem.Size = new Size(224, 26);
             đỔIMẬTKHẨToolStripMenuItem.Text = "XEM GIỜ LÀM VIỆC";
+            đỔIMẬTKHẨToolStripMenuItem.Click += đỔIMẬTKHẨToolStripMenuItem_Click;
             // 
             // đỔIMẬTKHẨUToolStripMenuItem
             // 
             đỔIMẬTKHẨUToolStripMenuItem.Name = "đỔIMẬTKHẨUToolStripMenuItem";
-            đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(224, 26);
+            đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(219, 26);
             đỔIMẬTKHẨUToolStripMenuItem.Text = "ĐỔI MẬT KHẨU";
             // 
             // tlpend
@@ -157,6 +160,7 @@
             btnBatDau.TabIndex = 1;
             btnBatDau.Text = "BẮT ĐẦU LÀM";
             btnBatDau.UseVisualStyleBackColor = true;
+            btnBatDau.Click += btnBatDau_Click;
             // 
             // btnChamCong
             // 
@@ -166,6 +170,7 @@
             btnChamCong.TabIndex = 0;
             btnChamCong.Text = "CHẤM CÔNG";
             btnChamCong.UseVisualStyleBackColor = true;
+            btnChamCong.Click += btnChamCong_Click;
             // 
             // lbThoiGian
             // 
@@ -178,6 +183,15 @@
             lbThoiGian.Text = "Hiển thị giờ ở đây";
             lbThoiGian.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // lblTrangThai
+            // 
+            lblTrangThai.AutoSize = true;
+            lblTrangThai.Location = new Point(3, 107);
+            lblTrangThai.Name = "lblTrangThai";
+            lblTrangThai.Size = new Size(75, 20);
+            lblTrangThai.TabIndex = 3;
+            lblTrangThai.Text = "Trạng thái";
+            // 
             // NHANVIEN
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -188,6 +202,7 @@
             Name = "NHANVIEN";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Nhân viên";
+            Load += NHANVIEN_Load;
             tlpall.ResumeLayout(false);
             tlpall.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
@@ -214,5 +229,6 @@
         private Button btnBatDau;
         private Label lbThoiGian;
         private System.Windows.Forms.Timer timer1;
+        private Label lblTrangThai;
     }
 }

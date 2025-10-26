@@ -63,8 +63,51 @@ namespace DAO
 
             return list;
         }
+        public DataTable GetSanPhamTable()
+        {
+            var list = DanhSachSanPhamDAO.Instance.GetAllSanPham();
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Mã sản phẩm");
+            dt.Columns.Add("Tên sản phẩm");
+            dt.Columns.Add("Loại");
+            dt.Columns.Add("Size");
+            dt.Columns.Add("Giá bán", typeof(decimal));
+            dt.Columns.Add("Số lượng", typeof(int));
+            dt.Columns.Add("Trạng thái");
 
+            foreach (var sp in list)
+            {
+                dt.Rows.Add(sp.MaSP, sp.TenSP, sp.TenLoai, sp.KichCo, sp.GiaBan, sp.SoLuongTon, sp.TrangThaiText);
+            }
 
+            return dt;
+        }
+        public DataTable GetSanPhamWithVoucher()
+        {
+            string query = @"
+        SELECT 
+            sp.masp AS [Mã sản phẩm],
+            sp.tensp AS [Tên sản phẩm],
+            l.tenloai AS [Loại],
+            kc.kichco AS [Size],
+            kcsp.giaban AS [Giá bán],
+            kcsp.soluongton AS [Số lượng],
+            CASE WHEN kcsp.trangthaisp = 1 THEN N'Đang bán' ELSE N'Ngừng bán' END AS [Trạng thái],
+            ISNULL(voucherList.Vouchers, N'Không có') AS [Voucher liên quan]
+        FROM KICHCOSP kcsp
+        JOIN SANPHAM sp ON kcsp.masp = sp.masp
+        JOIN LOAISP l ON sp.maloai = l.maloai
+        JOIN KICHCO kc ON kcsp.makichco = kc.makichco
+        LEFT JOIN (
+            SELECT ct.Idkcsp, STRING_AGG(v.Code, ', ') AS Vouchers
+            FROM CHITIETVC ct
+            JOIN VOUCHER v ON ct.Mavc = v.Mavc
+            GROUP BY ct.Idkcsp
+        ) voucherList ON kcsp.id = voucherList.Idkcsp
+        ORDER BY sp.masp, kcsp.makichco";
+
+            return provider.ExecuteQuery(query);
+        }
         // Phương thức này xử lý tất cả trường hợp: tải tất cả và tìm kiếm
         public List<DanhSachSanPhamDTO> SearchSanPham(string searchType, string searchTerm)
         {
