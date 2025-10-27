@@ -1,6 +1,4 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-
-namespace CF36
+﻿namespace CF36
 {
     public partial class Home : Form
     {
@@ -24,8 +22,6 @@ namespace CF36
 
         private void btnDangNhapNhanVien_Click(object sender, EventArgs e)
         {
-
-
             DangNhapNV dangNhapNV = new DangNhapNV();
             this.Hide();
             dangNhapNV.ShowDialog();
@@ -34,15 +30,7 @@ namespace CF36
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
-            Close();
-        }
-
-        private void Home_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (MessageBox.Show("Bạn chắc chắn muốn thoát chương trình?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != DialogResult.OK)
-            {
-                e.Cancel = true;
-            }
+            Close();    
         }
     }
 }

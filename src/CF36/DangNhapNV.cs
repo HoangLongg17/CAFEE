@@ -1,5 +1,4 @@
 ﻿using BUS;
-using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace CF36
 {
@@ -19,43 +17,19 @@ namespace CF36
         {
             InitializeComponent();
         }
-        private DangNhapNVBUS userBUS = new DangNhapNVBUS();
+
         private void btnlogin_Click(object sender, EventArgs e)
         {
-            var result = userBUS.Login(txtusernv.Text, txtpasswordnv.Text);
-
-            if (!result.isSuccess)
-            {
-                MessageBox.Show(result.message, "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            MessageBox.Show(result.message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
             string username = txtusernv.Text.Trim();
-            NHANVIEN nhanvien = new NHANVIEN(result.user.Hoten, username);
+            string password = txtpasswordnv.Text.Trim();
 
+            // Kiểm tra thông tin đăng nhập
+            bool isValid = DangNhapNVBUS.Instance.Login(username, password);
 
-            this.Hide();
-            nhanvien.ShowDialog();
-            this.Close();
-
-
-        }
-
-        private void btnexit_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnPassword_Click(object sender, EventArgs e)
-        {
-
-            if (txtpasswordnv.PasswordChar == '*')
+            if (!isValid)
             {
-                //Hiện
-                txtpasswordnv.PasswordChar = '\0';
-                btnPassword.Text = "🙈";
-
+                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng.");
+                return;
             }
 
             // Lấy mã nhân viên từ username
@@ -63,10 +37,8 @@ namespace CF36
 
             if (string.IsNullOrEmpty(mand))
             {
-                //Ẩn
-                txtpasswordnv.PasswordChar = '*';
-                btnPassword.Text = "👁️";
-
+                MessageBox.Show("Không tìm thấy mã nhân viên tương ứng.");
+                return;
             }
 
             // Gán thông tin người dùng hiện tại
@@ -81,9 +53,9 @@ namespace CF36
 
         }
 
-        private void DangNhapNV_FormClosing(object sender, FormClosingEventArgs e)
+        private void btnexit_Click(object sender, EventArgs e)
         {
-           
+            this.Close();
         }
 
         private void DangNhapNV_Load(object sender, EventArgs e)

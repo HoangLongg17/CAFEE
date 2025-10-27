@@ -1,5 +1,4 @@
 ﻿using BUS;
-using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,51 +17,37 @@ namespace CF36
         {
             InitializeComponent();
         }
-        private DangNhapQLBUS userBUS = new DangNhapQLBUS();
+
         private void btnlogin_Click(object sender, EventArgs e)
         {
-            var result = userBUS.Login(txtusernv.Text, txtpasswordnv.Text);
+            string username = txtusernv.Text;
+            string password = txtpasswordnv.Text;
 
-            if (!result.isSuccess)
+            // Kiểm tra thông tin đăng nhập
+            if (DangNhapQLBUS.Instance.Login(username, password))
             {
-                MessageBox.Show(result.message, "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                // Giả sử bạn đã kiểm tra thông tin đăng nhập thành công và lấy được EmployeeID
+                string mand = DangNhapQLBUS.Instance.GetEmployeeIDByUsername(username);
 
-            MessageBox.Show(result.message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            string username = txtusernv.Text.Trim();
-            QuanLi ql = new QuanLi(result.user.Hoten,username);
-            this.Hide();
-            ql.ShowDialog();
-            this.Close();
+                // Thiết lập thông tin người dùng hiện tại
+                CurrentUser.Mand = mand;
+                CurrentUser.Tk = username;
+
+                // Chuyển đến form chính hoặc thực hiện các hành động khác
+                QuanLi quanLi = new QuanLi();
+                this.Hide();
+                quanLi.ShowDialog();
+                this.Show();
+            }
+            else
+            {
+                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng.");
+            }
         }
 
         private void btnexit_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void btnPassword_Click(object sender, EventArgs e)
-        {
-            if (txtpasswordnv.PasswordChar == '*')
-            {
-                //Hiện
-                txtpasswordnv.PasswordChar = '\0';
-                btnPassword.Text = "🙈"; 
-
-            }
-            else
-            {
-                //Ẩn
-                txtpasswordnv.PasswordChar = '*';
-                btnPassword.Text = "👁️"; 
-
-            }
-        }
-
-        private void DangNhapQL_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            
         }
     }
 }

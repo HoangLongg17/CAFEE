@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class DangNhapNVDTO
+    public class DangNhapNV
     {
        public string Tk {  get; set; }
         public string Mk { get; set; }
-       public string Hoten {  get; set; }
+       
 
     }
 }
