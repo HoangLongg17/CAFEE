@@ -174,5 +174,81 @@ namespace DAO
                 }
             }
         }
+        public static bool LuuPhieuXuatKho(List<KhoDTO> danhSach)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                SqlTransaction trans = conn.BeginTransaction();
+
+                try
+                {
+                    // 1️⃣ Tạo phiếu xuất kho
+                    string sqlInsertPhieu = @"
+                        INSERT INTO XUATKHO (Ngayxuat)
+                        OUTPUT INSERTED.Maxk
+                        VALUES (GETDATE())";
+
+                    int maXK;
+                    using (SqlCommand cmd = new SqlCommand(sqlInsertPhieu, conn, trans))
+                    {
+                        maXK = (int)cmd.ExecuteScalar();
+                    }
+
+                    // 2️⃣ Duyệt qua từng sản phẩm được xuất
+                    foreach (var kho in danhSach)
+                    {
+                        // Kiểm tra tồn kho hiện tại
+                        int soLuongHienTai = LaySoLuongHienTai(conn, trans, kho.MaSP, kho.Size);
+                        if (soLuongHienTai < kho.SoLuongXuat)
+                            throw new Exception($"Sản phẩm {kho.MaSP} ({kho.Size}) không đủ tồn kho.");
+
+                        // Ghi chi tiết xuất kho
+                        string sqlCT = @"
+                            INSERT INTO CHITIETXUATKHO (Maxk, Idkcsp, Soluongxuat)
+                            VALUES (
+                                @maxk,
+                                (SELECT TOP 1 kc.id
+                                 FROM KICHCOSP kc
+                                 JOIN KICHCO c ON kc.makichco = c.makichco
+                                 WHERE kc.masp = @masp AND c.kichco = @size),
+                                @soluong
+                            )";
+
+                        using (SqlCommand cmd = new SqlCommand(sqlCT, conn, trans))
+                        {
+                            cmd.Parameters.AddWithValue("@maxk", maXK);
+                            cmd.Parameters.AddWithValue("@masp", kho.MaSP);
+                            cmd.Parameters.AddWithValue("@size", kho.Size ?? "");
+                            cmd.Parameters.AddWithValue("@soluong", kho.SoLuongXuat);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Trừ tồn kho
+                        int soLuongMoi = soLuongHienTai - kho.SoLuongXuat;
+                        string sqlUpdate = @"
+                            UPDATE KICHCOSP
+                            SET soluongton = @soluong
+                            WHERE masp = @masp
+                              AND makichco = (SELECT makichco FROM KICHCO WHERE kichco = @size)";
+                        using (SqlCommand cmd = new SqlCommand(sqlUpdate, conn, trans))
+                        {
+                            cmd.Parameters.AddWithValue("@soluong", soLuongMoi);
+                            cmd.Parameters.AddWithValue("@masp", kho.MaSP);
+                            cmd.Parameters.AddWithValue("@size", kho.Size ?? "");
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    trans.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    throw new Exception("Lỗi khi lưu phiếu xuất: " + ex.Message);
+                }
+            }
+        }
     }
 }

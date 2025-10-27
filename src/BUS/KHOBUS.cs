@@ -97,5 +97,37 @@ namespace BUS
                 return (false, "Lỗi khi nhập kho: " + ex.Message, 0);
             }
         }
+        public static (bool success, string message) XuatKho(IEnumerable<KhoDTO> danhSachKho)
+        {
+            if (danhSachKho == null || !danhSachKho.Any())
+                return (false, "Không có sản phẩm nào được chọn để xuất.");
+
+            // Kiểm tra dữ liệu đầu vào
+            var invalids = danhSachKho
+                .Where(k => string.IsNullOrWhiteSpace(k.MaSP)
+                            || string.IsNullOrWhiteSpace(k.Size)
+                            || k.SoLuongXuat <= 0)
+                .ToList();
+
+            if (invalids.Any())
+            {
+                string loi = string.Join("\n", invalids.Select(k =>
+                    $"• {k.MaSP} ({k.Size}) - SL xuất: {k.SoLuongXuat}"));
+                return (false, "Một hoặc nhiều sản phẩm chưa hợp lệ:\n" + loi);
+            }
+
+            try
+            {
+                bool ok = KhoDAO.LuuPhieuXuatKho(danhSachKho.ToList());
+                if (ok)
+                    return (true, "Xuất kho thành công!");
+                return (false, "Không thể lưu phiếu xuất kho.");
+            }
+            catch (Exception ex)
+            {
+                return (false, "Lỗi khi xuất kho: " + ex.Message);
+            }
+        }
+
     }
 }

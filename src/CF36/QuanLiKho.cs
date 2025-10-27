@@ -16,7 +16,7 @@ namespace CF36
     {
         public QuanLiKho()
         {
-            this.Load += QuanLiKho_Load; 
+            this.Load += QuanLiKho_Load;
             InitializeComponent();
             this.txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
@@ -75,6 +75,10 @@ namespace CF36
             }
         }
 
-
+        private void btnXuatkho_Click(object sender, EventArgs e)
+        {
+            XuatKho xuatkho = new XuatKho();
+            xuatkho.Show();
+        }
     }
 }
