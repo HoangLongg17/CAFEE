@@ -142,6 +142,7 @@
             Name = "Home";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang đăng nhập";
+            FormClosing += Home_FormClosing;
             Load += Home_Load;
             tlpHome.ResumeLayout(false);
             tlpHome.PerformLayout();

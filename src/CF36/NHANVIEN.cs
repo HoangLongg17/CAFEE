@@ -7,22 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BUS;
-using DAO;
-using DTO;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+
 namespace CF36
 {
     public partial class NHANVIEN : Form
     {
-        private string maNhanVien;
-        private DateTime? gioBatDau;
-
-
-        public NHANVIEN(string maNV)
+        private string _hoten;
+        private string nguoidunghientai;
+        public NHANVIEN(string hoten,string username)
         {
             InitializeComponent();
-            maNhanVien = maNV;
-
+            _hoten = hoten;
+            nguoidunghientai= username;
+        }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            lblWelcome.Text = $"Chào mừng trở lại, {_hoten}";
         }
 
         private void bÁNHÀNGToolStripMenuItem_Click(object sender, EventArgs e)
@@ -40,53 +42,20 @@ namespace CF36
             this.Show();
         }
 
-        private void NHANVIEN_Load(object sender, EventArgs e)
+        private void btnThoat_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
-        private void btnBatDau_Click(object sender, EventArgs e)
+        private void đỔIMẬTKHẨUToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gioBatDau = DateTime.Now;
-            lblTrangThai.Text = $"Đang làm việc từ {gioBatDau.Value:HH:mm:ss}";
-            btnBatDau.Enabled = false;
-
-        }
-
-        private void btnChamCong_Click(object sender, EventArgs e)
-        {
-            if (gioBatDau == null)
+            DoiMatKhauNhanVien main = new DoiMatKhauNhanVien(nguoidunghientai);
+            if (main.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Bạn chưa bắt đầu làm việc.");
-                return;
+                this.Close();
+                Home login = new Home();
+                login.Show();
             }
-
-            DateTime gioKetThuc = DateTime.Now;
-            TimeSpan thoiGianLam = gioKetThuc - gioBatDau.Value;
-            int tongPhut = (int)thoiGianLam.TotalMinutes;
-
-            bool success = ChamCongBUS.Instance.LuuChamCong(maNhanVien, gioBatDau.Value, gioKetThuc, tongPhut);
-            if (success)
-            {
-                MessageBox.Show($"Chấm công thành công. Tổng thời gian làm: {tongPhut} phút.");
-                lblTrangThai.Text = "Chưa làm việc";
-                gioBatDau = null;
-                btnBatDau.Enabled = true;
-            }
-            else
-            {
-                MessageBox.Show("Chấm công thất bại.");
-            }
-
-        }
-
-        private void đỔIMẬTKHẨToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int tongPhut = ChamCongBUS.Instance.TinhTongGioLamTrongNgay(maNhanVien, DateTime.Today);
-            string gio = (tongPhut / 60).ToString("00");
-            string phut = (tongPhut % 60).ToString("00");
-            MessageBox.Show($"Hôm nay bạn đã làm {gio} giờ {phut} phút.");
-
         }
     }
 }
