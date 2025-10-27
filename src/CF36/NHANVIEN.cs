@@ -18,11 +18,12 @@ namespace CF36
         private string nguoidunghientai;
         private string maNhanVien;
         private DateTime? gioBatDau;
-        public NHANVIEN(string hoten, string username)
+        public NHANVIEN(string hoten, string username,string manhanvien)
         {
             InitializeComponent();
             _hoten = hoten;
             nguoidunghientai = username;
+            maNhanVien = manhanvien;
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -48,11 +49,7 @@ namespace CF36
             bANHANG.ShowDialog();
             this.Show();
 
-            //
-            int tongPhut = ChamCongBUS.Instance.TinhTongGioLamTrongNgay(maNhanVien, DateTime.Today);
-            string gio = (tongPhut / 60).ToString("00");
-            string phut = (tongPhut % 60).ToString("00");
-            MessageBox.Show($"Hôm nay bạn đã làm {gio} giờ {phut} phút.");
+            
         }
 
         private void sẢNPHẨMToolStripMenuItem_Click(object sender, EventArgs e)
@@ -95,13 +92,15 @@ namespace CF36
             }
 
         }
+        //Chấm công
         private void đỔIMẬTKHẨToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             int tongPhut = ChamCongBUS.Instance.TinhTongGioLamTrongNgay(maNhanVien, DateTime.Today);
             string gio = (tongPhut / 60).ToString("00");
             string phut = (tongPhut % 60).ToString("00");
             MessageBox.Show($"Hôm nay bạn đã làm {gio} giờ {phut} phút.");
-            
+
 
         }
 
@@ -109,7 +108,7 @@ namespace CF36
         {
 
         }
-
+        // Đổi mật khẩu
         private void đỔIMẬTKHẨUToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DoiMatKhauNhanVien main = new DoiMatKhauNhanVien(nguoidunghientai);
