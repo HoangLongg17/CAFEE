@@ -10,5 +10,6 @@ namespace DTO
     {
         public string Tk { get; set; }
         public string Mk { get; set; }
+        public string Hoten { get; set; }
     }
 }
