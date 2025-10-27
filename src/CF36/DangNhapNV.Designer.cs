@@ -34,7 +34,7 @@
             txtusernv = new TextBox();
             lbiconuser = new Label();
             pnpasswordnv = new Panel();
-            btnPassword = new Button();
+            button1 = new Button();
             txtpasswordnv = new TextBox();
             lbiconpassword = new Label();
             lbpassword = new Label();
@@ -111,7 +111,7 @@
             // 
             // pnpasswordnv
             // 
-            pnpasswordnv.Controls.Add(btnPassword);
+            pnpasswordnv.Controls.Add(button1);
             pnpasswordnv.Controls.Add(txtpasswordnv);
             pnpasswordnv.Controls.Add(lbiconpassword);
             pnpasswordnv.Dock = DockStyle.Fill;
@@ -120,21 +120,18 @@
             pnpasswordnv.Size = new Size(511, 76);
             pnpasswordnv.TabIndex = 2;
             // 
-            // btnPassword
+            // button1
             // 
-            btnPassword.Location = new Point(279, 22);
-            btnPassword.Name = "btnPassword";
-            btnPassword.Size = new Size(60, 35);
-            btnPassword.TabIndex = 5;
-            btnPassword.Text = "👁️";
-            btnPassword.UseVisualStyleBackColor = true;
-            btnPassword.Click += btnPassword_Click;
+            button1.Location = new Point(279, 22);
+            button1.Name = "button1";
+            button1.Size = new Size(60, 35);
+            button1.TabIndex = 5;
+            button1.UseVisualStyleBackColor = true;
             // 
             // txtpasswordnv
             // 
             txtpasswordnv.Location = new Point(59, 26);
             txtpasswordnv.Name = "txtpasswordnv";
-            txtpasswordnv.PasswordChar = '*';
             txtpasswordnv.Size = new Size(214, 27);
             txtpasswordnv.TabIndex = 4;
             txtpasswordnv.Text = "3f0986d4259373d7944304792d52729956d22aab93b7c192255522fe2da95d4d";
@@ -242,7 +239,7 @@
             Name = "DangNhapNV";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DangNhapNV";
-            FormClosing += DangNhapNV_FormClosing;
+            Load += DangNhapNV_Load;
             tlpthan.ResumeLayout(false);
             tlpthan.PerformLayout();
             pntendangnhap.ResumeLayout(false);
@@ -263,7 +260,7 @@
         private TextBox txtusernv;
         private Label lbiconuser;
         private Panel pnpasswordnv;
-        private Button btnPassword;
+        private Button button1;
         private TextBox txtpasswordnv;
         private Label lbiconpassword;
         private Label lbpassword;

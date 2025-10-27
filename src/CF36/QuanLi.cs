@@ -12,19 +12,9 @@ namespace CF36
 {
     public partial class QuanLi : Form
     {
-        private string _hoten;
-        private string nguoidunghientai;
-        public QuanLi(string hoten,string username)
+        public QuanLi()
         {
             InitializeComponent();
-            _hoten = hoten;
-            nguoidunghientai = username;
-
-        }
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            lblWelcome.Text = $"Chào mừng trở lại, {_hoten}";
         }
 
         private void tÌMHÓAĐƠNToolStripMenuItem_Click(object sender, EventArgs e)
@@ -64,13 +54,10 @@ namespace CF36
 
         private void đỔIMẬTKHẨUToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DoiMatKhauQuanLi main = new DoiMatKhauQuanLi(nguoidunghientai);
-            if (main.ShowDialog() == DialogResult.OK)
-            {
-                this.Close();
-                Home login = new Home();
-                login.Show();
-            }
+            this.Hide();
+            DoiMatKhauQuanLi doiMatKhauQuanLi = new DoiMatKhauQuanLi();
+            doiMatKhauQuanLi.ShowDialog();
+            this.Show();
         }
 
         private void xEMKHOToolStripMenuItem_Click(object sender, EventArgs e)
