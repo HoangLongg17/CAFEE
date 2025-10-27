@@ -25,7 +25,8 @@ namespace DTO
         public bool IsLowStock { get; set; }
         public int CanhBaoTonKho { get; set; }
 
-
+        public int MaXK { get; set; }
+        public int SoLuongXuat { get; set; }
     }
 
 }

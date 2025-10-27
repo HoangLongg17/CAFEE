@@ -34,6 +34,7 @@
             txtTimKiem = new TextBox();
             lbTimKiem = new Label();
             btnThemKho = new Button();
+            btnXuatkho = new Button();
             dgvKho = new DataGridView();
             MaSP = new DataGridViewTextBoxColumn();
             TenSP = new DataGridViewTextBoxColumn();
@@ -91,6 +92,7 @@
             tlpBoLoc.Controls.Add(txtTimKiem, 2, 0);
             tlpBoLoc.Controls.Add(lbTimKiem, 1, 0);
             tlpBoLoc.Controls.Add(btnThemKho, 3, 1);
+            tlpBoLoc.Controls.Add(btnXuatkho, 2, 1);
             tlpBoLoc.Dock = DockStyle.Fill;
             tlpBoLoc.Location = new Point(3, 61);
             tlpBoLoc.Margin = new Padding(3, 2, 3, 2);
@@ -131,6 +133,18 @@
             btnThemKho.Text = "Thêm tồn kho";
             btnThemKho.UseVisualStyleBackColor = true;
             btnThemKho.Click += btnThemKho_Click;
+            // 
+            // btnXuatkho
+            // 
+            btnXuatkho.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnXuatkho.Location = new Point(349, 28);
+            btnXuatkho.Margin = new Padding(3, 2, 3, 2);
+            btnXuatkho.Name = "btnXuatkho";
+            btnXuatkho.Size = new Size(128, 42);
+            btnXuatkho.TabIndex = 3;
+            btnXuatkho.Text = "Xuất kho";
+            btnXuatkho.UseVisualStyleBackColor = true;
+            btnXuatkho.Click += btnXuatkho_Click;
             // 
             // dgvKho
             // 
@@ -248,5 +262,6 @@
         private DataGridViewTextBoxColumn TenSP;
         private DataGridViewTextBoxColumn Size;
         private DataGridViewTextBoxColumn SoLuong;
+        private Button btnXuatkho;
     }
 }
