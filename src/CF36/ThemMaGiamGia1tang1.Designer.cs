@@ -32,7 +32,7 @@
             picLogo = new PictureBox();
             tlpThongtin = new TableLayoutPanel();
             lbMaGiamGia = new Label();
-            textBox1 = new TextBox();
+            txtMaGG = new TextBox();
             lbTenMa = new Label();
             lbChonLoaiMaGiamGia = new Label();
             lbTimKiem = new Label();
@@ -104,7 +104,7 @@
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.6246853F));
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36.6498756F));
             tlpThongtin.Controls.Add(lbMaGiamGia, 0, 0);
-            tlpThongtin.Controls.Add(textBox1, 1, 0);
+            tlpThongtin.Controls.Add(txtMaGG, 1, 0);
             tlpThongtin.Controls.Add(lbTenMa, 0, 1);
             tlpThongtin.Controls.Add(lbChonLoaiMaGiamGia, 2, 0);
             tlpThongtin.Controls.Add(lbTimKiem, 2, 1);
@@ -130,13 +130,13 @@
             lbMaGiamGia.TabIndex = 0;
             lbMaGiamGia.Text = "Mã giảm giá";
             // 
-            // textBox1
+            // txtMaGG
             // 
-            textBox1.Anchor = AnchorStyles.Left;
-            textBox1.Location = new Point(201, 14);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(166, 27);
-            textBox1.TabIndex = 1;
+            txtMaGG.Anchor = AnchorStyles.Left;
+            txtMaGG.Location = new Point(201, 14);
+            txtMaGG.Name = "txtMaGG";
+            txtMaGG.Size = new Size(166, 27);
+            txtMaGG.TabIndex = 1;
             // 
             // lbTenMa
             // 
@@ -175,6 +175,7 @@
             txtTimKiem.Name = "txtTimKiem";
             txtTimKiem.Size = new Size(177, 27);
             txtTimKiem.TabIndex = 5;
+            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             // 
             // txtTenMaGiamGia
             // 
@@ -192,6 +193,7 @@
             cbbLoaiMa.Name = "cbbLoaiMa";
             cbbLoaiMa.Size = new Size(177, 28);
             cbbLoaiMa.TabIndex = 7;
+            cbbLoaiMa.SelectedIndexChanged += cbbLoaiMa_SelectedIndexChanged;
             // 
             // tlpthan
             // 
@@ -386,6 +388,7 @@
             btnLuu.TabIndex = 2;
             btnLuu.Text = "LƯU";
             btnLuu.UseVisualStyleBackColor = true;
+            btnLuu.Click += btnLuu_Click;
             // 
             // ThemMaGiamGia1tang1
             // 
@@ -396,6 +399,7 @@
             Name = "ThemMaGiamGia1tang1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thêm mã giảm giá mua 1 tặng 1";
+            Load += ThemMaGiamGia1tang1_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpThongtin.ResumeLayout(false);
@@ -416,7 +420,7 @@
         private PictureBox picLogo;
         private TableLayoutPanel tlpThongtin;
         private Label lbMaGiamGia;
-        private TextBox textBox1;
+        private TextBox txtMaGG;
         private Label lbTenMa;
         private Label lbChonLoaiMaGiamGia;
         private Label lbTimKiem;

@@ -36,9 +36,11 @@
             cbbLoaiVoucher = new ComboBox();
             btnThemMaGiamGia = new Button();
             btnSuaMaGiamGia = new Button();
+            btnSuaMaGiamGia1tang1 = new Button();
             dgvMaGiamGia = new DataGridView();
             tlpDuoi = new TableLayoutPanel();
             btnThoat = new Button();
+            btnXoa = new Button();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             tlpChucnang.SuspendLayout();
@@ -64,6 +66,7 @@
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 10.0558662F));
             tlpall.Size = new Size(854, 559);
             tlpall.TabIndex = 0;
+            tlpall.Paint += tlpall_Paint;
             // 
             // picLogo
             // 
@@ -80,14 +83,15 @@
             // 
             tlpChucnang.ColumnCount = 4;
             tlpChucnang.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.2222214F));
-            tlpChucnang.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.2222233F));
-            tlpChucnang.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.0660381F));
+            tlpChucnang.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27.8301888F));
+            tlpChucnang.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.287735F));
             tlpChucnang.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27.59434F));
             tlpChucnang.Controls.Add(lbTimKiem, 0, 0);
             tlpChucnang.Controls.Add(txtTimKiem, 2, 0);
             tlpChucnang.Controls.Add(cbbLoaiVoucher, 1, 0);
             tlpChucnang.Controls.Add(btnThemMaGiamGia, 3, 1);
             tlpChucnang.Controls.Add(btnSuaMaGiamGia, 2, 1);
+            tlpChucnang.Controls.Add(btnSuaMaGiamGia1tang1, 1, 1);
             tlpChucnang.Dock = DockStyle.Fill;
             tlpChucnang.Location = new Point(3, 109);
             tlpChucnang.Name = "tlpChucnang";
@@ -110,19 +114,21 @@
             // txtTimKiem
             // 
             txtTimKiem.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtTimKiem.Location = new Point(379, 11);
+            txtTimKiem.Location = new Point(427, 11);
             txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(231, 27);
+            txtTimKiem.Size = new Size(183, 27);
             txtTimKiem.TabIndex = 1;
+            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             // 
             // cbbLoaiVoucher
             // 
             cbbLoaiVoucher.Anchor = AnchorStyles.Right;
             cbbLoaiVoucher.FormattingEnabled = true;
-            cbbLoaiVoucher.Location = new Point(191, 11);
+            cbbLoaiVoucher.Location = new Point(239, 11);
             cbbLoaiVoucher.Name = "cbbLoaiVoucher";
             cbbLoaiVoucher.Size = new Size(182, 28);
             cbbLoaiVoucher.TabIndex = 2;
+            cbbLoaiVoucher.SelectedIndexChanged += cbbLoaiVoucher_SelectedIndexChanged;
             // 
             // btnThemMaGiamGia
             // 
@@ -146,6 +152,17 @@
             btnSuaMaGiamGia.UseVisualStyleBackColor = true;
             btnSuaMaGiamGia.Click += btnSuaMaGiamGia_Click;
             // 
+            // btnSuaMaGiamGia1tang1
+            // 
+            btnSuaMaGiamGia1tang1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            btnSuaMaGiamGia1tang1.Location = new Point(213, 53);
+            btnSuaMaGiamGia1tang1.Name = "btnSuaMaGiamGia1tang1";
+            btnSuaMaGiamGia1tang1.Size = new Size(208, 45);
+            btnSuaMaGiamGia1tang1.TabIndex = 6;
+            btnSuaMaGiamGia1tang1.Text = "Sửa mã giảm giá 1 tặng 1";
+            btnSuaMaGiamGia1tang1.UseVisualStyleBackColor = true;
+            btnSuaMaGiamGia1tang1.Click += btnSuaMaGiamGia1tang1_Click;
+            // 
             // dgvMaGiamGia
             // 
             dgvMaGiamGia.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -155,6 +172,7 @@
             dgvMaGiamGia.RowHeadersWidth = 51;
             dgvMaGiamGia.Size = new Size(848, 282);
             dgvMaGiamGia.TabIndex = 2;
+            dgvMaGiamGia.CellContentClick += dgvMaGiamGia_CellContentClick;
             // 
             // tlpDuoi
             // 
@@ -162,6 +180,7 @@
             tlpDuoi.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 83.72642F));
             tlpDuoi.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.2735844F));
             tlpDuoi.Controls.Add(btnThoat, 1, 0);
+            tlpDuoi.Controls.Add(btnXoa, 0, 0);
             tlpDuoi.Dock = DockStyle.Fill;
             tlpDuoi.Location = new Point(3, 504);
             tlpDuoi.Name = "tlpDuoi";
@@ -178,6 +197,18 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
+            // 
+            // btnXoa
+            // 
+            btnXoa.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnXoa.Location = new Point(574, 3);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(133, 46);
+            btnXoa.TabIndex = 6;
+            btnXoa.Text = "XÓA";
+            btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
             // 
             // QuanLiMAGIAMGIA
             // 
@@ -211,5 +242,7 @@
         private TableLayoutPanel tlpDuoi;
         private Button btnThoat;
         private Button btnSuaMaGiamGia;
+        private Button btnXoa;
+        private Button btnSuaMaGiamGia1tang1;
     }
 }

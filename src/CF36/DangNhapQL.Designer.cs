@@ -137,7 +137,7 @@
             txtpasswordnv.PasswordChar = '*';
             txtpasswordnv.Size = new Size(214, 27);
             txtpasswordnv.TabIndex = 4;
-            txtpasswordnv.Text = "Adm!n2025";
+            txtpasswordnv.Text = "eb61e866596795300e8ff64f7fc0b3459b9a43f3b087f51393f7641123d33972";
             // 
             // lbiconpassword
             // 
@@ -240,6 +240,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(tlpfrmDNADMIN);
             Name = "DangNhapQL";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "DangNhapQL";
             FormClosing += DangNhapQL_FormClosing;
             tlpthan.ResumeLayout(false);

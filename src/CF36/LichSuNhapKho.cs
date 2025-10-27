@@ -51,6 +51,8 @@ namespace CF36
         {
             txtTimKiem.Clear();
             dgvLichSuNhapKho.DataSource = LSNhapKhoBUS.LayTatCa();
+            dtpTuNgay.Value = DateTime.Now;
+            dtpDenNgay.Value = DateTime.Now.AddDays(1);
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

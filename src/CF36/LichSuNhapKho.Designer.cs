@@ -243,6 +243,7 @@
             tlpend.Name = "tlpend";
             tlpend.RowCount = 1;
             tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpend.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlpend.Size = new Size(874, 65);
             tlpend.TabIndex = 3;
             // 

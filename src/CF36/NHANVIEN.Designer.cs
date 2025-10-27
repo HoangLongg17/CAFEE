@@ -118,11 +118,12 @@
             đỔIMẬTKHẨToolStripMenuItem.Name = "đỔIMẬTKHẨToolStripMenuItem";
             đỔIMẬTKHẨToolStripMenuItem.Size = new Size(224, 26);
             đỔIMẬTKHẨToolStripMenuItem.Text = "XEM GIỜ LÀM VIỆC";
+            đỔIMẬTKHẨToolStripMenuItem.Click += đỔIMẬTKHẨToolStripMenuItem_Click;
             // 
             // đỔIMẬTKHẨUToolStripMenuItem
             // 
             đỔIMẬTKHẨUToolStripMenuItem.Name = "đỔIMẬTKHẨUToolStripMenuItem";
-            đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(224, 26);
+            đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(219, 26);
             đỔIMẬTKHẨUToolStripMenuItem.Text = "ĐỔI MẬT KHẨU";
             đỔIMẬTKHẨUToolStripMenuItem.Click += đỔIMẬTKHẨUToolStripMenuItem_Click;
             // 
@@ -163,6 +164,7 @@
             btnBatDau.TabIndex = 1;
             btnBatDau.Text = "BẮT ĐẦU LÀM";
             btnBatDau.UseVisualStyleBackColor = true;
+            btnBatDau.Click += btnBatDau_Click;
             // 
             // btnChamCong
             // 
@@ -172,6 +174,7 @@
             btnChamCong.TabIndex = 0;
             btnChamCong.Text = "CHẤM CÔNG";
             btnChamCong.UseVisualStyleBackColor = true;
+            btnChamCong.Click += btnChamCong_Click;
             // 
             // lbThoiGian
             // 
@@ -212,6 +215,7 @@
             Name = "NHANVIEN";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Nhân viên";
+            Load += NHANVIEN_Load;
             tlpall.ResumeLayout(false);
             tlpall.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();

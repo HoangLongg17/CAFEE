@@ -57,18 +57,38 @@ namespace CF36
                 btnPassword.Text = "🙈";
 
             }
-            else
+
+            // Lấy mã nhân viên từ username
+            string mand = DangNhapNVBUS.Instance.GetEmployeeIDByUsername(username);
+
+            if (string.IsNullOrEmpty(mand))
             {
                 //Ẩn
                 txtpasswordnv.PasswordChar = '*';
                 btnPassword.Text = "👁️";
 
             }
+
+            // Gán thông tin người dùng hiện tại
+            CurrentUser.Mand = mand;
+            CurrentUser.Tk = username;
+
+            // Mở giao diện nhân viên
+            this.Hide();
+            NHANVIEN frmNV = new NHANVIEN(mand);
+            frmNV.ShowDialog();
+            this.Show();
+
         }
 
         private void DangNhapNV_FormClosing(object sender, FormClosingEventArgs e)
         {
            
+        }
+
+        private void DangNhapNV_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
