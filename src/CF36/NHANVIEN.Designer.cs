@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             tlpall = new TableLayoutPanel();
+            lblWelcome = new Label();
             picLogo = new PictureBox();
             menuStrip1 = new MenuStrip();
             bÁNHÀNGToolStripMenuItem = new ToolStripMenuItem();
@@ -42,8 +43,8 @@
             btnBatDau = new Button();
             btnChamCong = new Button();
             lbThoiGian = new Label();
-            timer1 = new System.Windows.Forms.Timer(components);
             lblTrangThai = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             menuStrip1.SuspendLayout();
@@ -54,6 +55,7 @@
             // 
             tlpall.ColumnCount = 1;
             tlpall.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlpall.Controls.Add(lblWelcome, 0, 4);
             tlpall.Controls.Add(picLogo, 0, 0);
             tlpall.Controls.Add(menuStrip1, 0, 1);
             tlpall.Controls.Add(tlpend, 0, 3);
@@ -66,8 +68,19 @@
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 8.441559F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 59.52381F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 17.0995674F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlpall.Size = new Size(800, 462);
             tlpall.TabIndex = 0;
+            // 
+            // lblWelcome
+            // 
+            lblWelcome.AutoSize = true;
+            lblWelcome.Location = new Point(3, 440);
+            lblWelcome.Name = "lblWelcome";
+            lblWelcome.Size = new Size(71, 20);
+            lblWelcome.TabIndex = 5;
+            lblWelcome.Text = "Welcome";
+            lblWelcome.Click += lblWelcome_Click;
             // 
             // picLogo
             // 
@@ -75,7 +88,7 @@
             picLogo.Image = Properties.Resources.logo;
             picLogo.Location = new Point(3, 3);
             picLogo.Name = "picLogo";
-            picLogo.Size = new Size(794, 62);
+            picLogo.Size = new Size(794, 59);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
             picLogo.TabIndex = 0;
             picLogo.TabStop = false;
@@ -84,7 +97,7 @@
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { bÁNHÀNGToolStripMenuItem, sẢNPHẨMToolStripMenuItem, tÀIKHOẢNToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 68);
+            menuStrip1.Location = new Point(0, 65);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 28);
             menuStrip1.TabIndex = 1;
@@ -121,8 +134,9 @@
             // đỔIMẬTKHẨUToolStripMenuItem
             // 
             đỔIMẬTKHẨUToolStripMenuItem.Name = "đỔIMẬTKHẨUToolStripMenuItem";
-            đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(219, 26);
+            đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(224, 26);
             đỔIMẬTKHẨUToolStripMenuItem.Text = "ĐỔI MẬT KHẨU";
+            đỔIMẬTKHẨUToolStripMenuItem.Click += đỔIMẬTKHẨUToolStripMenuItem_Click;
             // 
             // tlpend
             // 
@@ -136,27 +150,28 @@
             tlpend.Controls.Add(btnChamCong, 1, 0);
             tlpend.Controls.Add(lbThoiGian, 0, 0);
             tlpend.Dock = DockStyle.Fill;
-            tlpend.Location = new Point(3, 385);
+            tlpend.Location = new Point(3, 368);
             tlpend.Name = "tlpend";
             tlpend.RowCount = 1;
             tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpend.Size = new Size(794, 74);
+            tlpend.Size = new Size(794, 69);
             tlpend.TabIndex = 2;
             // 
             // btnThoat
             // 
             btnThoat.Location = new Point(597, 3);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(194, 68);
+            btnThoat.Size = new Size(194, 63);
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // btnBatDau
             // 
             btnBatDau.Location = new Point(399, 3);
             btnBatDau.Name = "btnBatDau";
-            btnBatDau.Size = new Size(192, 68);
+            btnBatDau.Size = new Size(192, 63);
             btnBatDau.TabIndex = 1;
             btnBatDau.Text = "BẮT ĐẦU LÀM";
             btnBatDau.UseVisualStyleBackColor = true;
@@ -166,7 +181,7 @@
             // 
             btnChamCong.Location = new Point(201, 3);
             btnChamCong.Name = "btnChamCong";
-            btnChamCong.Size = new Size(192, 68);
+            btnChamCong.Size = new Size(192, 63);
             btnChamCong.TabIndex = 0;
             btnChamCong.Text = "CHẤM CÔNG";
             btnChamCong.UseVisualStyleBackColor = true;
@@ -178,7 +193,7 @@
             lbThoiGian.Dock = DockStyle.Fill;
             lbThoiGian.Location = new Point(3, 0);
             lbThoiGian.Name = "lbThoiGian";
-            lbThoiGian.Size = new Size(192, 74);
+            lbThoiGian.Size = new Size(192, 69);
             lbThoiGian.TabIndex = 2;
             lbThoiGian.Text = "Hiển thị giờ ở đây";
             lbThoiGian.TextAlign = ContentAlignment.MiddleCenter;
@@ -186,7 +201,7 @@
             // lblTrangThai
             // 
             lblTrangThai.AutoSize = true;
-            lblTrangThai.Location = new Point(3, 107);
+            lblTrangThai.Location = new Point(3, 102);
             lblTrangThai.Name = "lblTrangThai";
             lblTrangThai.Size = new Size(75, 20);
             lblTrangThai.TabIndex = 3;
@@ -230,5 +245,6 @@
         private Label lbThoiGian;
         private System.Windows.Forms.Timer timer1;
         private Label lblTrangThai;
+        private Label lblWelcome;
     }
 }

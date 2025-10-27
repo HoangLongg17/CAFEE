@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,23 +8,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BUS;
-using DAO;
-using DTO;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+
 namespace CF36
 {
     public partial class NHANVIEN : Form
     {
+        private string _hoten;
+        private string nguoidunghientai;
         private string maNhanVien;
         private DateTime? gioBatDau;
-
-
-        public NHANVIEN(string maNV)
+        public NHANVIEN(string hoten, string username)
         {
             InitializeComponent();
-            maNhanVien = maNV;
+            _hoten = hoten;
+            nguoidunghientai = username;
+        }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            lblWelcome.Text = $"Chào mừng trở lại, {_hoten}";
+        }
+
+        private void NHANVIEN_Load(object sender, EventArgs e)
+        {
 
         }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
 
         private void bÁNHÀNGToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -31,6 +47,12 @@ namespace CF36
             BANHANG bANHANG = new BANHANG();
             bANHANG.ShowDialog();
             this.Show();
+
+            //
+            int tongPhut = ChamCongBUS.Instance.TinhTongGioLamTrongNgay(maNhanVien, DateTime.Today);
+            string gio = (tongPhut / 60).ToString("00");
+            string phut = (tongPhut % 60).ToString("00");
+            MessageBox.Show($"Hôm nay bạn đã làm {gio} giờ {phut} phút.");
         }
 
         private void sẢNPHẨMToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,12 +61,6 @@ namespace CF36
             xemSanPhamNhanVien.ShowDialog();
             this.Show();
         }
-
-        private void NHANVIEN_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnBatDau_Click(object sender, EventArgs e)
         {
             gioBatDau = DateTime.Now;
@@ -79,14 +95,30 @@ namespace CF36
             }
 
         }
-
         private void đỔIMẬTKHẨToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int tongPhut = ChamCongBUS.Instance.TinhTongGioLamTrongNgay(maNhanVien, DateTime.Today);
             string gio = (tongPhut / 60).ToString("00");
             string phut = (tongPhut % 60).ToString("00");
             MessageBox.Show($"Hôm nay bạn đã làm {gio} giờ {phut} phút.");
+            
 
+        }
+
+        private void lblWelcome_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void đỔIMẬTKHẨUToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoiMatKhauNhanVien main = new DoiMatKhauNhanVien(nguoidunghientai);
+            if (main.ShowDialog() == DialogResult.OK)
+            {
+                this.Close();
+                Home login = new Home();
+                login.Show();
+            }
         }
     }
 }
