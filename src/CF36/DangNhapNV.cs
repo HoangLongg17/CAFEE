@@ -1,5 +1,4 @@
 ﻿using BUS;
-using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,20 +8,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace CF36
 {
     public partial class DangNhapNV : Form
     {
+        private DangNhapNVBUS userBUS = new DangNhapNVBUS();
+
         public DangNhapNV()
         {
             InitializeComponent();
         }
-        private DangNhapNVBUS userBUS = new DangNhapNVBUS();
+
         private void btnlogin_Click(object sender, EventArgs e)
         {
-            var result = userBUS.Login(txtusernv.Text, txtpasswordnv.Text);
+            string username = txtusernv.Text.Trim();
+            string password = txtpasswordnv.Text.Trim();
+
+            var result = userBUS.Login(username, password);
 
             if (!result.isSuccess)
             {
@@ -31,49 +34,50 @@ namespace CF36
             }
 
             MessageBox.Show(result.message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            string username = txtusernv.Text.Trim();
-            NHANVIEN nhanvien = new NHANVIEN(result.user.Hoten, username);
 
+            // ✅ Lấy mã nhân viên bằng hàm đúng
+            string mand = userBUS.GetEmployeeIDByUsername(username);
+
+            if (string.IsNullOrEmpty(mand))
+            {
+                MessageBox.Show("Không tìm thấy mã nhân viên tương ứng.");
+                return;
+            }
+
+            // Gán thông tin người dùng hiện tại
+            CurrentUser.Mand = mand;
+
+            // Tạo form nhân viên
+            NHANVIEN nhanvien = new NHANVIEN(result.user.Hoten, username, mand);
 
             this.Hide();
             nhanvien.ShowDialog();
             this.Close();
-
-
         }
+
 
         private void btnexit_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        
-
-        private void DangNhapNV_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
         private void DangNhapNV_Load(object sender, EventArgs e)
         {
-
         }
 
         private void btnPassword_Click_1(object sender, EventArgs e)
         {
-
             if (txtpasswordnv.PasswordChar == '*')
             {
-                //Hiện
+                // Hiện mật khẩu
                 txtpasswordnv.PasswordChar = '\0';
                 btnPassword.Text = "🙈";
-
             }
             else
             {
-                //Ẩn
+                // Ẩn mật khẩu
                 txtpasswordnv.PasswordChar = '*';
                 btnPassword.Text = "👁️";
-
             }
         }
     }

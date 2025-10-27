@@ -8,6 +8,7 @@ namespace DTO
 {
     public class DangNhapNVDTO
     {
+        public string Mand {  get; set; }
         public string Tk { get; set; }
         public string Mk { get; set; }
         public string Hoten { get; set; }

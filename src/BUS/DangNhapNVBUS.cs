@@ -42,6 +42,10 @@ namespace BUS
             return (true, $"Đăng nhập thành công! Xin chào {user.Hoten}", user);
         }
 
-
+        public string GetEmployeeIDByUsername(string username)
+        {
+            var user = userDAO.Dangnhap(username);
+            return user?.Mand;
+        }
     }
 }
