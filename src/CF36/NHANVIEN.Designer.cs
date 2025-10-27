@@ -42,7 +42,9 @@
             btnBatDau = new Button();
             btnChamCong = new Button();
             lbThoiGian = new Label();
+            lblTen = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
+            lblWelcome = new Label();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             menuStrip1.SuspendLayout();
@@ -56,6 +58,7 @@
             tlpall.Controls.Add(picLogo, 0, 0);
             tlpall.Controls.Add(menuStrip1, 0, 1);
             tlpall.Controls.Add(tlpend, 0, 3);
+            tlpall.Controls.Add(lblTen, 0, 2);
             tlpall.Dock = DockStyle.Fill;
             tlpall.Location = new Point(0, 0);
             tlpall.Name = "tlpall";
@@ -64,6 +67,7 @@
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 8.441559F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 59.52381F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 17.0995674F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlpall.Size = new Size(800, 462);
             tlpall.TabIndex = 0;
             // 
@@ -120,6 +124,7 @@
             đỔIMẬTKHẨUToolStripMenuItem.Name = "đỔIMẬTKHẨUToolStripMenuItem";
             đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(224, 26);
             đỔIMẬTKHẨUToolStripMenuItem.Text = "ĐỔI MẬT KHẨU";
+            đỔIMẬTKHẨUToolStripMenuItem.Click += đỔIMẬTKHẨUToolStripMenuItem_Click;
             // 
             // tlpend
             // 
@@ -148,6 +153,7 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // btnBatDau
             // 
@@ -178,11 +184,29 @@
             lbThoiGian.Text = "Hiển thị giờ ở đây";
             lbThoiGian.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // lblTen
+            // 
+            lblTen.AutoSize = true;
+            lblTen.Location = new Point(3, 107);
+            lblTen.Name = "lblTen";
+            lblTen.Size = new Size(0, 20);
+            lblTen.TabIndex = 3;
+            // 
+            // lblWelcome
+            // 
+            lblWelcome.AutoSize = true;
+            lblWelcome.Location = new Point(375, 221);
+            lblWelcome.Name = "lblWelcome";
+            lblWelcome.Size = new Size(71, 20);
+            lblWelcome.TabIndex = 4;
+            lblWelcome.Text = "Welcome";
+            // 
             // NHANVIEN
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 462);
+            Controls.Add(lblWelcome);
             Controls.Add(tlpall);
             MainMenuStrip = menuStrip1;
             Name = "NHANVIEN";
@@ -196,6 +220,7 @@
             tlpend.ResumeLayout(false);
             tlpend.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -214,5 +239,7 @@
         private Button btnBatDau;
         private Label lbThoiGian;
         private System.Windows.Forms.Timer timer1;
+        private Label lblTen;
+        private Label lblWelcome;
     }
 }
