@@ -21,77 +21,63 @@ namespace BUS
         }
 
         // Hàm logic chính
-        public void ThemSanPham(string maSP, string tenSP, int maLoai,
+        public void ThemSanPham(SanPhamDTO sp,
                                 bool cbS, string giaS,
                                 bool cbM, string giaM,
                                 bool cbL, string giaL,
                                 Dictionary<char, int> kichCoMap)
         {
-            // --- 1. Validation (Kiểm tra dữ liệu) ---
-            if (string.IsNullOrWhiteSpace(maSP) || string.IsNullOrWhiteSpace(tenSP))
-            {
+            // --- 1. Validation ---
+            if (string.IsNullOrWhiteSpace(sp.MaSP) || string.IsNullOrWhiteSpace(sp.TenSP))
                 throw new Exception("Mã sản phẩm và Tên sản phẩm không được để trống.");
-            }
 
-            if (themSanPhamDAO.CheckMaSPExists(maSP))
-            {
-                throw new Exception($"Mã sản phẩm '{maSP}' đã tồn tại.");
-            }
+            if (themSanPhamDAO.CheckMaSPExists(sp.MaSP))
+                throw new Exception($"Mã sản phẩm '{sp.MaSP}' đã tồn tại.");
 
             if (!cbS && !cbM && !cbL)
-            {
-                throw new Exception("Bạn phải chọn ít nhất một kích cỡ (size).");
-            }
+                throw new Exception("Bạn phải chọn ít nhất một kích cỡ.");
 
             List<KichCoSPDTO> kichCoList = new List<KichCoSPDTO>();
             decimal giaBan;
 
-            // --- 2. Xử lý giá tiền và tạo danh sách size ---
             if (cbS)
             {
                 if (!decimal.TryParse(giaS, out giaBan) || giaBan <= 0)
                     throw new Exception("Giá size S không hợp lệ.");
-                kichCoList.Add(CreateKichCoSP(maSP, kichCoMap['S'], giaBan));
+                kichCoList.Add(CreateKichCoSP(sp.MaSP, kichCoMap['S'], giaBan));
             }
             if (cbM)
             {
                 if (!decimal.TryParse(giaM, out giaBan) || giaBan <= 0)
                     throw new Exception("Giá size M không hợp lệ.");
-                kichCoList.Add(CreateKichCoSP(maSP, kichCoMap['M'], giaBan));
+                kichCoList.Add(CreateKichCoSP(sp.MaSP, kichCoMap['M'], giaBan));
             }
             if (cbL)
             {
                 if (!decimal.TryParse(giaL, out giaBan) || giaBan <= 0)
                     throw new Exception("Giá size L không hợp lệ.");
-                kichCoList.Add(CreateKichCoSP(maSP, kichCoMap['L'], giaBan));
+                kichCoList.Add(CreateKichCoSP(sp.MaSP, kichCoMap['L'], giaBan));
             }
 
-            // --- 3. Xử lý Transaction (Giao dịch) ---
-            // Đảm bảo cả 2 bảng được insert, hoặc không gì cả
+            // --- 2. Transaction ---
             using (TransactionScope scope = new TransactionScope())
             {
                 try
                 {
-                    // A. Insert vào bảng SANPHAM
-                    SanPhamDTO sp = new SanPhamDTO { MaSP = maSP, TenSP = tenSP, MaLoai = maLoai };
-                    themSanPhamDAO.InsertSanPham(sp);
-
-                    // B. Insert vào bảng KICHCOSP (từng size)
+                    themSanPhamDAO.InsertSanPham(sp); // đã có DuongDanAnh
                     foreach (var kcsp in kichCoList)
                     {
                         themSanPhamDAO.InsertKichCoSP(kcsp);
                     }
-
-                    // Nếu tất cả thành công, commit transaction
                     scope.Complete();
                 }
                 catch (Exception ex)
                 {
-                    // Nếu 1 trong 2 cái insert lỗi, Transaction sẽ tự động Rollback
                     throw new Exception("Lỗi khi thêm vào CSDL: " + ex.Message);
                 }
             }
         }
+
 
         // Hàm trợ giúp tạo DTO
         private KichCoSPDTO CreateKichCoSP(string maSP, int maKichCo, decimal giaBan)

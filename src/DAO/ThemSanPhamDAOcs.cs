@@ -57,11 +57,12 @@ namespace DAO
         // 4. Thêm vào bảng SANPHAM
         public bool InsertSanPham(SanPhamDTO sp)
         {
-            string query = "INSERT INTO SANPHAM (masp, tensp, maloai) VALUES (@masp, @tensp, @maloai)";
+            string query = "INSERT INTO SANPHAM (masp, tensp, maloai, duongdananh) VALUES (@masp, @tensp, @maloai, @duongdananh)";
             SqlParameter[] param = {
-                new SqlParameter("@masp", sp.MaSP),
-                new SqlParameter("@tensp", sp.TenSP),
-                new SqlParameter("@maloai", sp.MaLoai)
+            new SqlParameter("@masp", sp.MaSP),
+            new SqlParameter("@tensp", sp.TenSP),
+            new SqlParameter("@maloai", sp.MaLoai),
+            new SqlParameter("@duongdananh", sp.DuongDanAnh ?? "")
             };
             int result = provider.ExecuteNonQuery(query, param);
             return result > 0;

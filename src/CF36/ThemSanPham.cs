@@ -1,4 +1,5 @@
 ﻿using BUS;
+using DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -68,36 +69,27 @@ namespace CF36
         private void HandleImageUpload(string maSP)
         {
             if (string.IsNullOrEmpty(selectedImagePath) || string.IsNullOrEmpty(maSP))
-            {
-                return; // Không có ảnh để lưu hoặc không có MaSP
-            }
+                return;
 
             try
             {
-                // Lấy đường dẫn thư mục images/products (giả sử nó nằm cùng cấp với file .exe)
-                string projectPath = AppDomain.CurrentDomain.BaseDirectory;
-                string imagesFolder = Path.Combine(projectPath, "images", "products");
+                string rootPath = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\.."));
+                string imageFolder = Path.Combine(rootPath, "images", "products");
 
-                // Tạo thư mục nếu chưa có
-                if (!Directory.Exists(imagesFolder))
-                {
-                    Directory.CreateDirectory(imagesFolder);
-                }
+                if (!Directory.Exists(imageFolder))
+                    Directory.CreateDirectory(imageFolder);
 
-                // Tạo tên file mới (ví dụ: SP001.png)
-                // Lấy đuôi file từ ảnh gốc
                 string extension = Path.GetExtension(selectedImagePath);
                 string newFileName = maSP + extension;
-                string destinationPath = Path.Combine(imagesFolder, newFileName);
+                string destinationPath = Path.Combine(imageFolder, newFileName);
 
-                // Copy và ghi đè nếu file đã tồn tại
                 File.Copy(selectedImagePath, destinationPath, true);
             }
             catch (Exception ex)
             {
-                // Không dừng chương trình nếu lưu ảnh lỗi, chỉ cảnh báo
                 MessageBox.Show("Thêm dữ liệu thành công, nhưng lưu ảnh thất bại: " + ex.Message, "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
         }
 
 
@@ -134,46 +126,80 @@ namespace CF36
                 string tenSP = txtTenSanPham.Text.Trim();
                 int maLoai = (int)cbbLoaiSanPham.SelectedValue;
 
-                // 2. Gọi BUS để xử lý
-                // Lớp BUS sẽ lo hết việc Validation và Transaction
-                themSanPhamBUS.ThemSanPham(maSP, tenSP, maLoai,
+                // Kiểm tra ảnh đã chọn chưa
+                string relativeImagePath = null;
+                if (!string.IsNullOrEmpty(selectedImagePath))
+                {
+                    string extension = Path.GetExtension(selectedImagePath);
+                    string fileName = maSP + extension;
+                    relativeImagePath = Path.Combine("images", "products", fileName);
+                }
+
+                // 2. Tạo DTO sản phẩm
+                SanPhamDTO sp = new SanPhamDTO
+                {
+                    MaSP = maSP,
+                    TenSP = tenSP,
+                    MaLoai = maLoai,
+                    DuongDanAnh = relativeImagePath
+                };
+
+                // 3. Gọi BUS để xử lý thêm sản phẩm + kích cỡ
+                themSanPhamBUS.ThemSanPham(sp,
                                            cbS.Checked, txtGiaS.Text,
                                            cbM.Checked, txtGiaM.Text,
                                            cbL.Checked, txtGiaL.Text,
                                            kichCoMap);
 
-                // 3. Xử lý lưu ảnh (nếu thêm CSDL thành công)
+                // 4. Lưu ảnh vào thư mục nếu có
                 HandleImageUpload(maSP);
 
+                // 5. Thông báo thành công
                 MessageBox.Show("Thêm sản phẩm mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK; // Báo cho form cha (Quản lí sản phẩm) biết là đã thêm
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                // Bắt lỗi từ BUS (lỗi validation hoặc lỗi CSDL)
-                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image Files (*.jpg, *.jpeg, *.png, *.gif)|*.jpg;*.jpeg;*.png;*.gif";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                try
+                openFileDialog.Title = "Chọn ảnh sản phẩm";
+                openFileDialog.Filter = "Ảnh (*.jpg; *.jpeg; *.png; *.gif)|*.jpg;*.jpeg;*.png;*.gif";
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    selectedImagePath = openFileDialog.FileName; // Lưu đường dẫn
-                    picAnh.Image = Image.FromFile(selectedImagePath);
-                    picAnh.SizeMode = PictureBoxSizeMode.Zoom;
+                    try
+                    {
+                        selectedImagePath = openFileDialog.FileName;
+
+                        // Kiểm tra kích thước file (ví dụ: không quá 5MB)
+                        FileInfo fileInfo = new FileInfo(selectedImagePath);
+                        if (fileInfo.Length > 5 * 1024 * 1024)
+                        {
+                            MessageBox.Show("Ảnh quá lớn. Vui lòng chọn ảnh dưới 5MB.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            selectedImagePath = null;
+                            return;
+                        }
+
+                        // Hiển thị ảnh
+                        picAnh.Image = Image.FromFile(selectedImagePath);
+                        picAnh.SizeMode = PictureBoxSizeMode.Zoom;
+                        picAnh.BorderStyle = BorderStyle.FixedSingle;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Không thể tải ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        selectedImagePath = null;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Không thể tải ảnh: " + ex.Message);
-                    selectedImagePath = null;
-                }
+
             }
         }
     }

@@ -113,21 +113,22 @@ namespace DAO
         {
             List<DanhSachSanPhamDTO> list = new List<DanhSachSanPhamDTO>();
 
-            // Câu query gốc
+            // Câu query gốc có thêm duongdananh
             string query = @"
-                SELECT 
-                    kcsp.id, 
-                    sp.masp, 
-                    sp.tensp, 
-                    l.tenloai, 
-                    kc.kichco, 
-                    kcsp.giaban, 
-                    kcsp.soluongton, 
-                    kcsp.trangthaisp
-                FROM KICHCOSP kcsp
-                JOIN SANPHAM sp ON kcsp.masp = sp.masp
-                JOIN LOAISP l ON sp.maloai = l.maloai
-                JOIN KICHCO kc ON kcsp.makichco = kc.makichco";
+        SELECT 
+            kcsp.id, 
+            sp.masp, 
+            sp.tensp, 
+            sp.duongdananh, 
+            l.tenloai, 
+            kc.kichco, 
+            kcsp.giaban, 
+            kcsp.soluongton, 
+            kcsp.trangthaisp
+        FROM KICHCOSP kcsp
+        JOIN SANPHAM sp ON kcsp.masp = sp.masp
+        JOIN LOAISP l ON sp.maloai = l.maloai
+        JOIN KICHCO kc ON kcsp.makichco = kc.makichco";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -166,10 +167,11 @@ namespace DAO
                     KichCo = row["kichco"].ToString(),
                     GiaBan = (decimal)row["giaban"],
                     SoLuongTon = (int)row["soluongton"],
-                    // Xử lý chuyển đổi bit sang string
-                    TrangThaiText = (bool)row["trangthaisp"] ? "Đang bán" : "Ngừng bán"
+                    TrangThaiText = (bool)row["trangthaisp"] ? "Đang bán" : "Ngừng bán",
+                    DuongDanAnh = row["duongdananh"]?.ToString() // thêm dòng này
                 });
             }
+
             return list;
         }
         public bool ToggleTrangThaiSanPham(int idKichCoSP)

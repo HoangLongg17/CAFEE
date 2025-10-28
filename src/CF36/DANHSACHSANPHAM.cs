@@ -104,12 +104,7 @@ namespace CF36
         // Cấu hình hiển thị cho DataGridView
         private void SetupDataGridView()
         {
-            dgvDanhSachSanPham.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDanhSachSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDanhSachSanPham.MultiSelect = false;
-            dgvDanhSachSanPham.ReadOnly = true;
-
-            // Đặt tên cột cho thân thiện
+            // Đặt tên các cột còn lại
             dgvDanhSachSanPham.Columns["ID"].HeaderText = "ID";
             dgvDanhSachSanPham.Columns["MaSP"].HeaderText = "Mã SP";
             dgvDanhSachSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
@@ -119,11 +114,8 @@ namespace CF36
             dgvDanhSachSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
             dgvDanhSachSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
 
-            // Định dạng cột tiền
             dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
-            // Ẩn cột ID thật đi
             dgvDanhSachSanPham.Columns["ID"].Visible = false;
-            // Tăng độ rộng ô đầu hàng để chứa STT
             dgvDanhSachSanPham.RowHeadersWidth = 50;
         }
 
@@ -132,12 +124,65 @@ namespace CF36
         {
             try
             {
-                dgvDanhSachSanPham.DataSource = sanPhamBUS.SearchSanPham(searchType, searchTerm);
+                // 1. Lấy danh sách sản phẩm từ BUS
+                var danhSach = sanPhamBUS.SearchSanPham(searchType, searchTerm);
+
+                // 2. Gán vào DataGridView
+                dgvDanhSachSanPham.DataSource = danhSach;
+
+                // 3. Thêm cột ảnh nếu chưa có
+                if (!dgvDanhSachSanPham.Columns.Contains("Anh"))
+                {
+                    DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
+                    imgCol.Name = "Anh";
+                    imgCol.HeaderText = "Ảnh";
+                    imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    dgvDanhSachSanPham.Columns.Insert(0, imgCol); // chèn vào đầu
+                }
+
+                // 4. Gán ảnh cho từng dòng
+                string rootPath = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\.."));
+
+                foreach (DataGridViewRow row in dgvDanhSachSanPham.Rows)
+                {
+                    if (row.Cells["DuongDanAnh"] != null && row.Cells["DuongDanAnh"].Value != null)
+                    {
+                        string relativePath = row.Cells["DuongDanAnh"].Value.ToString();
+                        string fullPath = Path.Combine(rootPath, relativePath);
+
+                        if (File.Exists(fullPath))
+                        {
+                            row.Cells["Anh"].Value = System.Drawing.Image.FromFile(fullPath);
+                        }
+                        else
+                        {
+                            row.Cells["Anh"].Value = Properties.Resources.no_image;
+                        }
+                    }
+                    else
+                    {
+                        row.Cells["Anh"].Value = Properties.Resources.no_image;
+                    }
+                }
+
+                // 5. Đặt tên cột sau khi gán DataSource
+                dgvDanhSachSanPham.Columns["ID"].HeaderText = "ID";
+                dgvDanhSachSanPham.Columns["MaSP"].HeaderText = "Mã SP";
+                dgvDanhSachSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
+                dgvDanhSachSanPham.Columns["TenLoai"].HeaderText = "Loại";
+                dgvDanhSachSanPham.Columns["KichCo"].HeaderText = "Size";
+                dgvDanhSachSanPham.Columns["GiaBan"].HeaderText = "Giá Bán";
+                dgvDanhSachSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
+                dgvDanhSachSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
+
+                dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
+                dgvDanhSachSanPham.Columns["ID"].Visible = false;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi tải danh sách sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void btnTim_Click(object sender, EventArgs e)

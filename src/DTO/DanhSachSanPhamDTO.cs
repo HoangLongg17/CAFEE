@@ -12,7 +12,7 @@ namespace DTO
         public string KichCo { get; set; }
         public decimal GiaBan { get; set; }
         public int SoLuongTon { get; set; }
-
+        public string DuongDanAnh { get; set; }
         // Thuộc tính này sẽ chuyển đổi bit thành chuỗi
         public string TrangThaiText { get; set; }
     }
