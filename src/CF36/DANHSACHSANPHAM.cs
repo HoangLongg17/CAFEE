@@ -36,8 +36,32 @@ namespace CF36
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            SuaSanPham suaSanPham = new SuaSanPham();
-            suaSanPham.Show();
+            // 1. Kiểm tra xem đã chọn dòng nào chưa
+            if (dgvDanhSachSanPham.CurrentRow == null)
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm cần sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // 2. Lấy MaSP từ dòng đã chọn
+                // (Giả sử DTO của ông có thuộc tính MaSP)
+                string maSPCanSua = dgvDanhSachSanPham.CurrentRow.Cells["MaSP"].Value.ToString();
+
+                // 3. Mở form Sửa và truyền MaSP vào
+                SuaSanPham suaSanPham = new SuaSanPham(maSPCanSua); // <-- Truyền maSP vào đây
+
+                // Dùng ShowDialog() để nó khóa form cha lại
+                suaSanPham.ShowDialog();
+
+                // 4. Sau khi form Sửa đóng, tải lại lưới
+                LoadDataGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không thể mở form sửa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void DANHSACHSANPHAM_Load(object sender, EventArgs e)
@@ -97,6 +121,10 @@ namespace CF36
 
             // Định dạng cột tiền
             dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
+            // Ẩn cột ID thật đi
+            dgvDanhSachSanPham.Columns["ID"].Visible = false;
+            // Tăng độ rộng ô đầu hàng để chứa STT
+            dgvDanhSachSanPham.RowHeadersWidth = 50;
         }
 
         // Hàm tải/tải lại dữ liệu cho DataGridView
@@ -193,13 +221,16 @@ namespace CF36
 
             try
             {
+                // Lấy thông tin (SỬA LẠI)
                 int selectedID = (int)dgvDanhSachSanPham.CurrentRow.Cells["ID"].Value;
+                string maSP = dgvDanhSachSanPham.CurrentRow.Cells["MaSP"].Value.ToString(); // <-- LẤY THÊM MaSP
                 string tenSP = dgvDanhSachSanPham.CurrentRow.Cells["TenSP"].Value.ToString();
                 string size = dgvDanhSachSanPham.CurrentRow.Cells["KichCo"].Value.ToString();
 
+                // Xác nhận
                 DialogResult confirm = MessageBox.Show(
-                    $"Bạn có chắc muốn XÓA vĩnh viễn sản phẩm '{tenSP} (Size {size})'?\n" +
-                    $"Hành động này sẽ xóa sản phẩm khỏi kho và không thể hoàn tác.",
+                    $"Bạn có chắc muốn XÓA vĩnh viễn '{tenSP} (Size {size})'?\n" +
+                    $"Nếu đây là size cuối cùng, sản phẩm '{maSP}' sẽ bị xóa hoàn toàn.",
                     "Xác nhận Xóa",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
@@ -207,12 +238,12 @@ namespace CF36
 
                 if (confirm == DialogResult.Yes)
                 {
-                    // 4. Gọi BUS
-                    bool success = sanPhamBUS.DeleteSanPham(selectedID);
+                    // Gọi BUS (SỬA LẠI)
+                    bool success = sanPhamBUS.DeleteSanPham(selectedID, maSP); // <-- Truyền cả ID và MaSP
 
                     if (success)
                     {
-                        MessageBox.Show("Đã xóa sản phẩm thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Đã xóa thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadDataGrid();
                     }
                     else
@@ -223,9 +254,9 @@ namespace CF36
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("REFERENCE constraint") || ex.Message.Contains("khóa ngoại"))
+                if (ex.Message.Contains("REFERENCE constraint"))
                 {
-                    MessageBox.Show("Không thể xóa sản phẩm này vì nó đã tồn tại trong một hóa đơn hoặc phiếu nhập kho.", "Lỗi ràng buộc dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Không thể xóa size này vì đã tồn tại trong hóa đơn/phiếu nhập.", "Lỗi ràng buộc", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -272,12 +303,11 @@ namespace CF36
         }
         private void ExportDataGridViewToPdf(DataGridView dgv, string filePath)
         {
-            // 1. Tạo Font
-            PdfFont headerFont = new PdfFont(vietnameseFont, 14, PdfFont.BOLD);
-            PdfFont cellFont = new PdfFont(vietnameseFont, 10, PdfFont.NORMAL);
-            PdfFont titleFont = new PdfFont(vietnameseFont, 20, PdfFont.BOLD);
-            // (MỚI) Font cho ngày giờ (nhỏ, nghiêng)
-            PdfFont timestampFont = new PdfFont(vietnameseFont, 11, PdfFont.ITALIC);
+            // 1. Định nghĩa Font
+            iTextSharp.text.Font titleFont = new iTextSharp.text.Font(vietnameseFont, 20f, iTextSharp.text.Font.BOLD);
+            iTextSharp.text.Font headerFont = new iTextSharp.text.Font(vietnameseFont, 14f, iTextSharp.text.Font.BOLD);
+            iTextSharp.text.Font cellFont = new iTextSharp.text.Font(vietnameseFont, 10f, iTextSharp.text.Font.NORMAL);
+            iTextSharp.text.Font timestampFont = new iTextSharp.text.Font(vietnameseFont, 11f, iTextSharp.text.Font.ITALIC);
 
             // 2. Tạo Document
             Document document = new Document(PageSize.A4.Rotate(), 10f, 10f, 10f, 10f); // Trang ngang
@@ -287,24 +317,46 @@ namespace CF36
             // 3. Thêm Tiêu đề
             Paragraph title = new Paragraph("DANH SÁCH SẢN PHẨM", titleFont);
             title.Alignment = Element.ALIGN_CENTER;
-            title.SpacingAfter = 5; // Giảm khoảng cách sau tiêu đề
+            title.SpacingAfter = 5;
             document.Add(title);
 
-            // --- (PHẦN MỚI THÊM) ---
-            // 3b. Thêm Ngày giờ xuất file
+            // 3b. Thêm Ngày giờ xuất
             string thoiGianXuat = $"(Ngày xuất: {DateTime.Now:dd/MM/yyyy HH:mm:ss})";
             Paragraph timestamp = new Paragraph(thoiGianXuat, timestampFont);
             timestamp.Alignment = Element.ALIGN_CENTER;
-            timestamp.SpacingAfter = 15; // Khoảng cách trước khi vào bảng
+            timestamp.SpacingAfter = 15;
             document.Add(timestamp);
-            // --- (HẾT PHẦN MỚI) ---
 
             // 4. Tạo Bảng (Table)
-            PdfPTable pdfTable = new PdfPTable(dgv.Columns.Count);
+
+            // Đếm số cột đang hiển thị và +1 cho cột STT
+            int columnCount = 1; // Bắt đầu với 1 cho cột STT
+            List<DataGridViewColumn> visibleColumns = new List<DataGridViewColumn>();
+            foreach (DataGridViewColumn column in dgv.Columns)
+            {
+                // Chỉ lấy các cột đang được cho phép hiển thị (Visible = true)
+                if (column.Visible)
+                {
+                    columnCount++;
+                    visibleColumns.Add(column);
+                }
+            }
+
+            PdfPTable pdfTable = new PdfPTable(columnCount);
             pdfTable.WidthPercentage = 100;
 
             // 5. Thêm Header cho bảng
-            foreach (DataGridViewColumn column in dgv.Columns)
+
+            // Thêm cột "STT" làm cột đầu tiên
+            PdfPCell sttHeaderCell = new PdfPCell(new Phrase("STT", headerFont));
+            sttHeaderCell.HorizontalAlignment = Element.ALIGN_CENTER;
+            sttHeaderCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            sttHeaderCell.BackgroundColor = new BaseColor(230, 230, 230); // Màu nền header
+            sttHeaderCell.Padding = 5;
+            pdfTable.AddCell(sttHeaderCell);
+
+            // Thêm các header cột khác (chỉ các cột visible)
+            foreach (DataGridViewColumn column in visibleColumns)
             {
                 PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText, headerFont));
                 cell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -315,17 +367,42 @@ namespace CF36
             }
 
             // 6. Thêm Dữ liệu (Dòng)
-            foreach (DataGridViewRow row in dgv.Rows)
+
+            // Dùng for loop để lấy index làm STT (i + 1)
+            for (int i = 0; i < dgv.Rows.Count; i++)
             {
-                foreach (DataGridViewCell cell in row.Cells)
+                // Thêm cell STT
+                string stt = (i + 1).ToString();
+                PdfPCell sttCell = new PdfPCell(new Phrase(stt, cellFont));
+                sttCell.HorizontalAlignment = Element.ALIGN_CENTER; // Canh giữa STT
+                sttCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                sttCell.Padding = 5;
+                pdfTable.AddCell(sttCell);
+
+                // Thêm các cell dữ liệu (chỉ các cột visible)
+                foreach (DataGridViewColumn column in visibleColumns)
                 {
+                    // Lấy cell bằng index của cột
+                    DataGridViewCell cell = dgv.Rows[i].Cells[column.Index];
+
                     string cellValue = cell.Value?.ToString() ?? "";
+
+                    // Định dạng lại cột giá (bỏ .000)
+                    if (column.Name == "GiaBan")
+                    {
+                        if (decimal.TryParse(cellValue, out decimal gia))
+                        {
+                            cellValue = gia.ToString("N0");
+                        }
+                    }
+
                     PdfPCell pdfCell = new PdfPCell(new Phrase(cellValue, cellFont));
                     pdfCell.Padding = 5;
 
-                    if (cell.OwningColumn.Name == "GiaBan" || cell.OwningColumn.Name == "SoLuongTon")
+                    // Căn lề
+                    if (column.Name == "GiaBan" || column.Name == "SoLuongTon")
                     {
-                        pdfCell.HorizontalAlignment = Element.ALIGN_RIGHT;
+                        pdfCell.HorizontalAlignment = Element.ALIGN_RIGHT; // Căn phải cho số
                     }
                     else
                     {
@@ -342,6 +419,37 @@ namespace CF36
             // 8. Đóng file
             document.Close();
             writer.Close();
+        }
+
+        private void dgvDanhSachSanPham_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            // Lấy số thứ tự (bắt đầu từ 1)
+            string soThuTu = (e.RowIndex + 1).ToString();
+
+            // Tạo brush màu
+            SolidBrush brush = new SolidBrush(Color.Black); // Màu chữ STT
+
+            // Tạo hình chữ nhật cho ô header
+            System.Drawing.Rectangle headerBounds = new System.Drawing.Rectangle(
+                e.RowBounds.Left,
+                e.RowBounds.Top,
+                dgvDanhSachSanPham.RowHeadersWidth,
+                e.RowBounds.Height
+            );
+
+            // Canh lề giữa
+            StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+
+            // Vẽ số thứ tự vào giữa ô header
+            e.Graphics.DrawString(
+                soThuTu,
+                this.Font, // Dùng font của form
+                brush,
+                headerBounds, // Vẽ vào hình chữ nhật này
+                format        // Dùng định dạng canh giữa
+            );
         }
     }
 }

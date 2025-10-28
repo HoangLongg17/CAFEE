@@ -211,5 +211,21 @@ namespace DAO
             int result = provider.ExecuteNonQuery(query, parameters);
             return result > 0;
         }
+        // (BỔ SUNG MỚI 1) Hàm đếm số size còn lại
+        public int CountKichCoSP(string maSP)
+        {
+            string query = "SELECT COUNT(*) FROM KICHCOSP WHERE masp = @maSP";
+            SqlParameter[] param = { new SqlParameter("@maSP", maSP) };
+            return (int)provider.ExecuteScalar(query, param);
+        }
+
+        // (BỔ SUNG MỚI 2) Hàm xóa sản phẩm gốc (bảng SANPHAM)
+        public bool DeleteSanPhamGoc(string maSP)
+        {
+            string query = "DELETE FROM SANPHAM WHERE masp = @maSP";
+            SqlParameter[] param = { new SqlParameter("@maSP", maSP) };
+            int result = provider.ExecuteNonQuery(query, param);
+            return result > 0;
+        }
     }
 }
