@@ -34,13 +34,14 @@
             dtpTuNgay = new DateTimePicker();
             dtpDenNgay = new DateTimePicker();
             txtTimKiem = new TextBox();
-            lbTimKiem = new Label();
+            pictimkiem = new PictureBox();
             tlpend = new TableLayoutPanel();
             btnThoat = new Button();
             dgvLSChamCong = new DataGridView();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)piclogo).BeginInit();
             tlpBoLoc.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictimkiem).BeginInit();
             tlpend.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvLSChamCong).BeginInit();
             SuspendLayout();
@@ -83,7 +84,7 @@
             tlpBoLoc.Controls.Add(dtpTuNgay, 1, 0);
             tlpBoLoc.Controls.Add(dtpDenNgay, 1, 1);
             tlpBoLoc.Controls.Add(txtTimKiem, 0, 1);
-            tlpBoLoc.Controls.Add(lbTimKiem, 0, 0);
+            tlpBoLoc.Controls.Add(pictimkiem, 0, 0);
             tlpBoLoc.Dock = DockStyle.Fill;
             tlpBoLoc.Location = new Point(3, 87);
             tlpBoLoc.Name = "tlpBoLoc";
@@ -120,15 +121,16 @@
             txtTimKiem.TabIndex = 1;
             txtTimKiem.TextChanged += txtTimKiem_TextChanged;
             // 
-            // lbTimKiem
+            // pictimkiem
             // 
-            lbTimKiem.Anchor = AnchorStyles.Right;
-            lbTimKiem.AutoSize = true;
-            lbTimKiem.Location = new Point(344, 12);
-            lbTimKiem.Name = "lbTimKiem";
-            lbTimKiem.Size = new Size(50, 20);
-            lbTimKiem.TabIndex = 2;
-            lbTimKiem.Text = "label1";
+            pictimkiem.Anchor = AnchorStyles.Right;
+            pictimkiem.Image = Properties.Resources.search;
+            pictimkiem.Location = new Point(368, 3);
+            pictimkiem.Name = "pictimkiem";
+            pictimkiem.Size = new Size(26, 39);
+            pictimkiem.SizeMode = PictureBoxSizeMode.Zoom;
+            pictimkiem.TabIndex = 2;
+            pictimkiem.TabStop = false;
             // 
             // tlpend
             // 
@@ -177,6 +179,7 @@
             ((System.ComponentModel.ISupportInitialize)piclogo).EndInit();
             tlpBoLoc.ResumeLayout(false);
             tlpBoLoc.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictimkiem).EndInit();
             tlpend.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvLSChamCong).EndInit();
             ResumeLayout(false);
@@ -191,8 +194,8 @@
         private DateTimePicker dtpTuNgay;
         private DateTimePicker dtpDenNgay;
         private TextBox txtTimKiem;
-        private Label lbTimKiem;
         private Button btnThoat;
         private DataGridView dgvLSChamCong;
+        private PictureBox pictimkiem;
     }
 }

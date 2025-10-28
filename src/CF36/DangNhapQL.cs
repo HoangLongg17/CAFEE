@@ -70,7 +70,7 @@ namespace CF36
         private void DangNhapQL_Load(object sender, EventArgs e)
         {
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
-
+            UIText.ApplyButtonTextStyle(this);
         }
 
         private void tlpfrmDNADMIN_Paint(object sender, PaintEventArgs e)

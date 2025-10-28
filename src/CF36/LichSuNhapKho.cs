@@ -34,6 +34,7 @@ namespace CF36
             dgvLichSuNhapKho.AutoGenerateColumns = false;
             dgvLichSuNhapKho.DataSource = LSNhapKhoBUS.LayTatCa();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
         }
 

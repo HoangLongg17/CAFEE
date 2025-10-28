@@ -60,6 +60,7 @@ namespace CF36
         {
             //txtMatKhauMoi.Focus();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
         }
 

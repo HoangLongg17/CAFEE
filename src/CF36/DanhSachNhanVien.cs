@@ -59,6 +59,7 @@ namespace CF36
             KhoiTaoComboBoxLoc();
             LoadDanhSachNhanVien();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
         }
         private void KhoiTaoComboBoxLoc()

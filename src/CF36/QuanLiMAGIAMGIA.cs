@@ -55,6 +55,8 @@ namespace CF36
             LoadVouchers();
             UIDataGridView.FormatDataGridView(dgvMaGiamGia);
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
+
         }
 
         private void btnSuaMaGiamGia_Click(object sender, EventArgs e)

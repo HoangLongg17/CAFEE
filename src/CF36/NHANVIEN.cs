@@ -35,6 +35,7 @@ namespace CF36
         {
             timer1.Start();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
         }
 

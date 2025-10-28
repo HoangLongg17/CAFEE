@@ -21,6 +21,10 @@ namespace CF36
                 {
                     string text = btn.Text.Trim().ToLower();
 
+                    if (btn.Name != "btnPassword" && btn.Name != "btnAnHien" && btn.Name != "btnTim")
+                    {
+                        btn.BackColor = Color.DarkRed;
+                    }
                     if (text == "thoát")
                     {
                         ApplyIcon(btn, exitIcon, "Thoát");

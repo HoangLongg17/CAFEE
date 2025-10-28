@@ -46,6 +46,7 @@ namespace CF36
             cbbNhaCungCap.ValueMember = "Manhacc";      // giữ mã NCC để lưu DB
             cbbNhaCungCap.SelectedIndex = -1;
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
         }
         private void tlpall_Paint(object sender, PaintEventArgs e)

@@ -44,6 +44,7 @@
             báoCáoDoanhThuToolStripMenuItem = new ToolStripMenuItem();
             lịchSửHóaĐơnToolStripMenuItem = new ToolStripMenuItem();
             lịchSửNhậpKhoToolStripMenuItem = new ToolStripMenuItem();
+            lịchSửChấmCôngToolStripMenuItem = new ToolStripMenuItem();
             kHOToolStripMenuItem = new ToolStripMenuItem();
             xEMKHOToolStripMenuItem = new ToolStripMenuItem();
             tÀIKHOẢNToolStripMenuItem = new ToolStripMenuItem();
@@ -56,7 +57,6 @@
             btnThoat = new Button();
             lblWelcome = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
-            lịchSửChấmCôngToolStripMenuItem = new ToolStripMenuItem();
             menuQuanLi.SuspendLayout();
             tlpthan.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
@@ -154,23 +154,30 @@
             // báoCáoDoanhThuToolStripMenuItem
             // 
             báoCáoDoanhThuToolStripMenuItem.Name = "báoCáoDoanhThuToolStripMenuItem";
-            báoCáoDoanhThuToolStripMenuItem.Size = new Size(224, 26);
+            báoCáoDoanhThuToolStripMenuItem.Size = new Size(217, 26);
             báoCáoDoanhThuToolStripMenuItem.Text = "Báo cáo doanh thu";
             báoCáoDoanhThuToolStripMenuItem.Click += báoCáoDoanhThuToolStripMenuItem_Click;
             // 
             // lịchSửHóaĐơnToolStripMenuItem
             // 
             lịchSửHóaĐơnToolStripMenuItem.Name = "lịchSửHóaĐơnToolStripMenuItem";
-            lịchSửHóaĐơnToolStripMenuItem.Size = new Size(224, 26);
+            lịchSửHóaĐơnToolStripMenuItem.Size = new Size(217, 26);
             lịchSửHóaĐơnToolStripMenuItem.Text = "Lịch sử hóa đơn";
             lịchSửHóaĐơnToolStripMenuItem.Click += lịchSửHóaĐơnToolStripMenuItem_Click;
             // 
             // lịchSửNhậpKhoToolStripMenuItem
             // 
             lịchSửNhậpKhoToolStripMenuItem.Name = "lịchSửNhậpKhoToolStripMenuItem";
-            lịchSửNhậpKhoToolStripMenuItem.Size = new Size(224, 26);
+            lịchSửNhậpKhoToolStripMenuItem.Size = new Size(217, 26);
             lịchSửNhậpKhoToolStripMenuItem.Text = "Lịch sử nhập kho";
             lịchSửNhậpKhoToolStripMenuItem.Click += lịchSửNhậpKhoToolStripMenuItem_Click;
+            // 
+            // lịchSửChấmCôngToolStripMenuItem
+            // 
+            lịchSửChấmCôngToolStripMenuItem.Name = "lịchSửChấmCôngToolStripMenuItem";
+            lịchSửChấmCôngToolStripMenuItem.Size = new Size(217, 26);
+            lịchSửChấmCôngToolStripMenuItem.Text = "Lịch sử chấm công";
+            lịchSửChấmCôngToolStripMenuItem.Click += lịchSửChấmCôngToolStripMenuItem_Click;
             // 
             // kHOToolStripMenuItem
             // 
@@ -247,6 +254,7 @@
             bThoiGian.TabIndex = 1;
             bThoiGian.Text = "Thời gian sẽ hiển thị ở đây";
             bThoiGian.TextAlign = ContentAlignment.MiddleCenter;
+            bThoiGian.Click += bThoiGian_Click;
             // 
             // tlpbutton
             // 
@@ -285,12 +293,9 @@
             lblWelcome.Text = "Wcome";
             lblWelcome.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // lịchSửChấmCôngToolStripMenuItem
+            // timer1
             // 
-            lịchSửChấmCôngToolStripMenuItem.Name = "lịchSửChấmCôngToolStripMenuItem";
-            lịchSửChấmCôngToolStripMenuItem.Size = new Size(224, 26);
-            lịchSửChấmCôngToolStripMenuItem.Text = "Lịch sử chấm công";
-            lịchSửChấmCôngToolStripMenuItem.Click += lịchSửChấmCôngToolStripMenuItem_Click;
+            timer1.Tick += timer1_Tick;
             // 
             // QuanLi
             // 

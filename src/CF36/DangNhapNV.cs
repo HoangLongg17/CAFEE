@@ -64,6 +64,7 @@ namespace CF36
         private void DangNhapNV_Load(object sender, EventArgs e)
         {
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
         }
 
         private void btnPassword_Click_1(object sender, EventArgs e)

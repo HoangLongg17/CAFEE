@@ -38,7 +38,7 @@ namespace CF36
                 Properties.Resources.exit,
                 Properties.Resources.delete,
                 Properties.Resources.refresh);
-
+            UIText.ApplyButtonTextStyle(this);
 
         }
     }

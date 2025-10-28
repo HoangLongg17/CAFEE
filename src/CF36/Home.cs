@@ -12,6 +12,9 @@ namespace CF36
         private void Home_Load(object sender, EventArgs e)
         {
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
+            UIText.ApplyButtonTextStyle(this);
+
         }
 
         private void btnDangNhapQuanLi_Click(object sender, EventArgs e)

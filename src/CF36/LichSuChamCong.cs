@@ -29,6 +29,7 @@ namespace CF36
             dtpDenNgay.Value = DateTime.Today;
             FilterChamCong();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
         }
         private void FilterChamCong()

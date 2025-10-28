@@ -38,6 +38,7 @@ namespace CF36
             // Load sản phẩm tặng
             LoadSanPhamTang();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
 
         }

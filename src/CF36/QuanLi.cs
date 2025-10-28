@@ -34,7 +34,9 @@ namespace CF36
 
         private void QuanLi_Load(object sender, EventArgs e)
         {
+            timer1.Start();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
         }
 
@@ -135,6 +137,16 @@ namespace CF36
             LichSuChamCong lichSuChamCong = new LichSuChamCong();
             lichSuChamCong.ShowDialog();
             this.Show();
+        }
+
+        private void bThoiGian_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            bThoiGian.Text = DateTime.Now.ToString("HH:mm:ss");
         }
     }
 

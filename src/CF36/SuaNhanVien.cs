@@ -26,6 +26,7 @@ namespace CF36
         {
             txtMaNhanVien.Enabled = false;
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
             KhoiTaoComboBox();
             LoadThongTinNhanVien(_maNhanVienCanSua);

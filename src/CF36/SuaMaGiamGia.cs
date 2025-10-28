@@ -100,6 +100,7 @@ namespace CF36
                     row.Selected = true;
             }
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
 
         }
         private void LoadLoaiMaGG()
