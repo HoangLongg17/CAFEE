@@ -39,7 +39,7 @@ namespace CF36
             btnLocDuLieu_Click(null, null);
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-
+            UIDataGridView.FormatDataGridView(dgvHoaDon);
         }
         private void InitializePdfFont()
         {

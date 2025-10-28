@@ -101,7 +101,7 @@ namespace CF36
             }
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-
+            UIDataGridView.FormatDataGridView(dgvSanPham);
         }
         private void LoadLoaiMaGG()
         {
@@ -182,7 +182,16 @@ namespace CF36
                     return;
                 }
             }
-
+            decimal? dieuKien = null;
+            if (!string.IsNullOrWhiteSpace(txtGiaTriDonHangToiThieu.Text))
+            {
+                if (!decimal.TryParse(txtGiaTriDonHangToiThieu.Text.Trim(), out decimal dk))
+                {
+                    MessageBox.Show("Giá trị đơn hàng tối thiểu không hợp lệ. Vui lòng nhập số.");
+                    return;
+                }
+                dieuKien = dk;
+            }
             // Tạo DTO
             VoucherDTO dto = new VoucherDTO
             {
@@ -191,7 +200,7 @@ namespace CF36
                 Giatri = giatri,
                 Ngaybd = dtpNgayBatDau.Value,
                 Ngaykt = dtpNgayHetHan.Value,
-                DieuKien = string.IsNullOrWhiteSpace(txtGiaTriDonHangToiThieu.Text) ? null : (decimal?)decimal.Parse(txtGiaTriDonHangToiThieu.Text),
+                DieuKien = dieuKien,
                 Maloaivc = maloaivc,
                 Maloai = cbbLoaiSanPham.SelectedIndex != -1 ? (int?)Convert.ToInt32(cbbLoaiSanPham.SelectedValue) : null
             };

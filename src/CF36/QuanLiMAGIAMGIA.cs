@@ -69,6 +69,7 @@ namespace CF36
                 if (maloaivc == 1 || maloaivc == 3)
                 {
                     SuaMaGiamGia form = new SuaMaGiamGia(mavc);
+                    form.FormClosed += (s, e) => LoadVouchers(); // gọi lại hàm load
                     form.ShowDialog();
                 }
                 else
@@ -110,6 +111,7 @@ namespace CF36
             SetColumnHeader("DieuKien", "Đơn tối thiểu");
             SetColumnHeader("Maloaivc", "Loại mã");
             SetColumnHeader("maloai", "Mã loại sản phẩm mua");
+            SetColumnHeader("TenLoaiVouCher", "Tên loại mã giảm giá");
             SetColumnHeader("TenLoaiSanPhamApDung", "Loại SP áp dụng");
             SetColumnHeader("TenLoaiSanPhamTang", "Loại SP tặng");
         }
@@ -163,6 +165,7 @@ namespace CF36
                 if (maloaivc == 2 || maloaivc == 4)
                 {
                     SuaMaGiamGiaMua1Tang1 form = new SuaMaGiamGiaMua1Tang1(mavc);
+                    form.FormClosed += (s, e) => LoadVouchers(); // gọi lại hàm load
                     form.ShowDialog();
                 }
                 else

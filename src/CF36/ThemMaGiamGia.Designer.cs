@@ -196,6 +196,8 @@
             txtGiaTriGiam.Name = "txtGiaTriGiam";
             txtGiaTriGiam.Size = new Size(172, 27);
             txtGiaTriGiam.TabIndex = 6;
+            txtGiaTriGiam.KeyPress += txtGiaTriGiam_KeyPress;
+            txtGiaTriGiam.Validating += txtGiaTriGiam_Validating;
             // 
             // tlpDate
             // 
@@ -256,6 +258,8 @@
             txtGiaTriDonToiThieu.Name = "txtGiaTriDonToiThieu";
             txtGiaTriDonToiThieu.Size = new Size(173, 27);
             txtGiaTriDonToiThieu.TabIndex = 3;
+            txtGiaTriDonToiThieu.KeyPress += txtGiaTriDonToiThieu_KeyPress;
+            txtGiaTriDonToiThieu.Validating += txtGiaTriDonToiThieu_Validating;
             // 
             // lbNgayBatDau
             // 

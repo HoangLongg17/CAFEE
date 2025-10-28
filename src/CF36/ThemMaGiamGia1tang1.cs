@@ -39,7 +39,7 @@ namespace CF36
             LoadSanPhamTang();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-
+            UIDataGridView.FormatDataGridView(dgvSanPham);
 
         }
 
@@ -60,6 +60,8 @@ namespace CF36
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
+            if (!ValidateInputs())
+                return;
             string ma = txtMaGG.Text.Trim();
             string ten = txtTenMaGiamGia.Text.Trim();
             int maloai = Convert.ToInt32(cbbSanPhamMua.SelectedValue);
@@ -98,6 +100,28 @@ namespace CF36
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
+
+        }
+        private bool ValidateInputs()
+        {
+            // Kiểm tra mã và tên
+            if (string.IsNullOrWhiteSpace(txtMaGG.Text) || string.IsNullOrWhiteSpace(txtTenMaGiamGia.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ mã và tên mã giảm giá.");
+                return false;
+            }
+
+            // Kiểm tra ngày
+            if (dTPHetHan.Value.Date < dTPBatDau.Value.Date)
+            {
+                MessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu.");
+                return false;
+            }
+
+            return true;
+        }
+        private void txtGiaTriToiThieu_KeyPress(object sender, KeyPressEventArgs e)
+        {
 
         }
     }

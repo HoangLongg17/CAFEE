@@ -47,7 +47,7 @@ namespace CF36
             cbbNhaCungCap.SelectedIndex = -1;
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-
+            UIDataGridView.FormatDataGridView(dgvThemkho);
         }
         private void tlpall_Paint(object sender, PaintEventArgs e)
         {

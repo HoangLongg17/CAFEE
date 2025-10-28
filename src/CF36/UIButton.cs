@@ -17,6 +17,7 @@ namespace CF36
         {
             foreach (Control control in parent.Controls)
             {
+
                 if (control is Button btn)
                 {
                     string text = btn.Text.Trim().ToLower();
@@ -37,12 +38,34 @@ namespace CF36
                     {
                         ApplyIcon(btn, refreshIcon, "Làm mới");
                     }
+                    if (btn.Name != "btnPassword" && btn.Name != "btnAnHien" && btn.Name != "btnTim")
+                    {
+                        btn.FlatStyle = FlatStyle.Flat;
+                        btn.ForeColor = Color.White;
+                        btn.FlatAppearance.BorderSize = 0;
+                        btn.Cursor = Cursors.Hand;
+                        // Hover effect
+                        btn.MouseEnter += (s, e) => btn.BackColor = Color.Firebrick;
+                        btn.MouseLeave += (s, e) => btn.BackColor = Color.DarkRed;
+
+                        // Click effect
+                        btn.MouseDown += (s, e) => btn.BackColor = Color.Maroon;
+                        btn.MouseUp += (s, e) => btn.BackColor = Color.DarkRed;
+                    }
+                    // Tooltip nếu có icon
+                    if (string.IsNullOrWhiteSpace(btn.Text) && btn.Image != null)
+                    {
+                        ToolTip tip = new ToolTip();
+                        tip.SetToolTip(btn, btn.Name.Replace("btn", "").Replace("_", " "));
+                    }
+
                 }
 
                 if (control.HasChildren)
                 {
                     ApplyToControlRecursive(control, exitIcon, deleteIcon, refreshIcon);
                 }
+
             }
         }
 

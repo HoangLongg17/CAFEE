@@ -32,7 +32,8 @@ namespace CF36
             InitializePdfFont();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-
+            UIDataGridView.FormatDataGridView(dgvHoaDon);
+            UIDataGridView.FormatDataGridView(dgvNhanVien);
         }
         private void InitializePdfFont()
         {

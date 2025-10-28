@@ -48,7 +48,7 @@ namespace CF36
             }
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-
+            UIDataGridView.FormatDataGridView(dgvSanPham);
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

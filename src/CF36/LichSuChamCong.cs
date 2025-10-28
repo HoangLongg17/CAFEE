@@ -30,7 +30,7 @@ namespace CF36
             FilterChamCong();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-
+            UIDataGridView.FormatDataGridView(dgvLSChamCong);
         }
         private void FilterChamCong()
         {

@@ -23,7 +23,7 @@ namespace CF36
             HienThiChiTiet();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-
+            UIDataGridView.FormatDataGridView(dgvChiTiet);
         }
         private void btnLamMoi_Click(object sender, EventArgs e)
         {
@@ -58,7 +58,7 @@ namespace CF36
 
         private void LichSuChiTietNhapKho_Load_1(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

@@ -313,6 +313,7 @@
             txtGiaTriToiThieu.Name = "txtGiaTriToiThieu";
             txtGiaTriToiThieu.Size = new Size(123, 27);
             txtGiaTriToiThieu.TabIndex = 1;
+            txtGiaTriToiThieu.KeyPress += txtGiaTriToiThieu_KeyPress;
             // 
             // btnChon
             // 
