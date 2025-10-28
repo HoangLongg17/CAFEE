@@ -31,7 +31,11 @@ namespace CF36
         private void btnThemSanPham_Click(object sender, EventArgs e)
         {
             ThemSanPham themSanPham = new ThemSanPham();
-            themSanPham.Show();
+            if (themSanPham.ShowDialog() == DialogResult.OK)
+            {
+                LoadDataGrid(); // Gọi lại để cập nhật danh sách
+            }
+
         }
 
         private void btnSua_Click(object sender, EventArgs e)

@@ -101,11 +101,12 @@ namespace DAO
         // 2. Cập nhật bảng SANPHAM (Giữ nguyên)
         public bool UpdateSanPham(SanPhamDTO sp)
         {
-            string query = "UPDATE SANPHAM SET tensp = @tensp, maloai = @maloai WHERE masp = @masp";
+            string query = "UPDATE SANPHAM SET tensp = @tensp, maloai = @maloai, duongdananh = @duongdananh WHERE masp = @masp";
             SqlParameter[] param = {
-                new SqlParameter("@tensp", sp.TenSP),
-                new SqlParameter("@maloai", sp.MaLoai),
-                new SqlParameter("@masp", sp.MaSP)
+            new SqlParameter("@tensp", sp.TenSP),
+            new SqlParameter("@maloai", sp.MaLoai),
+            new SqlParameter("@duongdananh", sp.DuongDanAnh ?? ""),
+            new SqlParameter("@masp", sp.MaSP)
             };
             int result = provider.ExecuteNonQuery(query, param);
             return result > 0;

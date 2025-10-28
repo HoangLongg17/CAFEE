@@ -117,8 +117,8 @@ namespace CF36
         {
             try
             {
-                string projectPath = AppDomain.CurrentDomain.BaseDirectory;
-                string imagesFolder = Path.Combine(projectPath, "images", "products");
+                string rootPath = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\.."));
+                string imagesFolder = Path.Combine(rootPath, "images", "products");
 
                 string[] extensions = { ".png", ".jpg", ".jpeg", ".gif" };
                 string imagePath = null;
@@ -135,13 +135,9 @@ namespace CF36
 
                 if (imagePath != null)
                 {
-                    // (SỬA LẠI) Giải phóng ảnh cũ (nếu có)
                     if (picAnhSua.Image != null)
-                    {
                         picAnhSua.Image.Dispose();
-                    }
 
-                    // (SỬA LẠI) Tải ảnh vào MemoryStream để không khóa file
                     byte[] imageBytes = File.ReadAllBytes(imagePath);
                     using (var ms = new MemoryStream(imageBytes))
                     {
@@ -150,33 +146,35 @@ namespace CF36
                     picAnhSua.SizeMode = PictureBoxSizeMode.Zoom;
                 }
             }
-            catch { /* Bỏ qua nếu tải ảnh lỗi */ }
+            catch { /* Bỏ qua nếu lỗi */ }
         }
-
-
-
-
-
 
         private void HandleImageUpload(string maSP)
         {
             if (string.IsNullOrEmpty(selectedImagePath) || string.IsNullOrEmpty(maSP))
-            {
                 return;
-            }
+
             try
             {
-                string projectPath = AppDomain.CurrentDomain.BaseDirectory;
-                string imagesFolder = Path.Combine(projectPath, "images", "products");
+                // Đi lên thư mục gốc dự án (src/CF36)
+                string rootPath = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\.."));
+                string imagesFolder = Path.Combine(rootPath, "images", "products");
+
                 if (!Directory.Exists(imagesFolder))
-                {
                     Directory.CreateDirectory(imagesFolder);
-                }
 
                 string extension = Path.GetExtension(selectedImagePath);
                 string newFileName = maSP + extension;
                 string destinationPath = Path.Combine(imagesFolder, newFileName);
 
+                // Giải phóng file nếu đang bị giữ bởi PictureBox
+                if (File.Exists(destinationPath))
+                {
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }
+
+                // Ghi đè ảnh mới
                 File.Copy(selectedImagePath, destinationPath, true);
             }
             catch (Exception ex)
@@ -184,9 +182,6 @@ namespace CF36
                 MessageBox.Show("Cập nhật dữ liệu thành công, nhưng lưu ảnh thất bại: " + ex.Message, "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
-
-
         private void cbS_CheckedChanged(object sender, EventArgs e)
         {
             txtSuaGiaS.Enabled = cbS.Checked;
@@ -214,31 +209,51 @@ namespace CF36
         {
             try
             {
-                // 1. Gọi BUS để lưu
+                // 1. Tạo DTO sản phẩm
+                SanPhamDTO sp = new SanPhamDTO
+                {
+                    MaSP = this.maSP,
+                    TenSP = txtTen.Text.Trim(),
+                    MaLoai = (int)cbbLoaiSanPham.SelectedValue
+                };
+
+                // 2. Nếu có ảnh mới, gán đường dẫn tương đối
+                if (!string.IsNullOrEmpty(selectedImagePath))
+                {
+                    string extension = Path.GetExtension(selectedImagePath);
+                    string fileName = this.maSP + extension;
+                    string relativePath = Path.Combine("images", "products", fileName);
+                    sp.DuongDanAnh = relativePath;
+
+                    // Giải phóng ảnh cũ nếu đang hiển thị
+                    if (picAnhSua.Image != null)
+                    {
+                        picAnhSua.Image.Dispose();
+                        picAnhSua.Image = null;
+                    }
+
+                    // Copy ảnh vào thư mục
+                    HandleImageUpload(this.maSP);
+                }
+
+                // 3. Gọi BUS để lưu thông tin + ảnh
                 suaSanPhamBUS.LuuThongTinSanPham(
-                    this.maSP,
-                    txtTen.Text.Trim(),
-                    (int)cbbLoaiSanPham.SelectedValue,
+                    sp,
                     cbS.Checked, txtSuaGiaS.Text,
                     cbM.Checked, txtSuaGiaM.Text,
                     cbL.Checked, txtSuaGiaL.Text,
                     kichCoMap
                 );
 
-                // 2. Xử lý ảnh (Chỉ lưu nếu người dùng chọn ảnh MỚI)
-                if (selectedImagePath != null)
-                {
-                    HandleImageUpload(this.maSP);
-                }
-
                 MessageBox.Show("Cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK; // Báo cho form cha biết
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void btnSuaAnh_Click(object sender, EventArgs e)

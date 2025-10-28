@@ -44,24 +44,19 @@ namespace BUS
         // --- Logic Lưu (Save) ---
 
         // (VIẾT LẠI HOÀN TOÀN)
-        public void LuuThongTinSanPham(string maSP, string tenSP, int maLoai,
-                                      bool cbS, string giaS,
-                                      bool cbM, string giaM,
-                                      bool cbL, string giaL,
-                                      Dictionary<char, int> kichCoMap)
+        public void LuuThongTinSanPham(SanPhamDTO sp,
+                                       bool cbS, string giaS,
+                                       bool cbM, string giaM,
+                                       bool cbL, string giaL,
+                                       Dictionary<char, int> kichCoMap)
         {
             // --- 1. Validation ---
-            if (string.IsNullOrWhiteSpace(tenSP))
-            {
+            if (string.IsNullOrWhiteSpace(sp.TenSP))
                 throw new Exception("Tên sản phẩm không được để trống.");
-            }
 
             if (!cbS && !cbM && !cbL)
-            {
                 throw new Exception("Phải chọn ít nhất một kích cỡ (size).");
-            }
 
-            // Parse giá tiền trước khi vào transaction
             decimal giaBanS = 0, giaBanM = 0, giaBanL = 0;
             if (cbS && (!decimal.TryParse(giaS, out giaBanS) || giaBanS <= 0))
                 throw new Exception("Giá size S không hợp lệ.");
@@ -70,33 +65,31 @@ namespace BUS
             if (cbL && (!decimal.TryParse(giaL, out giaBanL) || giaBanL <= 0))
                 throw new Exception("Giá size L không hợp lệ.");
 
-
-            // --- 2. Xử lý Transaction (Giao dịch) ---
+            // --- 2. Transaction ---
             using (TransactionScope scope = new TransactionScope())
             {
                 try
                 {
-                    // A. Cập nhật bảng SANPHAM
-                    suaSanPhamDAO.UpdateSanPham(new SanPhamDTO { MaSP = maSP, TenSP = tenSP, MaLoai = maLoai });
+                    // A. Cập nhật bảng SANPHAM (bao gồm ảnh nếu có)
+                    suaSanPhamDAO.UpdateSanPham(sp);
 
                     // B. Lấy danh sách size hiện tại từ DB
-                    List<KichCoSPDTO> oldSizes = suaSanPhamDAO.GetKichCoSPList(maSP);
+                    List<KichCoSPDTO> oldSizes = suaSanPhamDAO.GetKichCoSPList(sp.MaSP);
 
-                    // C. Xử lý logic Merge cho từng size
-                    ProcessSizeMerge(maSP, kichCoMap['S'], cbS, giaBanS, oldSizes);
-                    ProcessSizeMerge(maSP, kichCoMap['M'], cbM, giaBanM, oldSizes);
-                    ProcessSizeMerge(maSP, kichCoMap['L'], cbL, giaBanL, oldSizes);
+                    // C. Xử lý từng size
+                    ProcessSizeMerge(sp.MaSP, kichCoMap['S'], cbS, giaBanS, oldSizes);
+                    ProcessSizeMerge(sp.MaSP, kichCoMap['M'], cbM, giaBanM, oldSizes);
+                    ProcessSizeMerge(sp.MaSP, kichCoMap['L'], cbL, giaBanL, oldSizes);
 
-                    // Nếu tất cả thành công, commit
                     scope.Complete();
                 }
                 catch (Exception ex)
                 {
-                    // Nếu lỗi, transaction tự động rollback
                     throw new Exception("Lỗi khi cập nhật CSDL: " + ex.Message);
                 }
             }
         }
+
 
         // (MỚI) Hàm trợ giúp cho logic Merge
         private void ProcessSizeMerge(string maSP, int maKichCo, bool isChecked, decimal newPrice, List<KichCoSPDTO> oldSizes)
