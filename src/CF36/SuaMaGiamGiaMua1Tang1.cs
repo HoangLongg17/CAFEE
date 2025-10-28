@@ -28,6 +28,15 @@ namespace CF36
         private void LoadSanPhamTang()
         {
             dgvSanPhamTang.DataSource = Voucher1tang1BUS.Instance.TimSanPhamTang("");
+            if (dgvSanPhamTang.Columns.Contains("masp"))
+                dgvSanPhamTang.Columns["masp"].HeaderText = "Mã sản phẩm";
+
+            if (dgvSanPhamTang.Columns.Contains("tensp"))
+                dgvSanPhamTang.Columns["tensp"].HeaderText = "Tên sản phẩm";
+
+            if (dgvSanPhamTang.Columns.Contains("kichco"))
+                dgvSanPhamTang.Columns["kichco"].HeaderText = "Size";
+
         }
         private void LoadLoaiMaGiamGia1Tang1()
         {
@@ -89,6 +98,7 @@ namespace CF36
                 MessageBox.Show("Không tìm thấy mã giảm giá cần sửa.");
                 this.Close();
             }
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
 
         }
 

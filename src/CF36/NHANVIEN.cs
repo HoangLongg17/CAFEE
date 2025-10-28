@@ -18,7 +18,7 @@ namespace CF36
         private string nguoidunghientai;
         private string maNhanVien;
         private DateTime? gioBatDau;
-        public NHANVIEN(string hoten, string username,string manhanvien)
+        public NHANVIEN(string hoten, string username, string manhanvien)
         {
             InitializeComponent();
             _hoten = hoten;
@@ -33,6 +33,8 @@ namespace CF36
 
         private void NHANVIEN_Load(object sender, EventArgs e)
         {
+            timer1.Start();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
 
         }
 
@@ -49,7 +51,7 @@ namespace CF36
             bANHANG.ShowDialog();
             this.Show();
 
-            
+
         }
 
         private void sẢNPHẨMToolStripMenuItem_Click(object sender, EventArgs e)
@@ -118,6 +120,12 @@ namespace CF36
                 Home login = new Home();
                 login.Show();
             }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lbThoiGian.Text = DateTime.Now.ToString("HH:mm:ss");
+
         }
     }
 }

@@ -46,6 +46,8 @@ namespace CF36
             LoadDataGrid(); // Tải tất cả sản phẩm khi form mở
             SetupDataGridView();
             InitializePdfFont();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
         private void InitializePdfFont()
         {

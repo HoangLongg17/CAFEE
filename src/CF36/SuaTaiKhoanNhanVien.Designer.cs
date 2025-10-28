@@ -232,6 +232,7 @@
             Name = "SuaTaiKhoanNhanVien";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sửa tài khoản cho nhân viên";
+            Load += SuaTaiKhoanNhanVien_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpThongtin.ResumeLayout(false);

@@ -126,9 +126,9 @@
             btnThoat.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnThoat.Location = new Point(397, 3);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(144, 64);
+            btnThoat.Size = new Size(144, 78);
             btnThoat.TabIndex = 0;
-            btnThoat.Text = "THOÁT";
+            btnThoat.Text = "Thoát";
             btnThoat.UseVisualStyleBackColor = true;
             btnThoat.Click += btnThoat_Click;
             // 

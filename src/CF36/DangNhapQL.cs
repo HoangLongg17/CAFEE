@@ -42,7 +42,7 @@ namespace CF36
             this.Close();
         }
 
-        
+
 
         private void DangNhapQL_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -65,6 +65,17 @@ namespace CF36
                 btnPassword.Text = "👁️";
 
             }
+        }
+
+        private void DangNhapQL_Load(object sender, EventArgs e)
+        {
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
+        }
+
+        private void tlpfrmDNADMIN_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

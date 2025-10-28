@@ -36,6 +36,9 @@ namespace CF36
             LoadLoaiSanPham();
             SetupInitialState();
             InitializePdfFont();
+            btnLocDuLieu_Click(null, null);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
         private void InitializePdfFont()
         {

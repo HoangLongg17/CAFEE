@@ -91,6 +91,53 @@ namespace DAO
             object result = provider.ExecuteScalar(query, parameters);
             return result != DBNull.Value ? (DateTime?)result : null;
         }
+        public List<ChamCongDTO> GetLichSuChamCongChiTiet(string keyword, DateTime tuNgay, DateTime denNgay)
+        {
+            string query = @"
+        SELECT c.Mand, n.HoTen, n.Luong, c.Ngay, c.GioBatDau, c.GioKetThuc, c.TongThoiGian,
+               (ISNULL(c.TongThoiGian, 0) / 60.0) * n.Luong AS TongLuong
+        FROM CHAMCONG c
+        JOIN NGUOIDUNG n ON c.Mand = n.Mand
+        WHERE c.Ngay BETWEEN @TuNgay AND @DenNgay
+        AND (n.HoTen LIKE @Keyword OR c.Mand LIKE @Keyword)
+        ORDER BY c.Ngay DESC";
 
+            SqlParameter[] parameters = {
+        new SqlParameter("@TuNgay", tuNgay),
+        new SqlParameter("@DenNgay", denNgay),
+        new SqlParameter("@Keyword", $"%{keyword}%")
+    };
+
+            DataTable dt = provider.ExecuteQuery(query, parameters);
+            List<ChamCongDTO> list = new List<ChamCongDTO>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new ChamCongDTO
+                {
+                    MaND = row["Mand"].ToString(),
+                    TenNhanVien = row["HoTen"].ToString(),
+                    Luong = Convert.ToInt32(row["Luong"]),
+                    Ngay = Convert.ToDateTime(row["Ngay"]),
+                    GioBatDau = Convert.ToDateTime(row["GioBatDau"]),
+                    GioKetThuc = row["GioKetThuc"] == DBNull.Value ? null : (DateTime?)row["GioKetThuc"],
+                    TongThoiGian = row["TongThoiGian"] == DBNull.Value ? 0 : Convert.ToInt32(row["TongThoiGian"]),
+                    TongLuong = Convert.ToDecimal(row["TongLuong"])
+                });
+            }
+
+            return list;
+        }
+
+        public int GetLuongTheoGio(string mand)
+        {
+            string query = "SELECT Luong FROM NGUOIDUNG WHERE Mand = @Mand";
+            SqlParameter[] parameters = {
+        new SqlParameter("@Mand", mand)
+    };
+
+            object result = provider.ExecuteScalar(query, parameters);
+            return result != DBNull.Value ? Convert.ToInt32(result) : 0;
+        }
     }
 }

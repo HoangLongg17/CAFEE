@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System;
+using DTO;
 namespace BUS
 {
     public class ChamCongBUS
@@ -44,6 +45,14 @@ namespace BUS
             return ChamCongDAO.Instance.GetTongPhutTrongNgay(mand, ngay);
         }
 
+        public List<ChamCongDTO> LayLichSuChamCong(string keyword, DateTime tuNgay, DateTime denNgay)
+        {
+            return ChamCongDAO.Instance.GetLichSuChamCongChiTiet(keyword, tuNgay, denNgay);
+        }
 
+        public int LayLuongTheoGio(string mand)
+        {
+            return ChamCongDAO.Instance.GetLuongTheoGio(mand);
+        }
     }
 }

@@ -48,8 +48,8 @@
             cbM = new CheckBox();
             cbS = new CheckBox();
             tlpSuaMoTa = new TableLayoutPanel();
-            picAnhSua = new PictureBox();
             btnSuaAnh = new Button();
+            picAnhSua = new PictureBox();
             tlpEnd = new TableLayoutPanel();
             btnThoat = new Button();
             btnLuu = new Button();
@@ -289,16 +289,6 @@
             tlpSuaMoTa.Size = new Size(517, 216);
             tlpSuaMoTa.TabIndex = 3;
             // 
-            // picAnhSua
-            // 
-            picAnhSua.Anchor = AnchorStyles.Left;
-            picAnhSua.Location = new Point(3, 3);
-            picAnhSua.Name = "picAnhSua";
-            picAnhSua.Size = new Size(252, 210);
-            picAnhSua.SizeMode = PictureBoxSizeMode.Zoom;
-            picAnhSua.TabIndex = 0;
-            picAnhSua.TabStop = false;
-            // 
             // btnSuaAnh
             // 
             btnSuaAnh.Anchor = AnchorStyles.Left;
@@ -308,6 +298,16 @@
             btnSuaAnh.TabIndex = 1;
             btnSuaAnh.Text = "Chọn ảnh khác";
             btnSuaAnh.UseVisualStyleBackColor = true;
+            // 
+            // picAnhSua
+            // 
+            picAnhSua.Anchor = AnchorStyles.Left;
+            picAnhSua.Location = new Point(3, 3);
+            picAnhSua.Name = "picAnhSua";
+            picAnhSua.Size = new Size(252, 210);
+            picAnhSua.SizeMode = PictureBoxSizeMode.Zoom;
+            picAnhSua.TabIndex = 0;
+            picAnhSua.TabStop = false;
             // 
             // tlpEnd
             // 
@@ -352,6 +352,7 @@
             Name = "SuaSanPham";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sửa thông tin sản phẩm";
+            Load += SuaSanPham_Load;
             tlpAll.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpThongtin.ResumeLayout(false);

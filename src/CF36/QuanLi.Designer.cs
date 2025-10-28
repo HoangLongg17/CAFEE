@@ -56,6 +56,7 @@
             btnThoat = new Button();
             lblWelcome = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
+            lịchSửChấmCôngToolStripMenuItem = new ToolStripMenuItem();
             menuQuanLi.SuspendLayout();
             tlpthan.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
@@ -145,7 +146,7 @@
             // 
             // tHỐNGKÊToolStripMenuItem
             // 
-            tHỐNGKÊToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { báoCáoDoanhThuToolStripMenuItem, lịchSửHóaĐơnToolStripMenuItem, lịchSửNhậpKhoToolStripMenuItem });
+            tHỐNGKÊToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { báoCáoDoanhThuToolStripMenuItem, lịchSửHóaĐơnToolStripMenuItem, lịchSửNhậpKhoToolStripMenuItem, lịchSửChấmCôngToolStripMenuItem });
             tHỐNGKÊToolStripMenuItem.Name = "tHỐNGKÊToolStripMenuItem";
             tHỐNGKÊToolStripMenuItem.Size = new Size(95, 22);
             tHỐNGKÊToolStripMenuItem.Text = "THỐNG KÊ";
@@ -153,21 +154,21 @@
             // báoCáoDoanhThuToolStripMenuItem
             // 
             báoCáoDoanhThuToolStripMenuItem.Name = "báoCáoDoanhThuToolStripMenuItem";
-            báoCáoDoanhThuToolStripMenuItem.Size = new Size(217, 26);
+            báoCáoDoanhThuToolStripMenuItem.Size = new Size(224, 26);
             báoCáoDoanhThuToolStripMenuItem.Text = "Báo cáo doanh thu";
             báoCáoDoanhThuToolStripMenuItem.Click += báoCáoDoanhThuToolStripMenuItem_Click;
             // 
             // lịchSửHóaĐơnToolStripMenuItem
             // 
             lịchSửHóaĐơnToolStripMenuItem.Name = "lịchSửHóaĐơnToolStripMenuItem";
-            lịchSửHóaĐơnToolStripMenuItem.Size = new Size(217, 26);
+            lịchSửHóaĐơnToolStripMenuItem.Size = new Size(224, 26);
             lịchSửHóaĐơnToolStripMenuItem.Text = "Lịch sử hóa đơn";
             lịchSửHóaĐơnToolStripMenuItem.Click += lịchSửHóaĐơnToolStripMenuItem_Click;
             // 
             // lịchSửNhậpKhoToolStripMenuItem
             // 
             lịchSửNhậpKhoToolStripMenuItem.Name = "lịchSửNhậpKhoToolStripMenuItem";
-            lịchSửNhậpKhoToolStripMenuItem.Size = new Size(217, 26);
+            lịchSửNhậpKhoToolStripMenuItem.Size = new Size(224, 26);
             lịchSửNhậpKhoToolStripMenuItem.Text = "Lịch sử nhập kho";
             lịchSửNhậpKhoToolStripMenuItem.Click += lịchSửNhậpKhoToolStripMenuItem_Click;
             // 
@@ -274,15 +275,22 @@
             // 
             // lblWelcome
             // 
-            lblWelcome.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lblWelcome.AutoSize = true;
+            lblWelcome.Dock = DockStyle.Fill;
             lblWelcome.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblWelcome.Location = new Point(279, 102);
+            lblWelcome.Location = new Point(279, 0);
             lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(115, 38);
+            lblWelcome.Size = new Size(270, 140);
             lblWelcome.TabIndex = 4;
             lblWelcome.Text = "Wcome";
             lblWelcome.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lịchSửChấmCôngToolStripMenuItem
+            // 
+            lịchSửChấmCôngToolStripMenuItem.Name = "lịchSửChấmCôngToolStripMenuItem";
+            lịchSửChấmCôngToolStripMenuItem.Size = new Size(224, 26);
+            lịchSửChấmCôngToolStripMenuItem.Text = "Lịch sử chấm công";
+            lịchSửChấmCôngToolStripMenuItem.Click += lịchSửChấmCôngToolStripMenuItem_Click;
             // 
             // QuanLi
             // 
@@ -334,5 +342,6 @@
         private Button btnThoat;
         private ToolStripMenuItem lịchSửNhậpKhoToolStripMenuItem;
         private Label lblWelcome;
+        private ToolStripMenuItem lịchSửChấmCôngToolStripMenuItem;
     }
 }

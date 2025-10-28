@@ -127,14 +127,14 @@
             // đỔIMẬTKHẨToolStripMenuItem
             // 
             đỔIMẬTKHẨToolStripMenuItem.Name = "đỔIMẬTKHẨToolStripMenuItem";
-            đỔIMẬTKHẨToolStripMenuItem.Size = new Size(224, 26);
+            đỔIMẬTKHẨToolStripMenuItem.Size = new Size(219, 26);
             đỔIMẬTKHẨToolStripMenuItem.Text = "XEM GIỜ LÀM VIỆC";
             đỔIMẬTKHẨToolStripMenuItem.Click += đỔIMẬTKHẨToolStripMenuItem_Click;
             // 
             // đỔIMẬTKHẨUToolStripMenuItem
             // 
             đỔIMẬTKHẨUToolStripMenuItem.Name = "đỔIMẬTKHẨUToolStripMenuItem";
-            đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(224, 26);
+            đỔIMẬTKHẨUToolStripMenuItem.Size = new Size(219, 26);
             đỔIMẬTKHẨUToolStripMenuItem.Text = "ĐỔI MẬT KHẨU";
             đỔIMẬTKHẨUToolStripMenuItem.Click += đỔIMẬTKHẨUToolStripMenuItem_Click;
             // 
@@ -206,6 +206,10 @@
             lblTrangThai.Size = new Size(75, 20);
             lblTrangThai.TabIndex = 3;
             lblTrangThai.Text = "Trạng thái";
+            // 
+            // timer1
+            // 
+            timer1.Tick += timer1_Tick;
             // 
             // NHANVIEN
             // 

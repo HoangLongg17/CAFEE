@@ -33,6 +33,8 @@ namespace CF36
         {
             dgvLichSuNhapKho.AutoGenerateColumns = false;
             dgvLichSuNhapKho.DataSource = LSNhapKhoBUS.LayTatCa();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
@@ -59,7 +61,7 @@ namespace CF36
         {
             this.Close();
         }
-       private void btnXuatExcel_Click(object sender, EventArgs e)
+        private void btnXuatExcel_Click(object sender, EventArgs e)
         {
             if (dgvLichSuNhapKho.Rows.Count == 0)
             {
@@ -122,7 +124,9 @@ namespace CF36
             }
         }
 
+        private void LichSuNhapKho_Load_1(object sender, EventArgs e)
+        {
 
-
+        }
     }
 }

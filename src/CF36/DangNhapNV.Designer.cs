@@ -30,45 +30,44 @@
         {
             tlpthan = new TableLayoutPanel();
             lbusername = new Label();
-            pntendangnhap = new Panel();
-            txtusernv = new TextBox();
-            lbiconuser = new Label();
-            pnpasswordnv = new Panel();
+            lbpassword = new Label();
+            tlppass = new TableLayoutPanel();
             btnPassword = new Button();
             txtpasswordnv = new TextBox();
-            lbiconpassword = new Label();
-            lbpassword = new Label();
-            pnbutton = new Panel();
+            tlpusername = new TableLayoutPanel();
+            txtusernv = new TextBox();
+            tlpbutton = new TableLayoutPanel();
             btnlogin = new Button();
             btnexit = new Button();
             tlpfrmDNADMIN = new TableLayoutPanel();
-            lblogo = new Label();
             lblognhanvien = new Label();
+            pictureBox1 = new PictureBox();
             tlpthan.SuspendLayout();
-            pntendangnhap.SuspendLayout();
-            pnpasswordnv.SuspendLayout();
-            pnbutton.SuspendLayout();
+            tlppass.SuspendLayout();
+            tlpusername.SuspendLayout();
+            tlpbutton.SuspendLayout();
             tlpfrmDNADMIN.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // tlpthan
             // 
             tlpthan.ColumnCount = 2;
-            tlpthan.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
-            tlpthan.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 65F));
+            tlpthan.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38.91688F));
+            tlpthan.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 61.0831223F));
             tlpthan.Controls.Add(lbusername, 0, 0);
-            tlpthan.Controls.Add(pntendangnhap, 1, 0);
-            tlpthan.Controls.Add(pnpasswordnv, 1, 1);
             tlpthan.Controls.Add(lbpassword, 0, 1);
-            tlpthan.Controls.Add(pnbutton, 1, 2);
+            tlpthan.Controls.Add(tlppass, 1, 1);
+            tlpthan.Controls.Add(tlpusername, 1, 0);
+            tlpthan.Controls.Add(tlpbutton, 1, 2);
             tlpthan.Dock = DockStyle.Fill;
             tlpthan.Location = new Point(3, 117);
             tlpthan.Name = "tlpthan";
             tlpthan.RowCount = 4;
-            tlpthan.RowStyles.Add(new RowStyle());
-            tlpthan.RowStyles.Add(new RowStyle());
-            tlpthan.RowStyles.Add(new RowStyle());
-            tlpthan.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpthan.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tlpthan.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tlpthan.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+            tlpthan.RowStyles.Add(new RowStyle(SizeType.Percent, 35F));
             tlpthan.Size = new Size(794, 330);
             tlpthan.TabIndex = 2;
             // 
@@ -77,107 +76,109 @@
             lbusername.AutoSize = true;
             lbusername.Dock = DockStyle.Right;
             lbusername.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbusername.Location = new Point(162, 0);
+            lbusername.Location = new Point(194, 0);
             lbusername.Name = "lbusername";
-            lbusername.Size = new Size(112, 82);
+            lbusername.Size = new Size(112, 66);
             lbusername.TabIndex = 0;
             lbusername.Text = "Tên đăng nhập";
             lbusername.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // pntendangnhap
-            // 
-            pntendangnhap.Controls.Add(txtusernv);
-            pntendangnhap.Controls.Add(lbiconuser);
-            pntendangnhap.Dock = DockStyle.Fill;
-            pntendangnhap.Location = new Point(280, 3);
-            pntendangnhap.Name = "pntendangnhap";
-            pntendangnhap.Size = new Size(511, 76);
-            pntendangnhap.TabIndex = 1;
-            // 
-            // txtusernv
-            // 
-            txtusernv.Location = new Point(59, 22);
-            txtusernv.Name = "txtusernv";
-            txtusernv.Size = new Size(335, 27);
-            txtusernv.TabIndex = 1;
-            txtusernv.Text = "nv_phuc";
-            // 
-            // lbiconuser
-            // 
-            lbiconuser.Location = new Point(3, 9);
-            lbiconuser.Name = "lbiconuser";
-            lbiconuser.Size = new Size(50, 50);
-            lbiconuser.TabIndex = 0;
-            // 
-            // pnpasswordnv
-            // 
-            pnpasswordnv.Controls.Add(btnPassword);
-            pnpasswordnv.Controls.Add(txtpasswordnv);
-            pnpasswordnv.Controls.Add(lbiconpassword);
-            pnpasswordnv.Dock = DockStyle.Fill;
-            pnpasswordnv.Location = new Point(280, 85);
-            pnpasswordnv.Name = "pnpasswordnv";
-            pnpasswordnv.Size = new Size(511, 76);
-            pnpasswordnv.TabIndex = 2;
-            // 
-            // btnPassword
-            // 
-            btnPassword.Location = new Point(308, 22);
-            btnPassword.Name = "btnPassword";
-            btnPassword.Size = new Size(60, 35);
-            btnPassword.TabIndex = 6;
-            btnPassword.Text = "👁️";
-            btnPassword.UseVisualStyleBackColor = true;
-            btnPassword.Click += btnPassword_Click_1;
-            // 
-            // txtpasswordnv
-            // 
-            txtpasswordnv.Location = new Point(59, 26);
-            txtpasswordnv.Name = "txtpasswordnv";
-            txtpasswordnv.PasswordChar = '*';
-            txtpasswordnv.Size = new Size(214, 27);
-            txtpasswordnv.TabIndex = 4;
-            txtpasswordnv.Text = "Nv!12345";
-            // 
-            // lbiconpassword
-            // 
-            lbiconpassword.Location = new Point(3, 12);
-            lbiconpassword.Name = "lbiconpassword";
-            lbiconpassword.Size = new Size(50, 50);
-            lbiconpassword.TabIndex = 3;
             // 
             // lbpassword
             // 
             lbpassword.AutoSize = true;
             lbpassword.Dock = DockStyle.Right;
             lbpassword.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbpassword.Location = new Point(199, 82);
+            lbpassword.Location = new Point(231, 66);
             lbpassword.Name = "lbpassword";
-            lbpassword.Size = new Size(75, 82);
+            lbpassword.Size = new Size(75, 66);
             lbpassword.TabIndex = 3;
             lbpassword.Text = "Mật khẩu";
             lbpassword.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // pnbutton
+            // tlppass
             // 
-            pnbutton.Controls.Add(btnlogin);
-            pnbutton.Controls.Add(btnexit);
-            pnbutton.Dock = DockStyle.Fill;
-            pnbutton.Location = new Point(280, 167);
-            pnbutton.Name = "pnbutton";
-            pnbutton.Size = new Size(511, 77);
-            pnbutton.TabIndex = 4;
+            tlppass.ColumnCount = 2;
+            tlppass.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.3783226F));
+            tlppass.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.62167F));
+            tlppass.Controls.Add(btnPassword, 1, 0);
+            tlppass.Controls.Add(txtpasswordnv, 0, 0);
+            tlppass.Dock = DockStyle.Fill;
+            tlppass.Location = new Point(312, 69);
+            tlppass.Name = "tlppass";
+            tlppass.RowCount = 1;
+            tlppass.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlppass.Size = new Size(479, 60);
+            tlppass.TabIndex = 7;
+            // 
+            // btnPassword
+            // 
+            btnPassword.Anchor = AnchorStyles.Left;
+            btnPassword.Image = Properties.Resources.eye;
+            btnPassword.Location = new Point(172, 12);
+            btnPassword.Name = "btnPassword";
+            btnPassword.Size = new Size(60, 35);
+            btnPassword.TabIndex = 6;
+            btnPassword.UseVisualStyleBackColor = true;
+            btnPassword.Click += btnPassword_Click_1;
+            // 
+            // txtpasswordnv
+            // 
+            txtpasswordnv.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtpasswordnv.Location = new Point(3, 16);
+            txtpasswordnv.Name = "txtpasswordnv";
+            txtpasswordnv.PasswordChar = '*';
+            txtpasswordnv.Size = new Size(163, 27);
+            txtpasswordnv.TabIndex = 4;
+            txtpasswordnv.Text = "Nv!12345";
+            // 
+            // tlpusername
+            // 
+            tlpusername.ColumnCount = 2;
+            tlpusername.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.3783226F));
+            tlpusername.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.62167F));
+            tlpusername.Controls.Add(txtusernv, 0, 0);
+            tlpusername.Dock = DockStyle.Fill;
+            tlpusername.Location = new Point(312, 3);
+            tlpusername.Name = "tlpusername";
+            tlpusername.RowCount = 1;
+            tlpusername.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpusername.Size = new Size(479, 60);
+            tlpusername.TabIndex = 8;
+            // 
+            // txtusernv
+            // 
+            txtusernv.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtusernv.Location = new Point(3, 16);
+            txtusernv.Name = "txtusernv";
+            txtusernv.Size = new Size(163, 27);
+            txtusernv.TabIndex = 1;
+            txtusernv.Text = "nv_phuc";
+            // 
+            // tlpbutton
+            // 
+            tlpbutton.ColumnCount = 2;
+            tlpbutton.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.3783226F));
+            tlpbutton.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.62167F));
+            tlpbutton.Controls.Add(btnlogin, 0, 0);
+            tlpbutton.Controls.Add(btnexit, 1, 0);
+            tlpbutton.Dock = DockStyle.Fill;
+            tlpbutton.Location = new Point(312, 135);
+            tlpbutton.Name = "tlpbutton";
+            tlpbutton.RowCount = 1;
+            tlpbutton.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpbutton.Size = new Size(479, 76);
+            tlpbutton.TabIndex = 9;
             // 
             // btnlogin
             // 
             btnlogin.BackColor = Color.DarkRed;
             btnlogin.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnlogin.ForeColor = Color.White;
-            btnlogin.Location = new Point(0, 0);
+            btnlogin.Image = Properties.Resources.login;
+            btnlogin.Location = new Point(3, 3);
             btnlogin.Name = "btnlogin";
-            btnlogin.Size = new Size(112, 77);
+            btnlogin.Size = new Size(112, 70);
             btnlogin.TabIndex = 0;
-            btnlogin.Text = "ĐĂNG NHẬP";
             btnlogin.UseVisualStyleBackColor = false;
             btnlogin.Click += btnlogin_Click;
             // 
@@ -186,11 +187,11 @@
             btnexit.BackColor = Color.DarkRed;
             btnexit.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnexit.ForeColor = Color.White;
-            btnexit.Location = new Point(196, 3);
+            btnexit.Image = Properties.Resources.exit;
+            btnexit.Location = new Point(172, 3);
             btnexit.Name = "btnexit";
-            btnexit.Size = new Size(112, 71);
+            btnexit.Size = new Size(112, 70);
             btnexit.TabIndex = 0;
-            btnexit.Text = "THOÁT";
             btnexit.UseVisualStyleBackColor = false;
             btnexit.Click += btnexit_Click;
             // 
@@ -199,9 +200,9 @@
             tlpfrmDNADMIN.ColumnCount = 1;
             tlpfrmDNADMIN.ColumnStyles.Add(new ColumnStyle());
             tlpfrmDNADMIN.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tlpfrmDNADMIN.Controls.Add(lblogo, 0, 0);
             tlpfrmDNADMIN.Controls.Add(lblognhanvien, 0, 1);
             tlpfrmDNADMIN.Controls.Add(tlpthan, 0, 2);
+            tlpfrmDNADMIN.Controls.Add(pictureBox1, 0, 0);
             tlpfrmDNADMIN.Dock = DockStyle.Fill;
             tlpfrmDNADMIN.Location = new Point(0, 0);
             tlpfrmDNADMIN.Name = "tlpfrmDNADMIN";
@@ -211,15 +212,6 @@
             tlpfrmDNADMIN.RowStyles.Add(new RowStyle(SizeType.Percent, 74.27938F));
             tlpfrmDNADMIN.Size = new Size(800, 450);
             tlpfrmDNADMIN.TabIndex = 1;
-            // 
-            // lblogo
-            // 
-            lblogo.AutoSize = true;
-            lblogo.Dock = DockStyle.Fill;
-            lblogo.Location = new Point(3, 0);
-            lblogo.Name = "lblogo";
-            lblogo.Size = new Size(794, 74);
-            lblogo.TabIndex = 0;
             // 
             // lblognhanvien
             // 
@@ -233,6 +225,17 @@
             lblognhanvien.Text = "ĐĂNG NHẬP NHÂN VIÊN";
             lblognhanvien.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.Image = Properties.Resources.logo;
+            pictureBox1.Location = new Point(3, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(794, 68);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 10;
+            pictureBox1.TabStop = false;
+            // 
             // DangNhapNV
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -245,13 +248,14 @@
             Load += DangNhapNV_Load;
             tlpthan.ResumeLayout(false);
             tlpthan.PerformLayout();
-            pntendangnhap.ResumeLayout(false);
-            pntendangnhap.PerformLayout();
-            pnpasswordnv.ResumeLayout(false);
-            pnpasswordnv.PerformLayout();
-            pnbutton.ResumeLayout(false);
+            tlppass.ResumeLayout(false);
+            tlppass.PerformLayout();
+            tlpusername.ResumeLayout(false);
+            tlpusername.PerformLayout();
+            tlpbutton.ResumeLayout(false);
             tlpfrmDNADMIN.ResumeLayout(false);
             tlpfrmDNADMIN.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -259,19 +263,17 @@
 
         private TableLayoutPanel tlpthan;
         private Label lbusername;
-        private Panel pntendangnhap;
         private TextBox txtusernv;
-        private Label lbiconuser;
-        private Panel pnpasswordnv;
         private TextBox txtpasswordnv;
-        private Label lbiconpassword;
         private Label lbpassword;
-        private Panel pnbutton;
         private Button btnlogin;
         private Button btnexit;
         private TableLayoutPanel tlpfrmDNADMIN;
-        private Label lblogo;
         private Label lblognhanvien;
         private Button btnPassword;
+        private TableLayoutPanel tlppass;
+        private TableLayoutPanel tlpusername;
+        private TableLayoutPanel tlpbutton;
+        private PictureBox pictureBox1;
     }
 }

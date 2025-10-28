@@ -58,6 +58,8 @@ namespace CF36
         {
             KhoiTaoComboBoxLoc();
             LoadDanhSachNhanVien();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
         private void KhoiTaoComboBoxLoc()
         {
@@ -74,9 +76,29 @@ namespace CF36
                 dgvNhanVien.DataSource = dt;
 
                 if (dgvNhanVien.Columns.Contains("Mand"))
-                    dgvNhanVien.Columns["Mand"].HeaderText = "Mã NV";
+                    dgvNhanVien.Columns["Mand"].HeaderText = "Mã nhân viên";
+                if (dgvNhanVien.Columns.Contains("Tk"))
+                    dgvNhanVien.Columns["Tk"].HeaderText = "Tài khoản";
+                if (dgvNhanVien.Columns.Contains("Mk"))
+                    dgvNhanVien.Columns["Mk"].HeaderText = "Mật khẩu";
+                if (dgvNhanVien.Columns.Contains("Vitri"))
+                    dgvNhanVien.Columns["Vitri"].HeaderText = "Vị trí";
                 if (dgvNhanVien.Columns.Contains("Hoten"))
-                    dgvNhanVien.Columns["Hoten"].HeaderText = "Họ Tên";
+                    dgvNhanVien.Columns["Hoten"].HeaderText = "Họ tên";
+                if (dgvNhanVien.Columns.Contains("Sdt"))
+                    dgvNhanVien.Columns["Sdt"].HeaderText = "Số điện thoại";
+                if (dgvNhanVien.Columns.Contains("Email"))
+                    dgvNhanVien.Columns["Email"].HeaderText = "Email";
+                if (dgvNhanVien.Columns.Contains("Ngsing"))
+                    dgvNhanVien.Columns["Ngsinh"].HeaderText = "Ngày sinh";
+                if (dgvNhanVien.Columns.Contains("Diachi"))
+                    dgvNhanVien.Columns["Diachi"].HeaderText = "Địa chỉ";
+                if (dgvNhanVien.Columns.Contains("Luong"))
+                    dgvNhanVien.Columns["Luong"].HeaderText = "Lương theo giờ";
+                if (dgvNhanVien.Columns.Contains("Bank"))
+                    dgvNhanVien.Columns["Bank"].HeaderText = "Bank";
+                if (dgvNhanVien.Columns.Contains("Stk"))
+                    dgvNhanVien.Columns["Stk"].HeaderText = "Số tài khoản";
             }
             catch (Exception ex)
             {

@@ -28,17 +28,7 @@ namespace CF36
         {
             DataTable dt = VoucherBUS.Instance.GetAllVouchersWithJoin();
             dgvMaGiamGia.DataSource = dt;
-            SetColumnHeader("Mavc", "Mã giảm giá");
-            SetColumnHeader("Code", "Mã code");
-            SetColumnHeader("Giatri", "Giá trị giảm");
-            SetColumnHeader("Ngaybd", "Ngày bắt đầu");
-            SetColumnHeader("Ngaykt", "Ngày kết thúc");
-            SetColumnHeader("DieuKien", "Đơn tối thiểu");
-            SetColumnHeader("Maloaivc", "Loại mã");
-            SetColumnHeader("maloai", "Mã loại sản phẩm mua");
-            SetColumnHeader("TenLoaiSanPhamApDung", "Loại SP áp dụng");
-            SetColumnHeader("TenLoaiSanPhamTang", "Loại SP tặng");
-
+            SetAllColumnHeaders();
         }
         private void LoadVoucherTypes()
         {
@@ -63,6 +53,8 @@ namespace CF36
         {
             LoadVoucherTypes();
             LoadVouchers();
+            UIDataGridView.FormatDataGridView(dgvMaGiamGia);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
         }
 
         private void btnSuaMaGiamGia_Click(object sender, EventArgs e)
@@ -70,12 +62,21 @@ namespace CF36
             if (dgvMaGiamGia.SelectedRows.Count > 0)
             {
                 int mavc = Convert.ToInt32(dgvMaGiamGia.SelectedRows[0].Cells["Mavc"].Value);
-                SuaMaGiamGia suaForm = new SuaMaGiamGia(mavc);
-                suaForm.ShowDialog();
+                int maloaivc = Convert.ToInt32(dgvMaGiamGia.SelectedRows[0].Cells["Maloaivc"].Value);
+
+                if (maloaivc == 1 || maloaivc == 3)
+                {
+                    SuaMaGiamGia form = new SuaMaGiamGia(mavc);
+                    form.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Mã này không phải loại 'Giảm theo %' hoặc 'Giảm theo giá trị thực'.");
+                }
             }
             else
             {
-                MessageBox.Show("Vui lòng chọn mã giảm giá cần sửa.");
+                MessageBox.Show("Vui lòng chọn mã cần sửa.");
             }
         }
 
@@ -99,8 +100,8 @@ namespace CF36
         }
         private void SetAllColumnHeaders()
         {
-            SetColumnHeader("Mavc", "Mã giảm giá");
-            SetColumnHeader("Code", "Mã code");
+            SetColumnHeader("Mavc", "Id");
+            SetColumnHeader("Code", "Mã giảm giá");
             SetColumnHeader("Giatri", "Giá trị giảm");
             SetColumnHeader("Ngaybd", "Ngày bắt đầu");
             SetColumnHeader("Ngaykt", "Ngày kết thúc");

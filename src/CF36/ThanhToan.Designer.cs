@@ -230,6 +230,7 @@
             Name = "ThanhToan";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thanh toán";
+            Load += ThanhToan_Load;
             tLPall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpthan.ResumeLayout(false);

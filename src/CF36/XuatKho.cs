@@ -29,6 +29,8 @@ namespace CF36
         {
             dgvxuatkho.AutoGenerateColumns = false;
             dgvxuatkho.DataSource = KhoBUS.LayTatCa();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
@@ -91,6 +93,9 @@ namespace CF36
         {
         }
 
-        
+        private void XuatKho_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace CF36
             // Mặc định chọn loại giảm theo giá trị thực
             cbbLoaiMaGG.SelectedValue = 3; // Giả sử 3 là "Giảm theo giá trị thực"
             UpdateInputVisibility();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
 
 
         }

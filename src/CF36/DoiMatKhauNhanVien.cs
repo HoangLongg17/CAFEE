@@ -59,6 +59,8 @@ namespace CF36
         private void DoiMatKhauNhanVien_Load(object sender, EventArgs e)
         {
             //txtMatKhauMoi.Focus();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
@@ -101,6 +103,10 @@ namespace CF36
 
 
             }
+        }
+
+        private void DoiMatKhauNhanVien_Load_1(object sender, EventArgs e)
+        {
         }
     }
 

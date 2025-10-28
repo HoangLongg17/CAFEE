@@ -30,6 +30,8 @@ namespace CF36
             LoadAllHoaDon();
             LoadNhanVienGrid();
             InitializePdfFont();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
         private void InitializePdfFont()
         {
@@ -74,6 +76,8 @@ namespace CF36
             try
             {
                 dgvHoaDon.DataSource = lichSuBUS.SearchHoaDon(null, null, null, null);
+                UIDataGridView.FormatDataGridView(dgvHoaDon);
+                SetupHoaDonGridColumns();
             }
             catch (Exception ex)
             {
@@ -86,6 +90,8 @@ namespace CF36
             try
             {
                 dgvNhanVien.DataSource = lichSuBUS.GetNhanVienList();
+                UIDataGridView.FormatDataGridView(dgvNhanVien);
+                SetupNhanVienGridColumns();
             }
             catch (Exception ex)
             {
@@ -300,6 +306,59 @@ namespace CF36
                 }
             }
             return pdfTable;
+        }
+        private void SetupNhanVienGridColumns()
+        {
+            var columnMap = new Dictionary<string, string>
+            {
+                { "Mand", "Mã nhân viên" },
+                { "Vitri", "Vị trí" },
+                { "Hoten", "Họ tên" },
+                { "Sdt", "Số điện thoại" },
+                { "Email", "Email" },
+                { "NgaySinh", "Ngày sinh" },
+                { "Diachi", "Địa chỉ" },
+                { "Luong", "Lương" },
+                { "Bank", "Bank" },
+                { "Stk", "Số tài khoản" }
+            };
+
+            foreach (DataGridViewColumn col in dgvNhanVien.Columns)
+            {
+                if (columnMap.ContainsKey(col.Name))
+                {
+                    col.HeaderText = columnMap[col.Name];
+                    col.Visible = true;
+                }
+                else
+                {
+                    col.Visible = false; // Ẩn các cột không nằm trong danh sách
+                }
+            }
+        }
+        private void SetupHoaDonGridColumns()
+        {
+            var columnMap = new Dictionary<string, string>
+            {
+                { "MaHD", "Mã hợp đồng" },
+                { "NgayLap", "Ngày lập" },
+                { "TenNhanVien", "Tên nhân viên" },
+                { "TenKhachHang", "Tên khách hàng" },
+                { "TongTien", "Tổng tiền" }
+            };
+
+            foreach (DataGridViewColumn col in dgvHoaDon.Columns)
+            {
+                if (columnMap.ContainsKey(col.Name))
+                {
+                    col.HeaderText = columnMap[col.Name];
+                    col.Visible = true;
+                }
+                else
+                {
+                    col.Visible = false; // Ẩn các cột không cần thiết
+                }
+            }
         }
     }
 }

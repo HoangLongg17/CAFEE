@@ -217,6 +217,7 @@
             Name = "DoiMatKhauQuanLi";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đổi mật khẩu";
+            Load += DoiMatKhauQuanLi_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpthongtin.ResumeLayout(false);

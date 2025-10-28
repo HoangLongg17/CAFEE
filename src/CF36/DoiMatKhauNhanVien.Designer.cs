@@ -195,7 +195,7 @@
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(99, 59);
             btnThoat.TabIndex = 6;
-            btnThoat.Text = "THOÁT";
+            btnThoat.Text = "Thoát";
             btnThoat.UseVisualStyleBackColor = true;
             btnThoat.Click += btnThoat_Click_1;
             // 
@@ -219,6 +219,7 @@
             Name = "DoiMatKhauNhanVien";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đổi mật khẩu";
+            Load += DoiMatKhauNhanVien_Load_1;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpThongTin.ResumeLayout(false);

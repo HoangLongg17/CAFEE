@@ -31,5 +31,15 @@ namespace CF36
             thanhToan.ShowDialog();
             this.Show();
         }
+
+        private void BANHANG_Load(object sender, EventArgs e)
+        {
+            UIButton.ReplaceStandardButtonsWithIcons(this,
+                Properties.Resources.exit,
+                Properties.Resources.delete,
+                Properties.Resources.refresh);
+
+
+        }
     }
 }

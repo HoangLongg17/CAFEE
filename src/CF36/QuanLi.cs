@@ -34,6 +34,7 @@ namespace CF36
 
         private void QuanLi_Load(object sender, EventArgs e)
         {
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
 
         }
 
@@ -126,6 +127,14 @@ namespace CF36
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void lịchSửChấmCôngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LichSuChamCong lichSuChamCong = new LichSuChamCong();
+            lichSuChamCong.ShowDialog();
+            this.Show();
         }
     }
 

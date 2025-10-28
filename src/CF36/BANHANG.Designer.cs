@@ -316,6 +316,7 @@
             Name = "BANHANG";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Bán hàng";
+            Load += BANHANG_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpThan.ResumeLayout(false);

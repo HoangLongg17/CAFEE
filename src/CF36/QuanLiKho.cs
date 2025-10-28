@@ -29,6 +29,8 @@ namespace CF36
         {
             dgvKho.AutoGenerateColumns = false;
             dgvKho.DataSource = KhoBUS.LayTatCa();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
 
 
@@ -79,6 +81,11 @@ namespace CF36
         {
             XuatKho xuatkho = new XuatKho();
             xuatkho.Show();
+        }
+
+        private void QuanLiKho_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

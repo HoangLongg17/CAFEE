@@ -30,6 +30,16 @@ namespace CF36
         private void LoadDSKH()
         {
             dgvKhachHang.DataSource = KhachHangBUS.LayDSKH();
+            UIDataGridView.FormatDataGridView(dgvKhachHang);
+
+            if (dgvKhachHang.Columns.Count > 0)
+            {
+                dgvKhachHang.Columns["Makh"].HeaderText = "Mã khách hàng";
+                dgvKhachHang.Columns["Tenkh"].HeaderText = "Tên khách hàng";
+                dgvKhachHang.Columns["Sdt"].HeaderText = "Số điện thoại";
+                dgvKhachHang.Columns["Tichdiem"].HeaderText = "Tích điểm";
+            }
+
         }
         private void btnSuaKhachHang_Click(object sender, EventArgs e)
         {
@@ -73,6 +83,8 @@ namespace CF36
         private void QuanLiKhachHang_Load(object sender, EventArgs e)
         {
             LoadDSKH();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+
         }
 
         private void dgvKhachHang_CellContentClick(object sender, DataGridViewCellEventArgs e)
