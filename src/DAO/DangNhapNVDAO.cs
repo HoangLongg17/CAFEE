@@ -17,7 +17,7 @@ namespace DAO
 
         public DangNhapNVDTO Dangnhap(string username)
         {
-            string query = "SELECT Mand,Tk,Mk,Hoten FROM NGUOIDUNG WHERE Tk = @Tk AND Tk LIKE 'nv%'";
+            string query = "SELECT Mand,Tk,Mk,Hoten FROM NGUOIDUNG WHERE Tk = @Tk AND Mand LIKE 'NV%'";
             SqlParameter[] parameters = new SqlParameter[]
             {
                  new SqlParameter("@Tk", username)
