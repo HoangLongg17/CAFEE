@@ -115,6 +115,7 @@
             mÃGIẢMGIÁToolStripMenuItem.Name = "mÃGIẢMGIÁToolStripMenuItem";
             mÃGIẢMGIÁToolStripMenuItem.Size = new Size(115, 22);
             mÃGIẢMGIÁToolStripMenuItem.Text = "MÃ GIẢM GIÁ";
+            mÃGIẢMGIÁToolStripMenuItem.Click += mÃGIẢMGIÁToolStripMenuItem_Click;
             // 
             // dANHSÁCHMÃGIẢMGIÁToolStripMenuItem
             // 

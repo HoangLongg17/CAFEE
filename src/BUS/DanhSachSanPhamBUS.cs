@@ -81,6 +81,17 @@ namespace BUS
         {
             return DanhSachSanPhamDAO.Instance.GetSanPhamWithVoucher();
         }
-
+        public SanPhamDTO GetSanPhamTheoMaVaKichCo(string maSP, string kichCo)
+        {
+            return DanhSachSanPhamDAO.Instance.GetSanPhamTheoMaVaKichCo(maSP, kichCo);
+        }
+        public int GetLoaiSanPhamTheoTen(string tenSP)
+        {
+            return DanhSachSanPhamDAO.Instance.GetLoaiSanPhamTheoTen(tenSP);
+        }
+        public DataTable GetSanPhamTangByVoucher(int mavc)
+        {
+            return Voucher1tang1DAO.Instance.GetSanPhamTangByVoucher(mavc);
+        }
     }
 }

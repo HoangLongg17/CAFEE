@@ -10,6 +10,19 @@ namespace DAO
 {
     public class KhachHangDAO
     {
+        private DataProvider provider = DataProvider.Instance;
+        private static KhachHangDAO instance;
+        public static KhachHangDAO Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new KhachHangDAO();
+                return instance;
+            }
+        }
+
+        public KhachHangDAO() { }
         public static List<KhachHangDTO> layDSKH()
         {
             List<KhachHangDTO> dsKH = new List<KhachHangDTO>();
@@ -72,6 +85,23 @@ namespace DAO
             }
             return dsKH;
         }
+        public List<KhachHangDTO> TimKiemTheoSDT(string sdt)
+        {
+            string query = "SELECT makh, tenkh, sdt FROM KHACHHANG WHERE sdt LIKE @sdt";
+            SqlParameter[] param = { new SqlParameter("@sdt", "%" + sdt + "%") };
+            DataTable dt = provider.ExecuteQuery(query, param);
 
+            List<KhachHangDTO> list = new List<KhachHangDTO>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new KhachHangDTO
+                {
+                    Makh = Convert.ToInt32(row["makh"]),
+                    Tenkh = row["tenkh"].ToString(),
+                    Sdt = row["sdt"].ToString()
+                });
+            }
+            return list;
+        }
     }
 }

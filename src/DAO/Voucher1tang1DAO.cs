@@ -83,26 +83,34 @@ namespace DAO
 
         public DataTable GetSanPhamTangByVoucher(int mavc)
         {
-            string query = @"SELECT sp.masp, sp.tensp, kc2.kichco
-                     FROM CHITIETVC ct
-                     JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
-                     JOIN SANPHAM sp ON kc.masp = sp.masp
-                     JOIN KICHCO kc2 ON kc.makichco = kc2.makichco
-                     WHERE ct.Mavc = @Mavc";
-            SqlParameter[] parameters = { new SqlParameter("@Mavc", mavc) };
+            string query = @"
+            SELECT sp.masp, sp.tensp, kc.kichco
+            FROM CHITIETVC ct
+            JOIN KICHCOSP k ON ct.Idkcsp = k.Id
+            JOIN SANPHAM sp ON k.masp = sp.masp
+            JOIN KICHCO kc ON k.makichco = kc.makichco
+            WHERE ct.Mavc = @Mavc";
+
+            SqlParameter[] parameters = {
+            new SqlParameter("@Mavc", mavc)
+            };
+
             return DataProvider.Instance.ExecuteQuery(query, parameters);
         }
         // Lấy danh sách sản phẩm tặng theo từ khóa
         public DataTable SearchSanPhamTang(string keyword)
         {
-            string query = "SELECT sp.masp, sp.tensp, kc2.kichco " +
-                           "FROM SANPHAM sp " +
-                           "JOIN KICHCOSP kc ON sp.masp = kc.masp " +
-                           "JOIN KICHCO kc2 ON kc.makichco = kc2.makichco " +
-                           "WHERE sp.tensp LIKE N'%' + @Keyword + '%'";
+            string query = @"
+            SELECT sp.masp, sp.tensp, kc.kichco
+            FROM SANPHAM sp
+            JOIN KICHCOSP k ON sp.masp = k.masp
+            JOIN KICHCO kc ON k.makichco = kc.makichco
+            WHERE sp.tensp LIKE N'%' + @Keyword + '%'";
+
             SqlParameter[] parameters = {
             new SqlParameter("@Keyword", keyword)
-        };
+            };
+
             return DataProvider.Instance.ExecuteQuery(query, parameters);
         }
         public bool UpdateVoucher(int mavc, string code, int loaiVC, int maloai, decimal dieuKien)
@@ -134,6 +142,20 @@ namespace DAO
             SqlParameter[] parameters = { new SqlParameter("@Mavc", mavc) };
             return DataProvider.Instance.ExecuteNonQuery(query, parameters) > 0;
         }
+        public DataTable TimSanPhamTangTheoLoai(int maloai)
+        {
+            string query = @"
+            SELECT sp.masp, sp.tensp, kc.kichco, sp.maloai
+            FROM SANPHAM sp
+            JOIN KICHCOSP k ON sp.masp = k.masp
+            JOIN KICHCO kc ON k.makichco = kc.makichco
+            WHERE sp.maloai = @maloai";
 
+            SqlParameter[] param = {
+            new SqlParameter("@maloai", maloai)
+            };
+
+            return DataProvider.Instance.ExecuteQuery(query, param);
+        }
     }
 }

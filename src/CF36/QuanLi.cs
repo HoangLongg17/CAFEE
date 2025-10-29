@@ -148,6 +148,11 @@ namespace CF36
         {
             bThoiGian.Text = DateTime.Now.ToString("HH:mm:ss");
         }
+
+        private void mÃGIẢMGIÁToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

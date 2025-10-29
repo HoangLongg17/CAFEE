@@ -343,6 +343,7 @@
             cbbSanPhamMua.Name = "cbbSanPhamMua";
             cbbSanPhamMua.Size = new Size(123, 28);
             cbbSanPhamMua.TabIndex = 6;
+            cbbSanPhamMua.SelectedIndexChanged += cbbSanPhamMua_SelectedIndexChanged;
             // 
             // tlpend
             // 

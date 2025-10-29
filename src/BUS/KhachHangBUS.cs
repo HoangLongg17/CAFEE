@@ -56,6 +56,9 @@ namespace BUS
         {
             return KhachHangDAO.timTheoTenHoacSDT(keyword);
         }
-
+        public List<KhachHangDTO> TimKiemTheoSDT(string sdt)
+        {
+            return KhachHangDAO.Instance.TimKiemTheoSDT(sdt);
+        }
     }
 }

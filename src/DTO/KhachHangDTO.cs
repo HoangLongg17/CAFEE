@@ -9,6 +9,7 @@ namespace DTO
 {
     public class KhachHangDTO
     {
+        public KhachHangDTO() { }
         public KhachHangDTO(int makh, string tenkh, string sdt, int tichdiem)
         {
             this.Makh = makh;

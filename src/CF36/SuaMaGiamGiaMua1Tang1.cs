@@ -147,7 +147,7 @@ namespace CF36
 
             try
             {
-                bool ok = Voucher1tang1BUS.Instance.SuaVoucher(mavc, code, loaiVC, maloai, dieuKien, dsTang);
+                bool ok = Voucher1tang1BUS.Instance.CapNhatVoucher(mavc, code, loaiVC, maloai, dieuKien, dsTang);
                 MessageBox.Show(ok ? "Cập nhật mã giảm giá thành công!" : "Cập nhật thất bại!");
                 if (ok) this.Close();
             }

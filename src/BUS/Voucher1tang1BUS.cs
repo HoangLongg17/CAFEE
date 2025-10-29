@@ -25,26 +25,20 @@ namespace BUS
         private Voucher1tang1BUS() { }
 
         // Thêm mã giảm giá mua 1 tặng 1
-        public bool ThemVoucher(string code, string tenMa, int loaiVC, int maloai, decimal dieuKien, List<(string masp, string kichco)> dsSanPhamTang)
+        public bool ThemVoucher(string code, string tenMa, int loaiVC, int maloai, decimal dieuKien, List<(string masp, string kichco)> dsTang)
         {
-            if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(tenMa))
-                throw new ArgumentException("Mã và tên mã không được để trống.");
-
             int result = Voucher1tang1DAO.Instance.InsertVoucher(code, tenMa, loaiVC, maloai, dieuKien);
             if (result <= 0) return false;
 
             int mavc = Voucher1tang1DAO.Instance.GetVoucherId(code);
             if (mavc <= 0) return false;
 
-            if (loaiVC == 4 && dsSanPhamTang != null)
+            foreach (var item in dsTang)
             {
-                foreach (var item in dsSanPhamTang)
+                int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(item.masp, item.kichco);
+                if (idkcsp > 0)
                 {
-                    int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(item.masp, item.kichco);
-                    if (idkcsp > 0)
-                    {
-                        Voucher1tang1DAO.Instance.InsertChiTietVC(mavc, idkcsp);
-                    }
+                    Voucher1tang1DAO.Instance.InsertChiTietVC(mavc, idkcsp);
                 }
             }
 
@@ -55,23 +49,19 @@ namespace BUS
         {
             return Voucher1tang1DAO.Instance.SearchSanPhamTang(keyword);
         }
-        public bool SuaVoucher(int mavc, string code, int loaiVC, int maloai, decimal dieuKien, List<(string masp, string kichco)> dsSanPhamTang)
+        public bool CapNhatVoucher(int mavc, string code, int loaiVC, int maloai, decimal dieuKien, List<(string masp, string kichco)> dsTang)
         {
-            bool updated = Voucher1tang1DAO.Instance.UpdateVoucher(mavc, code, loaiVC, maloai, dieuKien);
-            if (!updated) return false;
+            bool ok = Voucher1tang1DAO.Instance.UpdateVoucher(mavc, code, loaiVC, maloai, dieuKien);
+            if (!ok) return false;
 
-            // Xóa chi tiết cũ nếu là loại 4
             Voucher1tang1DAO.Instance.DeleteChiTietVC(mavc);
 
-            if (loaiVC == 4 && dsSanPhamTang != null)
+            foreach (var item in dsTang)
             {
-                foreach (var item in dsSanPhamTang)
+                int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(item.masp, item.kichco);
+                if (idkcsp > 0)
                 {
-                    int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(item.masp, item.kichco);
-                    if (idkcsp > 0)
-                    {
-                        Voucher1tang1DAO.Instance.InsertChiTietVC(mavc, idkcsp);
-                    }
+                    Voucher1tang1DAO.Instance.InsertChiTietVC(mavc, idkcsp);
                 }
             }
 
@@ -85,6 +75,10 @@ namespace BUS
         public DataTable GetSanPhamTangByVoucher(int mavc)
         {
             return Voucher1tang1DAO.Instance.GetSanPhamTangByVoucher(mavc);
+        }
+        public DataTable TimSanPhamTangTheoLoai(int maloai)
+        {
+            return Voucher1tang1DAO.Instance.TimSanPhamTangTheoLoai(maloai);
         }
     }
 }

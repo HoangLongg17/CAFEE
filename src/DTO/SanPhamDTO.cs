@@ -6,5 +6,7 @@
         public string TenSP { get; set; }
         public int MaLoai { get; set; }
         public string DuongDanAnh { get; set; }
+        public string KichCo { get; set; }
+
     }
 }

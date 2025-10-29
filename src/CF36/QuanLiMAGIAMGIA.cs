@@ -13,9 +13,12 @@ namespace CF36
 {
     public partial class QuanLiMAGIAMGIA : Form
     {
-        public QuanLiMAGIAMGIA()
+        public string MaGiamGiaDuocChon { get; private set; }
+        private bool isChonMa = false;
+        public QuanLiMAGIAMGIA(bool chonMa = false)
         {
             InitializeComponent();
+            isChonMa = chonMa;
         }
         void SetColumnHeader(string columnName, string headerText)
         {
@@ -24,7 +27,7 @@ namespace CF36
                 dgvMaGiamGia.Columns[columnName].HeaderText = headerText;
             }
         }
-        private void LoadVouchers()
+        public void LoadVouchers()
         {
             DataTable dt = VoucherBUS.Instance.GetAllVouchersWithJoin();
             dgvMaGiamGia.DataSource = dt;
@@ -56,6 +59,7 @@ namespace CF36
             UIDataGridView.FormatDataGridView(dgvMaGiamGia);
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
+            btnApDung.Visible = isChonMa;
 
         }
 
@@ -176,6 +180,21 @@ namespace CF36
             else
             {
                 MessageBox.Show("Vui lòng chọn mã cần sửa.");
+            }
+
+        }
+
+        private void btnApDung_Click(object sender, EventArgs e)
+        {
+            if (dgvMaGiamGia.CurrentRow != null)
+            {
+                MaGiamGiaDuocChon = dgvMaGiamGia.CurrentRow.Cells["code"].Value.ToString();
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một mã giảm giá để áp dụng.");
             }
 
         }

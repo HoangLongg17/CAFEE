@@ -229,5 +229,55 @@ namespace DAO
             int result = provider.ExecuteNonQuery(query, param);
             return result > 0;
         }
+        public SanPhamDTO GetSanPhamTheoMaVaKichCo(string masp, string kichco)
+        {
+            // Chuẩn hóa đầu vào
+            masp = masp.Trim();
+            kichco = kichco.Trim();
+
+            string query = @"
+        SELECT sp.masp, sp.tensp, sp.maloai, kc.kichco
+        FROM SANPHAM sp
+        JOIN KICHCOSP k ON sp.masp = k.masp
+        JOIN KICHCO kc ON k.makichco = kc.makichco
+        WHERE sp.masp = @MaSP AND kc.kichco = @Size";
+
+            SqlParameter[] parameters = {
+        new SqlParameter("@MaSP", masp),
+        new SqlParameter("@Size", kichco)
+    };
+
+            DataTable dt = DataProvider.Instance.ExecuteQuery(query, parameters);
+            if (dt.Rows.Count == 0) return null;
+
+            DataRow row = dt.Rows[0];
+
+            return new SanPhamDTO
+            {
+                MaSP = row["masp"].ToString(),
+                TenSP = row["tensp"].ToString(),
+                MaLoai = Convert.ToInt32(row["maloai"]),
+                KichCo = row["kichco"].ToString()
+            };
+        }
+        public int GetLoaiSanPhamTheoTen(string tenSP)
+        {
+            string query = @"
+            SELECT TOP 1 sp.maloai
+            FROM SANPHAM sp
+            WHERE sp.tenSP = @tenSP";
+
+            SqlParameter[] parameters = {
+            new SqlParameter("@tenSP", tenSP)
+            };
+
+            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            if (result != null && int.TryParse(result.ToString(), out int maLoai))
+            {
+                return maLoai;
+            }
+
+            return -1; // hoặc 0 nếu bạn muốn mặc định là không xác định
+        }
     }
 }

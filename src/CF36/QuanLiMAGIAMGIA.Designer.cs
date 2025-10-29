@@ -41,6 +41,7 @@
             tlpDuoi = new TableLayoutPanel();
             btnThoat = new Button();
             btnXoa = new Button();
+            btnApDung = new Button();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             tlpChucnang.SuspendLayout();
@@ -176,11 +177,13 @@
             // 
             // tlpDuoi
             // 
-            tlpDuoi.ColumnCount = 2;
-            tlpDuoi.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 83.72642F));
-            tlpDuoi.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.2735844F));
-            tlpDuoi.Controls.Add(btnThoat, 1, 0);
-            tlpDuoi.Controls.Add(btnXoa, 0, 0);
+            tlpDuoi.ColumnCount = 3;
+            tlpDuoi.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 81.20617F));
+            tlpDuoi.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.793829F));
+            tlpDuoi.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 134F));
+            tlpDuoi.Controls.Add(btnThoat, 2, 0);
+            tlpDuoi.Controls.Add(btnXoa, 1, 0);
+            tlpDuoi.Controls.Add(btnApDung, 0, 0);
             tlpDuoi.Dock = DockStyle.Fill;
             tlpDuoi.Location = new Point(3, 504);
             tlpDuoi.Name = "tlpDuoi";
@@ -191,9 +194,9 @@
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(713, 3);
+            btnThoat.Location = new Point(716, 3);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(132, 46);
+            btnThoat.Size = new Size(129, 46);
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
@@ -202,13 +205,24 @@
             // btnXoa
             // 
             btnXoa.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnXoa.Location = new Point(574, 3);
+            btnXoa.Location = new Point(583, 3);
             btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(133, 46);
+            btnXoa.Size = new Size(127, 46);
             btnXoa.TabIndex = 6;
             btnXoa.Text = "XÓA";
             btnXoa.UseVisualStyleBackColor = true;
             btnXoa.Click += btnXoa_Click;
+            // 
+            // btnApDung
+            // 
+            btnApDung.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnApDung.Location = new Point(447, 3);
+            btnApDung.Name = "btnApDung";
+            btnApDung.Size = new Size(129, 46);
+            btnApDung.TabIndex = 7;
+            btnApDung.Text = "ÁP DỤNG";
+            btnApDung.UseVisualStyleBackColor = true;
+            btnApDung.Click += btnApDung_Click;
             // 
             // QuanLiMAGIAMGIA
             // 
@@ -244,5 +258,6 @@
         private Button btnSuaMaGiamGia;
         private Button btnXoa;
         private Button btnSuaMaGiamGia1tang1;
+        private Button btnApDung;
     }
 }
