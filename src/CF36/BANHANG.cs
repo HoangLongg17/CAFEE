@@ -51,8 +51,7 @@ namespace CF36
                 Properties.Resources.delete,
                 Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-            UIDataGridView.FormatDataGridView(dgvSanPham);
-            LoadDataGrid();
+            LoadSanPham();
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
@@ -61,87 +60,118 @@ namespace CF36
 
             if (string.IsNullOrEmpty(keyword))
             {
-                LoadDataGrid(); // Nếu rỗng thì load toàn bộ
+                LoadSanPham(); // Nếu rỗng thì load toàn bộ
             }
             else
             {
-                LoadDataGrid("TenSP", keyword); // Tìm theo tên sản phẩm
+                LoadSanPham("TenSP", keyword); // Tìm theo tên sản phẩm
             }
 
         }
-        private void LoadDataGrid(string searchType = null, string searchTerm = null)
+        private void LoadSanPham(string searchType = null, string searchTerm = null)
         {
-            try
-            {
-                // 1. Lấy danh sách sản phẩm từ BUS
-                var danhSach = sanPhamBUS.SearchSanPham(searchType, searchTerm);
+            flpSanPham.Controls.Clear();
 
-                // 2. Gán vào DataGridView
-                dgvSanPham.DataSource = danhSach;
-                if (dgvSanPham.Columns.Contains("duongdananh"))
-                    dgvSanPham.Columns["duongdananh"].Visible = false;
-                if (dgvSanPham.Columns.Contains("LaSanPhamTang"))
-                    dgvSanPham.Columns["LaSanPhamTang"].Visible = false;
-                if (dgvSanPham.Columns.Contains("maloai"))
-                    dgvSanPham.Columns["maloai"].HeaderText = "Mã loại sản phẩm";
-                // Bật chế độ chọn toàn dòng
-                dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dgvSanPham.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; //màu nền khi chọn
-                dgvSanPham.DefaultCellStyle.SelectionForeColor = Color.Black;
-                // 3. Thêm cột ảnh nếu chưa có
-                if (!dgvSanPham.Columns.Contains("Anh"))
+            // 🔹 Lấy danh sách sản phẩm từ BUS
+            var danhSach = sanPhamBUS.SearchSanPham(searchType, searchTerm);
+
+            // 🔹 Gom nhóm sản phẩm cùng tên (TenSP)
+            var nhomSanPham = danhSach
+                .GroupBy(sp => new { sp.TenSP, sp.DuongDanAnh })
+                .ToList();
+
+            string rootPath = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\.."));
+
+            foreach (var group in nhomSanPham)
+            {
+                var spDauTien = group.First();
+
+                // 🧱 Panel sản phẩm
+                Panel p = new Panel
                 {
-                    DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
-                    imgCol.Name = "Anh";
-                    imgCol.HeaderText = "Ảnh";
-                    imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    dgvSanPham.Columns.Insert(0, imgCol); // chèn vào đầu
+                    Size = new Size(180, 230),
+                    Margin = new Padding(10),
+                    BorderStyle = BorderStyle.FixedSingle,
+                    BackColor = Color.White
+                };
+
+                // 🖼 Ảnh sản phẩm
+                PictureBox pic = new PictureBox
+                {
+                    Size = new Size(160, 120),
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Location = new Point(10, 10),
+                    Cursor = Cursors.Hand
+                };
+
+                string fullPath = Path.Combine(rootPath, spDauTien.DuongDanAnh ?? "");
+                if (File.Exists(fullPath))
+                    pic.Image = Image.FromFile(fullPath);
+                else
+                    pic.Image = Properties.Resources.no_image;
+
+                // 🏷 Tên sản phẩm
+                Label lblTen = new Label
+                {
+                    Text = spDauTien.TenSP,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                    Location = new Point(10, 135),
+                    Size = new Size(160, 20)
+                };
+
+                // 📏 Panel chứa các nút size
+                FlowLayoutPanel pnlSizes = new FlowLayoutPanel
+                {
+                    Location = new Point(5, 160),
+                    Size = new Size(170, 60),
+                    FlowDirection = FlowDirection.LeftToRight,
+                    WrapContents = true
+                };
+
+                // 🔁 Thêm các size
+                foreach (var sp in group)
+                {
+                    Button btnSize = new Button
+                    {
+                        Text = $"{sp.KichCo} - {sp.GiaBan:N0}đ",
+                        AutoSize = true,
+                        Height = 25,
+                        Font = new Font("Segoe UI", 8, FontStyle.Regular),
+                        Tag = sp,
+                        FlatStyle = FlatStyle.Flat,
+                        BackColor = Color.Beige,
+                        Margin = new Padding(3)
+                    };
+                    btnSize.FlatAppearance.BorderSize = 1;
+
+                    // 🎯 Khi click chọn size
+                    btnSize.Click += (s, e) =>
+                    {
+                        string input = Microsoft.VisualBasic.Interaction.InputBox(
+                            $"Nhập số lượng cho {sp.TenSP} size {sp.KichCo}:",
+                            "Chọn số lượng",
+                            "1"
+                        );
+
+                        if (int.TryParse(input, out int sl) && sl > 0)
+                        {
+                            ThemSanPhamVaoFlow(sp, sl);
+                        }
+                    };
+
+                    pnlSizes.Controls.Add(btnSize);
                 }
 
-                // 4. Gán ảnh cho từng dòng
-                string rootPath = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\.."));
+                // 🧩 Thêm control vào panel
+                p.Controls.Add(pic);
+                p.Controls.Add(lblTen);
+                p.Controls.Add(pnlSizes);
 
-                foreach (DataGridViewRow row in dgvSanPham.Rows)
-                {
-                    if (row.Cells["DuongDanAnh"] != null && row.Cells["DuongDanAnh"].Value != null)
-                    {
-                        string relativePath = row.Cells["DuongDanAnh"].Value.ToString();
-                        string fullPath = Path.Combine(rootPath, relativePath);
-
-                        if (File.Exists(fullPath))
-                        {
-                            row.Cells["Anh"].Value = System.Drawing.Image.FromFile(fullPath);
-                        }
-                        else
-                        {
-                            row.Cells["Anh"].Value = Properties.Resources.no_image;
-                        }
-                    }
-                    else
-                    {
-                        row.Cells["Anh"].Value = Properties.Resources.no_image;
-                    }
-                }
-
-                // 5. Đặt tên cột sau khi gán DataSource
-                dgvSanPham.Columns["ID"].HeaderText = "ID";
-                dgvSanPham.Columns["MaSP"].HeaderText = "Mã SP";
-                dgvSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
-                dgvSanPham.Columns["TenLoai"].HeaderText = "Loại";
-                dgvSanPham.Columns["KichCo"].HeaderText = "Size";
-                dgvSanPham.Columns["GiaBan"].HeaderText = "Giá Bán";
-                dgvSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
-                dgvSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
-
-                dgvSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
-                dgvSanPham.Columns["ID"].Visible = false;
+                flpSanPham.Controls.Add(p);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải danh sách sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
         }
+
 
         private void ThemSanPhamVaoFlow(DanhSachSanPhamDTO sp, int soLuong)
         {
@@ -173,7 +203,7 @@ namespace CF36
             // 🧱 Tạo panel mới
             Panel newPanel = new Panel
             {
-                Width = 280,
+                Width = 250,
                 Height = 100,
                 BorderStyle = BorderStyle.FixedSingle,
                 Margin = new Padding(5),
@@ -206,8 +236,8 @@ namespace CF36
             {
                 Text = $"{sp.TenSP} size {sp.KichCo}",
                 Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                Location = new Point(100, 10),
-                MaximumSize = new Size(140, 0),
+                Location = new Point(100, 15),
+                MaximumSize = new Size(150, 0),
                 AutoSize = true
             };
 
@@ -239,7 +269,7 @@ namespace CF36
             Button btnXoa = new Button
             {
                 Text = "X",
-                Size = new Size(25, 25),
+                Size = new Size(20, 20),
                 Location = new Point(newPanel.Width - 30, 5),
                 BackColor = Color.LightCoral,
                 FlatStyle = FlatStyle.Flat,
@@ -270,45 +300,7 @@ namespace CF36
         }
 
 
-        private void btnChon_Click(object sender, EventArgs e)
-        {
-            if (dgvSanPham.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Vui lòng chọn một sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DataGridViewRow row = dgvSanPham.SelectedRows[0];
-
-            DanhSachSanPhamDTO sp = new DanhSachSanPhamDTO
-            {
-                MaSP = row.Cells["MaSP"].Value.ToString(),
-                TenSP = row.Cells["TenSP"].Value.ToString(),
-                Maloai = Convert.ToInt32(row.Cells["Maloai"].Value),
-                TenLoai = row.Cells["TenLoai"].Value.ToString(),
-                KichCo = row.Cells["KichCo"].Value.ToString(),
-                GiaBan = Convert.ToDecimal(row.Cells["GiaBan"].Value),
-                SoLuongTon = Convert.ToInt32(row.Cells["SoLuongTon"].Value),
-                TrangThaiText = row.Cells["TrangThaiText"].Value.ToString(),
-                DuongDanAnh = row.Cells["DuongDanAnh"].Value?.ToString()
-            };
-
-            string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập số lượng cần mua:", "Chọn số lượng", "1");
-            if (!int.TryParse(input, out int soLuong) || soLuong <= 0)
-            {
-                MessageBox.Show("Số lượng không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (soLuong > sp.SoLuongTon)
-            {
-                MessageBox.Show("Số lượng vượt quá tồn kho!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            ThemSanPhamVaoFlow(sp, soLuong);
-
-        }
+        
         ComboBox cbbKetQuaKH = null;
         private void txtTimKhachHang_TextChanged(object sender, EventArgs e)
         {
@@ -539,7 +531,7 @@ namespace CF36
             Label lblGia = new Label
             {
                 Text = "Đơn giá: 0 đ",
-                Location = new Point(100, 35),
+                Location = new Point(100, 50),
                 AutoSize = true
             };
 
@@ -617,25 +609,6 @@ namespace CF36
             return false;
         }
 
-        private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dgvSanPham_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.ColumnIndex < dgvSanPham.Columns.Count)
-            {
-                var row = dgvSanPham.Rows[e.RowIndex];
-                string tenSP = row.Cells["TenSP"].Value?.ToString();
-                string loaiSP = row.Cells["TenLoai"].Value?.ToString();
-                string kichco = row.Cells["KichCo"].Value?.ToString();
-                string gia = row.Cells["GiaBan"].Value?.ToString();
-
-                dgvSanPham.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText =
-                    $"Tên: {tenSP}\nLoại: {loaiSP}\nSize: {kichco}\nGiá: {gia} đ";
-            }
-
-        }
+       
     }
 }
