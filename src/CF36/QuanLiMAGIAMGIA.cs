@@ -109,6 +109,7 @@ namespace CF36
         {
             SetColumnHeader("Mavc", "Id");
             SetColumnHeader("Code", "Mã giảm giá");
+            SetColumnHeader("TenMaGiamGia", "Tên mã giảm giá");
             SetColumnHeader("Giatri", "Giá trị giảm");
             SetColumnHeader("Ngaybd", "Ngày bắt đầu");
             SetColumnHeader("Ngaykt", "Ngày kết thúc");

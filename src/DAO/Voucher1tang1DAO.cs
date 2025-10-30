@@ -24,19 +24,21 @@ namespace DAO
         private Voucher1tang1DAO() { }
 
         // Thêm mã giảm giá mua 1 tặng 1
-        public int InsertVoucher(string code, string tenMa, int loaiVC, int maloai, decimal dieuKien)
+        public int InsertVoucher(string code, string tenMa, int loaiVC, int maloai, decimal dieuKien, DateTime ngaybd, DateTime ngaykt)
         {
-            string query = "INSERT INTO VOUCHER (Code, Giatri, Ngaybd, Ngaykt, DieuKien, Maloaivc, maloai) " +
-                           "VALUES (@Code, 0, GETDATE(), '2025-12-31', @DieuKien, @LoaiVC, @MaLoai)";
+            string query = @"INSERT INTO VOUCHER (Code, TenMaGiamGia, Giatri, Ngaybd, Ngaykt, DieuKien, Maloaivc, maloai)
+                     VALUES (@Code, @TenMaGiamGia, 0, @Ngaybd, @Ngaykt, @DieuKien, @LoaiVC, @MaLoai)";
             SqlParameter[] parameters = {
             new SqlParameter("@Code", code),
+            new SqlParameter("@TenMaGiamGia", tenMa),
+            new SqlParameter("@Ngaybd", ngaybd),
+            new SqlParameter("@Ngaykt", ngaykt),
             new SqlParameter("@DieuKien", dieuKien),
             new SqlParameter("@LoaiVC", loaiVC),
             new SqlParameter("@MaLoai", maloai)
             };
             return DataProvider.Instance.ExecuteNonQuery(query, parameters);
         }
-
         // Lấy mã voucher vừa thêm
         public int GetVoucherId(string code)
         {
@@ -113,14 +115,19 @@ namespace DAO
 
             return DataProvider.Instance.ExecuteQuery(query, parameters);
         }
-        public bool UpdateVoucher(int mavc, string code, int loaiVC, int maloai, decimal dieuKien)
+        public bool UpdateVoucher(int mavc, string code, string tenMaGiamGia, int loaiVC, int maloai, decimal dieuKien)
         {
             string query = @"UPDATE VOUCHER SET 
-                     Code = @Code, Maloaivc = @LoaiVC, maloai = @MaLoai, DieuKien = @DieuKien 
-                     WHERE Mavc = @Mavc";
+            Code = @Code, 
+            TenMaGiamGia = @TenMaGiamGia, -- ✅ thêm dòng này
+            Maloaivc = @LoaiVC, 
+            maloai = @MaLoai, 
+            DieuKien = @DieuKien 
+            WHERE Mavc = @Mavc";
 
             SqlParameter[] parameters = {
             new SqlParameter("@Code", code),
+            new SqlParameter("@TenMaGiamGia", (object)tenMaGiamGia ?? DBNull.Value),
             new SqlParameter("@LoaiVC", loaiVC),
             new SqlParameter("@MaLoai", maloai),
             new SqlParameter("@DieuKien", dieuKien),
@@ -128,6 +135,7 @@ namespace DAO
             };
 
             return DataProvider.Instance.ExecuteNonQuery(query, parameters) > 0;
+
         }
         // Xóa dòng mã 1 tặng 1 theo ID
         public bool DeleteVoucher1Tang1(int id)

@@ -58,6 +58,7 @@ namespace CF36
 
             // Gán dữ liệu lên form
             txtMaGiamGia.Text = voucher.Code;
+            txtTenMaGiamGia.Text = voucher.TenMaGiamGia;
             dtpNgayBatDau.Value = voucher.Ngaybd;
             dtpNgayHetHan.Value = voucher.Ngaykt;
             txtGiaTriDonHangToiThieu.Text = voucher.DieuKien?.ToString() ?? "";
@@ -146,7 +147,7 @@ namespace CF36
         private void btnLuu_Click(object sender, EventArgs e)
         {
             string code = txtMaGiamGia.Text.Trim();
-
+            string tenMa = txtTenMaGiamGia.Text.Trim();
             // Kiểm tra trùng mã
             if (VoucherBUS.Instance.CheckCodeExists(code, mavc))
             {
@@ -197,6 +198,7 @@ namespace CF36
             {
                 Mavc = mavc,
                 Code = code,
+                TenMaGiamGia = tenMa,
                 Giatri = giatri,
                 Ngaybd = dtpNgayBatDau.Value,
                 Ngaykt = dtpNgayHetHan.Value,

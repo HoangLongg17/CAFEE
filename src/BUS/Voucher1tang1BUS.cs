@@ -25,9 +25,9 @@ namespace BUS
         private Voucher1tang1BUS() { }
 
         // Thêm mã giảm giá mua 1 tặng 1
-        public bool ThemVoucher(string code, string tenMa, int loaiVC, int maloai, decimal dieuKien, List<(string masp, string kichco)> dsTang)
+        public bool ThemVoucher(string code, string tenMa, int loaiVC, int maloai, decimal dieuKien, DateTime ngaybd, DateTime ngaykt, List<(string masp, string kichco)> dsTang)
         {
-            int result = Voucher1tang1DAO.Instance.InsertVoucher(code, tenMa, loaiVC, maloai, dieuKien);
+            int result = Voucher1tang1DAO.Instance.InsertVoucher(code, tenMa, loaiVC, maloai, dieuKien, ngaybd, ngaykt);
             if (result <= 0) return false;
 
             int mavc = Voucher1tang1DAO.Instance.GetVoucherId(code);
@@ -49,9 +49,9 @@ namespace BUS
         {
             return Voucher1tang1DAO.Instance.SearchSanPhamTang(keyword);
         }
-        public bool CapNhatVoucher(int mavc, string code, int loaiVC, int maloai, decimal dieuKien, List<(string masp, string kichco)> dsTang)
+        public bool CapNhatVoucher(int mavc, string code, string tenMaGiamGia, int loaiVC, int maloai, decimal dieuKien, List<(string masp, string kichco)> dsTang)
         {
-            bool ok = Voucher1tang1DAO.Instance.UpdateVoucher(mavc, code, loaiVC, maloai, dieuKien);
+            bool ok = Voucher1tang1DAO.Instance.UpdateVoucher(mavc, code, tenMaGiamGia, loaiVC, maloai, dieuKien);
             if (!ok) return false;
 
             Voucher1tang1DAO.Instance.DeleteChiTietVC(mavc);
@@ -66,6 +66,7 @@ namespace BUS
             }
 
             return true;
+
         }
         public DataRow GetVoucherByID(int mavc)
         {

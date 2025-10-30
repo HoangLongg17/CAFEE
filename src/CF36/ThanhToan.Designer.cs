@@ -34,13 +34,13 @@
             pnThanhToan = new Panel();
             tlpend = new TableLayoutPanel();
             btnThoat = new Button();
-            btnQuayLai = new Button();
+            btnThanhtoan = new Button();
             tlpThoiTIen = new TableLayoutPanel();
             lbTienKhachDua = new Label();
             lbTienTraLai = new Label();
             txtTienKhachDua = new TextBox();
             txtTienTraLai = new TextBox();
-            btnThanhtoan = new Button();
+            lblCanhBao = new Label();
             lbTongTien = new Label();
             flpSanPham = new FlowLayoutPanel();
             tLPall.SuspendLayout();
@@ -108,35 +108,34 @@
             tlpend.ColumnCount = 2;
             tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48.6425323F));
             tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 51.3574677F));
-            tlpend.Controls.Add(btnThoat, 1, 0);
-            tlpend.Controls.Add(btnQuayLai, 0, 0);
-            tlpend.Dock = DockStyle.Top;
+            tlpend.Controls.Add(btnThoat, 1, 1);
+            tlpend.Controls.Add(btnThanhtoan, 1, 0);
+            tlpend.Dock = DockStyle.Fill;
             tlpend.Location = new Point(0, 232);
             tlpend.Name = "tlpend";
             tlpend.RowCount = 2;
-            tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpend.Size = new Size(442, 125);
+            tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 70.95238F));
+            tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 29.0476189F));
+            tlpend.Size = new Size(442, 210);
             tlpend.TabIndex = 2;
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(218, 3);
+            btnThoat.Location = new Point(218, 151);
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(133, 56);
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
             // 
-            // btnQuayLai
+            // btnThanhtoan
             // 
-            btnQuayLai.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnQuayLai.Location = new Point(89, 3);
-            btnQuayLai.Name = "btnQuayLai";
-            btnQuayLai.Size = new Size(123, 56);
-            btnQuayLai.TabIndex = 1;
-            btnQuayLai.Text = "QUAY LẠI";
-            btnQuayLai.UseVisualStyleBackColor = true;
+            btnThanhtoan.Location = new Point(218, 3);
+            btnThanhtoan.Name = "btnThanhtoan";
+            btnThanhtoan.Size = new Size(157, 78);
+            btnThanhtoan.TabIndex = 2;
+            btnThanhtoan.Text = "THANH TOÁN";
+            btnThanhtoan.UseVisualStyleBackColor = true;
             // 
             // tlpThoiTIen
             // 
@@ -147,7 +146,7 @@
             tlpThoiTIen.Controls.Add(lbTienTraLai, 0, 1);
             tlpThoiTIen.Controls.Add(txtTienKhachDua, 1, 0);
             tlpThoiTIen.Controls.Add(txtTienTraLai, 1, 1);
-            tlpThoiTIen.Controls.Add(btnThanhtoan, 1, 2);
+            tlpThoiTIen.Controls.Add(lblCanhBao, 1, 2);
             tlpThoiTIen.Dock = DockStyle.Top;
             tlpThoiTIen.Location = new Point(0, 72);
             tlpThoiTIen.Name = "tlpThoiTIen";
@@ -185,23 +184,28 @@
             txtTienKhachDua.Name = "txtTienKhachDua";
             txtTienKhachDua.Size = new Size(298, 27);
             txtTienKhachDua.TabIndex = 3;
+            txtTienKhachDua.TextChanged += txtTienKhachDua_TextChanged;
+            txtTienKhachDua.KeyPress += txtTienKhachDua_KeyPress;
+            txtTienKhachDua.Leave += txtTienKhachDua_Leave;
             // 
             // txtTienTraLai
             // 
             txtTienTraLai.Anchor = AnchorStyles.Left;
             txtTienTraLai.Location = new Point(141, 43);
             txtTienTraLai.Name = "txtTienTraLai";
+            txtTienTraLai.ReadOnly = true;
             txtTienTraLai.Size = new Size(298, 27);
             txtTienTraLai.TabIndex = 3;
             // 
-            // btnThanhtoan
+            // lblCanhBao
             // 
-            btnThanhtoan.Location = new Point(141, 79);
-            btnThanhtoan.Name = "btnThanhtoan";
-            btnThanhtoan.Size = new Size(157, 78);
-            btnThanhtoan.TabIndex = 2;
-            btnThanhtoan.Text = "THANH TOÁN";
-            btnThanhtoan.UseVisualStyleBackColor = true;
+            lblCanhBao.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblCanhBao.AutoSize = true;
+            lblCanhBao.ForeColor = Color.Red;
+            lblCanhBao.Location = new Point(141, 76);
+            lblCanhBao.Name = "lblCanhBao";
+            lblCanhBao.Size = new Size(298, 20);
+            lblCanhBao.TabIndex = 4;
             // 
             // lbTongTien
             // 
@@ -215,6 +219,7 @@
             // 
             // flpSanPham
             // 
+            flpSanPham.AutoScroll = true;
             flpSanPham.Dock = DockStyle.Top;
             flpSanPham.Location = new Point(3, 3);
             flpSanPham.Name = "flpSanPham";
@@ -255,8 +260,8 @@
         private FlowLayoutPanel flpSanPham;
         private TableLayoutPanel tlpend;
         private Button btnThoat;
-        private Button btnQuayLai;
         private TextBox txtTienKhachDua;
         private TextBox txtTienTraLai;
+        private Label lblCanhBao;
     }
 }

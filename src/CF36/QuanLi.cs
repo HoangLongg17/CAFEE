@@ -24,7 +24,7 @@ namespace CF36
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            lblWelcome.Text = $"Chào mừng trở lại, {_hoten}";
+            lblWelcome.Text = $"Chào mừng trở lại, {_hoten}".ToUpper();
         }
 
         private void tÌMHÓAĐƠNToolStripMenuItem_Click(object sender, EventArgs e)

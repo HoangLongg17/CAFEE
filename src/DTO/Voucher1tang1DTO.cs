@@ -10,6 +10,7 @@ namespace DTO
     {
         public int ID { get; set; }              // ID dòng chi tiết
         public int Mavc { get; set; }            // Mã voucher
+        public string? TenMaGiamGia { get; set; }
         public int IdMua { get; set; }           // Sản phẩm mua (KICHCOSP.Id)
         public int IdTang { get; set; }          // Sản phẩm tặng (KICHCOSP.Id)
 

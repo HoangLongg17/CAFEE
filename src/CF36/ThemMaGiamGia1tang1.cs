@@ -103,7 +103,8 @@ namespace CF36
             string ten = txtTenMaGiamGia.Text.Trim();
             int maloai = Convert.ToInt32(cbbSanPhamMua.SelectedValue);
             int loaiVC = cbbLoaiMa.SelectedIndex == 0 ? 2 : 4;
-
+            DateTime ngaybd = dTPBatDau.Value.Date;
+            DateTime ngaykt = dTPHetHan.Value.Date;
             // ✅ Cho phép bỏ trống giá trị tối thiểu
             decimal dieuKien = 0;
             string input = txtGiaTriToiThieu.Text.Trim();
@@ -151,7 +152,7 @@ namespace CF36
 
             try
             {
-                bool ok = Voucher1tang1BUS.Instance.ThemVoucher(ma, ten, loaiVC, maloai, dieuKien, dsTang);
+                bool ok = Voucher1tang1BUS.Instance.ThemVoucher(ma, ten, loaiVC, maloai, dieuKien, ngaybd, ngaykt, dsTang);
 
                 if (ok)
                 {

@@ -136,7 +136,7 @@ namespace CF36
 
             int? maloai = cbbLoaiSanPham.SelectedIndex != -1 ? Convert.ToInt32(cbbLoaiSanPham.SelectedValue) : null;
 
-            VoucherDTO voucher = new VoucherDTO(0, code, giatri, ngaybd, ngaykt, dieuKien, maloaivc, maloai);
+            VoucherDTO voucher = new VoucherDTO(0, code, ten, giatri, ngaybd, ngaykt, dieuKien, maloaivc, maloai);
 
             try
             {

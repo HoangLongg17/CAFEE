@@ -65,13 +65,12 @@ namespace CF36
             if (row != null)
             {
                 txtMaGiamGia.Text = row["Code"].ToString();
-                txtTenMaGiamGia.Text = row["Code"].ToString();
+                txtTenMaGiamGia.Text = row["TenMaGiamGia"].ToString();
                 txtHoaDonToiThieu.Text = row["DieuKien"].ToString();
                 cbbSanPhamMua.SelectedValue = Convert.ToInt32(row["maloai"]);
 
                 int loaiVC = Convert.ToInt32(row["Maloaivc"]);
                 cbbLoaiMaGiamGia.SelectedIndex = (loaiVC == 2) ? 0 : 1;
-                dgvSanPhamTang.Enabled = (loaiVC == 4);
 
                 // Nếu là loại 4 thì load sản phẩm tặng đã chọn
                 if (loaiVC == 4)
@@ -129,25 +128,23 @@ namespace CF36
             }
 
             List<(string masp, string kichco)> dsTang = new List<(string, string)>();
-            if (loaiVC == 4)
-            {
-                foreach (DataGridViewRow row in dgvSanPhamTang.SelectedRows)
-                {
-                    string masp = row.Cells["masp"].Value.ToString();
-                    string kichco = row.Cells["kichco"].Value.ToString();
-                    dsTang.Add((masp, kichco));
-                }
 
-                if (dsTang.Count == 0)
-                {
-                    MessageBox.Show("Vui lòng chọn ít nhất một sản phẩm tặng.");
-                    return;
-                }
+            foreach (DataGridViewRow row in dgvSanPhamTang.SelectedRows)
+            {
+                string masp = row.Cells["masp"].Value.ToString();
+                string kichco = row.Cells["kichco"].Value.ToString();
+                dsTang.Add((masp, kichco));
+            }
+
+            if (dsTang.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn ít nhất một sản phẩm tặng.");
+                return;
             }
 
             try
             {
-                bool ok = Voucher1tang1BUS.Instance.CapNhatVoucher(mavc, code, loaiVC, maloai, dieuKien, dsTang);
+                bool ok = Voucher1tang1BUS.Instance.CapNhatVoucher(mavc, code, ten, loaiVC, maloai, dieuKien, dsTang);
                 MessageBox.Show(ok ? "Cập nhật mã giảm giá thành công!" : "Cập nhật thất bại!");
                 if (ok) this.Close();
             }
@@ -160,7 +157,6 @@ namespace CF36
 
         private void cbbLoaiMaGiamGia_SelectedIndexChanged(object sender, EventArgs e)
         {
-            dgvSanPhamTang.Enabled = (cbbLoaiMaGiamGia.SelectedIndex == 1); // chỉ bật khi là loại 4
 
         }
     }

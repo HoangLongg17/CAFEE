@@ -115,20 +115,22 @@ namespace DAO
 
             // Câu query gốc có thêm duongdananh
             string query = @"
-        SELECT 
+            SELECT 
             kcsp.id, 
             sp.masp, 
             sp.tensp, 
             sp.duongdananh, 
+            sp.maloai,
             l.tenloai, 
             kc.kichco, 
             kcsp.giaban, 
             kcsp.soluongton, 
             kcsp.trangthaisp
-        FROM KICHCOSP kcsp
-        JOIN SANPHAM sp ON kcsp.masp = sp.masp
-        JOIN LOAISP l ON sp.maloai = l.maloai
-        JOIN KICHCO kc ON kcsp.makichco = kc.makichco";
+
+            FROM KICHCOSP kcsp
+            JOIN SANPHAM sp ON kcsp.masp = sp.masp
+            JOIN LOAISP l ON sp.maloai = l.maloai
+            JOIN KICHCO kc ON kcsp.makichco = kc.makichco";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -163,6 +165,7 @@ namespace DAO
                     ID = (int)row["id"],
                     MaSP = row["masp"].ToString(),
                     TenSP = row["tensp"].ToString(),
+                    Maloai = Convert.ToInt32(row["maloai"]),
                     TenLoai = row["tenloai"].ToString(),
                     KichCo = row["kichco"].ToString(),
                     GiaBan = (decimal)row["giaban"],

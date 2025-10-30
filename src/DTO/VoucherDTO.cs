@@ -11,6 +11,7 @@ namespace DTO
     {
         public int Mavc { get; set; }                  // Mã voucher
         public string Code { get; set; }               // Mã giảm giá
+        public string? TenMaGiamGia { get; set; }
         public decimal Giatri { get; set; }            // Giá trị giảm (theo % hoặc số tiền)
         public DateTime Ngaybd { get; set; }           // Ngày bắt đầu
         public DateTime Ngaykt { get; set; }           // Ngày kết thúc
@@ -20,10 +21,11 @@ namespace DTO
 
         public VoucherDTO() { }
 
-        public VoucherDTO(int mavc, string code, decimal giatri, DateTime ngaybd, DateTime ngaykt, decimal? dieuKien, int maloaivc, int? maloai)
+        public VoucherDTO(int mavc, string code, string tenMaGiamGia, decimal giatri, DateTime ngaybd, DateTime ngaykt, decimal? dieuKien, int maloaivc, int? maloai)
         {
             Mavc = mavc;
             Code = code;
+            TenMaGiamGia = tenMaGiamGia;
             Giatri = giatri;
             Ngaybd = ngaybd;
             Ngaykt = ngaykt;

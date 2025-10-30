@@ -26,12 +26,13 @@ namespace DAO
         public bool AddVoucher(VoucherDTO voucher)
         {
             string query = @"INSERT INTO VOUCHER 
-                (Code, Giatri, Ngaybd, Ngaykt, DieuKien, Maloaivc, maloai) 
-                VALUES (@Code, @Giatri, @Ngaybd, @Ngaykt, @DieuKien, @Maloaivc, @Maloai)";
+            (Code, TenMaGiamGia, Giatri, Ngaybd, Ngaykt, DieuKien, Maloaivc, maloai) 
+            VALUES (@Code, @TenMaGiamGia, @Giatri, @Ngaybd, @Ngaykt, @DieuKien, @Maloaivc, @Maloai)";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Code", voucher.Code),
+                new SqlParameter("@TenMaGiamGia", (object)voucher.TenMaGiamGia ?? DBNull.Value),
                 new SqlParameter("@Giatri", voucher.Giatri),
                 new SqlParameter("@Ngaybd", voucher.Ngaybd),
                 new SqlParameter("@Ngaykt", voucher.Ngaykt),
@@ -57,13 +58,14 @@ namespace DAO
         public bool UpdateVoucher(VoucherDTO voucher)
         {
             string query = @"UPDATE VOUCHER SET 
-                Code = @Code, Giatri = @Giatri, Ngaybd = @Ngaybd, Ngaykt = @Ngaykt, 
-                DieuKien = @DieuKien, Maloaivc = @Maloaivc, maloai = @Maloai 
-                WHERE Mavc = @Mavc";
+            Code = @Code, TenMaGiamGia = @TenMaGiamGia, Giatri = @Giatri, Ngaybd = @Ngaybd, Ngaykt = @Ngaykt, 
+            DieuKien = @DieuKien, Maloaivc = @Maloaivc, maloai = @Maloai 
+            WHERE Mavc = @Mavc";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Code", voucher.Code),
+                new SqlParameter("@TenMaGiamGia", (object)voucher.TenMaGiamGia ?? DBNull.Value),
                 new SqlParameter("@Giatri", voucher.Giatri),
                 new SqlParameter("@Ngaybd", voucher.Ngaybd),
                 new SqlParameter("@Ngaykt", voucher.Ngaykt),
@@ -97,39 +99,42 @@ namespace DAO
         {
             string query = @"
         SELECT 
-            v.Mavc,
-            v.Code,
-            v.Giatri,
-            v.Ngaybd,
-            v.Ngaykt,
-            v.DieuKien,
-            v.Maloaivc,
-            kv.Tenloai AS TenLoaiVoucher,
-            v.maloai,
-            lsp_mua.tenloai AS TenLoaiSanPhamApDung,
-            lsp_tang.TenLoaiSanPhamTang
+        v.Mavc,
+        v.Code,
+        v.TenMaGiamGia, -- ✅ thêm dòng này
+        v.Giatri,
+        v.Ngaybd,
+        v.Ngaykt,
+        v.DieuKien,
+        v.Maloaivc,
+        kv.Tenloai AS TenLoaiVoucher,
+        v.maloai,
+        lsp_mua.tenloai AS TenLoaiSanPhamApDung,
+        lsp_tang.TenLoaiSanPhamTang
         FROM VOUCHER v
         JOIN KIEUVC kv ON v.Maloaivc = kv.Maloaivc
         LEFT JOIN LOAISP lsp_mua ON v.maloai = lsp_mua.maloai
         LEFT JOIN (
-            SELECT vc.Mavc, MIN(lsp.tenloai) AS TenLoaiSanPhamTang
-            FROM CHITIETVC ct
-            JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
-            JOIN SANPHAM sp ON kc.masp = sp.masp
-            JOIN LOAISP lsp ON sp.maloai = lsp.maloai
-            JOIN VOUCHER vc ON ct.Mavc = vc.Mavc
-            GROUP BY vc.Mavc
+        SELECT vc.Mavc, MIN(lsp.tenloai) AS TenLoaiSanPhamTang
+        FROM CHITIETVC ct
+        JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
+        JOIN SANPHAM sp ON kc.masp = sp.masp
+        JOIN LOAISP lsp ON sp.maloai = lsp.maloai
+        JOIN VOUCHER vc ON ct.Mavc = vc.Mavc
+        GROUP BY vc.Mavc
         ) lsp_tang ON v.Mavc = lsp_tang.Mavc
-    ";
+        ";
 
             return provider.ExecuteQuery(query);
+
         }
         public DataTable GetVouchersByTypeWithJoin(int maloaivc)
         {
             string query = @"
-        SELECT 
+            SELECT 
             v.Mavc,
             v.Code,
+            v.TenMaGiamGia, -- ✅ thêm dòng này
             v.Giatri,
             v.Ngaybd,
             v.Ngaykt,
@@ -139,10 +144,10 @@ namespace DAO
             v.maloai,
             lsp_mua.tenloai AS TenLoaiSanPhamApDung,
             lsp_tang.TenLoaiSanPhamTang
-        FROM VOUCHER v
-        JOIN KIEUVC kv ON v.Maloaivc = kv.Maloaivc
-        LEFT JOIN LOAISP lsp_mua ON v.maloai = lsp_mua.maloai
-        LEFT JOIN (
+            FROM VOUCHER v
+            JOIN KIEUVC kv ON v.Maloaivc = kv.Maloaivc
+            LEFT JOIN LOAISP lsp_mua ON v.maloai = lsp_mua.maloai
+            LEFT JOIN (
             SELECT vc.Mavc, MIN(lsp.tenloai) AS TenLoaiSanPhamTang
             FROM CHITIETVC ct
             JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
@@ -150,12 +155,12 @@ namespace DAO
             JOIN LOAISP lsp ON sp.maloai = lsp.maloai
             JOIN VOUCHER vc ON ct.Mavc = vc.Mavc
             GROUP BY vc.Mavc
-        ) lsp_tang ON v.Mavc = lsp_tang.Mavc
-        WHERE v.Maloaivc = @Maloaivc";
+            ) lsp_tang ON v.Mavc = lsp_tang.Mavc
+            WHERE v.Maloaivc = @Maloaivc";
 
             SqlParameter[] parameters = {
         new SqlParameter("@Maloaivc", maloaivc)
-    };
+        };
 
             return provider.ExecuteQuery(query, parameters);
         }
@@ -237,13 +242,14 @@ namespace DAO
         }
         public int AddVoucherAndReturnID(VoucherDTO voucher)
         {
-            string query = @"INSERT INTO VOUCHER (Code, Giatri, Ngaybd, Ngaykt, DieuKien, Maloaivc, maloai)
+            string query = @"INSERT INTO VOUCHER (Code, TenMaGiamGia, Giatri, Ngaybd, Ngaykt, DieuKien, Maloaivc, maloai)
                      OUTPUT INSERTED.Mavc
-                     VALUES (@Code, @Giatri, @Ngaybd, @Ngaykt, @DieuKien, @Maloaivc, @Maloai)";
+                     VALUES (@Code, @TenMaGiamGia, @Giatri, @Ngaybd, @Ngaykt, @DieuKien, @Maloaivc, @Maloai)";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
         new SqlParameter("@Code", voucher.Code),
+        new SqlParameter("@TenMaGiamGia", (object)voucher.TenMaGiamGia ?? DBNull.Value),
         new SqlParameter("@Giatri", voucher.Giatri),
         new SqlParameter("@Ngaybd", voucher.Ngaybd),
         new SqlParameter("@Ngaykt", voucher.Ngaykt),

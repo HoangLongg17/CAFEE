@@ -259,6 +259,8 @@
             dgvSanPham.RowHeadersWidth = 51;
             dgvSanPham.Size = new Size(690, 467);
             dgvSanPham.TabIndex = 1;
+            dgvSanPham.CellContentClick += dgvSanPham_CellContentClick;
+            dgvSanPham.CellMouseEnter += dgvSanPham_CellMouseEnter;
             // 
             // tlpBoLoc
             // 
