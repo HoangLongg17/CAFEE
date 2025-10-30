@@ -27,5 +27,30 @@ namespace BUS
         {
             return lichSuDAO.GetNhanVienList();
         }
+        public List<ChiTietLichSuDTO> GetChiTietHoaDon(int maHD)
+        {
+            return lichSuDAO.GetChiTietHoaDon(maHD);
+        }
+        // (BỔ SUNG HÀM 1) Lấy DTO đầy đủ cho form chi tiết
+        public HoaDonDayDuDTO GetHoaDonDayDu(int maHD)
+        {
+            // 1. Lấy thông tin cơ bản (Khách hàng, Nhân viên, Tổng tiền)
+            HoaDonDayDuDTO dto = lichSuDAO.GetThongTinCoBanHD(maHD);
+            if (dto == null) return null;
+
+            // 2. Lấy danh sách các món hàng (Tái sử dụng hàm cũ)
+            dto.Items = lichSuDAO.GetChiTietHoaDon(maHD);
+
+            // 3. Lấy danh sách voucher đã áp dụng
+            dto.VouchersSuDung = lichSuDAO.GetVouchersSuDung(maHD);
+
+            return dto;
+        }
+
+        // (BỔ SUNG HÀM 2) Lấy báo cáo khách hàng của nhân viên
+        public List<KhachHangCuaNVDTO> GetKhachHangCuaNhanVien(string maNV)
+        {
+            return lichSuDAO.GetKhachHangCuaNhanVien(maNV);
+        }
     }
 }
