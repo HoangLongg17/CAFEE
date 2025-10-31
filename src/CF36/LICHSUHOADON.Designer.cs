@@ -115,6 +115,8 @@
             dgvHoaDon.RowHeadersWidth = 51;
             dgvHoaDon.Size = new Size(1043, 165);
             dgvHoaDon.TabIndex = 2;
+            dgvHoaDon.CellClick += dgvHoaDon_CellClick;
+            dgvHoaDon.SelectionChanged += dgvHoaDon_SelectionChanged;
             // 
             // tlpThongTin
             // 
