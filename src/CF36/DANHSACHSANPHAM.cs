@@ -235,7 +235,7 @@ namespace CF36
 
             try
             {
-                int selectedID = (int)dgvDanhSachSanPham.CurrentRow.Cells["ID"].Value;
+                int selectedID = (int)dgvDanhSachSanPham.CurrentRow.Cells["Idkcsp"].Value;
                 string tenSP = dgvDanhSachSanPham.CurrentRow.Cells["TenSP"].Value.ToString();
                 string size = dgvDanhSachSanPham.CurrentRow.Cells["KichCo"].Value.ToString();
                 string trangThaiHienTai = dgvDanhSachSanPham.CurrentRow.Cells["TrangThaiText"].Value.ToString();
@@ -279,7 +279,7 @@ namespace CF36
 
             try
             {
-                // Lấy thông tin (SỬA LẠI)
+                // Lấy thông tin
                 int selectedID = (int)dgvDanhSachSanPham.CurrentRow.Cells["ID"].Value;
                 string maSP = dgvDanhSachSanPham.CurrentRow.Cells["MaSP"].Value.ToString(); // <-- LẤY THÊM MaSP
                 string tenSP = dgvDanhSachSanPham.CurrentRow.Cells["TenSP"].Value.ToString();

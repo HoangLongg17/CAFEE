@@ -212,9 +212,17 @@ namespace CF36
             dgvHoaDon.Columns["MaHD"].HeaderText = "Mã HĐ";
             dgvHoaDon.Columns["NgayLap"].HeaderText = "Ngày Lập";
             dgvHoaDon.Columns["TenNhanVien"].HeaderText = "Nhân Viên";
-            dgvHoaDon.Columns["TenKhachHang"].HeaderText = "Khách Hàng";
+            dgvHoaDon.Columns["TenKH"].HeaderText = "Khách Hàng";
             dgvHoaDon.Columns["TongTien"].HeaderText = "Tổng Tiền";
             dgvHoaDon.Columns["TongTien"].DefaultCellStyle.Format = "N0";
+            dgvHoaDon.Columns["SDTKH"].HeaderText = "Số điện thoại khách hàng";
+            dgvHoaDon.Columns["TongTienGoc"].HeaderText = "Tổng tiền gốc";
+            dgvHoaDon.Columns["TienGiam"].HeaderText = "Tiền giảm";
+            dgvHoaDon.Columns["MaVoucher"].HeaderText = "Mã voucher";
+            dgvHoaDon.Columns["PhanTramGiam"].HeaderText = "Phần trăm giảm";
+            dgvHoaDon.Columns["LoaiVouCher"].HeaderText = "Loại voucher";
+            dgvHoaDon.Columns["SanPhamMuaText"].HeaderText = "Sản phẩm mua";
+            dgvHoaDon.Columns["SanPhamTangText"].HeaderText = "Sản phẩm tặng";
         }
 
         // (MỚI) Hàm tùy chỉnh cột DGV cho Top Sản Phẩm
@@ -401,6 +409,18 @@ namespace CF36
 
                 // 3. Gán dữ liệu cho DataGridView
                 dgvHoaDon.DataSource = topProducts;
+                if (!dgvHoaDon.Columns.Contains("SanPhamTangText"))
+                {
+                    dgvHoaDon.Columns.Add("SanPhamTangText", "Sản phẩm tặng");
+                    foreach (DataGridViewRow row in dgvHoaDon.Rows)
+                    {
+                        var hoaDon = row.DataBoundItem as HoaDonDTO;
+                        if (hoaDon != null)
+                        {
+                            row.Cells["SanPhamTangText"].Value = hoaDon.SanPhamTangText;
+                        }
+                    }
+                }
                 SetupDgvTopProductsColumns(); // (MỚI) Tùy chỉnh cột
 
                 // 4. Xóa tổng doanh thu (vì không liên quan)

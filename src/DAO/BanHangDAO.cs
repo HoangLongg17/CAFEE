@@ -101,16 +101,16 @@ namespace DAO
         public int TaoHoaDon(int? makh, string mand, decimal tongTien)
         {
             string query = @"
-        INSERT INTO HOADON (Ngaylap, Makh, Mand, Tongtien)
-        VALUES (@ngaylap, @makh, @mand, @tongtien);
-        SELECT SCOPE_IDENTITY();";
+            INSERT INTO HOADON (Ngaylap, Makh, Mand, Tongtien)
+            VALUES (@ngaylap, @makh, @mand, @tongtien);
+            SELECT SCOPE_IDENTITY();";
 
             SqlParameter[] parameters = {
-        new SqlParameter("@Ngaylap", DateTime.Now),
-        new SqlParameter("@Makh", (object)makh ?? DBNull.Value),
-        new SqlParameter("@Mand", mand),
-        new SqlParameter("@Tongtien", tongTien)
-    };
+            new SqlParameter("@Ngaylap", DateTime.Now),
+            new SqlParameter("@Makh", (object)makh ?? DBNull.Value),
+            new SqlParameter("@Mand", mand),
+            new SqlParameter("@Tongtien", tongTien)
+            };
             if (string.IsNullOrWhiteSpace(mand))
                 throw new Exception("mand bị null hoặc rỗng");
 

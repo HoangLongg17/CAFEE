@@ -160,7 +160,6 @@ namespace BUS
                 case 2: // Mua 1 tặng 1 cùng dòng
                 case 4: // Mua 1 tặng 1 bất kỳ
                     var dsTang = LaySanPhamTang(mavc, maloai ?? 0, "", 1, loaiVC);
-                    MessageBox.Show($"Số sản phẩm tặng: {dsTang.Count}");
                     foreach (var spTang in dsTang)
                     {
                         result.SanPhamTang.Add(new BanHangDTO

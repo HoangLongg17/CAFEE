@@ -266,6 +266,11 @@ namespace CF36
         }
         private void btnThanhtoan_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(maND))
+            {
+                MessageBox.Show("Không xác định được nhân viên. Vui lòng đăng nhập lại.");
+                return;
+            }
             var bus = new BanHangBUS();
             if (ketQua == null)
             {
@@ -347,12 +352,14 @@ namespace CF36
                     TongTien = tongTienSauGiam,
                     MaVoucher = maVoucherCode,
                     PhanTramGiam = ketQua.LoaiVC == 1 ? (int?)ketQua.GiaTri : null,
-                    SanPhamTang = ketQua.SanPhamTang.Select(sp => new DanhSachSanPhamDTO
+                    SanPhamTang = ketQua.SanPhamTang != null
+                    ? ketQua.SanPhamTang.Select(sp => new DanhSachSanPhamDTO
                     {
                         TenSP = sp.TenSP,
                         KichCo = sp.KichCo,
                         SoLuong = sp.SoLuong
                     }).ToList()
+                    : new List<DanhSachSanPhamDTO>()
                 };
 
                 SaveFileDialog sfd = new SaveFileDialog

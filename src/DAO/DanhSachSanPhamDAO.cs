@@ -183,7 +183,7 @@ namespace DAO
             string query = "UPDATE KICHCOSP SET trangthaisp = 1 - trangthaisp WHERE id = @id";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@id", idKichCoSP)
+            new SqlParameter("@id", idKichCoSP)
             };
 
             // Giả sử provider.ExecuteNonQuery() trả về số dòng bị ảnh hưởng
@@ -234,21 +234,28 @@ namespace DAO
         }
         public SanPhamDTO GetSanPhamTheoMaVaKichCo(string masp, string kichco)
         {
-            // Chuẩn hóa đầu vào
             masp = masp.Trim();
             kichco = kichco.Trim();
 
             string query = @"
-        SELECT sp.masp, sp.tensp, sp.maloai, kc.kichco
-        FROM SANPHAM sp
-        JOIN KICHCOSP k ON sp.masp = k.masp
-        JOIN KICHCO kc ON k.makichco = kc.makichco
-        WHERE sp.masp = @MaSP AND kc.kichco = @Size";
+            SELECT 
+            sp.masp, 
+            sp.tensp, 
+            sp.maloai, 
+            kc.kichco, 
+            k.id AS IdKcsp,
+            k.soluongton,
+            k.trangthaisp,
+            sp.duongdananh
+            FROM SANPHAM sp
+            JOIN KICHCOSP k ON sp.masp = k.masp
+            JOIN KICHCO kc ON k.makichco = kc.makichco
+            WHERE sp.masp = @MaSP AND kc.kichco = @Size";
 
             SqlParameter[] parameters = {
-        new SqlParameter("@MaSP", masp),
-        new SqlParameter("@Size", kichco)
-    };
+            new SqlParameter("@MaSP", masp),
+            new SqlParameter("@Size", kichco)
+            };
 
             DataTable dt = DataProvider.Instance.ExecuteQuery(query, parameters);
             if (dt.Rows.Count == 0) return null;
@@ -260,7 +267,11 @@ namespace DAO
                 MaSP = row["masp"].ToString(),
                 TenSP = row["tensp"].ToString(),
                 MaLoai = Convert.ToInt32(row["maloai"]),
-                KichCo = row["kichco"].ToString()
+                KichCo = row["kichco"].ToString(),
+                IdKcsp = Convert.ToInt32(row["IdKcsp"]),
+                SoLuongTon = Convert.ToInt32(row["soluongton"]),
+                TrangThaiText = Convert.ToInt32(row["trangthaisp"]) == 1 ? "Đang bán" : "Ngừng bán",
+                DuongDanAnh = row["duongdananh"].ToString()
             };
         }
         public int GetLoaiSanPhamTheoTen(string tenSP)

@@ -27,7 +27,19 @@ namespace DTO
         public int? LoaiVoucher { get; set; }
 
         public List<DanhSachSanPhamDTO> SanPhamTang { get; set; }
+        public string SanPhamTangText
+        {
+            get
+            {
+                if (SanPhamTang == null || SanPhamTang.Count == 0)
+                    return "";
+                return string.Join(", ", SanPhamTang.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
+            }
+        }
+        public List<DanhSachSanPhamDTO> SanPhamMua { get; set; }
 
+        public string SanPhamMuaText => SanPhamMua == null ? "" :
+            string.Join(", ", SanPhamMua.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
     }
 
     // DTO cho dữ liệu biểu đồ

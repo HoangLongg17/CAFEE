@@ -252,8 +252,8 @@
             // tlpDuLieu
             // 
             tlpDuLieu.ColumnCount = 2;
-            tlpDuLieu.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlpDuLieu.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpDuLieu.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38.62194F));
+            tlpDuLieu.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 61.37806F));
             tlpDuLieu.Controls.Add(dgvHoaDon, 1, 0);
             tlpDuLieu.Controls.Add(chrThongKe, 0, 0);
             tlpDuLieu.Dock = DockStyle.Fill;
@@ -268,10 +268,10 @@
             // 
             dgvHoaDon.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvHoaDon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvHoaDon.Location = new Point(554, 3);
+            dgvHoaDon.Location = new Point(429, 3);
             dgvHoaDon.Name = "dgvHoaDon";
             dgvHoaDon.RowHeadersWidth = 51;
-            dgvHoaDon.Size = new Size(546, 329);
+            dgvHoaDon.Size = new Size(671, 329);
             dgvHoaDon.TabIndex = 0;
             // 
             // chrThongKe
@@ -287,7 +287,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chrThongKe.Series.Add(series1);
-            chrThongKe.Size = new Size(544, 327);
+            chrThongKe.Size = new Size(420, 327);
             chrThongKe.TabIndex = 1;
             chrThongKe.Text = "Thống kê";
             // 

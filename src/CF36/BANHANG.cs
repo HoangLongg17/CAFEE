@@ -30,6 +30,7 @@ namespace CF36
         public BANHANG()
         {
             InitializeComponent();
+            maND = CurrentUser.Mand;
         }
 
         private void btnThemKhachHangMoi_Click(object sender, EventArgs e)
@@ -42,6 +43,17 @@ namespace CF36
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
             List<DanhSachSanPhamDTO> danhSachMua = LaySanPhamTuGiaoDien();
+            if (danhSachMua == null || danhSachMua.Count == 0)
+            {
+                MessageBox.Show("Bạn chưa chọn sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(maND))
+            {
+                MessageBox.Show("Không xác định được nhân viên. Vui lòng đăng nhập lại.");
+                return;
+            }
             ThanhToan formTT = new ThanhToan(danhSachMua, maND, maKH, maVoucherId, maVoucherCode, ketQuaGiamGia);
             formTT.SetMaKH(maKH);
             formTT.SoDienThoai = txtTimKhachHang.Text;
@@ -101,6 +113,17 @@ namespace CF36
                 dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dgvSanPham.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; //màu nền khi chọn
                 dgvSanPham.DefaultCellStyle.SelectionForeColor = Color.Black;
+                foreach (DataGridViewRow row in dgvSanPham.Rows)
+                {
+                    int tonKho = Convert.ToInt32(row.Cells["SoLuongTon"].Value);
+                    string trangThai = row.Cells["TrangThaiText"].Value?.ToString();
+
+                    if (tonKho == 0 || trangThai == "Ngừng bán")
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightCoral; // ✅ tô đỏ
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                }
                 // 3. Thêm cột ảnh nếu chưa có
                 if (!dgvSanPham.Columns.Contains("Anh"))
                 {
@@ -342,6 +365,22 @@ namespace CF36
             var row = dgvSanPham.SelectedRows[0];
             var sp = TaoDTOTuRow(row);
             sp.LaSanPhamTang = false;
+            // Kiểm tra trạng thái và tồn kho
+            string trangThai = row.Cells["TrangThaiText"].Value?.ToString();
+            int tonKho = Convert.ToInt32(row.Cells["SoLuongTon"].Value);
+
+            if (tonKho == 0)
+            {
+                MessageBox.Show("❌ Sản phẩm đã hết hàng. Không thể mua.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (trangThai == "Ngừng bán")
+            {
+                MessageBox.Show("❌ Sản phẩm đang ngừng bán. Không thể mua.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             int soLuong = LaySoLuongTuNguoiDung();
             if (soLuong <= 0)
             {
@@ -445,14 +484,6 @@ namespace CF36
                 ThemSanPhamTangVaoFlow(spConverted);
             }
         }
-
-        private void CapNhatTienSauGiam(decimal tongSauGiam, decimal tienGiam)
-        {
-            txtTongTien.Text = tongSauGiam.ToString("N0") + " đ";
-        }
-
-        
-
         private void ThemSanPhamTangVaoFlow(DanhSachSanPhamDTO sp)
         {
             Panel panel = new Panel
@@ -563,6 +594,16 @@ namespace CF36
                 {
                     MessageBox.Show(ketQuaGiamGia.Loi, "Lỗi áp dụng mã", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
+                }
+                //Kiểm tra sản phẩm tặng có hợp lệ không
+
+                foreach (var spTang in ketQuaGiamGia.SanPhamTang)
+                {
+                    if (spTang.SoLuongTon == 0 || spTang.TrangThaiText == "Ngừng bán")
+                    {
+                        MessageBox.Show($"❌ Sản phẩm tặng '{spTang.TenSP} - Size {spTang.KichCo}' đã hết hàng hoặc ngừng bán.\nKhông thể áp dụng mã giảm giá này.", "Lỗi sản phẩm tặng", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 foreach (var spTang in ketQuaGiamGia.SanPhamTang)
                 {
