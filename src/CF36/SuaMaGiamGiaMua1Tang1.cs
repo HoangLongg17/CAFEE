@@ -1,0 +1,244 @@
+﻿using BUS;
+using DAO;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CF36
+{
+    public partial class SuaMaGiamGiaMua1Tang1 : Form
+    {
+        public event EventHandler VoucherUpdated;
+        public SuaMaGiamGiaMua1Tang1()
+        {
+            InitializeComponent();
+        }
+        private int mavc;
+
+        public SuaMaGiamGiaMua1Tang1(int mavc)
+        {
+            InitializeComponent();
+            this.mavc = mavc;
+        }
+        private void LoadSanPhamTang()
+        {
+            dgvSanPhamTang.DataSource = Voucher1tang1BUS.Instance.TimSanPhamTang("");
+            if (dgvSanPhamTang.Columns.Contains("masp"))
+                dgvSanPhamTang.Columns["masp"].HeaderText = "Mã sản phẩm";
+
+            if (dgvSanPhamTang.Columns.Contains("tensp"))
+                dgvSanPhamTang.Columns["tensp"].HeaderText = "Tên sản phẩm";
+
+            if (dgvSanPhamTang.Columns.Contains("kichco"))
+                dgvSanPhamTang.Columns["kichco"].HeaderText = "Size";
+
+        }
+        private void LoadLoaiMaGiamGia1Tang1()
+        {
+            cbbLoaiMaGiamGia.Items.Clear();
+            cbbLoaiMaGiamGia.Items.Add("Mua 1 tặng 1 cùng dòng"); // Maloaivc = 2
+            cbbLoaiMaGiamGia.Items.Add("Mua 1 tặng 1 bất kỳ");    // Maloaivc = 4
+            cbbLoaiMaGiamGia.SelectedIndex = -1;
+        }
+        private void LoadLoaiSanPhamMua()
+        {
+            var dtLoaiSP = DataProvider.Instance.ExecuteQuery("SELECT maloai, tenloai FROM LOAISP");
+            cbbSanPhamMua.DataSource = dtLoaiSP;
+            cbbSanPhamMua.DisplayMember = "tenloai";
+            cbbSanPhamMua.ValueMember = "maloai";
+            cbbSanPhamMua.SelectedIndex = -1;
+        }
+        private void SuaMaGiamGiaMua1Tang1_Load(object sender, EventArgs e)
+        {
+            LoadLoaiMaGiamGia1Tang1();
+            LoadLoaiSanPhamMua();
+            LoadSanPhamTang();
+
+
+            // Load dữ liệu voucher
+            var row = Voucher1tang1BUS.Instance.GetVoucherByID(mavc);
+            if (row != null)
+            {
+                txtMaGiamGia.Text = row["Code"].ToString();
+                txtTenMaGiamGia.Text = row["TenMaGiamGia"].ToString();
+                txtHoaDonToiThieu.Text = row["DieuKien"].ToString();
+                cbbSanPhamMua.SelectedValue = Convert.ToInt32(row["maloai"]);
+
+                int loaiVC = Convert.ToInt32(row["Maloaivc"]);
+                cbbLoaiMaGiamGia.SelectedIndex = (loaiVC == 2) ? 0 : 1;
+
+                // Nếu là loại 4 thì load sản phẩm tặng đã chọn
+                if (loaiVC == 4)
+                {
+                    var dsTang = Voucher1tang1BUS.Instance.GetSanPhamTangByVoucher(mavc);
+                    foreach (DataGridViewRow r in dgvSanPhamTang.Rows)
+                    {
+                        string masp = r.Cells["masp"].Value?.ToString() ?? "";
+                        string kichco = r.Cells["kichco"].Value?.ToString() ?? "";
+
+                        foreach (DataRow d in dsTang.Rows)
+                        {
+                            if (d["masp"].ToString() == masp && d["kichco"].ToString() == kichco)
+                            {
+                                r.Selected = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy mã giảm giá cần sửa.");
+                this.Close();
+            }
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIText.ApplyButtonTextStyle(this);
+            UIDataGridView.FormatDataGridView(dgvSanPhamTang);
+        }
+        private bool KiemTraDuLieuSuaVoucher1Tang1(
+            out string message,
+            out string code,
+            out string ten,
+            out int loaiVC,
+            out int maloai,
+            out decimal dieuKien,
+            out List<int> dsTang)
+        {
+            message = "";
+            code = txtMaGiamGia.Text.Trim();
+            ten = txtTenMaGiamGia.Text.Trim();
+            dsTang = new List<int>();
+            loaiVC = 0;
+            maloai = 0;
+            dieuKien = 0;
+
+            if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(ten))
+            {
+                message = "Vui lòng nhập đầy đủ mã và tên mã giảm giá.";
+                return false;
+            }
+
+            if (code.Length > 20 || !System.Text.RegularExpressions.Regex.IsMatch(code, @"^[a-zA-Z0-9]+$"))
+            {
+                message = "Mã giảm giá không hợp lệ. Chỉ chứa chữ và số, tối đa 20 ký tự.";
+                return false;
+            }
+
+            if (ten.Length > 100)
+            {
+                message = "Tên mã giảm giá không được vượt quá 100 ký tự.";
+                return false;
+            }
+
+            if (cbbLoaiMaGiamGia.SelectedIndex == -1 || cbbSanPhamMua.SelectedIndex == -1)
+            {
+                message = "Vui lòng chọn loại mã và loại sản phẩm mua.";
+                return false;
+            }
+
+            loaiVC = cbbLoaiMaGiamGia.SelectedIndex == 0 ? 2 : 4;
+            maloai = Convert.ToInt32(cbbSanPhamMua.SelectedValue);
+
+            if (!decimal.TryParse(txtHoaDonToiThieu.Text.Trim(), out dieuKien))
+            {
+                message = "Giá trị hóa đơn tối thiểu không hợp lệ.";
+                return false;
+            }
+
+            foreach (DataGridViewRow row in dgvSanPhamTang.SelectedRows)
+            {
+                string masp = row.Cells["masp"].Value?.ToString();
+                string kichco = row.Cells["kichco"].Value?.ToString();
+
+                if (string.IsNullOrEmpty(masp) || string.IsNullOrEmpty(kichco))
+                {
+                    message = "Thiếu thông tin sản phẩm tặng.";
+                    return false;
+                }
+
+                if (loaiVC == 2)
+                {
+                    if (!dgvSanPhamTang.Columns.Contains("maloai") || row.Cells["maloai"].Value == null)
+                    {
+                        message = $"Thiếu thông tin loại sản phẩm cho '{masp}'.";
+                        return false;
+                    }
+
+                    int maloaiSP = Convert.ToInt32(row.Cells["maloai"].Value);
+                    if (maloaiSP != maloai)
+                    {
+                        message = $"Sản phẩm tặng '{masp}' không cùng dòng với sản phẩm mua đã chọn.";
+                        return false;
+                    }
+                }
+
+                // ✅ Lấy idkcsp và kiểm tra tồn tại
+                int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(masp, kichco);
+                if (idkcsp <= 0)
+                {
+                    message = $"Không tìm thấy sản phẩm tặng '{masp}' với size '{kichco}' trong hệ thống.";
+                    return false;
+                }
+
+                dsTang.Add(idkcsp);
+            }
+
+            if (dsTang.Count == 0)
+            {
+                message = "Vui lòng chọn ít nhất một sản phẩm tặng.";
+                return false;
+            }
+
+            return true;
+        }
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraDuLieuSuaVoucher1Tang1(
+            out string message,
+            out string code,
+            out string ten,
+            out int loaiVC,
+            out int maloai,
+            out decimal dieuKien,
+            out List<int> dsTang))
+            {
+                MessageBox.Show(message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                bool ok = Voucher1tang1BUS.Instance.CapNhatVoucher(mavc, code, ten, loaiVC, maloai, dieuKien, dsTang);
+                MessageBox.Show(ok ? "Cập nhật mã giảm giá thành công!" : "Cập nhật thất bại!");
+                if (ok)
+                {
+                    VoucherUpdated?.Invoke(this, EventArgs.Empty); // ✅ báo cho form cha
+                    this.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
+
+        }
+
+        private void cbbLoaiMaGiamGia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
