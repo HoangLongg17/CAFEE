@@ -19,6 +19,7 @@ namespace CF36
         private LichSuHoaDonBUS lichSuBUS = new LichSuHoaDonBUS();
         private string FONT_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fonts", "times.ttf");
         private BaseFont vietnameseFont;
+        private bool isShowingDetails = false;
         public LICHSUHOADON()
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace CF36
         {
             SetupInitialState();
             LoadAllHoaDon();
-            LoadNhanVienGrid();
+            ClearChiTietGrid();
             InitializePdfFont();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
@@ -89,6 +90,7 @@ namespace CF36
 
         private void LoadNhanVienGrid()
         {
+            isShowingDetails = false; // Set cờ: Grid trên đang hiển thị Nhân viên
             try
             {
                 dgvNhanVien.DataSource = lichSuBUS.GetNhanVienList();
@@ -100,6 +102,7 @@ namespace CF36
                 MessageBox.Show("Lỗi tải danh sách nhân viên: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void cBNhanVienBan_CheckedChanged(object sender, EventArgs e)
         {
@@ -141,13 +144,25 @@ namespace CF36
         {
             if (dgvNhanVien.CurrentRow != null && dgvNhanVien.CurrentRow.DataBoundItem != null)
             {
-                // Lấy MaNV từ DTO
-                string maNV = (dgvNhanVien.CurrentRow.DataBoundItem as NhanVienDTO).Mand;
+                // (SỬA LẠI) Chỉ chạy code này nếu đối tượng ĐÚNG LÀ NhanVienDTO
+                if (dgvNhanVien.CurrentRow.DataBoundItem is NhanVienDTO nv)
+                {
+                    // Nếu vào đây, 'nv' chắc chắn là NhanVienDTO và không null
+                    string maNV = nv.Mand;
+                    txtMaNhanVien.Text = maNV;
+                    cBNhanVienBan.Checked = true;
+                }
 
-                // Tự động điền vào bộ lọc
-                txtMaNhanVien.Text = maNV;
-                cBNhanVienBan.Checked = true;
+                // Nếu nó là ChiTietLichSuDTO, code sẽ tự động bỏ qua
             }
+        }
+        private void ClearChiTietGrid()
+        {
+            isShowingDetails = false; // Tắt cờ "đang xem chi tiết"
+            dgvNhanVien.DataSource = null;
+
+            // (Tùy chọn) Xóa luôn các cột cũ
+            dgvNhanVien.Columns.Clear();
         }
 
         private void btnLamMoi_Click(object sender, EventArgs e)
@@ -159,7 +174,7 @@ namespace CF36
             cBDenNgay.Checked = false;
             SetupInitialState(); // Reset lại ngày tháng
             LoadAllHoaDon();
-            dgvNhanVien.ClearSelection();
+            ClearChiTietGrid();
         }
 
         private void btnQuayLai_Click(object sender, EventArgs e)
@@ -237,7 +252,7 @@ namespace CF36
             string tuNgay = cBTuNgay.Checked ? dTPTuNgay.Value.ToString("dd/MM/yyyy") : "(Không chọn)";
             string denNgay = cBDenNgay.Checked ? dTPDenNgay.Value.ToString("dd/MM/yyyy") : "(Không chọn)";
 
-            document.Add(new Paragraph($"  - Tìm kiếm (Mã HĐ, Tên/SĐT KH): {timKiem}", normalFont));
+            document.Add(new Paragraph($"  - Tìm kiếm (Mã HĐ, Mã KH, Tên/SĐT KH): {timKiem}", normalFont));
             document.Add(new Paragraph($"  - Mã nhân viên: {maNV}", normalFont));
             document.Add(new Paragraph($"  - Từ ngày: {tuNgay}", normalFont));
             document.Add(new Paragraph($"  - Đến ngày: {denNgay}", normalFont));
@@ -341,24 +356,113 @@ namespace CF36
         private void SetupHoaDonGridColumns()
         {
             var columnMap = new Dictionary<string, string>
-            {
-                { "MaHD", "Mã hợp đồng" },
-                { "NgayLap", "Ngày lập" },
-                { "TenNhanVien", "Tên nhân viên" },
-                { "TenKhachHang", "Tên khách hàng" },
-                { "TongTien", "Tổng tiền" }
-            };
+    {
+        { "MaHD", "Mã hóa đơn" },
+        { "NgayLap", "Ngày lập" },
+        { "TenNhanVien", "Tên nhân viên" },
+        { "TenKhachHang", "Tên khách hàng" },
+        { "TongTien", "Tổng tiền" }
+    };
 
-            foreach (DataGridViewColumn col in dgvHoaDon.Columns)
+            dgvHoaDon.Columns.Clear(); // Xóa cột cũ
+            dgvHoaDon.AutoGenerateColumns = false; // TẮT TỰ ĐỘNG TẠO CỘT
+
+            // Thêm các cột dữ liệu
+            foreach (var pair in columnMap)
             {
-                if (columnMap.ContainsKey(col.Name))
+                dgvHoaDon.Columns.Add(new DataGridViewTextBoxColumn
                 {
-                    col.HeaderText = columnMap[col.Name];
-                    col.Visible = true;
+                    Name = pair.Key,
+                    DataPropertyName = pair.Key, // Liên kết với DTO
+                    HeaderText = pair.Value
+                });
+            }
+
+            // THÊM CỘT NÚT BẤM "XEM"
+            DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
+            btnColumn.Name = "ChiTiet";
+            btnColumn.HeaderText = "Chi tiết";
+            btnColumn.Text = "XEM";
+            btnColumn.UseColumnTextForButtonValue = true; // Nút nào cũng ghi chữ "XEM"
+            btnColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            btnColumn.FlatStyle = FlatStyle.Flat;
+            btnColumn.DefaultCellStyle.BackColor = Color.ForestGreen;
+            btnColumn.DefaultCellStyle.ForeColor = Color.White;
+            dgvHoaDon.Columns.Add(btnColumn);
+
+            // Định dạng cột
+            dgvHoaDon.Columns["TongTien"].DefaultCellStyle.Format = "N0";
+            dgvHoaDon.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
+        private void dgvHoaDon_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvHoaDon.CurrentRow != null && dgvHoaDon.CurrentRow.DataBoundItem != null)
+            {
+                isShowingDetails = true; // Set cờ: Grid trên sắp hiển thị Chi tiết
+                try
+                {
+                    // Lấy MaHD từ grid dưới
+                    int maHD = (dgvHoaDon.CurrentRow.DataBoundItem as LichSuHoaDonDTO).MaHD;
+
+                    // Gọi BUS lấy chi tiết
+                    List<ChiTietLichSuDTO> details = lichSuBUS.GetChiTietHoaDon(maHD);
+
+                    // Đổ chi tiết lên grid TRÊN
+                    dgvNhanVien.DataSource = details;
+
+                    // Đổi tên cột grid trên
+                    SetupChiTietGridColumns();
                 }
-                else
+                catch (Exception ex)
                 {
-                    col.Visible = false; // Ẩn các cột không cần thiết
+                    MessageBox.Show("Lỗi tải chi tiết hóa đơn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void SetupChiTietGridColumns()
+        {
+            // Đặt tên lại các cột
+            dgvNhanVien.Columns["TenSP"].HeaderText = "Tên sản phẩm";
+            dgvNhanVien.Columns["KichCo"].HeaderText = "Size";
+            dgvNhanVien.Columns["SoLuong"].HeaderText = "Số lượng";
+            dgvNhanVien.Columns["DonGia"].HeaderText = "Đơn giá";
+            dgvNhanVien.Columns["ThanhTien"].HeaderText = "Thành tiền";
+
+            // Định dạng tiền
+            dgvNhanVien.Columns["DonGia"].DefaultCellStyle.Format = "N0";
+            dgvNhanVien.Columns["ThanhTien"].DefaultCellStyle.Format = "N0";
+
+            // Ẩn các cột khác (nếu có)
+            foreach (DataGridViewColumn col in dgvNhanVien.Columns)
+            {
+                if (col.Name != "TenSP" && col.Name != "KichCo" && col.Name != "SoLuong" && col.Name != "DonGia" && col.Name != "ThanhTien")
+                {
+                    col.Visible = false;
+                }
+            }
+        }
+
+        private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == dgvHoaDon.Columns["ChiTiet"].Index)
+            {
+                try
+                {
+                    // Lấy MaHD từ hàng được click
+                    LichSuHoaDonDTO selectedHoaDon = dgvHoaDon.Rows[e.RowIndex].DataBoundItem as LichSuHoaDonDTO;
+                    if (selectedHoaDon != null)
+                    {
+                        int maHD = selectedHoaDon.MaHD;
+
+                        // Mở form chi tiết và truyền MaHD vào
+                        ChiTietHoaDon formChiTiet = new ChiTietHoaDon(maHD);
+                        formChiTiet.ShowDialog();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi mở chi tiết: " + ex.Message);
                 }
             }
         }
