@@ -68,8 +68,8 @@ namespace CF36
                 Properties.Resources.delete,
                 Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
-            UIDataGridView.FormatDataGridView(dgvSanPham);
-            LoadDataGrid();
+            LoadSanPham();
+
             maND = CurrentUser.Mand;
 
         }
@@ -80,118 +80,158 @@ namespace CF36
 
             if (string.IsNullOrEmpty(keyword))
             {
-                LoadDataGrid(); // Nếu rỗng thì load toàn bộ
+                LoadSanPham();
+                // Nếu rỗng thì load toàn bộ
             }
             else
             {
-                LoadDataGrid("TenSP", keyword); // Tìm theo tên sản phẩm
+                LoadSanPham("TenSP", keyword); // Tìm theo tên sản phẩm
             }
 
         }
-        private void LoadDataGrid(string searchType = null, string searchTerm = null)
+        private void LoadSanPham(string searchType = null, string searchTerm = null)
         {
             try
             {
-                // 1. Lấy danh sách sản phẩm từ BUS
-                var danhSach = sanPhamBUS.SearchSanPham(searchType, searchTerm);
-                dgvSanPham.Columns.Clear(); // Xóa toàn bộ cột cũ để tránh lỗi tên cột
-                // 2. Gán vào DataGridView
-                dgvSanPham.DataSource = danhSach;
-                if (dgvSanPham.Columns.Contains("duongdananh"))
-                    dgvSanPham.Columns["duongdananh"].Visible = false;
-                if (dgvSanPham.Columns.Contains("LaSanPhamTang"))
-                    dgvSanPham.Columns["LaSanPhamTang"].Visible = false;
-                if (dgvSanPham.Columns.Contains("SoLuong"))
-                    dgvSanPham.Columns["SoLuong"].Visible = false;
-                if (dgvSanPham.Columns.Contains("MaSanPhamGoc"))
-                    dgvSanPham.Columns["MaSanPhamGoc"].Visible = false;
-                if (dgvSanPham.Columns.Contains("maloai"))
-                    dgvSanPham.Columns["maloai"].HeaderText = "Mã loại sản phẩm";
-                if (dgvSanPham.Columns.Contains("Idkcsp"))
-                    dgvSanPham.Columns["Idkcsp"].Visible = false;
-                // Bật chế độ chọn toàn dòng
-                dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dgvSanPham.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; //màu nền khi chọn
-                dgvSanPham.DefaultCellStyle.SelectionForeColor = Color.Black;
-                foreach (DataGridViewRow row in dgvSanPham.Rows)
-                {
-                    int tonKho = Convert.ToInt32(row.Cells["SoLuongTon"].Value);
-                    string trangThai = row.Cells["TrangThaiText"].Value?.ToString();
+                flpSanPham.Controls.Clear();
 
-                    if (tonKho == 0 || trangThai == "Ngừng bán")
-                    {
-                        row.DefaultCellStyle.BackColor = Color.LightCoral; // ✅ tô đỏ
-                        row.DefaultCellStyle.ForeColor = Color.White;
-                    }
-                }
-                // 3. Thêm cột ảnh nếu chưa có
-                if (!dgvSanPham.Columns.Contains("Anh"))
-                {
-                    DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
-                    imgCol.Name = "Anh";
-                    imgCol.HeaderText = "Ảnh";
-                    imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    dgvSanPham.Columns.Insert(0, imgCol); // chèn vào đầu
-                }
+                var danhSach = banHangBUS.LayTatCa();
 
-                // 4. Gán ảnh cho từng dòng
+                var nhomSanPham = danhSach
+                    .GroupBy(sp => new { sp.TenSP, sp.DuongDanAnh })
+                    .ToList();
+
                 string rootPath = Path.GetFullPath(Path.Combine(Application.StartupPath, @"..\..\.."));
 
-                foreach (DataGridViewRow row in dgvSanPham.Rows)
+                foreach (var group in nhomSanPham)
                 {
-                    if (row.Cells["DuongDanAnh"] != null && row.Cells["DuongDanAnh"].Value != null)
-                    {
-                        string relativePath = row.Cells["DuongDanAnh"].Value.ToString();
-                        string fullPath = Path.Combine(rootPath, relativePath);
+                    var spDauTien = group.First();
 
-                        if (File.Exists(fullPath))
-                        {
-                            row.Cells["Anh"].Value = System.Drawing.Image.FromFile(fullPath);
-                        }
-                        else
-                        {
-                            row.Cells["Anh"].Value = Properties.Resources.no_image;
-                        }
-                    }
+                    Panel p = new Panel
+                    {
+                        Size = new Size(180, 240),
+                        Margin = new Padding(10),
+                        BorderStyle = BorderStyle.FixedSingle,
+                        BackColor = Color.White
+                    };
+
+                    bool hetHang = spDauTien.SoLuongTon == 0;
+
+                   if (hetHang)
+                   p.BackColor = Color.LightGray;
+
+                    PictureBox pic = new PictureBox
+                    {
+                        Size = new Size(160, 120),
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        Location = new Point(10, 10),
+                        Cursor = Cursors.Hand
+                    };
+
+                    string fullPath = Path.Combine(rootPath, spDauTien.DuongDanAnh ?? "");
+                    if (File.Exists(fullPath))
+                        pic.Image = Image.FromFile(fullPath);
                     else
-                    {
-                        row.Cells["Anh"].Value = Properties.Resources.no_image;
-                    }
-                }
+                        pic.Image = Properties.Resources.no_image;
 
-                // 5. Đặt tên cột sau khi gán DataSource
-                dgvSanPham.Columns["ID"].HeaderText = "ID";
-                dgvSanPham.Columns["MaSP"].HeaderText = "Mã SP";
-                dgvSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
-                dgvSanPham.Columns["TenLoai"].HeaderText = "Loại";
-                dgvSanPham.Columns["KichCo"].HeaderText = "Size";
-                dgvSanPham.Columns["GiaBan"].HeaderText = "Giá Bán";
-                dgvSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
-                dgvSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
-                dgvSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
-                dgvSanPham.Columns["ID"].Visible = false;
-                // 6. Đánh dấu sản phẩm bị khóa (trạng thái = false)
-                foreach (DataGridViewRow row in dgvSanPham.Rows)
-                {
-                    if (row.Cells["TrangThaiText"] != null && row.Cells["TrangThaiText"].Value != null)
+                    Label lblTen = new Label
                     {
-                        string trangThai = row.Cells["TrangThaiText"].Value.ToString().Trim().ToLower();
-                        if (trangThai == "khóa" || trangThai == "0" || trangThai == "false")
+                        Text = spDauTien.TenSP,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                        Location = new Point(10, 135),
+                        Size = new Size(160, 20)
+                    };
+
+                    FlowLayoutPanel pnlSizes = new FlowLayoutPanel
+                    {
+                        Location = new Point(5, 160),
+                        Size = new Size(170, 70),
+                        FlowDirection = FlowDirection.LeftToRight,
+                        WrapContents = true
+                    };
+
+                    foreach (var sp in group)
+                    {
+                        Button btnSize = new Button
                         {
-                            row.DefaultCellStyle.ForeColor = Color.Red;
-                            row.Cells["TenSP"].Value = "🔒 " + row.Cells["TenSP"].Value.ToString();
-                        }
+                            Text = $"{sp.KichCo} - {sp.GiaBan:N0}đ",
+                            AutoSize = true,
+                            Height = 25,
+                            Font = new Font("Segoe UI", 8, FontStyle.Regular),
+                            Tag = sp,
+                            FlatStyle = FlatStyle.Flat,
+                            BackColor = Color.Beige,
+                            Margin = new Padding(3)
+                        };
+                        btnSize.FlatAppearance.BorderSize = 1;
+
+                        btnSize.Click += (s, e) => XuLyChonSanPham(sp);
+
+
+                        pnlSizes.Controls.Add(btnSize);
                     }
+
+                    // 🧩 Thêm tất cả vào panel
+                    p.Controls.Add(pic);
+                    p.Controls.Add(lblTen);
+                    p.Controls.Add(pnlSizes);
+
+                    flpSanPham.Controls.Add(p);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi tải danh sách sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void XuLyChonSanPham(BanHangDTO sp)
+        {
+            if (sp.SoLuongTon == 0)
+            {
+                MessageBox.Show("❌ Sản phẩm đã hết hàng. Không thể mua.",
+                                "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            if (sp.TrangThaiText == "Ngừng bán")
+            {
+                MessageBox.Show("❌ Sản phẩm đang ngừng bán. Không thể mua.",
+                                "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                $"Nhập số lượng cho {sp.TenSP} size {sp.KichCo}:",
+                "Chọn số lượng",
+                "1"
+            );
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return; 
+            }
+
+            if (!int.TryParse(input, out int soLuong) || soLuong <= 0)
+            {
+                MessageBox.Show("Số lượng không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (soLuong > sp.SoLuongTon)
+            {
+                MessageBox.Show("Số lượng vượt quá tồn kho!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            sp.SoLuong = soLuong;
+            ThemSanPhamVaoFlow(sp, soLuong);
+            CapNhatTongTien();
         }
 
-        private void ThemSanPhamVaoFlow(DanhSachSanPhamDTO sp, int soLuong)
+
+
+        private void ThemSanPhamVaoFlow(BanHangDTO sp, int soLuong)
         {
             // 🔍 Kiểm tra sản phẩm đã tồn tại chưa
             foreach (Control ctrl in fLPSanPhamDaChon.Controls)
@@ -354,80 +394,7 @@ namespace CF36
             string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập số lượng cần mua:", "Chọn số lượng", "1");
             return int.TryParse(input, out int soLuong) ? soLuong : -1;
         }
-        private void btnChon_Click(object sender, EventArgs e)
-        {
-            if (dgvSanPham.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Vui lòng chọn một sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
-            var row = dgvSanPham.SelectedRows[0];
-            var sp = TaoDTOTuRow(row);
-            sp.LaSanPhamTang = false;
-            // Kiểm tra trạng thái và tồn kho
-            string trangThai = row.Cells["TrangThaiText"].Value?.ToString();
-            int tonKho = Convert.ToInt32(row.Cells["SoLuongTon"].Value);
-
-            if (tonKho == 0)
-            {
-                MessageBox.Show("❌ Sản phẩm đã hết hàng. Không thể mua.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (trangThai == "Ngừng bán")
-            {
-                MessageBox.Show("❌ Sản phẩm đang ngừng bán. Không thể mua.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            int soLuong = LaySoLuongTuNguoiDung();
-            if (soLuong <= 0)
-            {
-                MessageBox.Show("Số lượng không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (soLuong > sp.SoLuongTon)
-            {
-                MessageBox.Show("Số lượng vượt quá tồn kho!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            sp.SoLuong = soLuong;
-            ThemSanPhamVaoFlow(sp, soLuong);
-            CapNhatTongTien();
-        }
-        ComboBox cbbKetQuaKH = null;
-        private void txtTimKhachHang_TextChanged(object sender, EventArgs e)
-        {
-            string keyword = txtTimKhachHang.Text.Trim();
-
-            if (string.IsNullOrEmpty(keyword))
-            {
-                cbbTimKhachHang.DataSource = null;
-                cbbTimKhachHang.DroppedDown = false;
-                return;
-            }
-
-            var danhSach = khachHangBUS.TimKiemTheoSDT(keyword); // Trả về List<KhachHangDTO>
-
-            if (danhSach.Count > 0)
-            {
-                cbbTimKhachHang.DataSource = danhSach;
-                cbbTimKhachHang.DisplayMember = "TenVaSDT";
-                cbbTimKhachHang.ValueMember = "MaKH";
-
-                cbbTimKhachHang.DroppedDown = true;
-                cbbTimKhachHang.Focus();
-            }
-            else
-            {
-                cbbTimKhachHang.DataSource = null;
-                cbbTimKhachHang.DroppedDown = false;
-            }
-
-        }
 
         private void cbbTimKhachHang_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -446,10 +413,36 @@ namespace CF36
             return fLPSanPhamDaChon.Controls
                 .OfType<Panel>()
                 .Select(p => p.Tag)
-                .OfType<DanhSachSanPhamDTO>()
+                .Where(tag => tag is BanHangDTO || tag is DanhSachSanPhamDTO)
+                .Select(tag =>
+                {
+                    if (tag is BanHangDTO sp)
+                    {
+                        return new DanhSachSanPhamDTO
+                        {
+                            IdKcsp = sp.IdKcsp,
+                            MaSP = sp.MaSP,
+                            TenSP = sp.TenSP,
+                            KichCo = sp.KichCo,
+                            SoLuong = sp.SoLuong,
+                            GiaBan = sp.GiaBan,
+                            SoLuongTon = sp.SoLuongTon,
+                            DuongDanAnh = sp.DuongDanAnh,
+                            Maloai = sp.Maloai,
+                            TenLoai = sp.TenLoai,
+                            TrangThaiText = sp.TrangThaiText,
+                            LaSanPhamTang = sp.LaSanPhamTang
+                        };
+                    }
+                    else
+                    {
+                        return (DanhSachSanPhamDTO)tag;
+                    }
+                })
                 .Where(sp => sp.IdKcsp > 0)
                 .ToList();
         }
+
         private bool SanPhamTangDaTonTai(BanHangDTO spTang)
         {
             return fLPSanPhamDaChon.Controls.OfType<Panel>()
@@ -652,7 +645,7 @@ namespace CF36
         {
 
             // ✅ Gán lại danh sách sản phẩm
-            LoadDataGrid();
+            LoadSanPham();
 
             // ✅ Reset giao diện khác
             fLPSanPhamDaChon.Controls.Clear();
@@ -662,35 +655,38 @@ namespace CF36
             maVoucherCode = "";
             maVoucherId = null;
         }
-        private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void txtTimKhachHang_TextChanged(object sender, EventArgs e)
         {
+            string keyword = txtTimKhachHang.Text.Trim();
 
-        }
-
-        private void dgvSanPham_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
-            var row = dgvSanPham.Rows[e.RowIndex];
-
-            // Kiểm tra cột tồn tại trước khi truy cập
-            if (!dgvSanPham.Columns.Contains("TenSP") ||
-                !dgvSanPham.Columns.Contains("TenLoai") ||
-                !dgvSanPham.Columns.Contains("KichCo") ||
-                !dgvSanPham.Columns.Contains("GiaBan"))
+            if (string.IsNullOrEmpty(keyword))
             {
+                cbbTimKhachHang.Items.Clear();
+                cbbTimKhachHang.DroppedDown = false;
                 return;
             }
 
-            string tenSP = row.Cells["TenSP"].Value?.ToString();
-            string loaiSP = row.Cells["TenLoai"].Value?.ToString();
-            string kichco = row.Cells["KichCo"].Value?.ToString();
-            string gia = row.Cells["GiaBan"].Value?.ToString();
+            var danhSach = khachHangBUS.TimKiemTheoSDT(keyword); // Trả về List<KhachHangDTO>
 
-            dgvSanPham.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText =
-                $"Tên: {tenSP}\nLoại: {loaiSP}\nSize: {kichco}\nGiá: {gia} đ";
+            cbbTimKhachHang.Items.Clear();
+
+            foreach (var kh in danhSach)
+            {
+                cbbTimKhachHang.Items.Add($"{kh.Tenkh} - {kh.Sdt}");
+            }
+
+            if (cbbTimKhachHang.Items.Count > 0)
+            {
+                cbbTimKhachHang.DroppedDown = true;
+                cbbTimKhachHang.Focus();
+                cbbTimKhachHang.SelectionStart = cbbTimKhachHang.Text.Length;
+            }
 
         }
 
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

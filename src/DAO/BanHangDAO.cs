@@ -170,6 +170,50 @@ namespace DAO
 
             provider.ExecuteNonQuery(query, parameters);
         }
+        public List<BanHangDTO> LayTatCaSanPham()
+        {
+            List<BanHangDTO> list = new List<BanHangDTO>();
+
+            string query = @"
+                    SELECT 
+                        kc.id AS IdKCSP, 
+                        sp.masp, 
+                        sp.tensp, 
+                        l.tenloai AS TenLoai, 
+                        k.kichco, 
+                        kc.giaban, 
+                        sp.duongdananh,
+                        sp.maloai,
+                        kc.soluongton,
+                        CASE WHEN kc.trangthaisp = 1 THEN N'Đang bán' ELSE N'Ngừng bán' END AS TrangThaiText
+                    FROM SANPHAM sp
+                    JOIN LOAISP l ON sp.maloai = l.maloai
+                    JOIN KICHCOSP kc ON sp.masp = kc.masp
+                    JOIN KICHCO k ON kc.makichco = k.makichco
+                    WHERE kc.trangthaisp = 1";  // ✅ chỉ lấy sản phẩm đang bán
+
+
+            DataTable dt = DataProvider.Instance.ExecuteQuery(query);
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new BanHangDTO
+                {
+                    IdKcsp = Convert.ToInt32(row["IdKCSP"]),
+                    MaSP = row["masp"].ToString(),
+                    TenSP = row["tensp"].ToString(),
+                    TenLoai = row["TenLoai"].ToString(),
+                    KichCo = row["kichco"].ToString(),
+                    GiaBan = Convert.ToDecimal(row["giaban"]),
+                    DuongDanAnh = row["duongdananh"].ToString(),
+                    Maloai = Convert.ToInt32(row["maloai"]),
+                    SoLuongTon = Convert.ToInt32(row["soluongton"]),
+                    TrangThaiText = row["TrangThaiText"].ToString()
+                });
+            }
+
+            return list;
+        }
+
 
     }
 }

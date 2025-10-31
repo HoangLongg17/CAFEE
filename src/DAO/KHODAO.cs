@@ -31,7 +31,8 @@ namespace DAO
                 SELECT k.masp, s.tensp, kc.kichco, k.soluongton, k.canhbaotonkho
                 FROM KICHCOSP k
                 JOIN SANPHAM s ON k.masp = s.masp
-                JOIN KICHCO kc ON k.makichco = kc.makichco";
+                JOIN KICHCO kc ON k.makichco = kc.makichco
+                WHERE k.trangthaisp = 1";
 
             using (SqlConnection conn = new SqlConnection(connStr))
             using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -57,7 +58,8 @@ namespace DAO
                 FROM KICHCOSP k
                 JOIN SANPHAM s ON k.masp = s.masp
                 JOIN KICHCO kc ON k.makichco = kc.makichco
-                WHERE k.masp LIKE @kw OR s.tensp LIKE @kw";
+                WHERE k.trangthaisp = 1
+                AND (k.masp LIKE @kw OR s.tensp LIKE @kw)";
 
             using (SqlConnection conn = new SqlConnection(connStr))
             using (SqlCommand cmd = new SqlCommand(sql, conn))

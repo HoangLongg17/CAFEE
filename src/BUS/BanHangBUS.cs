@@ -384,5 +384,11 @@ namespace BUS
                 }
             }
         }
+        public List<BanHangDTO> LayTatCa()
+        {
+            return BanHangDAO.Instance.LayTatCaSanPham();
+        }
+
+
     }
 }
