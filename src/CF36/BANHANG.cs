@@ -9,13 +9,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BUS;
+using DAO;
 namespace CF36
 {
     public partial class BANHANG : Form
     {
         private DanhSachSanPhamBUS sanPhamBUS = new DanhSachSanPhamBUS();
         private KhachHangBUS khachHangBUS = new KhachHangBUS();
+        private BanHangBUS banHangBUS = new BanHangBUS();
 
+        private List<DanhSachSanPhamDTO> danhSachDaChon = new List<DanhSachSanPhamDTO>();
+        private string maND;
+
+        private int? maKH; // gán khi chọn khách hàng
+
+        // Mã giảm giá
+        private int? maVoucherId; // ID mã giảm giá (dùng để lưu vào DB)
+        private string maVoucherCode; // Mã giảm giá dạng chuỗi (hiển thị trong hóa đơn)
+        private KetQuaGiamGiaDTO ketQuaGiamGia; // Kết quả áp dụng mã: tiền giảm, sản phẩm tặng, loại mã
         public BANHANG()
         {
             InitializeComponent();
@@ -30,17 +41,11 @@ namespace CF36
 
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
-            List<DanhSachSanPhamDTO> danhSachMua = new List<DanhSachSanPhamDTO>();
-
-            foreach (Control ctrl in fLPSanPhamDaChon.Controls)
-            {
-                if (ctrl is Panel panel && panel.Tag is DanhSachSanPhamDTO sp)
-                {
-                    danhSachMua.Add(sp); // ✅ lấy cả sản phẩm chính và sản phẩm tặng
-                }
-            }
-
-            ThanhToan formTT = new ThanhToan(danhSachMua);
+            List<DanhSachSanPhamDTO> danhSachMua = LaySanPhamTuGiaoDien();
+            ThanhToan formTT = new ThanhToan(danhSachMua, maND, maKH, maVoucherId, maVoucherCode, ketQuaGiamGia);
+            formTT.SetMaKH(maKH);
+            formTT.SoDienThoai = txtTimKhachHang.Text;
+            formTT.TenKhachHang = KhachHangBUS.LayTenKhachHangTheoSDT(txtTimKhachHang.Text);
             formTT.Show();
         }
 
@@ -53,6 +58,8 @@ namespace CF36
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvSanPham);
             LoadDataGrid();
+            maND = CurrentUser.Mand;
+
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
@@ -75,15 +82,21 @@ namespace CF36
             {
                 // 1. Lấy danh sách sản phẩm từ BUS
                 var danhSach = sanPhamBUS.SearchSanPham(searchType, searchTerm);
-
+                dgvSanPham.Columns.Clear(); // Xóa toàn bộ cột cũ để tránh lỗi tên cột
                 // 2. Gán vào DataGridView
                 dgvSanPham.DataSource = danhSach;
                 if (dgvSanPham.Columns.Contains("duongdananh"))
                     dgvSanPham.Columns["duongdananh"].Visible = false;
                 if (dgvSanPham.Columns.Contains("LaSanPhamTang"))
                     dgvSanPham.Columns["LaSanPhamTang"].Visible = false;
+                if (dgvSanPham.Columns.Contains("SoLuong"))
+                    dgvSanPham.Columns["SoLuong"].Visible = false;
+                if (dgvSanPham.Columns.Contains("MaSanPhamGoc"))
+                    dgvSanPham.Columns["MaSanPhamGoc"].Visible = false;
                 if (dgvSanPham.Columns.Contains("maloai"))
                     dgvSanPham.Columns["maloai"].HeaderText = "Mã loại sản phẩm";
+                if (dgvSanPham.Columns.Contains("Idkcsp"))
+                    dgvSanPham.Columns["Idkcsp"].Visible = false;
                 // Bật chế độ chọn toàn dòng
                 dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 dgvSanPham.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; //màu nền khi chọn
@@ -132,9 +145,21 @@ namespace CF36
                 dgvSanPham.Columns["GiaBan"].HeaderText = "Giá Bán";
                 dgvSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
                 dgvSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
-
                 dgvSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
                 dgvSanPham.Columns["ID"].Visible = false;
+                // 6. Đánh dấu sản phẩm bị khóa (trạng thái = false)
+                foreach (DataGridViewRow row in dgvSanPham.Rows)
+                {
+                    if (row.Cells["TrangThaiText"] != null && row.Cells["TrangThaiText"].Value != null)
+                    {
+                        string trangThai = row.Cells["TrangThaiText"].Value.ToString().Trim().ToLower();
+                        if (trangThai == "khóa" || trangThai == "0" || trangThai == "false")
+                        {
+                            row.DefaultCellStyle.ForeColor = Color.Red;
+                            row.Cells["TenSP"].Value = "🔒 " + row.Cells["TenSP"].Value.ToString();
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -162,6 +187,7 @@ namespace CF36
                             lblSL.Text = $"Số lượng: {newSL}";
                             lblTong.Text = $"Tổng: {(sp.GiaBan * newSL):N0} đ";
 
+                            existingSp.SoLuong = newSL; // ✅ Cập nhật lại số lượng trong Tag
                             existingPanel.BackColor = Color.LightGreen;
                             CapNhatTongTien();
                             return;
@@ -170,7 +196,15 @@ namespace CF36
                 }
             }
 
-            // 🧱 Tạo panel mới
+            // Tạo panel mới
+            sp.SoLuong = soLuong;
+            sp.IdKcsp = DanhSachSanPhamBUS.Instance.GetIdKcsp(sp.MaSP, sp.KichCo);
+            sp.LaSanPhamTang = false;
+            if (sp.IdKcsp == 0)
+            {
+                MessageBox.Show($"Không tìm thấy mã sản phẩm theo kích cỡ cho {sp.TenSP} - Size {sp.KichCo}", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             Panel newPanel = new Panel
             {
                 Width = 280,
@@ -178,10 +212,9 @@ namespace CF36
                 BorderStyle = BorderStyle.FixedSingle,
                 Margin = new Padding(5),
                 BackColor = Color.WhiteSmoke,
-                Tag = sp
+                Tag = sp // Gán đối tượng có số lượng vào Tag
             };
 
-            // 🖼 Ảnh sản phẩm
             PictureBox pic = new PictureBox
             {
                 Width = 80,
@@ -201,7 +234,6 @@ namespace CF36
                 }
             }
 
-            // 🏷 Tên sản phẩm
             Label lblTen = new Label
             {
                 Text = $"{sp.TenSP} size {sp.KichCo}",
@@ -211,7 +243,6 @@ namespace CF36
                 AutoSize = true
             };
 
-            // 💰 Đơn giá
             Label lblGia = new Label
             {
                 Text = "Đơn giá: " + sp.GiaBan.ToString("N0") + " đ",
@@ -219,23 +250,20 @@ namespace CF36
                 AutoSize = true
             };
 
-            // 🔢 Số lượng
             Label lblSLMoi = new Label
             {
-                Text = "Số lượng: " + soLuong,
+                Text = "Số lượng: " + sp.SoLuong,
                 Location = new Point(100, 55),
                 AutoSize = true
             };
 
-            // 📦 Tổng tiền
             Label lblTongMoi = new Label
             {
-                Text = "Tổng: " + (sp.GiaBan * soLuong).ToString("N0") + " đ",
+                Text = "Tổng: " + (sp.GiaBan * sp.SoLuong).ToString("N0") + " đ",
                 Location = new Point(100, 75),
                 AutoSize = true
             };
 
-            // ❌ Nút xóa sản phẩm
             Button btnXoa = new Button
             {
                 Text = "X",
@@ -249,14 +277,23 @@ namespace CF36
             btnXoa.Click += (s, e) =>
             {
                 fLPSanPhamDaChon.Controls.Remove(newPanel);
+
+                // ✅ Xóa toàn bộ sản phẩm tặng (vì chỉ có 1 sản phẩm tặng duy nhất)
+                var panelsToRemove = fLPSanPhamDaChon.Controls.OfType<Panel>()
+                    .Where(p => p.Tag is DanhSachSanPhamDTO spTang && spTang.LaSanPhamTang)
+                    .ToList();
+
+                foreach (var p in panelsToRemove)
+                {
+                    fLPSanPhamDaChon.Controls.Remove(p);
+                }
+
                 CapNhatTongTien();
             };
 
-            // 🧩 Tooltip mô tả sản phẩm
             ToolTip tooltip = new ToolTip();
             tooltip.SetToolTip(newPanel, $"Tên: {sp.TenSP}\nSize: {sp.KichCo}\nGiá: {sp.GiaBan:N0} đ");
 
-            // 🧱 Thêm vào panel
             newPanel.Controls.Add(pic);
             newPanel.Controls.Add(lblTen);
             newPanel.Controls.Add(lblGia);
@@ -264,23 +301,13 @@ namespace CF36
             newPanel.Controls.Add(lblTongMoi);
             newPanel.Controls.Add(btnXoa);
             btnXoa.BringToFront();
-            // ➕ Thêm vào FlowLayoutPanel
             fLPSanPhamDaChon.Controls.Add(newPanel);
             CapNhatTongTien();
         }
 
-
-        private void btnChon_Click(object sender, EventArgs e)
+        private DanhSachSanPhamDTO TaoDTOTuRow(DataGridViewRow row)
         {
-            if (dgvSanPham.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Vui lòng chọn một sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DataGridViewRow row = dgvSanPham.SelectedRows[0];
-
-            DanhSachSanPhamDTO sp = new DanhSachSanPhamDTO
+            var dto = new DanhSachSanPhamDTO
             {
                 MaSP = row.Cells["MaSP"].Value.ToString(),
                 TenSP = row.Cells["TenSP"].Value.ToString(),
@@ -290,11 +317,33 @@ namespace CF36
                 GiaBan = Convert.ToDecimal(row.Cells["GiaBan"].Value),
                 SoLuongTon = Convert.ToInt32(row.Cells["SoLuongTon"].Value),
                 TrangThaiText = row.Cells["TrangThaiText"].Value.ToString(),
-                DuongDanAnh = row.Cells["DuongDanAnh"].Value?.ToString()
+                DuongDanAnh = row.Cells["DuongDanAnh"].Value?.ToString(),
+                LaSanPhamTang = false
             };
 
+            // ✅ Gán IdKcsp để đảm bảo sản phẩm hợp lệ
+            dto.IdKcsp = DanhSachSanPhamBUS.Instance.GetIdKcsp(dto.MaSP, dto.KichCo);
+
+            return dto;
+        }
+        private int LaySoLuongTuNguoiDung()
+        {
             string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập số lượng cần mua:", "Chọn số lượng", "1");
-            if (!int.TryParse(input, out int soLuong) || soLuong <= 0)
+            return int.TryParse(input, out int soLuong) ? soLuong : -1;
+        }
+        private void btnChon_Click(object sender, EventArgs e)
+        {
+            if (dgvSanPham.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn một sản phẩm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var row = dgvSanPham.SelectedRows[0];
+            var sp = TaoDTOTuRow(row);
+            sp.LaSanPhamTang = false;
+            int soLuong = LaySoLuongTuNguoiDung();
+            if (soLuong <= 0)
             {
                 MessageBox.Show("Số lượng không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -306,8 +355,9 @@ namespace CF36
                 return;
             }
 
+            sp.SoLuong = soLuong;
             ThemSanPhamVaoFlow(sp, soLuong);
-
+            CapNhatTongTien();
         }
         ComboBox cbbKetQuaKH = null;
         private void txtTimKhachHang_TextChanged(object sender, EventArgs e)
@@ -316,144 +366,84 @@ namespace CF36
 
             if (string.IsNullOrEmpty(keyword))
             {
-                cbbTimKhachHang.Items.Clear();
+                cbbTimKhachHang.DataSource = null;
                 cbbTimKhachHang.DroppedDown = false;
                 return;
             }
 
             var danhSach = khachHangBUS.TimKiemTheoSDT(keyword); // Trả về List<KhachHangDTO>
 
-            cbbTimKhachHang.Items.Clear();
-
-            foreach (var kh in danhSach)
+            if (danhSach.Count > 0)
             {
-                cbbTimKhachHang.Items.Add($"{kh.Tenkh} - {kh.Sdt}");
-            }
+                cbbTimKhachHang.DataSource = danhSach;
+                cbbTimKhachHang.DisplayMember = "TenVaSDT";
+                cbbTimKhachHang.ValueMember = "MaKH";
 
-            if (cbbTimKhachHang.Items.Count > 0)
-            {
                 cbbTimKhachHang.DroppedDown = true;
                 cbbTimKhachHang.Focus();
-                cbbTimKhachHang.SelectionStart = cbbTimKhachHang.Text.Length;
+            }
+            else
+            {
+                cbbTimKhachHang.DataSource = null;
+                cbbTimKhachHang.DroppedDown = false;
             }
 
         }
 
         private void cbbTimKhachHang_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbbTimKhachHang.SelectedIndex < 0)
-                return;
-
-            try
+            var kh = cbbTimKhachHang.SelectedItem as KhachHangDTO;
+            if (kh != null)
             {
-                string selected = cbbTimKhachHang.SelectedItem.ToString();
-
-                // Giả sử định dạng là "Tên - SĐT"
-                string[] parts = selected.Split('-');
-                if (parts.Length == 2)
-                {
-                    string ten = parts[0].Trim();
-                    string sdt = parts[1].Trim();
-
-                    txtTimKhachHang.Text = sdt;
-                }
-
-                // Ẩn ComboBox sau khi chọn
-                cbbTimKhachHang.DroppedDown = false;
+                txtTimKhachHang.Text = kh.Sdt;
+                maKH = kh.Makh;           // lưu lại để truyền sang form Thanh Toán
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi chọn khách hàng: " + ex.Message);
-            }
+
+            cbbTimKhachHang.DroppedDown = false;
 
         }
-
-        private void ApDungMaGiamGia(string code)
+        private List<DanhSachSanPhamDTO> LaySanPhamTuGiaoDien()
         {
-            if (fLPSanPhamDaChon.Controls.Count == 0)
-            {
-                MessageBox.Show("Bạn chưa chọn sản phẩm nào.");
-                return;
-            }
-
-            var voucher = VoucherBUS.Instance.GetAllVouchersWithJoin()
-                .AsEnumerable()
-                .FirstOrDefault(row => row.Field<string>("code") == code);
-
-            if (voucher == null)
-            {
-                MessageBox.Show("Không tìm thấy mã giảm giá.");
-                return;
-            }
-
-            int loaiVC = voucher.Field<int>("maloaivc");
-            decimal dieuKien = voucher.Field<decimal>("dieuKien");
-            decimal giatri = voucher.Field<decimal>("giatri");
-            int mavc = voucher.Field<int>("mavc");
-            if (!KiemTraSanPhamPhuHop(voucher.Field<int>("maloai"), voucher.Field<int>("maloaivc"), voucher.Field<int>("mavc")))
-            {
-                MessageBox.Show("Mã giảm giá này không áp dụng cho sản phẩm bạn đã chọn.");
-                txtMaGiamGia.Clear();
-                return;
-            }
-
-            decimal tongTien = TinhTongTien();
-            //Kiểm tra điều kiện tối thiểu
-            if (tongTien < dieuKien)
-            {
-                MessageBox.Show("Đơn hàng chưa đạt điều kiện tối thiểu để áp dụng mã giảm giá.");
-                txtMaGiamGia.Clear();
-                return;
-            }
-
-            switch (loaiVC)
-            {
-                case 1: // Giảm theo %
-                    decimal tienGiam1 = tongTien * giatri / 100;
-                    CapNhatTienSauGiam(tongTien - tienGiam1, tienGiam1);
-                    break;
-
-                case 2: // Mua 1 tặng 1 cùng dòng
-                    ApDungSanPhamTang(mavc);
-                    break;
-                case 4: // Mua 1 tặng 1 bất kỳ
-                    ApDungSanPhamTang(mavc);
-                    break;
-
-                case 3: // Giảm theo số tiền
-                    decimal tienGiam3 = giatri;
-                    CapNhatTienSauGiam(tongTien - tienGiam3, tienGiam3);
-                    break;
-            }
+            return fLPSanPhamDaChon.Controls
+                .OfType<Panel>()
+                .Select(p => p.Tag)
+                .OfType<DanhSachSanPhamDTO>()
+                .Where(sp => sp.IdKcsp > 0)
+                .ToList();
+        }
+        private bool SanPhamTangDaTonTai(BanHangDTO spTang)
+        {
+            return fLPSanPhamDaChon.Controls.OfType<Panel>()
+                .Any(p => p.Tag is DanhSachSanPhamDTO spCheck &&
+                          spCheck.MaSP == spTang.MaSP &&
+                          spCheck.KichCo == spTang.KichCo &&
+                          spCheck.LaSanPhamTang &&
+                          spCheck.MaSanPhamGoc == spTang.MaSanPhamGoc);
         }
 
-        private decimal TinhTongTien()
+        private void HienThiSanPhamTang(List<BanHangDTO> danhSachTang)
         {
-            decimal tong = 0;
-
-            foreach (Control ctrl in fLPSanPhamDaChon.Controls)
+            foreach (var spTang in danhSachTang)
             {
-                if (ctrl is Panel panel)
+                if (SanPhamTangDaTonTai(spTang)) continue;
+
+                var spConverted = new DanhSachSanPhamDTO
                 {
-                    Label lblTong = panel.Controls.OfType<Label>()
-                        .FirstOrDefault(l => l.Text.StartsWith("Tổng:"));
-
-                    if (lblTong != null)
-                    {
-                        string text = lblTong.Text.Replace("Tổng:", "").Replace("đ", "").Trim();
-
-                        // Xử lý định dạng tiền Việt: bỏ dấu chấm, dấu phẩy
-                        text = text.Replace(".", "").Replace(",", "");
-
-                        if (decimal.TryParse(text, out decimal tien))
-                        {
-                            tong += tien;
-                        }
-                    }
-                }
+                    MaSP = spTang.MaSP,
+                    TenSP = spTang.TenSP,
+                    DuongDanAnh = spTang.DuongDanAnh,
+                    KichCo = spTang.KichCo,
+                    TenLoai = spTang.TenLoai,
+                    GiaBan = 0,
+                    SoLuongTon = spTang.SoLuongTon,
+                    TrangThaiText = spTang.TrangThaiText,
+                    LaSanPhamTang = true,
+                    MaSanPhamGoc = spTang.MaSanPhamGoc,
+                    SoLuong = 1
+                };
+                spConverted.IdKcsp = DanhSachSanPhamBUS.Instance.GetIdKcsp(spConverted.MaSP, spConverted.KichCo);
+                ThemSanPhamTangVaoFlow(spConverted);
             }
-
-            return tong;
         }
 
         private void CapNhatTienSauGiam(decimal tongSauGiam, decimal tienGiam)
@@ -461,42 +451,7 @@ namespace CF36
             txtTongTien.Text = tongSauGiam.ToString("N0") + " đ";
         }
 
-        private void ApDungSanPhamTang(int mavc)
-        {
-            var dsTang = Voucher1tang1BUS.Instance.GetSanPhamTangByVoucher(mavc);
-            MessageBox.Show("Số sản phẩm tặng: " + dsTang.Rows.Count);
-
-            foreach (DataRow row in dsTang.Rows)
-            {
-                string masp = row["masp"].ToString().Trim();
-                string kichco = row["kichco"].ToString().Trim();
-
-                SanPhamDTO sp = DanhSachSanPhamBUS.Instance.GetSanPhamTheoMaVaKichCo(masp, kichco);
-                if (sp == null)
-                {
-                    MessageBox.Show($"Không tìm thấy sản phẩm: {masp} - {kichco}");
-                }
-                else
-                {
-                    // ✅ Chuyển đổi sang DanhSachSanPhamDTO
-                    var spConverted = new DanhSachSanPhamDTO
-                    {
-                        MaSP = sp.MaSP,
-                        TenSP = sp.TenSP,
-                        DuongDanAnh = sp.DuongDanAnh,
-                        KichCo = sp.KichCo,
-                        // Các thuộc tính còn lại có thể để mặc định nếu không cần
-                        TenLoai = "", // hoặc lấy từ BUS nếu cần
-                        GiaBan = 0,
-                        SoLuongTon = 0,
-                        TrangThaiText = "",
-                        LaSanPhamTang = true
-                    };
-
-                    ThemSanPhamTangVaoFlow(spConverted);
-                }
-            }
-        }
+        
 
         private void ThemSanPhamTangVaoFlow(DanhSachSanPhamDTO sp)
         {
@@ -563,6 +518,13 @@ namespace CF36
             panel.Controls.Add(lblSL);
             panel.Controls.Add(lblTong);
             // Gán đối tượng sản phẩm tặng vào Tag
+            sp.IdKcsp = DanhSachSanPhamBUS.Instance.GetIdKcsp(sp.MaSP, sp.KichCo);
+            if (sp.IdKcsp == 0)
+            {
+                MessageBox.Show($"Không tìm thấy mã sản phẩm theo kích cỡ cho {sp.TenSP} - Size {sp.KichCo}", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            sp.LaSanPhamTang = true;
             panel.Tag = sp;
 
             fLPSanPhamDaChon.Controls.Add(panel);
@@ -571,52 +533,94 @@ namespace CF36
         }
         private void CapNhatTongTien()
         {
-            decimal tong = TinhTongTien();
+            var danhSachDaChon = LaySanPhamTuGiaoDien()
+                .Where(sp => sp.IdKcsp > 0) // ✅ chỉ lấy sản phẩm hợp lệ
+                .ToList();
+
+            var bus = new BanHangBUS();
+            decimal tong = bus.TinhTongTien(danhSachDaChon);
             txtTongTien.Text = tong.ToString("N0") + " đ";
+
         }
         private void btnThemMaGiamGia_Click(object sender, EventArgs e)
         {
-            QuanLiMAGIAMGIA formMaGiam = new QuanLiMAGIAMGIA(true); // chế độ chọn mã
+            // Xóa sản phẩm tặng cũ khỏi danh sách
+            danhSachDaChon.RemoveAll(sp => sp.LaSanPhamTang);
+
+            // Xóa khỏi giao diện
+            XoaSanPhamTang();
+            QuanLiMAGIAMGIA formMaGiam = new QuanLiMAGIAMGIA(true, maND);
             if (formMaGiam.ShowDialog() == DialogResult.OK)
             {
-                string maGiam = formMaGiam.MaGiamGiaDuocChon;
-                txtMaGiamGia.Text = maGiam;
-                ApDungMaGiamGia(maGiam);
-            }
+                string code = formMaGiam.MaGiamGiaDuocChon;
+                this.maVoucherCode = code;
+                this.maVoucherId = VoucherBUS.GetIdFromCode(code);
 
+                var danhSachMua = LaySanPhamTuGiaoDien();
+                ketQuaGiamGia = banHangBUS.ApDungMaGiamGia(code, danhSachMua);
+
+                if (!string.IsNullOrEmpty(ketQuaGiamGia.Loi))
+                {
+                    MessageBox.Show(ketQuaGiamGia.Loi, "Lỗi áp dụng mã", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                foreach (var spTang in ketQuaGiamGia.SanPhamTang)
+                {
+                    var dto = new DanhSachSanPhamDTO
+                    {
+                        MaSP = spTang.MaSP,
+                        TenSP = spTang.TenSP,
+                        KichCo = spTang.KichCo,
+                        GiaBan = 0,
+                        SoLuong = 1,
+                        IdKcsp = spTang.IdKcsp,
+                        Maloai = spTang.Maloai,
+                        MaSanPhamGoc = spTang.MaSanPhamGoc,
+                        TenLoai = spTang.TenLoai,
+                        DuongDanAnh = spTang.DuongDanAnh,
+                        TrangThaiText = spTang.TrangThaiText,
+                        SoLuongTon = spTang.SoLuongTon,
+                        LaSanPhamTang = true
+                    };
+                    danhSachDaChon.Add(dto);
+                    ThemSanPhamTangVaoFlow(dto);
+                }
+                txtMaGiamGia.Text = code;
+                txtTongTien.Text = (ketQuaGiamGia.TongTien - ketQuaGiamGia.TienGiam).ToString("N0") + " đ";
+            }
         }
-        private bool KiemTraSanPhamPhuHop(int maloaiVC, int loaiVC, int mavc)
+        private void XoaSanPhamTang()
         {
+            var controlsToRemove = new List<Control>();
+
             foreach (Control ctrl in fLPSanPhamDaChon.Controls)
             {
-                if (ctrl is Panel panel && panel.Tag is DanhSachSanPhamDTO sp)
+                if (ctrl.Tag is DanhSachSanPhamDTO dto && dto.LaSanPhamTang)
                 {
-                    if (loaiVC == 2)
-                    {
-                        Console.WriteLine($"SP Maloai: {sp.Maloai}, VC Maloai: {maloaiVC}"); // ✅ thêm dòng này
-
-                        if (sp.Maloai == maloaiVC)
-                            return true;
-                    }
-                    else if (loaiVC == 4)
-                    {
-                        var dsTang = Voucher1tang1BUS.Instance.GetSanPhamTangByVoucher(mavc);
-                        foreach (DataRow row in dsTang.Rows)
-                        {
-                            string masp = row["masp"].ToString();
-                            string kichco = row["kichco"].ToString();
-
-                            // So sánh theo mã sản phẩm hoặc loại sản phẩm
-                            if (sp.MaSP == masp || sp.KichCo.Equals(kichco, StringComparison.OrdinalIgnoreCase))
-                                return true;
-                        }
-                    }
+                    controlsToRemove.Add(ctrl);
                 }
             }
 
-            return false;
+            foreach (var ctrl in controlsToRemove)
+            {
+                fLPSanPhamDaChon.Controls.Remove(ctrl);
+                ctrl.Dispose(); // Giải phóng bộ nhớ
+            }
         }
+        public void CapNhatGiaoDienSauThanhToan()
+        {
 
+            // ✅ Gán lại danh sách sản phẩm
+            LoadDataGrid();
+
+            // ✅ Reset giao diện khác
+            fLPSanPhamDaChon.Controls.Clear();
+            fLPSanPhamDaChon.Refresh();
+            txtTongTien.Text = "0 đ";
+            ketQuaGiamGia = new KetQuaGiamGiaDTO();
+            maVoucherCode = "";
+            maVoucherId = null;
+        }
         private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -624,18 +628,28 @@ namespace CF36
 
         private void dgvSanPham_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.ColumnIndex < dgvSanPham.Columns.Count)
-            {
-                var row = dgvSanPham.Rows[e.RowIndex];
-                string tenSP = row.Cells["TenSP"].Value?.ToString();
-                string loaiSP = row.Cells["TenLoai"].Value?.ToString();
-                string kichco = row.Cells["KichCo"].Value?.ToString();
-                string gia = row.Cells["GiaBan"].Value?.ToString();
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-                dgvSanPham.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText =
-                    $"Tên: {tenSP}\nLoại: {loaiSP}\nSize: {kichco}\nGiá: {gia} đ";
+            var row = dgvSanPham.Rows[e.RowIndex];
+
+            // Kiểm tra cột tồn tại trước khi truy cập
+            if (!dgvSanPham.Columns.Contains("TenSP") ||
+                !dgvSanPham.Columns.Contains("TenLoai") ||
+                !dgvSanPham.Columns.Contains("KichCo") ||
+                !dgvSanPham.Columns.Contains("GiaBan"))
+            {
+                return;
             }
 
+            string tenSP = row.Cells["TenSP"].Value?.ToString();
+            string loaiSP = row.Cells["TenLoai"].Value?.ToString();
+            string kichco = row.Cells["KichCo"].Value?.ToString();
+            string gia = row.Cells["GiaBan"].Value?.ToString();
+
+            dgvSanPham.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText =
+                $"Tên: {tenSP}\nLoại: {loaiSP}\nSize: {kichco}\nGiá: {gia} đ";
+
         }
+
     }
 }

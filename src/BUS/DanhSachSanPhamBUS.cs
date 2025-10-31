@@ -93,5 +93,11 @@ namespace BUS
         {
             return Voucher1tang1DAO.Instance.GetSanPhamTangByVoucher(mavc);
         }
+        private DanhSachSanPhamDAO dao = new DanhSachSanPhamDAO();
+
+        public int GetIdKcsp(string maSP, string kichCo)
+        {
+            return dao.GetIdKcsp(maSP, kichCo);
+        }
     }
 }

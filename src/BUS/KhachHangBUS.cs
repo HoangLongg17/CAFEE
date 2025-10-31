@@ -13,7 +13,19 @@ namespace BUS
         {
             return KhachHangDAO.layDSKH();
         }
+        public static string GetTenKhachHang(int maKH)
+        {
+            return KhachHangDAO.GetTenKhachHang(maKH);
+        }
 
+        public static string GetSDTKhachHang(int maKH)
+        {
+            return KhachHangDAO.GetSDTKhachHang(maKH);
+        }
+        public static string LayTenKhachHangTheoSDT(string sdt)
+        {
+            return KhachHangDAO.LayTenKhachHangTheoSDT(sdt);
+        }
         public static bool ThemKH(KhachHangDTO kh)
         {
             try

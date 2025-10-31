@@ -80,12 +80,12 @@ namespace CF36
             var row = dgvThemkho.Rows[e.RowIndex];
             selectedMaSP = row.Cells["MaSP"].Value?.ToString() ?? "";
             selectedSize = row.Cells["Size"].Value?.ToString() ?? "";
-            
+
         }
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-           
+
 
             var danhSach = dgvThemkho.SelectedRows
                 .Cast<DataGridViewRow>()
@@ -141,6 +141,11 @@ namespace CF36
         }
 
         private void tlpThongtin_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnThoat_Click_1(object sender, EventArgs e)
         {
 
         }

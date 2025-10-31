@@ -152,6 +152,19 @@ namespace DAO
             }
             return null;
         }
+        public static string LayTenNhanVien(string mand)
+        {
+            string query = "SELECT Hoten FROM NGUOIDUNG WHERE Mand = @mand";
+            SqlParameter[] parameters = { new SqlParameter("@mand", mand) };
+            DataTable dt = DataProvider.Instance.ExecuteQuery(query, parameters);
+
+            if (dt.Rows.Count > 0)
+            {
+                return dt.Rows[0]["Hoten"].ToString();
+            }
+
+            return "Không xác định";
+        }
         // thêm nhân viên
         public static bool KiemTraTonTaiMaNV(string maNV)
         {

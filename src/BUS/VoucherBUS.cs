@@ -85,6 +85,10 @@ namespace BUS
         {
             return VoucherDAO.Instance.GetVouchersByDateRange(from, to);
         }
+        public static string GetCode(int mavc)
+        {
+            return VoucherDAO.GetCode(mavc);
+        }
 
         public DataTable GetVoucherTypes()
         {
@@ -105,6 +109,10 @@ namespace BUS
         public DataTable GetVouchersByTypeWithJoin(int maloaivc)
         {
             return VoucherDAO.Instance.GetVouchersByTypeWithJoin(maloaivc);
+        }
+        public static int? GetIdFromCode(string code)
+        {
+            return VoucherDAO.GetIdFromCode(code);
         }
     }
 }

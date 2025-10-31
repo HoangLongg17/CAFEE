@@ -8,7 +8,7 @@ namespace DAO
 {
     public class DanhSachSanPhamDAO
     {
-        private DataProvider provider = DataProvider.Instance;
+        private static DataProvider provider = DataProvider.Instance;
         private static DanhSachSanPhamDAO instance;
         public static DanhSachSanPhamDAO Instance
         {
@@ -162,7 +162,7 @@ namespace DAO
             {
                 list.Add(new DanhSachSanPhamDTO
                 {
-                    ID = (int)row["id"],
+                    IdKcsp = Convert.ToInt32(row["id"]),
                     MaSP = row["masp"].ToString(),
                     TenSP = row["tensp"].ToString(),
                     Maloai = Convert.ToInt32(row["maloai"]),
@@ -281,6 +281,57 @@ namespace DAO
             }
 
             return -1; // hoặc 0 nếu bạn muốn mặc định là không xác định
+        }
+        public int GetIdKcsp(string maSP, string kichCo)
+        {
+            string query = @"
+            SELECT k.id
+            FROM KICHCOSP k
+            JOIN SANPHAM sp ON k.masp = sp.masp
+            JOIN KICHCO kc ON k.makichco = kc.makichco
+            WHERE sp.masp = @masp AND kc.kichco = @kichco";
+
+            SqlParameter[] parameters = {
+            new SqlParameter("@masp", maSP),
+            new SqlParameter("@kichco", kichCo)
+            };
+
+            var dt = provider.ExecuteQuery(query, parameters);
+            if (dt.Rows.Count > 0)
+            {
+                return Convert.ToInt32(dt.Rows[0]["id"]);
+            }
+
+            return 0; // không tìm thấy
+        }
+        public static void CapNhatSoLuongTon(int idKcsp, int soLuongThayDoi)
+        {
+            string query = "UPDATE KICHCOSP SET soluongton = soluongton + @sl WHERE Id = @id";
+            SqlParameter[] parameters = {
+            new SqlParameter("@sl", soLuongThayDoi),
+            new SqlParameter("@id", idKcsp)
+            };
+
+            provider.ExecuteNonQuery(query, parameters);
+        }
+        public static int GetSoLuongTon(int idKichCoSP)
+        {
+            string query = "SELECT soluongton FROM KICHCOSP WHERE id = @id";
+            SqlParameter[] parameters = {
+            new SqlParameter("@id", idKichCoSP)
+            };
+
+            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            return result != null ? Convert.ToInt32(result) : 0;
+        }
+        public static void KhoaSanPham(int idKichCoSP)
+        {
+            string query = "UPDATE KICHCOSP SET trangthaisp = 0 WHERE id = @id";
+            SqlParameter[] parameters = {
+            new SqlParameter("@id", idKichCoSP)
+            };
+
+            DataProvider.Instance.ExecuteNonQuery(query, parameters);
         }
     }
 }

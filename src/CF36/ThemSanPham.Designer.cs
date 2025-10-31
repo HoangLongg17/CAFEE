@@ -71,10 +71,9 @@
             // btnXacNhan
             // 
             btnXacNhan.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnXacNhan.Location = new Point(479, 2);
-            btnXacNhan.Margin = new Padding(3, 2, 3, 2);
+            btnXacNhan.Location = new Point(509, 3);
             btnXacNhan.Name = "btnXacNhan";
-            btnXacNhan.Size = new Size(82, 40);
+            btnXacNhan.Size = new Size(133, 70);
             btnXacNhan.TabIndex = 0;
             btnXacNhan.Text = "XÁC NHẬN";
             btnXacNhan.UseVisualStyleBackColor = true;
@@ -88,20 +87,18 @@
             tlpButton.Controls.Add(btnXacNhan, 0, 0);
             tlpButton.Controls.Add(btnThoat, 1, 0);
             tlpButton.Dock = DockStyle.Fill;
-            tlpButton.Location = new Point(3, 386);
-            tlpButton.Margin = new Padding(3, 2, 3, 2);
+            tlpButton.Location = new Point(3, 545);
             tlpButton.Name = "tlpButton";
             tlpButton.RowCount = 1;
             tlpButton.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpButton.Size = new Size(713, 45);
+            tlpButton.Size = new Size(816, 76);
             tlpButton.TabIndex = 3;
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(567, 2);
-            btnThoat.Margin = new Padding(3, 2, 3, 2);
+            btnThoat.Location = new Point(648, 3);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(82, 40);
+            btnThoat.Size = new Size(122, 70);
             btnThoat.TabIndex = 1;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
@@ -110,20 +107,18 @@
             // picAnh
             // 
             picAnh.Anchor = AnchorStyles.Left;
-            picAnh.Location = new Point(3, 2);
-            picAnh.Margin = new Padding(3, 2, 3, 2);
+            picAnh.Location = new Point(3, 3);
             picAnh.Name = "picAnh";
-            picAnh.Size = new Size(150, 76);
+            picAnh.Size = new Size(171, 101);
             picAnh.TabIndex = 0;
             picAnh.TabStop = false;
             // 
             // btnThem
             // 
             btnThem.Anchor = AnchorStyles.Left;
-            btnThem.Location = new Point(159, 15);
-            btnThem.Margin = new Padding(3, 2, 3, 2);
+            btnThem.Location = new Point(181, 21);
             btnThem.Name = "btnThem";
-            btnThem.Size = new Size(103, 49);
+            btnThem.Size = new Size(118, 65);
             btnThem.TabIndex = 1;
             btnThem.Text = "Thêm ảnh";
             btnThem.UseVisualStyleBackColor = true;
@@ -133,9 +128,9 @@
             // 
             lbMoTa.Anchor = AnchorStyles.Right;
             lbMoTa.AutoSize = true;
-            lbMoTa.Location = new Point(140, 162);
+            lbMoTa.Location = new Point(142, 224);
             lbMoTa.Name = "lbMoTa";
-            lbMoTa.Size = new Size(213, 15);
+            lbMoTa.Size = new Size(263, 20);
             lbMoTa.TabIndex = 2;
             lbMoTa.Text = "Thêm mô tả (Ảnh minh họa sản phẩm)";
             // 
@@ -144,24 +139,23 @@
             tlpAnh.Anchor = AnchorStyles.Left;
             tlpAnh.ColumnCount = 2;
             tlpAnh.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlpAnh.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 158F));
+            tlpAnh.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 181F));
             tlpAnh.Controls.Add(picAnh, 0, 0);
             tlpAnh.Controls.Add(btnThem, 1, 0);
-            tlpAnh.Location = new Point(359, 129);
-            tlpAnh.Margin = new Padding(3, 2, 3, 2);
+            tlpAnh.Location = new Point(411, 180);
             tlpAnh.Name = "tlpAnh";
             tlpAnh.RowCount = 1;
             tlpAnh.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpAnh.Size = new Size(314, 80);
+            tlpAnh.Size = new Size(359, 107);
             tlpAnh.TabIndex = 3;
             // 
             // lbSize
             // 
             lbSize.Anchor = AnchorStyles.Right;
             lbSize.AutoSize = true;
-            lbSize.Location = new Point(163, 56);
+            lbSize.Location = new Point(168, 77);
             lbSize.Name = "lbSize";
-            lbSize.Size = new Size(190, 15);
+            lbSize.Size = new Size(237, 20);
             lbSize.TabIndex = 0;
             lbSize.Text = "Thêm kích cỡ và giá tiền sản phẩm";
             // 
@@ -174,46 +168,40 @@
             gbSize.Controls.Add(cbL);
             gbSize.Controls.Add(cbM);
             gbSize.Controls.Add(cbS);
-            gbSize.Location = new Point(359, 4);
-            gbSize.Margin = new Padding(3, 2, 3, 2);
+            gbSize.Location = new Point(411, 8);
             gbSize.Name = "gbSize";
-            gbSize.Padding = new Padding(3, 2, 3, 2);
-            gbSize.Size = new Size(282, 119);
+            gbSize.Size = new Size(322, 159);
             gbSize.TabIndex = 1;
             gbSize.TabStop = false;
             gbSize.Text = "Chọn size và thêm giá cho từng size";
             // 
             // txtGiaM
             // 
-            txtGiaM.Location = new Point(102, 53);
-            txtGiaM.Margin = new Padding(3, 2, 3, 2);
+            txtGiaM.Location = new Point(117, 71);
             txtGiaM.Name = "txtGiaM";
-            txtGiaM.Size = new Size(110, 23);
+            txtGiaM.Size = new Size(125, 27);
             txtGiaM.TabIndex = 1;
             // 
             // txtGiaL
             // 
-            txtGiaL.Location = new Point(102, 94);
-            txtGiaL.Margin = new Padding(3, 2, 3, 2);
+            txtGiaL.Location = new Point(117, 125);
             txtGiaL.Name = "txtGiaL";
-            txtGiaL.Size = new Size(110, 23);
+            txtGiaL.Size = new Size(125, 27);
             txtGiaL.TabIndex = 1;
             // 
             // txtGiaS
             // 
-            txtGiaS.Location = new Point(102, 16);
-            txtGiaS.Margin = new Padding(3, 2, 3, 2);
+            txtGiaS.Location = new Point(117, 21);
             txtGiaS.Name = "txtGiaS";
-            txtGiaS.Size = new Size(110, 23);
+            txtGiaS.Size = new Size(125, 27);
             txtGiaS.TabIndex = 1;
             // 
             // cbL
             // 
             cbL.AutoSize = true;
-            cbL.Location = new Point(18, 96);
-            cbL.Margin = new Padding(3, 2, 3, 2);
+            cbL.Location = new Point(21, 128);
             cbL.Name = "cbL";
-            cbL.Size = new Size(32, 19);
+            cbL.Size = new Size(38, 24);
             cbL.TabIndex = 0;
             cbL.Text = "L";
             cbL.UseVisualStyleBackColor = true;
@@ -222,10 +210,9 @@
             // cbM
             // 
             cbM.AutoSize = true;
-            cbM.Location = new Point(18, 55);
-            cbM.Margin = new Padding(3, 2, 3, 2);
+            cbM.Location = new Point(21, 73);
             cbM.Name = "cbM";
-            cbM.Size = new Size(37, 19);
+            cbM.Size = new Size(44, 24);
             cbM.TabIndex = 0;
             cbM.Text = "M";
             cbM.UseVisualStyleBackColor = true;
@@ -234,10 +221,9 @@
             // cbS
             // 
             cbS.AutoSize = true;
-            cbS.Location = new Point(18, 18);
-            cbS.Margin = new Padding(3, 2, 3, 2);
+            cbS.Location = new Point(21, 24);
             cbS.Name = "cbS";
-            cbS.Size = new Size(32, 19);
+            cbS.Size = new Size(39, 24);
             cbS.TabIndex = 0;
             cbS.Text = "S";
             cbS.UseVisualStyleBackColor = true;
@@ -247,28 +233,27 @@
             // 
             lbLoaiSanPham.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbLoaiSanPham.AutoSize = true;
-            lbLoaiSanPham.Location = new Point(398, 0);
+            lbLoaiSanPham.Location = new Point(449, 0);
             lbLoaiSanPham.Name = "lbLoaiSanPham";
-            lbLoaiSanPham.Size = new Size(84, 15);
+            lbLoaiSanPham.Size = new Size(105, 20);
             lbLoaiSanPham.TabIndex = 4;
             lbLoaiSanPham.Text = "Loại sản phẩm";
             // 
             // cbbLoaiSanPham
             // 
             cbbLoaiSanPham.FormattingEnabled = true;
-            cbbLoaiSanPham.Location = new Point(488, 2);
-            cbbLoaiSanPham.Margin = new Padding(3, 2, 3, 2);
+            cbbLoaiSanPham.Location = new Point(560, 3);
             cbbLoaiSanPham.Name = "cbbLoaiSanPham";
-            cbbLoaiSanPham.Size = new Size(190, 23);
+            cbbLoaiSanPham.Size = new Size(217, 28);
             cbbLoaiSanPham.TabIndex = 5;
             // 
             // lbMaSanPham
             // 
             lbMaSanPham.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbMaSanPham.AutoSize = true;
-            lbMaSanPham.Location = new Point(111, 0);
+            lbMaSanPham.Location = new Point(121, 0);
             lbMaSanPham.Name = "lbMaSanPham";
-            lbMaSanPham.Size = new Size(79, 15);
+            lbMaSanPham.Size = new Size(98, 20);
             lbMaSanPham.TabIndex = 0;
             lbMaSanPham.Text = "Mã sản phẩm";
             // 
@@ -276,28 +261,26 @@
             // 
             lbTensanpham.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbTensanpham.AutoSize = true;
-            lbTensanpham.Location = new Point(110, 41);
+            lbTensanpham.Location = new Point(119, 60);
             lbTensanpham.Name = "lbTensanpham";
-            lbTensanpham.Size = new Size(80, 15);
+            lbTensanpham.Size = new Size(100, 20);
             lbTensanpham.TabIndex = 1;
             lbTensanpham.Text = "Tên sản phẩm";
             // 
             // txtMaSanPham
             // 
             txtMaSanPham.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtMaSanPham.Location = new Point(196, 2);
-            txtMaSanPham.Margin = new Padding(3, 2, 3, 2);
+            txtMaSanPham.Location = new Point(225, 3);
             txtMaSanPham.Name = "txtMaSanPham";
-            txtMaSanPham.Size = new Size(179, 23);
+            txtMaSanPham.Size = new Size(206, 27);
             txtMaSanPham.TabIndex = 2;
             // 
             // txtTenSanPham
             // 
             txtTenSanPham.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtTenSanPham.Location = new Point(196, 43);
-            txtTenSanPham.Margin = new Padding(3, 2, 3, 2);
+            txtTenSanPham.Location = new Point(225, 63);
             txtTenSanPham.Name = "txtTenSanPham";
-            txtTenSanPham.Size = new Size(179, 23);
+            txtTenSanPham.Size = new Size(206, 27);
             txtTenSanPham.TabIndex = 3;
             // 
             // tlpThantren
@@ -314,44 +297,41 @@
             tlpThantren.Controls.Add(lbLoaiSanPham, 2, 0);
             tlpThantren.Controls.Add(cbbLoaiSanPham, 3, 0);
             tlpThantren.Dock = DockStyle.Fill;
-            tlpThantren.Location = new Point(3, 83);
-            tlpThantren.Margin = new Padding(3, 2, 3, 2);
+            tlpThantren.Location = new Point(3, 120);
             tlpThantren.Name = "tlpThantren";
             tlpThantren.RowCount = 2;
             tlpThantren.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpThantren.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpThantren.Size = new Size(713, 83);
+            tlpThantren.Size = new Size(816, 120);
             tlpThantren.TabIndex = 1;
             // 
             // tlpall
             // 
             tlpall.ColumnCount = 1;
             tlpall.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlpall.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 18F));
+            tlpall.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 21F));
             tlpall.Controls.Add(picLogo, 0, 0);
             tlpall.Controls.Add(tlpThantren, 0, 1);
             tlpall.Controls.Add(tlpSize, 0, 2);
             tlpall.Controls.Add(tlpButton, 0, 3);
             tlpall.Dock = DockStyle.Fill;
             tlpall.Location = new Point(0, 0);
-            tlpall.Margin = new Padding(3, 2, 3, 2);
             tlpall.Name = "tlpall";
             tlpall.RowCount = 4;
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 18.8908138F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 20.2772961F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 50.0866547F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 11.0918541F));
-            tlpall.Size = new Size(719, 433);
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 48.0769234F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 12.9807692F));
+            tlpall.Size = new Size(822, 624);
             tlpall.TabIndex = 1;
             // 
             // picLogo
             // 
             picLogo.Dock = DockStyle.Fill;
             picLogo.Image = Properties.Resources.logo;
-            picLogo.Location = new Point(3, 2);
-            picLogo.Margin = new Padding(3, 2, 3, 2);
+            picLogo.Location = new Point(3, 3);
             picLogo.Name = "picLogo";
-            picLogo.Size = new Size(713, 77);
+            picLogo.Size = new Size(816, 111);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
             picLogo.TabIndex = 0;
             picLogo.TabStop = false;
@@ -366,22 +346,20 @@
             tlpSize.Controls.Add(lbMoTa, 0, 1);
             tlpSize.Controls.Add(tlpAnh, 1, 1);
             tlpSize.Dock = DockStyle.Fill;
-            tlpSize.Location = new Point(3, 170);
-            tlpSize.Margin = new Padding(3, 2, 3, 2);
+            tlpSize.Location = new Point(3, 246);
             tlpSize.Name = "tlpSize";
             tlpSize.RowCount = 2;
             tlpSize.RowStyles.Add(new RowStyle(SizeType.Percent, 59.9290771F));
             tlpSize.RowStyles.Add(new RowStyle(SizeType.Percent, 40.0709229F));
-            tlpSize.Size = new Size(713, 212);
+            tlpSize.Size = new Size(816, 293);
             tlpSize.TabIndex = 2;
             // 
             // ThemSanPham
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(719, 433);
+            ClientSize = new Size(822, 624);
             Controls.Add(tlpall);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "ThemSanPham";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thêm sản phẩm";

@@ -34,14 +34,14 @@ namespace CF36
             string sdt = txtSoDienThoai.Text.Trim();
             int tichdiem;
 
-            if (string.IsNullOrEmpty(tenKH) || string.IsNullOrEmpty(sdt) || !int.TryParse(txtTichDiem.Text, out tichdiem))
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ và đúng định dạng thông tin.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            // Gọi hàm kiểm tra dữ liệu
+            if (!KiemTraDuLieuHopLe(tenKH, sdt))
                 return;
-            }
-            if (!IsValidPhone(sdt))
+
+            // Kiểm tra tích điểm
+            if (!int.TryParse(txtTichDiem.Text.Trim(), out tichdiem))
             {
-                MessageBox.Show("Số điện thoại không hợp lệ. Vui lòng nhập từ 9 đến 11 chữ số.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Tích điểm phải là số nguyên.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -58,7 +58,40 @@ namespace CF36
             }
 
         }
+        private bool KiemTraDuLieuHopLe(string tenKH, string sdt)
+        {
+            if (string.IsNullOrWhiteSpace(tenKH))
+            {
+                MessageBox.Show("Tên khách hàng không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
+            if (tenKH.Length > 50)
+            {
+                MessageBox.Show("Tên khách hàng không được vượt quá 50 ký tự.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(sdt))
+            {
+                MessageBox.Show("Số điện thoại không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (!sdt.All(char.IsDigit))
+            {
+                MessageBox.Show("Số điện thoại chỉ được chứa chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (sdt.Length < 10 || sdt.Length > 11)
+            {
+                MessageBox.Show("Số điện thoại phải từ 10 đến 11 chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
         private void SuaKhachHang_Load(object sender, EventArgs e)
         {
             txtTenKhachHang.Text = khachHang.Tenkh;

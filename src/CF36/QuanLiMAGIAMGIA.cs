@@ -15,10 +15,20 @@ namespace CF36
     {
         public string MaGiamGiaDuocChon { get; private set; }
         private bool isChonMa = false;
-        public QuanLiMAGIAMGIA(bool chonMa = false)
+        private string maND;
+        public QuanLiMAGIAMGIA()
         {
             InitializeComponent();
-            isChonMa = chonMa;
+            this.isChonMa = false;
+            this.maND = CurrentUser.Mand ?? "";
+
+        }
+        public QuanLiMAGIAMGIA(bool chonMa, string maND)
+        {
+            InitializeComponent();
+            this.isChonMa = chonMa;
+            this.maND = maND ?? "";
+
         }
         void SetColumnHeader(string columnName, string headerText)
         {
@@ -45,10 +55,8 @@ namespace CF36
         private void btnThemMaGiamGia_Click(object sender, EventArgs e)
         {
             ThemMaGiamGia form = new ThemMaGiamGia();
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                LoadVouchers(); // cập nhật lại sau khi thêm
-            }
+            form.VoucherUpdated += (s, e) => LoadVouchers(); // ✅ gắn sự kiện
+            form.ShowDialog();
 
         }
 
@@ -60,6 +68,13 @@ namespace CF36
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
             UIText.ApplyButtonTextStyle(this);
             btnApDung.Visible = isChonMa;
+            if (!string.IsNullOrEmpty(maND) && maND.StartsWith("NV"))
+            {
+                btnThemMaGiamGia.Visible = false;
+                btnSuaMaGiamGia.Visible = false;
+                btnSuaMaGiamGia1tang1.Visible = false;
+                btnXoa.Visible = false;
+            }
 
         }
 
@@ -73,8 +88,9 @@ namespace CF36
                 if (maloaivc == 1 || maloaivc == 3)
                 {
                     SuaMaGiamGia form = new SuaMaGiamGia(mavc);
-                    form.FormClosed += (s, e) => LoadVouchers(); // gọi lại hàm load
+                    form.VoucherUpdated += (s, e) => LoadVouchers(); //  gắn sự kiện
                     form.ShowDialog();
+
                 }
                 else
                 {
@@ -170,8 +186,9 @@ namespace CF36
                 if (maloaivc == 2 || maloaivc == 4)
                 {
                     SuaMaGiamGiaMua1Tang1 form = new SuaMaGiamGiaMua1Tang1(mavc);
-                    form.FormClosed += (s, e) => LoadVouchers(); // gọi lại hàm load
+                    form.VoucherUpdated += (s, e) => LoadVouchers(); //  gắn sự kiện
                     form.ShowDialog();
+
                 }
                 else
                 {

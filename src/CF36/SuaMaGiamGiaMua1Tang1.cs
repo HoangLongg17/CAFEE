@@ -14,6 +14,7 @@ namespace CF36
 {
     public partial class SuaMaGiamGiaMua1Tang1 : Form
     {
+        public event EventHandler VoucherUpdated;
         public SuaMaGiamGiaMua1Tang1()
         {
             InitializeComponent();
@@ -101,44 +102,114 @@ namespace CF36
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvSanPhamTang);
         }
-
-        private void btnLuu_Click(object sender, EventArgs e)
+        private bool KiemTraDuLieuSuaVoucher1Tang1(
+            out string message,
+            out string code,
+            out string ten,
+            out int loaiVC,
+            out int maloai,
+            out decimal dieuKien,
+            out List<int> dsTang)
         {
-            string code = txtMaGiamGia.Text.Trim();
-            string ten = txtTenMaGiamGia.Text.Trim();
+            message = "";
+            code = txtMaGiamGia.Text.Trim();
+            ten = txtTenMaGiamGia.Text.Trim();
+            dsTang = new List<int>();
+            loaiVC = 0;
+            maloai = 0;
+            dieuKien = 0;
+
             if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(ten))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ mã và tên mã giảm giá.");
-                return;
+                message = "Vui lòng nhập đầy đủ mã và tên mã giảm giá.";
+                return false;
+            }
+
+            if (code.Length > 20 || !System.Text.RegularExpressions.Regex.IsMatch(code, @"^[a-zA-Z0-9]+$"))
+            {
+                message = "Mã giảm giá không hợp lệ. Chỉ chứa chữ và số, tối đa 20 ký tự.";
+                return false;
+            }
+
+            if (ten.Length > 100)
+            {
+                message = "Tên mã giảm giá không được vượt quá 100 ký tự.";
+                return false;
             }
 
             if (cbbLoaiMaGiamGia.SelectedIndex == -1 || cbbSanPhamMua.SelectedIndex == -1)
             {
-                MessageBox.Show("Vui lòng chọn loại mã và loại sản phẩm mua.");
-                return;
+                message = "Vui lòng chọn loại mã và loại sản phẩm mua.";
+                return false;
             }
 
-            int loaiVC = cbbLoaiMaGiamGia.SelectedIndex == 0 ? 2 : 4;
-            int maloai = Convert.ToInt32(cbbSanPhamMua.SelectedValue);
+            loaiVC = cbbLoaiMaGiamGia.SelectedIndex == 0 ? 2 : 4;
+            maloai = Convert.ToInt32(cbbSanPhamMua.SelectedValue);
 
-            if (!decimal.TryParse(txtHoaDonToiThieu.Text.Trim(), out decimal dieuKien))
+            if (!decimal.TryParse(txtHoaDonToiThieu.Text.Trim(), out dieuKien))
             {
-                MessageBox.Show("Giá trị hóa đơn tối thiểu không hợp lệ.");
-                return;
+                message = "Giá trị hóa đơn tối thiểu không hợp lệ.";
+                return false;
             }
-
-            List<(string masp, string kichco)> dsTang = new List<(string, string)>();
 
             foreach (DataGridViewRow row in dgvSanPhamTang.SelectedRows)
             {
-                string masp = row.Cells["masp"].Value.ToString();
-                string kichco = row.Cells["kichco"].Value.ToString();
-                dsTang.Add((masp, kichco));
+                string masp = row.Cells["masp"].Value?.ToString();
+                string kichco = row.Cells["kichco"].Value?.ToString();
+
+                if (string.IsNullOrEmpty(masp) || string.IsNullOrEmpty(kichco))
+                {
+                    message = "Thiếu thông tin sản phẩm tặng.";
+                    return false;
+                }
+
+                if (loaiVC == 2)
+                {
+                    if (!dgvSanPhamTang.Columns.Contains("maloai") || row.Cells["maloai"].Value == null)
+                    {
+                        message = $"Thiếu thông tin loại sản phẩm cho '{masp}'.";
+                        return false;
+                    }
+
+                    int maloaiSP = Convert.ToInt32(row.Cells["maloai"].Value);
+                    if (maloaiSP != maloai)
+                    {
+                        message = $"Sản phẩm tặng '{masp}' không cùng dòng với sản phẩm mua đã chọn.";
+                        return false;
+                    }
+                }
+
+                // ✅ Lấy idkcsp và kiểm tra tồn tại
+                int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(masp, kichco);
+                if (idkcsp <= 0)
+                {
+                    message = $"Không tìm thấy sản phẩm tặng '{masp}' với size '{kichco}' trong hệ thống.";
+                    return false;
+                }
+
+                dsTang.Add(idkcsp);
             }
 
             if (dsTang.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn ít nhất một sản phẩm tặng.");
+                message = "Vui lòng chọn ít nhất một sản phẩm tặng.";
+                return false;
+            }
+
+            return true;
+        }
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraDuLieuSuaVoucher1Tang1(
+            out string message,
+            out string code,
+            out string ten,
+            out int loaiVC,
+            out int maloai,
+            out decimal dieuKien,
+            out List<int> dsTang))
+            {
+                MessageBox.Show(message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -146,7 +217,12 @@ namespace CF36
             {
                 bool ok = Voucher1tang1BUS.Instance.CapNhatVoucher(mavc, code, ten, loaiVC, maloai, dieuKien, dsTang);
                 MessageBox.Show(ok ? "Cập nhật mã giảm giá thành công!" : "Cập nhật thất bại!");
-                if (ok) this.Close();
+                if (ok)
+                {
+                    VoucherUpdated?.Invoke(this, EventArgs.Empty); // ✅ báo cho form cha
+                    this.Close();
+                }
+
             }
             catch (Exception ex)
             {
@@ -158,6 +234,11 @@ namespace CF36
         private void cbbLoaiMaGiamGia_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

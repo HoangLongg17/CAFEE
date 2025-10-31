@@ -18,7 +18,9 @@ namespace CF36
         {
             InitializeComponent();
         }
+
         private DangNhapQLBUS userBUS = new DangNhapQLBUS();
+        public static string MaNguoiDungDangNhap;
         private void btnlogin_Click(object sender, EventArgs e)
         {
             var result = userBUS.Login(txtusernv.Text, txtpasswordnv.Text);
@@ -30,6 +32,7 @@ namespace CF36
             }
 
             MessageBox.Show(result.message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MaNguoiDungDangNhap = result.user.Mand;
             string username = txtusernv.Text.Trim();
             QuanLi ql = new QuanLi(result.user.Hoten, username);
             this.Hide();

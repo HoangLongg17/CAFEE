@@ -210,6 +210,7 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click_1;
             // 
             // btnLamMoi
             // 

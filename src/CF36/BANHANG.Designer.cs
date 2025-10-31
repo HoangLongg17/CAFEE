@@ -77,8 +77,8 @@
             tlpall.RowCount = 3;
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 12.2082586F));
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 87.79174F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
-            tlpall.Size = new Size(1132, 651);
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Absolute, 64F));
+            tlpall.Size = new Size(1132, 674);
             tlpall.TabIndex = 0;
             // 
             // picLogo
@@ -87,7 +87,7 @@
             picLogo.Image = Properties.Resources.logo;
             picLogo.Location = new Point(3, 3);
             picLogo.Name = "picLogo";
-            picLogo.Size = new Size(1126, 66);
+            picLogo.Size = new Size(1126, 68);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
             picLogo.TabIndex = 0;
             picLogo.TabStop = false;
@@ -100,11 +100,11 @@
             tlpThan.Controls.Add(pnSanPham, 0, 0);
             tlpThan.Controls.Add(pnDanhSach, 1, 0);
             tlpThan.Dock = DockStyle.Fill;
-            tlpThan.Location = new Point(3, 75);
+            tlpThan.Location = new Point(3, 77);
             tlpThan.Name = "tlpThan";
             tlpThan.RowCount = 1;
             tlpThan.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpThan.Size = new Size(1126, 514);
+            tlpThan.Size = new Size(1126, 529);
             tlpThan.TabIndex = 1;
             // 
             // pnSanPham
@@ -114,7 +114,7 @@
             pnSanPham.Dock = DockStyle.Fill;
             pnSanPham.Location = new Point(3, 3);
             pnSanPham.Name = "pnSanPham";
-            pnSanPham.Size = new Size(424, 508);
+            pnSanPham.Size = new Size(424, 523);
             pnSanPham.TabIndex = 0;
             // 
             // fLPSanPhamDaChon
@@ -123,7 +123,7 @@
             fLPSanPhamDaChon.Dock = DockStyle.Fill;
             fLPSanPhamDaChon.Location = new Point(0, 0);
             fLPSanPhamDaChon.Name = "fLPSanPhamDaChon";
-            fLPSanPhamDaChon.Size = new Size(424, 327);
+            fLPSanPhamDaChon.Size = new Size(424, 342);
             fLPSanPhamDaChon.TabIndex = 3;
             fLPSanPhamDaChon.WrapContents = false;
             // 
@@ -140,7 +140,7 @@
             tlpThanhToan.Controls.Add(lbThemKhachHang, 0, 0);
             tlpThanhToan.Controls.Add(txtMaGiamGia, 1, 3);
             tlpThanhToan.Dock = DockStyle.Bottom;
-            tlpThanhToan.Location = new Point(0, 327);
+            tlpThanhToan.Location = new Point(0, 342);
             tlpThanhToan.Name = "tlpThanhToan";
             tlpThanhToan.RowCount = 4;
             tlpThanhToan.RowStyles.Add(new RowStyle(SizeType.Percent, 67.0454559F));
@@ -247,7 +247,7 @@
             pnDanhSach.Dock = DockStyle.Fill;
             pnDanhSach.Location = new Point(433, 3);
             pnDanhSach.Name = "pnDanhSach";
-            pnDanhSach.Size = new Size(690, 508);
+            pnDanhSach.Size = new Size(690, 523);
             pnDanhSach.TabIndex = 1;
             // 
             // dgvSanPham
@@ -257,7 +257,7 @@
             dgvSanPham.Location = new Point(0, 41);
             dgvSanPham.Name = "dgvSanPham";
             dgvSanPham.RowHeadersWidth = 51;
-            dgvSanPham.Size = new Size(690, 467);
+            dgvSanPham.Size = new Size(690, 482);
             dgvSanPham.TabIndex = 1;
             dgvSanPham.CellContentClick += dgvSanPham_CellContentClick;
             dgvSanPham.CellMouseEnter += dgvSanPham_CellMouseEnter;
@@ -316,18 +316,18 @@
             tlpend.Controls.Add(btnThoat, 1, 0);
             tlpend.Controls.Add(btnThanhToan, 0, 0);
             tlpend.Dock = DockStyle.Fill;
-            tlpend.Location = new Point(3, 595);
+            tlpend.Location = new Point(3, 612);
             tlpend.Name = "tlpend";
             tlpend.RowCount = 1;
             tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpend.Size = new Size(1126, 53);
+            tlpend.Size = new Size(1126, 59);
             tlpend.TabIndex = 2;
             // 
             // btnThoat
             // 
             btnThoat.Location = new Point(1018, 3);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(105, 47);
+            btnThoat.Size = new Size(105, 53);
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
@@ -337,7 +337,7 @@
             btnThanhToan.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnThanhToan.Location = new Point(862, 3);
             btnThanhToan.Name = "btnThanhToan";
-            btnThanhToan.Size = new Size(150, 47);
+            btnThanhToan.Size = new Size(150, 53);
             btnThanhToan.TabIndex = 0;
             btnThanhToan.Text = "THANH TOÁN";
             btnThanhToan.UseVisualStyleBackColor = true;
@@ -347,7 +347,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1132, 651);
+            ClientSize = new Size(1132, 674);
             Controls.Add(tlpall);
             Name = "BANHANG";
             StartPosition = FormStartPosition.CenterScreen;

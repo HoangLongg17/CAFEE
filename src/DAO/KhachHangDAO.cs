@@ -10,7 +10,8 @@ namespace DAO
 {
     public class KhachHangDAO
     {
-        private DataProvider provider = DataProvider.Instance;
+        private static DataProvider provider = DataProvider.Instance;
+
         private static KhachHangDAO instance;
         public static KhachHangDAO Instance
         {
@@ -35,7 +36,41 @@ namespace DAO
             }
             return dsKH;
         }
+        public static string GetTenKhachHang(int maKH)
+        {
+            string query = "SELECT tenkh FROM KHACHHANG WHERE makh = @makh";
+            SqlParameter[] parameters = {
+            new SqlParameter("@makh", maKH)
+            };
 
+            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            return result?.ToString() ?? "Khách lẻ";
+        }
+
+        public static string GetSDTKhachHang(int maKH)
+        {
+            string query = "SELECT sdt FROM KHACHHANG WHERE makh = @makh";
+            SqlParameter[] parameters = {
+            new SqlParameter("@makh", maKH)
+            };
+
+            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            return result?.ToString() ?? "";
+        }
+        public static string LayTenKhachHangTheoSDT(string sdt)
+        {
+            string query = "SELECT Tenkh FROM KHACHHANG WHERE sdt = @sdt";
+            SqlParameter[] parameters = {
+            new SqlParameter("@sdt", sdt)
+            };
+
+            DataTable dt = provider.ExecuteQuery(query, parameters);
+            if (dt.Rows.Count > 0)
+            {
+                return dt.Rows[0]["Tenkh"].ToString();
+            }
+            return "Khách lẻ";
+        }
         public static void themKH(KhachHangDTO kh)
         {
             string sql = "INSERT INTO KHACHHANG (Tenkh, Sdt, Tichdiem) VALUES (@Tenkh, @Sdt, @Tichdiem)";

@@ -133,7 +133,16 @@ namespace CF36
 
                 // 2. Gán vào DataGridView
                 dgvDanhSachSanPham.DataSource = danhSach;
-
+                if (dgvDanhSachSanPham.Columns.Contains("duongdananh"))
+                    dgvDanhSachSanPham.Columns["duongdananh"].Visible = false;
+                if (dgvDanhSachSanPham.Columns.Contains("LaSanPhamTang"))
+                    dgvDanhSachSanPham.Columns["LaSanPhamTang"].Visible = false;
+                if (dgvDanhSachSanPham.Columns.Contains("SoLuong"))
+                    dgvDanhSachSanPham.Columns["SoLuong"].Visible = false;
+                if (dgvDanhSachSanPham.Columns.Contains("MaSanPhamGoc"))
+                    dgvDanhSachSanPham.Columns["MaSanPhamGoc"].Visible = false;
+                if (dgvDanhSachSanPham.Columns.Contains("maloai"))
+                    dgvDanhSachSanPham.Columns["maloai"].HeaderText = "Mã loại sản phẩm";
                 // 3. Thêm cột ảnh nếu chưa có
                 if (!dgvDanhSachSanPham.Columns.Contains("Anh"))
                 {

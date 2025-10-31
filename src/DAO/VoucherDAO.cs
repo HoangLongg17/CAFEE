@@ -22,7 +22,26 @@ namespace DAO
         }
 
         private DataProvider provider = DataProvider.Instance;
+        public static string GetCode(int mavc)
+        {
+            string query = "SELECT code FROM VOUCHER WHERE mavc = @mavc";
+            SqlParameter[] parameters = {
+            new SqlParameter("@mavc", mavc)
+            };
 
+            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            return result?.ToString() ?? "";
+        }
+        public static int? GetIdFromCode(string code)
+        {
+            string query = "SELECT mavc FROM VOUCHER WHERE code = @code";
+            SqlParameter[] parameters = {
+            new SqlParameter("@code", SqlDbType.NVarChar) { Value = code }
+            };
+
+            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            return result != null ? (int?)Convert.ToInt32(result) : null;
+        }
         public bool AddVoucher(VoucherDTO voucher)
         {
             string query = @"INSERT INTO VOUCHER 

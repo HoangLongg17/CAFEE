@@ -54,7 +54,6 @@
             cbbSanPhamMua = new ComboBox();
             tlpend = new TableLayoutPanel();
             btnThoat = new Button();
-            btnLamMoi = new Button();
             btnLuu = new Button();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
@@ -348,12 +347,11 @@
             // tlpend
             // 
             tlpend.ColumnCount = 3;
-            tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 84.9635F));
-            tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.0364962F));
-            tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 108F));
+            tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 78.6861343F));
+            tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 21.31387F));
+            tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 137F));
             tlpend.Controls.Add(btnThoat, 2, 0);
-            tlpend.Controls.Add(btnLamMoi, 1, 0);
-            tlpend.Controls.Add(btnLuu, 0, 0);
+            tlpend.Controls.Add(btnLuu, 1, 0);
             tlpend.Dock = DockStyle.Fill;
             tlpend.Location = new Point(3, 374);
             tlpend.Name = "tlpend";
@@ -364,29 +362,20 @@
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(688, 3);
+            btnThoat.Location = new Point(659, 3);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(103, 66);
+            btnThoat.Size = new Size(126, 66);
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
-            // 
-            // btnLamMoi
-            // 
-            btnLamMoi.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnLamMoi.Location = new Point(585, 3);
-            btnLamMoi.Name = "btnLamMoi";
-            btnLamMoi.Size = new Size(97, 66);
-            btnLamMoi.TabIndex = 3;
-            btnLamMoi.Text = "LÀM MỚI";
-            btnLamMoi.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // btnLuu
             // 
             btnLuu.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnLuu.Location = new Point(467, 3);
+            btnLuu.Location = new Point(519, 3);
             btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(112, 66);
+            btnLuu.Size = new Size(134, 66);
             btnLuu.TabIndex = 2;
             btnLuu.Text = "LƯU";
             btnLuu.UseVisualStyleBackColor = true;
@@ -445,6 +434,5 @@
         private TableLayoutPanel tlpend;
         private Button btnThoat;
         private Button btnLuu;
-        private Button btnLamMoi;
     }
 }

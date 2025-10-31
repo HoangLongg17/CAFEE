@@ -144,9 +144,9 @@
             btnDong.Location = new Point(791, 4);
             btnDong.Margin = new Padding(3, 4, 3, 4);
             btnDong.Name = "btnDong";
-            btnDong.Size = new Size(114, 40);
+            btnDong.Size = new Size(114, 55);
             btnDong.TabIndex = 0;
-            btnDong.Text = "Đóng";
+            btnDong.Text = "Thoát";
             btnDong.Click += btnDong_Click;
             // 
             // btnLamMoi
@@ -154,7 +154,7 @@
             btnLamMoi.Location = new Point(671, 4);
             btnLamMoi.Margin = new Padding(3, 4, 3, 4);
             btnLamMoi.Name = "btnLamMoi";
-            btnLamMoi.Size = new Size(114, 40);
+            btnLamMoi.Size = new Size(114, 55);
             btnLamMoi.TabIndex = 1;
             btnLamMoi.Text = "Làm mới";
             btnLamMoi.Click += btnLamMoi_Click;

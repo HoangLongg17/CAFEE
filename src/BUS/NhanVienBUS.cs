@@ -216,7 +216,10 @@ namespace BUS
         {
             return NhanVienDAO.LayNhanVienTheoID(id);
         }
-
+        public static string GetTenNguoiDung(string mand)
+        {
+            return NhanVienDAO.LayTenNhanVien(mand);
+        }
         public static DataTable LayDanhSachNhanVien()
         {
             return NhanVienDAO.LayDanhSachNhanVien();

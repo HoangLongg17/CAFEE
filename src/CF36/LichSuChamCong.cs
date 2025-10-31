@@ -20,7 +20,7 @@ namespace CF36
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
 
         private void LichSuChamCong_Load(object sender, EventArgs e)

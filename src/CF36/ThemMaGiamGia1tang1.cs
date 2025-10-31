@@ -18,6 +18,7 @@ namespace CF36
         {
             InitializeComponent();
         }
+        public event EventHandler VoucherUpdated;
         private void LoadSanPhamTang()
         {
             dgvSanPham.DataSource = Voucher1tang1BUS.Instance.TimSanPhamTang("");
@@ -93,60 +94,123 @@ namespace CF36
 
 
         }
-
-        private void btnLuu_Click(object sender, EventArgs e)
+        private bool KiemTraDuLieuVoucher1Tang1(
+            out string ma,
+            out string ten,
+            out int maloai,
+            out int loaiVC,
+            out DateTime ngaybd,
+            out DateTime ngaykt,
+            out decimal dieuKien,
+            out List<int> dsTang,
+            out string message)
         {
-            if (!ValidateInputs())
-                return;
+            ma = txtMaGG.Text.Trim();
+            ten = txtTenMaGiamGia.Text.Trim();
+            ngaybd = dTPBatDau.Value.Date;
+            ngaykt = dTPHetHan.Value.Date;
+            maloai = cbbSanPhamMua.SelectedValue != null ? Convert.ToInt32(cbbSanPhamMua.SelectedValue) : -1;
+            loaiVC = cbbLoaiMa.SelectedIndex == 0 ? 2 : 4;
+            dieuKien = 0;
+            dsTang = new List<int>();
+            message = "";
 
-            string ma = txtMaGG.Text.Trim();
-            string ten = txtTenMaGiamGia.Text.Trim();
-            int maloai = Convert.ToInt32(cbbSanPhamMua.SelectedValue);
-            int loaiVC = cbbLoaiMa.SelectedIndex == 0 ? 2 : 4;
-            DateTime ngaybd = dTPBatDau.Value.Date;
-            DateTime ngaykt = dTPHetHan.Value.Date;
-            // ✅ Cho phép bỏ trống giá trị tối thiểu
-            decimal dieuKien = 0;
-            string input = txtGiaTriToiThieu.Text.Trim();
-            if (!string.IsNullOrEmpty(input))
+            if (string.IsNullOrWhiteSpace(ma) || string.IsNullOrWhiteSpace(ten))
             {
-                if (!decimal.TryParse(input, out dieuKien))
-                {
-                    MessageBox.Show("Giá trị tối thiểu không hợp lệ.");
-                    return;
-                }
+                message = "Vui lòng nhập đầy đủ mã và tên mã giảm giá.";
+                return false;
             }
 
-            List<(string masp, string kichco)> dsTang = new List<(string, string)>();
+            if (ma.Length > 20 || !System.Text.RegularExpressions.Regex.IsMatch(ma, @"^[a-zA-Z0-9]+$"))
+            {
+                message = "Mã giảm giá không hợp lệ. Chỉ chứa chữ và số, tối đa 20 ký tự.";
+                return false;
+            }
+
+            if (Voucher1tang1BUS.Instance.CheckCodeExists(ma))
+            {
+                message = "Mã giảm giá đã tồn tại.";
+                return false;
+            }
+
+            if (ten.Length > 100)
+            {
+                message = "Tên mã giảm giá không được vượt quá 100 ký tự.";
+                return false;
+            }
+
+            if (ngaybd < DateTime.Today || ngaykt < ngaybd)
+            {
+                message = "Ngày bắt đầu và kết thúc không hợp lệ.";
+                return false;
+            }
+
+            string input = txtGiaTriToiThieu.Text.Trim();
+            if (!string.IsNullOrEmpty(input) && !decimal.TryParse(input, out dieuKien))
+            {
+                message = "Giá trị tối thiểu không hợp lệ.";
+                return false;
+            }
+
+            if (dgvSanPham.SelectedRows.Count == 0)
+            {
+                message = "Vui lòng chọn ít nhất một sản phẩm tặng.";
+                return false;
+            }
 
             foreach (DataGridViewRow row in dgvSanPham.SelectedRows)
             {
-                string masp = row.Cells["masp"].Value.ToString();
-                string kichco = row.Cells["kichco"].Value.ToString();
+                string masp = row.Cells["masp"].Value?.ToString();
+                string kichco = row.Cells["kichco"].Value?.ToString();
 
-                // Chỉ kiểm tra dòng sản phẩm nếu là loại 2
+                if (string.IsNullOrEmpty(masp) || string.IsNullOrEmpty(kichco))
+                {
+                    message = "Thiếu thông tin sản phẩm tặng.";
+                    return false;
+                }
+
                 if (loaiVC == 2)
                 {
                     if (!dgvSanPham.Columns.Contains("maloai") || row.Cells["maloai"].Value == null)
                     {
-                        MessageBox.Show($"Thiếu thông tin loại sản phẩm cho '{masp}'. Vui lòng kiểm tra lại danh sách sản phẩm tặng.");
-                        return;
+                        message = $"Thiếu thông tin loại sản phẩm cho '{masp}'.";
+                        return false;
                     }
 
                     int maloaiSP = Convert.ToInt32(row.Cells["maloai"].Value);
                     if (maloaiSP != maloai)
                     {
-                        MessageBox.Show($"Sản phẩm tặng '{masp}' không cùng dòng với sản phẩm mua đã chọn.");
-                        return;
+                        message = $"Sản phẩm tặng '{masp}' không cùng dòng với sản phẩm mua.";
+                        return false;
                     }
                 }
 
-                dsTang.Add((masp, kichco));
+                int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(masp, kichco);
+                if (idkcsp <= 0)
+                {
+                    message = $"Không tìm thấy sản phẩm tặng '{masp}' với size '{kichco}'.";
+                    return false;
+                }
+
+                dsTang.Add(idkcsp);
             }
 
-            if (dsTang.Count == 0)
+            return true;
+        }
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraDuLieuVoucher1Tang1(
+            out string ma,
+            out string ten,
+            out int maloai,
+            out int loaiVC,
+            out DateTime ngaybd,
+            out DateTime ngaykt,
+            out decimal dieuKien,
+            out List<int> dsTang,
+            out string message))
             {
-                MessageBox.Show("Vui lòng chọn ít nhất một sản phẩm tặng.");
+                MessageBox.Show(message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -157,18 +221,13 @@ namespace CF36
                 if (ok)
                 {
                     MessageBox.Show("Thêm mã giảm giá thành công!");
-
-                    // ✅ Gọi lại form quản lý để cập nhật danh sách
-                    if (Owner is QuanLiMAGIAMGIA qlForm)
-                    {
-                        qlForm.LoadVouchers();
-                    }
-
+                    VoucherUpdated?.Invoke(this, EventArgs.Empty); //  báo cho form cha
                     this.Close();
+
                 }
                 else
                 {
-                    MessageBox.Show("Thêm thất bại!");
+                    MessageBox.Show("Thêm thất bại! Có thể do lỗi khi thêm sản phẩm tặng.");
                 }
             }
             catch (Exception ex)
@@ -211,5 +270,11 @@ namespace CF36
             }
 
         }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

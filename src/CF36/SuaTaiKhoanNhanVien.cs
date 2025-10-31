@@ -23,5 +23,10 @@ namespace CF36
             UIText.ApplyButtonTextStyle(this);
 
         }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

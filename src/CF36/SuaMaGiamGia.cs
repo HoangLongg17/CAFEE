@@ -16,6 +16,7 @@ namespace CF36
 {
     public partial class SuaMaGiamGia : Form
     {
+        public event EventHandler VoucherUpdated;
         public SuaMaGiamGia()
         {
             InitializeComponent();
@@ -30,10 +31,6 @@ namespace CF36
 
         private void btnSuaMaGiamGiaMua1Tang1_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            SuaMaGiamGiaMua1Tang1 suaMaGiamGiaMua1Tang1 = new SuaMaGiamGiaMua1Tang1();
-            suaMaGiamGiaMua1Tang1.ShowDialog();
-            this.Show();
         }
 
         private void SuaMaGiamGia_Load(object sender, EventArgs e)
@@ -143,75 +140,97 @@ namespace CF36
                 }
             }
         }
-
-        private void btnLuu_Click(object sender, EventArgs e)
+        private bool KiemTraDuLieuVoucherSua(out string message, out VoucherDTO dto, out List<int> idkcspList)
         {
+            message = "";
+            dto = null;
+            idkcspList = new List<int>();
+
             string code = txtMaGiamGia.Text.Trim();
             string tenMa = txtTenMaGiamGia.Text.Trim();
-            // Kiểm tra trùng mã
+            DateTime ngaybd = dtpNgayBatDau.Value.Date;
+            DateTime ngaykt = dtpNgayHetHan.Value.Date;
+
+            if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(tenMa))
+            {
+                message = "Vui lòng nhập đầy đủ mã và tên mã giảm giá.";
+                return false;
+            }
+
+            if (code.Length > 20)
+            {
+                message = "Mã giảm giá không được vượt quá 20 ký tự.";
+                return false;
+            }
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(code, @"^[a-zA-Z0-9]+$"))
+            {
+                message = "Mã giảm giá chỉ được chứa chữ và số, không có ký tự đặc biệt.";
+                return false;
+            }
+
             if (VoucherBUS.Instance.CheckCodeExists(code, mavc))
             {
-                MessageBox.Show("Mã giảm giá đã tồn tại. Vui lòng chọn mã khác.");
-                return;
+                message = "Mã giảm giá đã tồn tại. Vui lòng chọn mã khác.";
+                return false;
             }
 
-            // Kiểm tra ngày
-            if (dtpNgayBatDau.Value >= dtpNgayHetHan.Value)
+            if (tenMa.Length > 100)
             {
-                MessageBox.Show("Ngày bắt đầu phải nhỏ hơn ngày kết thúc.");
-                return;
+                message = "Tên mã giảm giá không được vượt quá 100 ký tự.";
+                return false;
             }
 
-            // Xác định loại mã
+            if (ngaybd < DateTime.Today)
+            {
+                message = "Ngày bắt đầu không được nhỏ hơn ngày hiện tại.";
+                return false;
+            }
+
+            if (ngaykt <= ngaybd)
+            {
+                message = "Ngày kết thúc phải sau ngày bắt đầu.";
+                return false;
+            }
+
+            if (cbbLoaiMaGiamGia.SelectedIndex == -1)
+            {
+                message = "Vui lòng chọn loại mã giảm giá.";
+                return false;
+            }
+
             int maloaivc = Convert.ToInt32(cbbLoaiMaGiamGia.SelectedValue);
             decimal giatri = 0;
 
-            if (maloaivc == 1) // phần trăm
+            if (maloaivc == 1)
             {
                 giatri = numGiaTriGiamTheoPT.Value;
                 if (giatri > numGiaTriGiamTheoPT.Maximum)
                 {
-                    MessageBox.Show($"Giá trị phần trăm giảm không được vượt quá {numGiaTriGiamTheoPT.Maximum}%.");
-                    return;
+                    message = $"Giá trị phần trăm giảm không được vượt quá {numGiaTriGiamTheoPT.Maximum}%.";
+                    return false;
                 }
             }
-            else if (maloaivc == 3) // giá trị thực
+            else if (maloaivc == 3)
             {
                 if (!decimal.TryParse(txtGiaTriGiam.Text.Trim(), out giatri))
                 {
-                    MessageBox.Show("Giá trị giảm không hợp lệ.");
-                    return;
+                    message = "Giá trị giảm không hợp lệ.";
+                    return false;
                 }
             }
+
             decimal? dieuKien = null;
             if (!string.IsNullOrWhiteSpace(txtGiaTriDonHangToiThieu.Text))
             {
                 if (!decimal.TryParse(txtGiaTriDonHangToiThieu.Text.Trim(), out decimal dk))
                 {
-                    MessageBox.Show("Giá trị đơn hàng tối thiểu không hợp lệ. Vui lòng nhập số.");
-                    return;
+                    message = "Giá trị đơn hàng tối thiểu không hợp lệ.";
+                    return false;
                 }
                 dieuKien = dk;
             }
-            // Tạo DTO
-            VoucherDTO dto = new VoucherDTO
-            {
-                Mavc = mavc,
-                Code = code,
-                TenMaGiamGia = tenMa,
-                Giatri = giatri,
-                Ngaybd = dtpNgayBatDau.Value,
-                Ngaykt = dtpNgayHetHan.Value,
-                DieuKien = dieuKien,
-                Maloaivc = maloaivc,
-                Maloai = cbbLoaiSanPham.SelectedIndex != -1 ? (int?)Convert.ToInt32(cbbLoaiSanPham.SelectedValue) : null
-            };
 
-            // Cập nhật voucher
-            bool ok = VoucherBUS.Instance.UpdateVoucher(dto);
-
-            // Cập nhật chi tiết sản phẩm áp dụng
-            List<int> idkcspList = new List<int>();
             foreach (DataGridViewRow row in dgvSanPham.SelectedRows)
             {
                 if (row.Cells["ID"].Value != null)
@@ -220,10 +239,40 @@ namespace CF36
                 }
             }
 
+            dto = new VoucherDTO
+            {
+                Mavc = mavc,
+                Code = code,
+                TenMaGiamGia = tenMa,
+                Giatri = giatri,
+                Ngaybd = ngaybd,
+                Ngaykt = ngaykt,
+                DieuKien = dieuKien,
+                Maloaivc = maloaivc,
+                Maloai = cbbLoaiSanPham.SelectedIndex != -1 ? (int?)Convert.ToInt32(cbbLoaiSanPham.SelectedValue) : null
+            };
+
+            return true;
+        }
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraDuLieuVoucherSua(out string message, out VoucherDTO dto, out List<int> idkcspList))
+            {
+                MessageBox.Show(message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Cập nhật voucher
+            bool ok = VoucherBUS.Instance.UpdateVoucher(dto);
             bool chiTietOk = VoucherBUS.Instance.UpdateVoucherChiTiet(mavc, idkcspList);
 
             MessageBox.Show(ok && chiTietOk ? "Cập nhật thành công!" : "Cập nhật thất bại!");
-            if (ok && chiTietOk) this.Close();
+            if (ok && chiTietOk)
+            {
+                VoucherUpdated?.Invoke(this, EventArgs.Empty); //  báo cho form cha
+                this.Close();
+
+            }
 
         }
 
@@ -245,6 +294,29 @@ namespace CF36
                 }
             }
 
+        }
+
+        private void cbbLoaiSanPham_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbLoaiSanPham.SelectedIndex != -1)
+            {
+                dgvSanPham.ClearSelection(); //bỏ chọn sản phẩm cụ thể
+            }
+
+        }
+
+        private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvSanPham.SelectedRows.Count > 0)
+            {
+                cbbLoaiSanPham.SelectedIndex = -1; // bỏ chọn loại sản phẩm
+            }
+
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

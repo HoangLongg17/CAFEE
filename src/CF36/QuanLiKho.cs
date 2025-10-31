@@ -88,5 +88,10 @@ namespace CF36
         {
 
         }
+
+        private void btnThoat_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

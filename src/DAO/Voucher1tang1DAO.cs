@@ -20,7 +20,26 @@ namespace DAO
                 return instance;
             }
         }
+        public static string GetCode(int mavc)
+        {
+            string query = "SELECT code FROM VOUCHER WHERE mavc = @mavc";
+            SqlParameter[] parameters = {
+            new SqlParameter("@mavc", mavc)
+            };
 
+            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            return result?.ToString() ?? "";
+        }
+        public bool CheckCodeExists(string code)
+        {
+            string query = "SELECT COUNT(*) FROM VOUCHER WHERE Code = @code"; //đúng cột
+            SqlParameter[] parameters = {
+            new SqlParameter("@code", code)
+            };
+
+            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            return Convert.ToInt32(result) > 0;
+        }
         private Voucher1tang1DAO() { }
 
         // Thêm mã giảm giá mua 1 tặng 1
@@ -57,7 +76,9 @@ namespace DAO
             SqlParameter[] parameters = {
             new SqlParameter("@Mavc", mavc),
             new SqlParameter("@Idkcsp", idkcsp)
-        };
+            };
+            Console.WriteLine($"DAO DEBUG: InsertChiTietVC → mavc={mavc}, idkcsp={idkcsp}");
+
             return DataProvider.Instance.ExecuteNonQuery(query, parameters);
         }
 

@@ -55,8 +55,8 @@
             tlpall.Name = "tlpall";
             tlpall.RowCount = 3;
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 15.7009344F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 52.3545723F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 32.1329651F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 57.0637131F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 27.4238224F));
             tlpall.Size = new Size(464, 361);
             tlpall.TabIndex = 0;
             // 
@@ -91,17 +91,17 @@
             tlpThongTin.Name = "tlpThongTin";
             tlpThongTin.RowCount = 4;
             tlpThongTin.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tlpThongTin.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tlpThongTin.RowStyles.Add(new RowStyle(SizeType.Percent, 25.1256275F));
-            tlpThongTin.RowStyles.Add(new RowStyle(SizeType.Percent, 25.6281414F));
-            tlpThongTin.Size = new Size(458, 182);
+            tlpThongTin.RowStyles.Add(new RowStyle(SizeType.Percent, 22.1105518F));
+            tlpThongTin.RowStyles.Add(new RowStyle(SizeType.Percent, 22.1105518F));
+            tlpThongTin.RowStyles.Add(new RowStyle(SizeType.Percent, 31.65829F));
+            tlpThongTin.Size = new Size(458, 199);
             tlpThongTin.TabIndex = 1;
             // 
             // lbTenKhachHang
             // 
             lbTenKhachHang.Anchor = AnchorStyles.Right;
             lbTenKhachHang.AutoSize = true;
-            lbTenKhachHang.Location = new Point(87, 12);
+            lbTenKhachHang.Location = new Point(87, 14);
             lbTenKhachHang.Name = "lbTenKhachHang";
             lbTenKhachHang.Size = new Size(111, 20);
             lbTenKhachHang.TabIndex = 0;
@@ -111,7 +111,7 @@
             // 
             lbSoDienThoai.Anchor = AnchorStyles.Right;
             lbSoDienThoai.AutoSize = true;
-            lbSoDienThoai.Location = new Point(101, 57);
+            lbSoDienThoai.Location = new Point(101, 60);
             lbSoDienThoai.Name = "lbSoDienThoai";
             lbSoDienThoai.Size = new Size(97, 20);
             lbSoDienThoai.TabIndex = 0;
@@ -121,7 +121,7 @@
             // 
             lbTichDiem.Anchor = AnchorStyles.Right;
             lbTichDiem.AutoSize = true;
-            lbTichDiem.Location = new Point(124, 102);
+            lbTichDiem.Location = new Point(124, 103);
             lbTichDiem.Name = "lbTichDiem";
             lbTichDiem.Size = new Size(74, 20);
             lbTichDiem.TabIndex = 0;
@@ -132,7 +132,7 @@
             btnLuu.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnLuu.Location = new Point(86, 138);
             btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(112, 41);
+            btnLuu.Size = new Size(112, 56);
             btnLuu.TabIndex = 1;
             btnLuu.Text = "LƯU";
             btnLuu.UseVisualStyleBackColor = true;
@@ -142,7 +142,7 @@
             // 
             btnThoat.Location = new Point(204, 138);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(122, 41);
+            btnThoat.Size = new Size(122, 58);
             btnThoat.TabIndex = 1;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
@@ -151,7 +151,7 @@
             // txtTenKH
             // 
             txtTenKH.Anchor = AnchorStyles.Left;
-            txtTenKH.Location = new Point(204, 9);
+            txtTenKH.Location = new Point(204, 11);
             txtTenKH.Name = "txtTenKH";
             txtTenKH.Size = new Size(194, 27);
             txtTenKH.TabIndex = 2;
@@ -159,7 +159,7 @@
             // txtTichDiem
             // 
             txtTichDiem.Anchor = AnchorStyles.Left;
-            txtTichDiem.Location = new Point(204, 99);
+            txtTichDiem.Location = new Point(204, 100);
             txtTichDiem.Name = "txtTichDiem";
             txtTichDiem.Size = new Size(194, 27);
             txtTichDiem.TabIndex = 2;
@@ -167,7 +167,7 @@
             // txtSDT
             // 
             txtSDT.Anchor = AnchorStyles.Left;
-            txtSDT.Location = new Point(204, 54);
+            txtSDT.Location = new Point(204, 57);
             txtSDT.Name = "txtSDT";
             txtSDT.Size = new Size(194, 27);
             txtSDT.TabIndex = 2;

@@ -15,8 +15,19 @@ namespace DTO
         public int MaHD { get; set; }
         public DateTime NgayLap { get; set; }
         public string TenNhanVien { get; set; }
-        public string TenKhachHang { get; set; }
+        public string TenKH { get; set; }
+        public string SDTKH { get; set; }
+
+        public decimal TongTienGoc { get; set; }
+        public decimal TienGiam { get; set; }
         public decimal TongTien { get; set; }
+
+        public string MaVoucher { get; set; }
+        public int? PhanTramGiam { get; set; }
+        public int? LoaiVoucher { get; set; }
+
+        public List<DanhSachSanPhamDTO> SanPhamTang { get; set; }
+
     }
 
     // DTO cho dữ liệu biểu đồ

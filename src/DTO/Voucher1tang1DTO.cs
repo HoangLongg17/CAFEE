@@ -19,6 +19,6 @@ namespace DTO
         public string SizeMua { get; set; }
         public string TenSanPhamTang { get; set; }
         public string SizeTang { get; set; }
-
+        public decimal? DieuKien { get; set; }
     }
 }

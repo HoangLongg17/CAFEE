@@ -30,6 +30,6 @@ namespace DTO
         public string Tenkh { get; set; }
         public string Sdt { get; set; }
         public int Tichdiem { get; set; }
-
+        public string TenVaSDT => $"{Tenkh} - {Sdt}";
     }
 }

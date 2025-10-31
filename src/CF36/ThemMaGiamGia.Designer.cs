@@ -354,6 +354,7 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // btnLuu
             // 
@@ -384,6 +385,7 @@
             cbbLoaiSanPham.Name = "cbbLoaiSanPham";
             cbbLoaiSanPham.Size = new Size(172, 28);
             cbbLoaiSanPham.TabIndex = 3;
+            cbbLoaiSanPham.SelectedIndexChanged += cbbLoaiSanPham_SelectedIndexChanged;
             // 
             // lbChonSanPham
             // 
@@ -404,6 +406,7 @@
             dgvSanPham.RowHeadersWidth = 51;
             dgvSanPham.Size = new Size(172, 175);
             dgvSanPham.TabIndex = 5;
+            dgvSanPham.CellContentClick += dgvSanPham_CellContentClick;
             // 
             // txtTimkiem
             // 

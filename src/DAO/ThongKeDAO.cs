@@ -91,7 +91,7 @@ namespace DAO
                     MaHD = (int)row["Mahd"],
                     NgayLap = (DateTime)row["Ngaylap"],
                     TenNhanVien = row["TenNhanVien"].ToString(),
-                    TenKhachHang = row["TenKhachHang"].ToString(),
+                    TenKH = row["TenKH"].ToString(),
                     TongTien = (decimal)row["Tongtien"]
                 });
             }

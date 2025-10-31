@@ -27,23 +27,49 @@ namespace CF36
                    phone.All(char.IsDigit) &&
                    phone.Length >= 9 && phone.Length <= 11;
         }
+        private bool KiemTraDuLieuHopLe(string tenKH, string sdt)
+        {
+            if (string.IsNullOrWhiteSpace(tenKH))
+            {
+                MessageBox.Show("Tên khách hàng không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
+            if (tenKH.Length > 50)
+            {
+                MessageBox.Show("Tên khách hàng không được vượt quá 50 ký tự.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(sdt))
+            {
+                MessageBox.Show("Số điện thoại không được để trống.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (!sdt.All(char.IsDigit))
+            {
+                MessageBox.Show("Số điện thoại chỉ được chứa chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (sdt.Length < 10 || sdt.Length > 11)
+            {
+                MessageBox.Show("Số điện thoại phải từ 10 đến 11 chữ số.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
         private void btnLuu_Click(object sender, EventArgs e)
         {
             // Lấy dữ liệu từ các textbox
             string tenKH = txtTenKH.Text.Trim();
             string sdt = txtSDT.Text.Trim();
             // Kiểm tra dữ liệu đầu vào
-            if (string.IsNullOrEmpty(tenKH) || string.IsNullOrEmpty(sdt))
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ tên và số điện thoại.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            if (!KiemTraDuLieuHopLe(tenKH, sdt))
                 return;
-            }
-            if (!IsValidPhone(sdt))
-            {
-                MessageBox.Show("Số điện thoại không hợp lệ. Vui lòng nhập từ 9 đến 11 chữ số.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
             // Tạo đối tượng KHACHHANGDTO
             KhachHangDTO khachHang = new KhachHangDTO(0, tenKH, sdt, 1); // Tichdiem mặc định là 1

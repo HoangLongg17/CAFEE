@@ -51,7 +51,6 @@
             tlpend = new TableLayoutPanel();
             lbLoaiSanPham = new Label();
             lbTimKiem = new Label();
-            btnSuaMaGiamGiaMua1Tang1 = new Button();
             lbGiamGiaTheoTungSanPham = new Label();
             dgvSanPham = new DataGridView();
             cbbLoaiSanPham = new ComboBox();
@@ -303,7 +302,6 @@
             tlpend.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36.2637367F));
             tlpend.Controls.Add(lbLoaiSanPham, 0, 0);
             tlpend.Controls.Add(lbTimKiem, 2, 0);
-            tlpend.Controls.Add(btnSuaMaGiamGiaMua1Tang1, 3, 0);
             tlpend.Controls.Add(lbGiamGiaTheoTungSanPham, 0, 1);
             tlpend.Controls.Add(dgvSanPham, 1, 1);
             tlpend.Controls.Add(cbbLoaiSanPham, 1, 0);
@@ -338,17 +336,6 @@
             lbTimKiem.TabIndex = 1;
             lbTimKiem.Text = "Tìm kiếm";
             // 
-            // btnSuaMaGiamGiaMua1Tang1
-            // 
-            btnSuaMaGiamGiaMua1Tang1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnSuaMaGiamGiaMua1Tang1.Location = new Point(524, 3);
-            btnSuaMaGiamGiaMua1Tang1.Name = "btnSuaMaGiamGiaMua1Tang1";
-            btnSuaMaGiamGiaMua1Tang1.Size = new Size(267, 62);
-            btnSuaMaGiamGiaMua1Tang1.TabIndex = 2;
-            btnSuaMaGiamGiaMua1Tang1.Text = "Sửa mã giảm giá mua 1 tặng 1";
-            btnSuaMaGiamGiaMua1Tang1.UseVisualStyleBackColor = true;
-            btnSuaMaGiamGiaMua1Tang1.Click += btnSuaMaGiamGiaMua1Tang1_Click;
-            // 
             // lbGiamGiaTheoTungSanPham
             // 
             lbGiamGiaTheoTungSanPham.Anchor = AnchorStyles.Right;
@@ -368,6 +355,7 @@
             dgvSanPham.RowHeadersWidth = 51;
             dgvSanPham.Size = new Size(169, 197);
             dgvSanPham.TabIndex = 4;
+            dgvSanPham.CellContentClick += dgvSanPham_CellContentClick;
             // 
             // cbbLoaiSanPham
             // 
@@ -377,6 +365,7 @@
             cbbLoaiSanPham.Name = "cbbLoaiSanPham";
             cbbLoaiSanPham.Size = new Size(169, 28);
             cbbLoaiSanPham.TabIndex = 6;
+            cbbLoaiSanPham.SelectedIndexChanged += cbbLoaiSanPham_SelectedIndexChanged;
             // 
             // txtTimKiem
             // 
@@ -411,6 +400,7 @@
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // btnLuu
             // 
@@ -472,7 +462,6 @@
         private Label lbNgayKetTHuc;
         private Label lbLoaiSanPham;
         private Label lbTimKiem;
-        private Button btnSuaMaGiamGiaMua1Tang1;
         private Label lbGiamGiaTheoTungSanPham;
         private DataGridView dgvSanPham;
         private ComboBox cbbLoaiMaGiamGia;
