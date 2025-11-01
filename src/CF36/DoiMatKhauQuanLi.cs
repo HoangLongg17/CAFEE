@@ -70,6 +70,7 @@ namespace CF36
 
         private void DoiMatKhauQuanLi_Load(object sender, EventArgs e)
         {
+            txtTaiKhoan.ReadOnly = true;
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
 

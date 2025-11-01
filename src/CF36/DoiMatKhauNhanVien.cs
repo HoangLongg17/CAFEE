@@ -61,7 +61,7 @@ namespace CF36
             //txtMatKhauMoi.Focus();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
-
+            txtTenTaiKhoan.ReadOnly = true;
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
