@@ -171,6 +171,7 @@
             dgvMaGiamGia.Location = new Point(3, 216);
             dgvMaGiamGia.Name = "dgvMaGiamGia";
             dgvMaGiamGia.RowHeadersWidth = 51;
+            dgvMaGiamGia.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvMaGiamGia.Size = new Size(848, 282);
             dgvMaGiamGia.TabIndex = 2;
             dgvMaGiamGia.CellContentClick += dgvMaGiamGia_CellContentClick;

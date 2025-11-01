@@ -85,7 +85,7 @@ namespace DAO
         public DataTable GetSanPhamWithVoucher()
         {
             string query = @"
-        SELECT 
+            SELECT 
             sp.masp AS [Mã sản phẩm],
             sp.tensp AS [Tên sản phẩm],
             l.tenloai AS [Loại],
@@ -94,17 +94,17 @@ namespace DAO
             kcsp.soluongton AS [Số lượng],
             CASE WHEN kcsp.trangthaisp = 1 THEN N'Đang bán' ELSE N'Ngừng bán' END AS [Trạng thái],
             ISNULL(voucherList.Vouchers, N'Không có') AS [Voucher liên quan]
-        FROM KICHCOSP kcsp
-        JOIN SANPHAM sp ON kcsp.masp = sp.masp
-        JOIN LOAISP l ON sp.maloai = l.maloai
-        JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-        LEFT JOIN (
+            FROM KICHCOSP kcsp
+            JOIN SANPHAM sp ON kcsp.masp = sp.masp
+            JOIN LOAISP l ON sp.maloai = l.maloai
+            JOIN KICHCO kc ON kcsp.makichco = kc.makichco
+            LEFT JOIN (
             SELECT ct.Idkcsp, STRING_AGG(v.Code, ', ') AS Vouchers
             FROM CHITIETVC ct
             JOIN VOUCHER v ON ct.Mavc = v.Mavc
             GROUP BY ct.Idkcsp
-        ) voucherList ON kcsp.id = voucherList.Idkcsp
-        ORDER BY sp.masp, kcsp.makichco";
+            ) voucherList ON kcsp.id = voucherList.Idkcsp
+            ORDER BY sp.masp, kcsp.makichco";
 
             return provider.ExecuteQuery(query);
         }

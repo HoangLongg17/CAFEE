@@ -93,7 +93,7 @@ namespace CF36
             var chiTiet = DanhSachSanPhamBUS.Instance.GetChiTietVoucher(mavc);
             foreach (DataGridViewRow row in dgvSanPham.Rows)
             {
-                int id = Convert.ToInt32(row.Cells["ID"].Value);
+                int id = Convert.ToInt32(row.Cells["Idkcsp"].Value);
                 if (chiTiet.Contains(id))
                     row.Selected = true;
             }
@@ -126,20 +126,20 @@ namespace CF36
         {
             dgvSanPham.DataSource = DanhSachSanPhamBUS.Instance.GetAllSanPham();
 
-            // Chỉ hiển thị các cột cần thiết
-            dgvSanPham.Columns["ID"].HeaderText = "ID";
+            dgvSanPham.Columns["IdKcsp"].HeaderText = "ID";
             dgvSanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
             dgvSanPham.Columns["KichCo"].HeaderText = "Size";
             dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
 
             foreach (DataGridViewColumn col in dgvSanPham.Columns)
             {
-                if (col.Name != "ID" && col.Name != "TenSP" && col.Name != "KichCo" && col.Name != "GiaBan")
+                if (col.Name != "IdKcsp" && col.Name != "TenSP" && col.Name != "KichCo" && col.Name != "GiaBan")
                 {
                     col.Visible = false;
                 }
             }
         }
+
         private bool KiemTraDuLieuVoucherSua(out string message, out VoucherDTO dto, out List<int> idkcspList)
         {
             message = "";
@@ -233,9 +233,9 @@ namespace CF36
 
             foreach (DataGridViewRow row in dgvSanPham.SelectedRows)
             {
-                if (row.Cells["ID"].Value != null)
+                if (row.Cells["Idkcsp"].Value != null)
                 {
-                    idkcspList.Add(Convert.ToInt32(row.Cells["ID"].Value));
+                    idkcspList.Add(Convert.ToInt32(row.Cells["Idkcsp"].Value));
                 }
             }
 

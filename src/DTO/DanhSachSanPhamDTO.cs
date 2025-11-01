@@ -6,7 +6,6 @@ namespace DTO
     {
         // ID này là của KICHCOSP, dùng để sửa/xóa
         public int IdKcsp { get; set; }
-        public int ID { get; set; }
         public string MaSP { get; set; }
         public string TenSP { get; set; }
         public int Maloai { get; set; }

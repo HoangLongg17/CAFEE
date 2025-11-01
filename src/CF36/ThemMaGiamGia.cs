@@ -87,21 +87,20 @@ namespace CF36
         private void LoadSanPham()
         {
             dgvSanPham.DataSource = DanhSachSanPhamBUS.Instance.GetAllSanPham();
-
-            // Chỉ hiển thị các cột cần thiết
-            dgvSanPham.Columns["ID"].HeaderText = "ID";
+            dgvSanPham.Columns["IdKcsp"].HeaderText = "ID";
             dgvSanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
             dgvSanPham.Columns["KichCo"].HeaderText = "Size";
             dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
 
             foreach (DataGridViewColumn col in dgvSanPham.Columns)
             {
-                if (col.Name != "ID" && col.Name != "TenSP" && col.Name != "KichCo" && col.Name != "GiaBan")
+                if (col.Name != "IdKcsp" && col.Name != "TenSP" && col.Name != "KichCo" && col.Name != "GiaBan")
                 {
                     col.Visible = false;
                 }
             }
         }
+
         private void cbbLoaiMaGG_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateInputVisibility();
@@ -236,7 +235,7 @@ namespace CF36
                     // Nếu chọn sản phẩm cụ thể → thêm vào CHITIETVC
                     if (dgvSanPham.SelectedRows.Count > 0)
                     {
-                        int idkcsp = Convert.ToInt32(dgvSanPham.SelectedRows[0].Cells["ID"].Value);
+                        int idkcsp = Convert.ToInt32(dgvSanPham.SelectedRows[0].Cells["Idkcsp"].Value);
                         bool added = VoucherBUS.Instance.AddVoucherChiTiet(mavc, idkcsp);
                         MessageBox.Show("ID sản phẩm chọn: " + idkcsp);
                         if (!added)
