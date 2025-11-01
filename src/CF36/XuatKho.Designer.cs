@@ -71,9 +71,9 @@
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpThongtin.Controls.Add(lbChonSanPham, 0, 0);
-            tlpThongtin.Controls.Add(txtSoLuong, 1, 1);
-            tlpThongtin.Controls.Add(lbxuatSoLuong, 1, 0);
             tlpThongtin.Controls.Add(txtTimKiem, 0, 1);
+            tlpThongtin.Controls.Add(lbxuatSoLuong, 1, 0);
+            tlpThongtin.Controls.Add(txtSoLuong, 1, 1);
             tlpThongtin.Dock = DockStyle.Fill;
             tlpThongtin.Location = new Point(0, 0);
             tlpThongtin.Name = "tlpThongtin";
@@ -99,7 +99,6 @@
             // 
             // txtSoLuong
             // 
-            txtSoLuong.Dock = DockStyle.Fill;
             txtSoLuong.Location = new Point(390, 49);
             txtSoLuong.Name = "txtSoLuong";
             txtSoLuong.Size = new Size(382, 27);
@@ -263,6 +262,7 @@
             Controls.Add(panel1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "XuatKho";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Xuất kho";
             Load += XuatKho_Load_1;
             panel2.ResumeLayout(false);

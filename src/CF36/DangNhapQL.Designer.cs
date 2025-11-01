@@ -245,7 +245,7 @@
             Controls.Add(tlpfrmDNADMIN);
             Name = "DangNhapQL";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "DangNhapQL";
+            Text = "Đăng nhập quản lí";
             Load += DangNhapQL_Load;
             tlpthan.ResumeLayout(false);
             tlpthan.PerformLayout();

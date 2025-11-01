@@ -120,6 +120,8 @@ namespace CF36
 
             dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
             dgvDanhSachSanPham.Columns["Idkcsp"].Visible = false;
+            dgvDanhSachSanPham.Columns["GiaGoc"].Visible = false;
+            dgvDanhSachSanPham.Columns["TienGiam"].Visible = false;
             dgvDanhSachSanPham.RowHeadersWidth = 50;
         }
 

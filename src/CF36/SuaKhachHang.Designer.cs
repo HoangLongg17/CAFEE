@@ -194,7 +194,7 @@
             Controls.Add(tlpall);
             Name = "SuaKhachHang";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "SuaKhachHang";
+            Text = "Sửa khách hàng";
             Load += SuaKhachHang_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();

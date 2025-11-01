@@ -173,7 +173,7 @@
             ClientSize = new Size(800, 517);
             Controls.Add(tlpall);
             Name = "LichSuChamCong";
-            Text = "LichSuChamCong";
+            Text = "Lịch sử chấm công";
             Load += LichSuChamCong_Load;
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)piclogo).EndInit();

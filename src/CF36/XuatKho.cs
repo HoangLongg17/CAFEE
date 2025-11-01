@@ -28,6 +28,7 @@ namespace CF36
         private void XuatKho_Load(object sender, EventArgs e)
         {
             dgvxuatkho.AutoGenerateColumns = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             dgvxuatkho.DataSource = KhoBUS.LayTatCa();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);

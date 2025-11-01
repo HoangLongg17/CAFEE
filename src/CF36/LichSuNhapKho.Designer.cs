@@ -286,7 +286,7 @@
             ClientSize = new Size(1006, 528);
             Controls.Add(tlpall);
             Name = "LichSuNhapKho";
-            Text = "LichSuNhapKho";
+            Text = "Lịch sử nhập kho";
             Load += LichSuNhapKho_Load_1;
             tlpall.ResumeLayout(false);
             tlpall.PerformLayout();
