@@ -190,39 +190,38 @@ namespace BUS
         }
 
         // Ghi hóa đơn, chi tiết, trừ tồn kho, áp mã giảm giá
-        public int XuatHoaDon(int? makh, string mand, List<BanHangDTO> danhSachSanPham, int? maVoucher = null)
+        public int XuatHoaDon(int? makh, string mand, List<BanHangDTO> danhSachSanPham, int? maVoucher, decimal tongTienSauGiam)
         {
-            decimal tongTien = danhSachSanPham
-                .Where(sp => !sp.LaSanPhamTang)
-                .Sum(sp => sp.SoLuong * sp.GiaBan);
+            // 1. (SỬA) Dùng tongTienSauGiam để tạo hóa đơn
+            int mahd = dao.TaoHoaDon(makh, mand, tongTienSauGiam);
 
-            int mahd = dao.TaoHoaDon(makh, mand, tongTien);
-
+            // 2. Gộp các sản phẩm lại (nếu mua trùng, hoặc tặng trùng)
             var danhSachGop = danhSachSanPham
-                .GroupBy(sp => sp.IdKcsp)
+                .GroupBy(sp => new { sp.IdKcsp, sp.LaSanPhamTang }) // Gộp theo ID và Tình trạng (Tặng/Bán)
                 .Select(g => new BanHangDTO
                 {
-                    IdKcsp = g.Key,
-                    MaSP = g.First().MaSP,
-                    TenSP = g.First().TenSP,
-                    KichCo = g.First().KichCo,
-                    SoLuong = g.Sum(x => x.SoLuong),
+                    IdKcsp = g.Key.IdKcsp,
+                    SoLuong = g.Sum(x => x.SoLuong), // Cộng dồn số lượng
+                                                     // Lấy giá của món đầu tiên (nếu là hàng tặng thì giá là 0)
                     GiaBan = g.First().GiaBan,
-                    LaSanPhamTang = g.First().LaSanPhamTang,
-                    Maloai = g.First().Maloai,
-                    MaSanPhamGoc = g.First().MaSanPhamGoc,
-                    SoLuongTon = g.First().SoLuongTon,
-                    DuongDanAnh = g.First().DuongDanAnh,
-                    TenLoai = g.First().TenLoai,
-                    TrangThaiText = g.First().TrangThaiText
+                    LaSanPhamTang = g.Key.LaSanPhamTang
                 })
                 .ToList();
 
+            // 3. (SỬA) Lặp qua TẤT CẢ món đã gộp
             foreach (var sp in danhSachGop)
             {
+                // Sửa lại DTO 'sp' để đảm bảo giá đúng
+                if (sp.LaSanPhamTang)
+                {
+                    sp.GiaBan = 0; // Hàng tặng thì giá phải là 0
+                }
+
+                // Lưu TẤT CẢ vào CHITIETHD
                 dao.ThemChiTietHoaDon(mahd, sp);
             }
 
+            // 4. Áp dụng voucher
             if (maVoucher.HasValue)
             {
                 dao.ApDungVoucher(maVoucher.Value, mahd);

@@ -43,6 +43,7 @@
             dgvChiTiet.Name = "dgvChiTiet";
             dgvChiTiet.Size = new Size(494, 276);
             dgvChiTiet.TabIndex = 0;
+            dgvChiTiet.CellFormatting += dgvChiTiet_CellFormatting;
             // 
             // btnThoat
             // 

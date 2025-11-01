@@ -10,6 +10,48 @@ namespace DAO
     {
         private DataProvider provider = DataProvider.Instance;
 
+        public List<ChiTietLichSuDTO> GetChiTietVoucherTang(int maHD)
+        {
+            List<ChiTietLichSuDTO> list = new List<ChiTietLichSuDTO>();
+
+            // (SỬA LẠI QUERY)
+            string query = @"
+        SELECT 
+            sp.tensp, 
+            kc.kichco, 
+            1 as Soluong, 
+            
+            -- (SỬA LẠI 2 DÒNG NÀY)
+            CAST(0 AS decimal(18,2)) AS DonGia,
+            CAST(0 AS decimal(18,2)) AS ThanhTien
+            
+        FROM APMAVC av
+        JOIN VOUCHER v ON av.Mavc = v.Mavc
+        JOIN CHITIETVC ctv ON v.Mavc = ctv.Mavc
+        JOIN KICHCOSP kcsp ON ctv.Idkcsp = kcsp.id
+        JOIN SANPHAM sp ON kcsp.masp = sp.masp
+        JOIN KICHCO kc ON kcsp.makichco = kc.makichco
+        WHERE av.Mahd = @maHD AND v.Maloaivc IN (2, 4);
+    ";
+
+            SqlParameter[] param = { new SqlParameter("@maHD", maHD) };
+            DataTable data = provider.ExecuteQuery(query, param);
+
+            foreach (DataRow row in data.Rows)
+            {
+                list.Add(new ChiTietLichSuDTO
+                {
+                    TenSP = row["tensp"].ToString(),
+                    KichCo = row["kichco"].ToString(),
+                    SoLuong = (int)row["Soluong"],
+
+                    // (SỬA LẠI) Dùng Convert.ToDecimal cho an toàn
+                    DonGia = Convert.ToDecimal(row["DonGia"]),
+                    ThanhTien = Convert.ToDecimal(row["ThanhTien"])
+                });
+            }
+            return list;
+        }
         // 1. Tìm kiếm/Lọc hóa đơn (Giữ nguyên)
         public List<LichSuHoaDonDTO> SearchHoaDon(string timKiem, string maNV, DateTime? tuNgay, DateTime? denNgay)
         {

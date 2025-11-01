@@ -285,5 +285,31 @@ namespace CF36
             }
             return pdfTable;
         }
+
+        private void dgvChiTiet_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Kiểm tra xem đây có phải là cột 'DonGia' hoặc 'ThanhTien' không
+            if (e.ColumnIndex == dgvChiTiet.Columns["DonGia"].Index ||
+                e.ColumnIndex == dgvChiTiet.Columns["ThanhTien"].Index)
+            {
+                // Kiểm tra xem giá trị có phải là 0 không
+                if (e.Value != null && (decimal)e.Value == 0)
+                {
+                    // Lấy cả DTO của hàng này
+                    var dto = dgvChiTiet.Rows[e.RowIndex].DataBoundItem as ChiTietLichSuDTO;
+
+                    // Chỉ đổi thành "Tặng" nếu cả đơn giá VÀ thành tiền đều = 0
+                    if (dto != null && dto.DonGia == 0 && dto.ThanhTien == 0)
+                    {
+                        e.Value = "Tặng";
+                        e.FormattingApplied = true;
+
+                        // (Tùy chọn) Đổi màu cho đẹp
+                        e.CellStyle.ForeColor = Color.Green;
+                        e.CellStyle.Font = new System.Drawing.Font(e.CellStyle.Font, System.Drawing.FontStyle.Bold);
+                    }
+                }
+            }
+        }
     }
 }

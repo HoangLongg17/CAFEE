@@ -330,7 +330,8 @@ namespace CF36
             {
                 return;
             }
-            int mahd = bus.XuatHoaDon(maKH, maND, danhSachBanHang, maVoucherId);
+            int mahd = bus.XuatHoaDon(maKH, maND, danhSachBanHang, maVoucherId, this.tongTienSauGiam);
+
             MessageBox.Show($"✅ Thanh toán thành công. Mã hóa đơn: {mahd}");
 
             if (MessageBox.Show("Bạn có muốn in hóa đơn?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
