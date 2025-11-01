@@ -26,7 +26,7 @@ namespace CF36
         {
             KhoiTaoComboBox();
             dTPNgaySinh.Value = DateTime.Now;
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
 
         }

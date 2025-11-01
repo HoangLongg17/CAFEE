@@ -31,7 +31,7 @@ namespace CF36
             LoadAllHoaDon();
             ClearChiTietGrid();
             InitializePdfFont();
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvHoaDon);
             UIDataGridView.FormatDataGridView(dgvNhanVien);

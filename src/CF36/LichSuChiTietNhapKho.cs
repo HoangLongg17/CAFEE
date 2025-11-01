@@ -21,7 +21,7 @@ namespace CF36
         private void LichSuChiTietNhapKho_Load(object sender, EventArgs e)
         {
             HienThiChiTiet();
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvChiTiet);
         }

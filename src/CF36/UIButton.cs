@@ -8,12 +8,12 @@ namespace CF36
 {
     public class UIButton
     {
-        public static void ReplaceStandardButtonsWithIcons(Form form, Image exitIcon, Image deleteIcon, Image refreshIcon)
+        public static void ReplaceStandardButtonsWithIcons(Form form, Image exitIcon, Image deleteIcon, Image refreshIcon, Image doneIcon)
         {
-            ApplyToControlRecursive(form, exitIcon, deleteIcon, refreshIcon);
+            ApplyToControlRecursive(form, exitIcon, deleteIcon, refreshIcon, doneIcon);
         }
 
-        private static void ApplyToControlRecursive(Control parent, Image exitIcon, Image deleteIcon, Image refreshIcon)
+        private static void ApplyToControlRecursive(Control parent, Image exitIcon, Image deleteIcon, Image refreshIcon, Image doneIcon)
         {
             foreach (Control control in parent.Controls)
             {
@@ -37,6 +37,11 @@ namespace CF36
                     else if (text == "làm mới")
                     {
                         ApplyIcon(btn, refreshIcon, "Làm mới");
+                    }
+                    else if (btn.Name.Equals("btnLuu", StringComparison.OrdinalIgnoreCase)
+                    || btn.Name.Equals("btnXacNhan", StringComparison.OrdinalIgnoreCase) || btn.Name.Equals("btnThem", StringComparison.OrdinalIgnoreCase))
+                    {
+                        ApplyIcon(btn, doneIcon, "Hoàn tất");
                     }
                     if (btn.Name != "btnPassword" && btn.Name != "btnAnHien" && btn.Name != "btnTim")
                     {
@@ -63,7 +68,7 @@ namespace CF36
 
                 if (control.HasChildren)
                 {
-                    ApplyToControlRecursive(control, exitIcon, deleteIcon, refreshIcon);
+                    ApplyToControlRecursive(control, exitIcon, deleteIcon, refreshIcon, doneIcon);
                 }
 
             }

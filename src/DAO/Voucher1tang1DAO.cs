@@ -77,7 +77,6 @@ namespace DAO
             new SqlParameter("@Mavc", mavc),
             new SqlParameter("@Idkcsp", idkcsp)
             };
-            Console.WriteLine($"DAO DEBUG: InsertChiTietVC → mavc={mavc}, idkcsp={idkcsp}");
 
             return DataProvider.Instance.ExecuteNonQuery(query, parameters);
         }

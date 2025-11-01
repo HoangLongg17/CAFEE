@@ -33,9 +33,9 @@
             tlpButton = new TableLayoutPanel();
             btnThoat = new Button();
             picAnh = new PictureBox();
-            btnThem = new Button();
             lbMoTa = new Label();
             tlpAnh = new TableLayoutPanel();
+            btnThemAnh = new Button();
             lbSize = new Label();
             gbSize = new GroupBox();
             txtGiaM = new TextBox();
@@ -75,7 +75,7 @@
             btnXacNhan.Name = "btnXacNhan";
             btnXacNhan.Size = new Size(133, 70);
             btnXacNhan.TabIndex = 0;
-            btnXacNhan.Text = "XÁC NHẬN";
+            btnXacNhan.Text = "THÊM";
             btnXacNhan.UseVisualStyleBackColor = true;
             btnXacNhan.Click += btnXacNhan_Click;
             // 
@@ -113,17 +113,6 @@
             picAnh.TabIndex = 0;
             picAnh.TabStop = false;
             // 
-            // btnThem
-            // 
-            btnThem.Anchor = AnchorStyles.Left;
-            btnThem.Location = new Point(181, 21);
-            btnThem.Name = "btnThem";
-            btnThem.Size = new Size(118, 65);
-            btnThem.TabIndex = 1;
-            btnThem.Text = "Thêm ảnh";
-            btnThem.UseVisualStyleBackColor = true;
-            btnThem.Click += btnThem_Click;
-            // 
             // lbMoTa
             // 
             lbMoTa.Anchor = AnchorStyles.Right;
@@ -141,13 +130,24 @@
             tlpAnh.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpAnh.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 181F));
             tlpAnh.Controls.Add(picAnh, 0, 0);
-            tlpAnh.Controls.Add(btnThem, 1, 0);
+            tlpAnh.Controls.Add(btnThemAnh, 1, 0);
             tlpAnh.Location = new Point(411, 180);
             tlpAnh.Name = "tlpAnh";
             tlpAnh.RowCount = 1;
             tlpAnh.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpAnh.Size = new Size(359, 107);
             tlpAnh.TabIndex = 3;
+            // 
+            // btnThemAnh
+            // 
+            btnThemAnh.Anchor = AnchorStyles.Left;
+            btnThemAnh.Location = new Point(181, 19);
+            btnThemAnh.Name = "btnThemAnh";
+            btnThemAnh.Size = new Size(124, 68);
+            btnThemAnh.TabIndex = 1;
+            btnThemAnh.Text = "THÊM ẢNH";
+            btnThemAnh.UseVisualStyleBackColor = true;
+            btnThemAnh.Click += btnThemAnh_Click;
             // 
             // lbSize
             // 
@@ -385,7 +385,6 @@
         private TableLayoutPanel tlpButton;
         private Button btnThoat;
         private PictureBox picAnh;
-        private Button btnThem;
         private Label lbMoTa;
         private TableLayoutPanel tlpAnh;
         private Label lbSize;
@@ -406,5 +405,6 @@
         private TableLayoutPanel tlpall;
         private PictureBox picLogo;
         private TableLayoutPanel tlpSize;
+        private Button btnThemAnh;
     }
 }

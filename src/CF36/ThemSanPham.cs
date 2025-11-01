@@ -27,6 +27,8 @@ namespace CF36
             LoadLoaiSanPham();
             LoadKichCoMap();
             SetupInitialState();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
+            UIText.ApplyButtonTextStyle(this);
         }
         private void LoadLoaiSanPham()
         {
@@ -165,7 +167,7 @@ namespace CF36
             }
         }
 
-        private void btnThem_Click(object sender, EventArgs e)
+        private void btnThemAnh_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {

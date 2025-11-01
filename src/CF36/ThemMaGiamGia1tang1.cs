@@ -42,7 +42,7 @@ namespace CF36
             cbbLoaiMa_SelectedIndexChanged(null, null);
 
             // Format giao diện
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvSanPham);
             if (dgvSanPham.Columns.Contains("masp"))

@@ -29,7 +29,7 @@ namespace CF36
         {
             dgvxuatkho.AutoGenerateColumns = false;
             dgvxuatkho.DataSource = KhoBUS.LayTatCa();
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvxuatkho);
         }

@@ -33,6 +33,8 @@ namespace CF36
             LoadKichCoMap();
             LoadProductDetails();
             LoadProductImage();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
+            UIText.ApplyButtonTextStyle(this);
         }
         private void LoadComboBoxes()
         {

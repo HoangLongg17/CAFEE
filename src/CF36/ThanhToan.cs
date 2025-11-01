@@ -138,7 +138,7 @@ namespace CF36
         }
         private void ThanhToan_Load(object sender, EventArgs e)
         {
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             HienThiSanPham();
             tongTienGoc = new BanHangBUS().TinhTongTien(danhSachMua);

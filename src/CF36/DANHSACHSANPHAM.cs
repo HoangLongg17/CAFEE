@@ -74,7 +74,7 @@ namespace CF36
             LoadDataGrid(); // Tải tất cả sản phẩm khi form mở
             SetupDataGridView();
             InitializePdfFont();
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvDanhSachSanPham);
         }
@@ -280,7 +280,7 @@ namespace CF36
             try
             {
                 // Lấy thông tin
-                int selectedID = (int)dgvDanhSachSanPham.CurrentRow.Cells["ID"].Value;
+                int selectedID = (int)dgvDanhSachSanPham.CurrentRow.Cells["Idkcsp"].Value;
                 string maSP = dgvDanhSachSanPham.CurrentRow.Cells["MaSP"].Value.ToString(); // <-- LẤY THÊM MaSP
                 string tenSP = dgvDanhSachSanPham.CurrentRow.Cells["TenSP"].Value.ToString();
                 string size = dgvDanhSachSanPham.CurrentRow.Cells["KichCo"].Value.ToString();

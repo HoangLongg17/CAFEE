@@ -97,7 +97,7 @@ namespace CF36
             txtTenKhachHang.Text = khachHang.Tenkh;
             txtSoDienThoai.Text = khachHang.Sdt;
             txtTichDiem.Text = khachHang.Tichdiem.ToString();
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh);
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
 
         }

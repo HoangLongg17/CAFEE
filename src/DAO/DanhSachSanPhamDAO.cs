@@ -28,7 +28,7 @@ namespace DAO
         public List<DanhSachSanPhamDTO> GetAllSanPham()
         {
             string query = @"
-        SELECT 
+            SELECT 
             kcsp.id, 
             sp.masp, 
             sp.tensp, 
@@ -37,11 +37,11 @@ namespace DAO
             kcsp.giaban, 
             kcsp.soluongton, 
             kcsp.trangthaisp
-        FROM KICHCOSP kcsp
-        JOIN SANPHAM sp ON kcsp.masp = sp.masp
-        JOIN LOAISP l ON sp.maloai = l.maloai
-        JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-        ORDER BY sp.masp, kcsp.makichco";
+            FROM KICHCOSP kcsp
+            JOIN SANPHAM sp ON kcsp.masp = sp.masp
+            JOIN LOAISP l ON sp.maloai = l.maloai
+            JOIN KICHCO kc ON kcsp.makichco = kc.makichco
+            ORDER BY sp.masp, kcsp.makichco";
 
             DataTable data = provider.ExecuteQuery(query);
             List<DanhSachSanPhamDTO> list = new List<DanhSachSanPhamDTO>();
@@ -50,7 +50,7 @@ namespace DAO
             {
                 list.Add(new DanhSachSanPhamDTO
                 {
-                    ID = (int)row["id"],
+                    IdKcsp = (int)row["id"],
                     MaSP = row["masp"].ToString(),
                     TenSP = row["tensp"].ToString(),
                     TenLoai = row["tenloai"].ToString(),
