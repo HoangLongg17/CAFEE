@@ -109,7 +109,7 @@ namespace CF36
         private void SetupDataGridView()
         {
             // Đặt tên các cột còn lại
-            dgvDanhSachSanPham.Columns["ID"].HeaderText = "ID";
+            dgvDanhSachSanPham.Columns["Idkcsp"].HeaderText = "ID";
             dgvDanhSachSanPham.Columns["MaSP"].HeaderText = "Mã SP";
             dgvDanhSachSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
             dgvDanhSachSanPham.Columns["TenLoai"].HeaderText = "Loại";
@@ -119,7 +119,7 @@ namespace CF36
             dgvDanhSachSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
 
             dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
-            dgvDanhSachSanPham.Columns["ID"].Visible = false;
+            dgvDanhSachSanPham.Columns["Idkcsp"].Visible = false;
             dgvDanhSachSanPham.RowHeadersWidth = 50;
         }
 
@@ -179,7 +179,7 @@ namespace CF36
                 }
 
                 // 5. Đặt tên cột sau khi gán DataSource
-                dgvDanhSachSanPham.Columns["ID"].HeaderText = "ID";
+                dgvDanhSachSanPham.Columns["Idkcsp"].HeaderText = "ID";
                 dgvDanhSachSanPham.Columns["MaSP"].HeaderText = "Mã SP";
                 dgvDanhSachSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
                 dgvDanhSachSanPham.Columns["TenLoai"].HeaderText = "Loại";
@@ -189,7 +189,7 @@ namespace CF36
                 dgvDanhSachSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
 
                 dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
-                dgvDanhSachSanPham.Columns["ID"].Visible = false;
+                dgvDanhSachSanPham.Columns["Idkcsp"].Visible = false;
             }
             catch (Exception ex)
             {
