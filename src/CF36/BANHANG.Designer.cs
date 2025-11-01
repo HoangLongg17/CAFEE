@@ -157,7 +157,9 @@
             cbbTimKhachHang.Name = "cbbTimKhachHang";
             cbbTimKhachHang.Size = new Size(150, 28);
             cbbTimKhachHang.TabIndex = 2;
+            cbbTimKhachHang.DropDown += cbbTimKhachHang_DropDown;
             cbbTimKhachHang.SelectedIndexChanged += cbbTimKhachHang_SelectedIndexChanged;
+            cbbTimKhachHang.SelectionChangeCommitted += cbbTimKhachHang_SelectionChangeCommitted;
             // 
             // pnKhachHang
             // 

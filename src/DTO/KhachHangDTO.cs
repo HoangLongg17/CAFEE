@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,10 @@ namespace DTO
         public string Tenkh { get; set; }
         public string Sdt { get; set; }
         public int Tichdiem { get; set; }
-        public string TenVaSDT => $"{Tenkh} - {Sdt}";
+        // Hiển thị tên + số điện thoại trong ComboBox
+        public override string ToString()
+        {
+            return $"{Tenkh} - {Sdt}";
+        }
     }
 }

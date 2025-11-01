@@ -70,7 +70,6 @@ namespace CF36
             LoadSanPham();
 
             maND = CurrentUser.Mand;
-
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
@@ -116,8 +115,8 @@ namespace CF36
 
                     bool hetHang = spDauTien.SoLuongTon == 0;
 
-                   if (hetHang)
-                   p.BackColor = Color.LightGray;
+                    if (hetHang)
+                        p.BackColor = Color.LightGray;
 
                     PictureBox pic = new PictureBox
                     {
@@ -215,7 +214,7 @@ namespace CF36
 
             if (string.IsNullOrWhiteSpace(input))
             {
-                return; 
+                return;
             }
 
             if (!int.TryParse(input, out int soLuong) || soLuong <= 0)
@@ -436,15 +435,6 @@ namespace CF36
 
         private void cbbTimKhachHang_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var kh = cbbTimKhachHang.SelectedItem as KhachHangDTO;
-            if (kh != null)
-            {
-                txtTimKhachHang.Text = kh.Sdt;
-                maKH = kh.Makh;           // lưu lại để truyền sang form Thanh Toán
-            }
-
-            cbbTimKhachHang.DroppedDown = false;
-
         }
         private List<DanhSachSanPhamDTO> LaySanPhamTuGiaoDien()
         {
@@ -696,46 +686,66 @@ namespace CF36
             maVoucherCode = "";
             maVoucherId = null;
         }
+        public class PlaceholderItem
+        {
+            public override string ToString() => "— Không có kết quả —";
+        }
         private void txtTimKhachHang_TextChanged(object sender, EventArgs e)
         {
             string keyword = txtTimKhachHang.Text.Trim();
+            cbbTimKhachHang.Items.Clear();
 
             if (string.IsNullOrEmpty(keyword))
             {
-                cbbTimKhachHang.Items.Clear();
-                cbbTimKhachHang.DroppedDown = false;
+                // Luôn có placeholder để dropdown không rỗng
+                cbbTimKhachHang.Items.Add(new PlaceholderItem());
+                cbbTimKhachHang.SelectedIndex = -1;
                 return;
             }
 
             var danhSach = khachHangBUS.TimKiemTheoSDT(keyword);
 
-            cbbTimKhachHang.DataSource = null;
-            cbbTimKhachHang.Items.Clear();
-
-            foreach (var kh in danhSach)
+            if (danhSach != null && danhSach.Count > 0)
             {
-                cbbTimKhachHang.Items.Add(kh);
-            }
-
-            cbbTimKhachHang.DisplayMember = "Sdt";
-            cbbTimKhachHang.ValueMember = "Makh";
-
-            if (danhSach.Count > 0)
-            {
-                if (!cbbTimKhachHang.DroppedDown)
-                    cbbTimKhachHang.DroppedDown = true;
+                cbbTimKhachHang.Items.AddRange(danhSach.ToArray());
+                cbbTimKhachHang.SelectedIndex = -1;
+                cbbTimKhachHang.DroppedDown = true;
             }
             else
             {
-                cbbTimKhachHang.DroppedDown = false;
+                cbbTimKhachHang.Items.Add(new PlaceholderItem());
+                cbbTimKhachHang.SelectedIndex = -1;
+                cbbTimKhachHang.DroppedDown = true;
             }
-
-
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cbbTimKhachHang_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (cbbTimKhachHang.SelectedIndex < 0) return;
+
+            // Bỏ qua nếu chọn placeholder
+            if (cbbTimKhachHang.SelectedItem is PlaceholderItem)
+            {
+                cbbTimKhachHang.DroppedDown = false;
+                return;
+            }
+
+            if (cbbTimKhachHang.SelectedItem is KhachHangDTO kh)
+            {
+                txtTimKhachHang.Text = kh.Sdt;
+                maKH = kh.Makh;
+            }
+
+            cbbTimKhachHang.DroppedDown = false;
+        }
+
+        private void cbbTimKhachHang_DropDown(object sender, EventArgs e)
+        {
         }
     }
 }
