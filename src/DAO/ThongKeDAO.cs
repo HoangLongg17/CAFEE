@@ -70,7 +70,9 @@ namespace DAO
                     TienGiam = (decimal)row["TienGiam"],
                     TongTien = (decimal)row["TongTien"],
                     MaVoucher = row["MaVoucher"]?.ToString(),
-                    PhanTramGiam = null,
+                    PhanTramGiam = (row["LoaiVoucher"] != DBNull.Value && (int)row["LoaiVoucher"] == 1)
+                    ? (int?)Convert.ToInt32(row["GiaTriGiam"])
+                    : null,
                     LoaiVoucher = row["LoaiVoucher"] != DBNull.Value ? (int?)row["LoaiVoucher"] : null,
                     SanPhamMua = GetSanPhamMua(maHD),
                     SanPhamTang = GetSanPhamTang(maHD),
@@ -109,14 +111,7 @@ namespace DAO
             JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
             JOIN SANPHAM sp ON kcsp.masp = sp.masp
             JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-            WHERE ct.Mahd = @maHD
-            AND ct.Idkcsp NOT IN (
-            SELECT vc.Idkcsp
-            FROM APMAVC ap
-            JOIN VOUCHER v ON ap.Mavc = v.Mavc
-            JOIN CHITIETVC vc ON vc.Mavc = v.Mavc
-            WHERE ap.Mahd = @maHD AND v.Maloaivc IN (2,4)
-            )";
+            WHERE ct.Mahd = @maHD AND ct.IsTang = 0";  //chỉ lấy sản phẩm mua
 
             SqlParameter param = new SqlParameter("@maHD", maHD);
             DataTable data = provider.ExecuteQuery(query, new SqlParameter[] { param });
@@ -140,24 +135,23 @@ namespace DAO
             return list;
         }
 
+
         private List<DanhSachSanPhamDTO> GetSanPhamTang(int maHD)
         {
             string query = @"
             SELECT 
             sp.tensp AS TenSP,
             kc.kichco AS KichCo,
+            ct.Soluong,
             kcsp.id AS IdKcsp,
             sp.maloai AS Maloai,
             sp.masp AS MaSP,
             sp.duongdananh AS DuongDanAnh
-            FROM APMAVC ap
-            JOIN VOUCHER v ON ap.Mavc = v.Mavc
-            JOIN CHITIETVC vc ON vc.Mavc = v.Mavc
-            JOIN KICHCOSP kcsp ON vc.Idkcsp = kcsp.id
+            FROM CHITIETHD ct
+            JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
             JOIN SANPHAM sp ON kcsp.masp = sp.masp
             JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-            WHERE ap.Mahd = @maHD
-            AND v.Maloaivc IN (2,4)"; // chỉ lấy voucher loại tặng
+            WHERE ct.Mahd = @maHD AND ct.IsTang = 1";  //chỉ lấy sản phẩm tặng
 
             SqlParameter param = new SqlParameter("@maHD", maHD);
             DataTable data = provider.ExecuteQuery(query, new SqlParameter[] { param });
@@ -169,7 +163,7 @@ namespace DAO
                 {
                     TenSP = row["TenSP"].ToString(),
                     KichCo = row["KichCo"].ToString(),
-                    SoLuong = 1, // mặc định 1 sản phẩm tặng
+                    SoLuong = (int)row["Soluong"], // số lượng tặng thực tế
                     IdKcsp = (int)row["IdKcsp"],
                     Maloai = (int)row["Maloai"],
                     MaSP = row["MaSP"].ToString(),
@@ -179,6 +173,7 @@ namespace DAO
             }
             return list;
         }
+
         private List<DanhSachSanPhamDTO> GetSanPhamDuocGiam(int maHD)
         {
             string query = @"
@@ -191,7 +186,9 @@ namespace DAO
             JOIN SANPHAM sp ON kcsp.masp = sp.masp
             JOIN KICHCO kc ON kcsp.makichco = kc.makichco
             WHERE ct.Mahd = @maHD
-            AND ct.Dongia < kcsp.giaban";
+            AND ct.IsTang = 0              
+            AND ct.Dongia < kcsp.giaban";  // giá sau giảm < giá gốc
+
             SqlParameter param = new SqlParameter("@maHD", maHD);
             DataTable data = provider.ExecuteQuery(query, new SqlParameter[] { param });
 
@@ -213,6 +210,7 @@ namespace DAO
             return list;
         }
 
+
         public List<DoanhThuChartDTO> GetDoanhThuData(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
         {
             List<DoanhThuChartDTO> list = new List<DoanhThuChartDTO>();
@@ -225,8 +223,8 @@ namespace DAO
             JOIN CHITIETHD ct ON h.Mahd = ct.Mahd
             JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
             JOIN SANPHAM sp ON kcsp.masp = sp.masp
-            WHERE 
-            (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
+            WHERE ct.IsTang = 0  -- ✅ chỉ tính sản phẩm mua
+            AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
             AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
             AND (@maLoai IS NULL OR sp.maloai = @maLoai)
             GROUP BY CAST(h.Ngaylap AS DATE)
@@ -248,26 +246,26 @@ namespace DAO
             }
             return list;
         }
+
         public List<SanPhamBanChayDTO> GetSanPhamBanChay(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
         {
             List<SanPhamBanChayDTO> list = new List<SanPhamBanChayDTO>();
 
-            // (SỬA LẠI QUERY)
             string query = @"
             SELECT 
             sp.tensp AS TenSP, 
             SUM(ct.Soluong) AS SoLuongBan,
-            SUM(ct.Thanhtien) AS TongDoanhThu  -- (BỔ SUNG DÒNG NÀY)
+            SUM(ct.Thanhtien) AS TongDoanhThu
             FROM CHITIETHD ct
             JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
             JOIN SANPHAM sp ON kcsp.masp = sp.masp
             JOIN HOADON h ON h.Mahd = ct.Mahd
-            WHERE 
-            (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
+            WHERE ct.IsTang = 0  -- ✅ chỉ tính sản phẩm mua
+            AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
             AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
             AND (@maLoai IS NULL OR sp.maloai = @maLoai)
             GROUP BY sp.tensp
-            ORDER BY SoLuongBan DESC"; // Vẫn sắp xếp theo SỐ LƯỢNG
+            ORDER BY SoLuongBan DESC";
 
             SqlParameter paramTuNgay = new SqlParameter("@tuNgay", tuNgay.HasValue ? (object)tuNgay.Value : DBNull.Value);
             SqlParameter paramDenNgay = new SqlParameter("@denNgay", denNgay.HasValue ? (object)denNgay.Value : DBNull.Value);
@@ -286,5 +284,6 @@ namespace DAO
             }
             return list;
         }
+
     }
 }

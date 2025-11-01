@@ -152,8 +152,6 @@
             // cbbTimKhachHang
             // 
             cbbTimKhachHang.Anchor = AnchorStyles.Left;
-            cbbTimKhachHang.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cbbTimKhachHang.AutoCompleteSource = AutoCompleteSource.ListItems;
             cbbTimKhachHang.FormattingEnabled = true;
             cbbTimKhachHang.Location = new Point(189, 62);
             cbbTimKhachHang.Name = "cbbTimKhachHang";

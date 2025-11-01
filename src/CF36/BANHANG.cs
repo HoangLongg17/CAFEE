@@ -349,12 +349,47 @@ namespace CF36
             {
                 fLPSanPhamDaChon.Controls.Remove(newPanel);
 
-                var panelsToRemove = fLPSanPhamDaChon.Controls.OfType<Panel>()
-                    .Where(p => p.Tag is BanHangDTO spTang && spTang.LaSanPhamTang)
-                    .ToList();
-                foreach (var p in panelsToRemove)
+                //Lấy mã sản phẩm gốc từ panel vừa xóa
+                string maSanPhamGoc = null;
+
+                if (newPanel.Tag is BanHangDTO spGoc)
                 {
-                    fLPSanPhamDaChon.Controls.Remove(p);
+                    maSanPhamGoc = spGoc.MaSP;
+                }
+                else if (newPanel.Tag is DanhSachSanPhamDTO spGocDTO)
+                {
+                    maSanPhamGoc = spGocDTO.MaSP;
+                }
+
+                if (!string.IsNullOrEmpty(maSanPhamGoc))
+                {
+                    //Xóa tất cả sản phẩm tặng có MaSanPhamGoc trùng
+                    var panelsToRemove = fLPSanPhamDaChon.Controls.OfType<Panel>()
+                        .Where(p =>
+                        {
+                            if (p.Tag is DanhSachSanPhamDTO spTang)
+                            {
+                                return spTang.LaSanPhamTang && spTang.MaSanPhamGoc == maSanPhamGoc;
+                            }
+                            return false;
+                        }).ToList();
+
+                    foreach (var p in panelsToRemove)
+                    {
+                        fLPSanPhamDaChon.Controls.Remove(p);
+                        p.Dispose();
+                    }
+                }
+                //Kiểm tra nếu không còn sản phẩm mua nào thì reset mã giảm giá
+                var danhSachSauXoa = LaySanPhamTuGiaoDien();
+                bool conSanPhamMua = danhSachSauXoa.Any(sp => !sp.LaSanPhamTang);
+
+                if (!conSanPhamMua)
+                {
+                    txtMaGiamGia.Text = "";
+                    maVoucherId = null;
+                    maVoucherCode = "";
+                    ketQuaGiamGia = new KetQuaGiamGiaDTO();
                 }
 
                 CapNhatTongTien();
@@ -618,7 +653,7 @@ namespace CF36
                         SoLuong = 1,
                         IdKcsp = spTang.IdKcsp,
                         Maloai = spTang.Maloai,
-                        MaSanPhamGoc = spTang.MaSanPhamGoc,
+                        MaSanPhamGoc = danhSachMua.FirstOrDefault()?.MaSP,
                         TenLoai = spTang.TenLoai,
                         DuongDanAnh = spTang.DuongDanAnh,
                         TrangThaiText = spTang.TrangThaiText,
@@ -675,21 +710,29 @@ namespace CF36
                 return;
             }
 
-            var danhSach = khachHangBUS.TimKiemTheoSDT(keyword); // Trả về List<KhachHangDTO>
+            var danhSach = khachHangBUS.TimKiemTheoSDT(keyword);
 
+            cbbTimKhachHang.DataSource = null;
             cbbTimKhachHang.Items.Clear();
 
             foreach (var kh in danhSach)
             {
-                cbbTimKhachHang.Items.Add($"{kh.Tenkh} - {kh.Sdt}");
+                cbbTimKhachHang.Items.Add(kh);
             }
 
-            if (cbbTimKhachHang.Items.Count > 0)
+            cbbTimKhachHang.DisplayMember = "Sdt";
+            cbbTimKhachHang.ValueMember = "Makh";
+
+            if (danhSach.Count > 0)
             {
-                cbbTimKhachHang.DroppedDown = true;
-                cbbTimKhachHang.Focus();
-                cbbTimKhachHang.SelectionStart = cbbTimKhachHang.Text.Length;
+                if (!cbbTimKhachHang.DroppedDown)
+                    cbbTimKhachHang.DroppedDown = true;
             }
+            else
+            {
+                cbbTimKhachHang.DroppedDown = false;
+            }
+
 
         }
 

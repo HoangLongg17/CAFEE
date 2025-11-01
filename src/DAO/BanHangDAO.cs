@@ -128,19 +128,21 @@ namespace DAO
                 throw new ArgumentException("Dữ liệu sản phẩm không hợp lệ.");
 
             string query = @"
-            INSERT INTO CHITIETHD (Mahd, Idkcsp, Soluong, Dongia)
-            VALUES (@mahd, @idkcsp, @soluong, @dongia)";
+            INSERT INTO CHITIETHD (Mahd, Idkcsp, Soluong, Dongia, IsTang)
+            VALUES (@mahd, @idkcsp, @soluong, @dongia, @isTang)";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
             new SqlParameter("@mahd", mahd),
             new SqlParameter("@idkcsp", sp.IdKcsp),
             new SqlParameter("@soluong", sp.SoLuong),
-            new SqlParameter("@dongia", sp.GiaBan)
+            new SqlParameter("@dongia", sp.GiaBan),
+            new SqlParameter("@isTang", sp.LaSanPhamTang ? 1 : 0)
             };
 
             provider.ExecuteNonQuery(query, parameters);
         }
+
 
         // 3. Trừ tồn kho
         public void TruTonKho(int idkcsp, int soLuong)

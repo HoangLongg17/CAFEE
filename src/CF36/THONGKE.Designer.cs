@@ -300,6 +300,7 @@
             btnThoat.TabIndex = 3;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
+            btnThoat.Click += btnThoat_Click;
             // 
             // THONGKE
             // 

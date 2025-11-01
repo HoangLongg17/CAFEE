@@ -251,24 +251,25 @@ namespace BUS
             int mahd = dao.TaoHoaDon(makh, mand, tongTienGoc, tienGiam, tongTienSauGiam);
 
             var danhSachGop = danhSachSanPham
-                .GroupBy(sp => sp.IdKcsp)
+                .GroupBy(sp => new { sp.IdKcsp, sp.LaSanPhamTang })
                 .Select(g => new BanHangDTO
                 {
-                    IdKcsp = g.Key,
-                    MaSP = g.First().MaSP,
+                    IdKcsp = g.Key.IdKcsp,
                     TenSP = g.First().TenSP,
                     KichCo = g.First().KichCo,
-                    SoLuong = g.Sum(x => x.SoLuong),
+                    LaSanPhamTang = g.Key.LaSanPhamTang,
+                    SoLuong = g.Key.LaSanPhamTang ? 1 : g.Sum(x => x.SoLuong),
+                    MaSP = g.First().MaSP,
                     GiaBan = g.First().GiaBan,
-                    LaSanPhamTang = g.First().LaSanPhamTang,
                     Maloai = g.First().Maloai,
                     MaSanPhamGoc = g.First().MaSanPhamGoc,
                     SoLuongTon = g.First().SoLuongTon,
                     DuongDanAnh = g.First().DuongDanAnh,
                     TenLoai = g.First().TenLoai,
                     TrangThaiText = g.First().TrangThaiText
-                })
-                .ToList();
+                }).ToList();
+
+
 
             foreach (var sp in danhSachGop)
             {

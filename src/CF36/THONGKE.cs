@@ -433,5 +433,10 @@ namespace CF36
                 MessageBox.Show("Đã xảy ra lỗi khi lọc sản phẩm bán chạy: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
