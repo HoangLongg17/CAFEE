@@ -404,6 +404,7 @@
             dgvSanPham.Location = new Point(212, 68);
             dgvSanPham.Name = "dgvSanPham";
             dgvSanPham.RowHeadersWidth = 51;
+            dgvSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvSanPham.Size = new Size(172, 175);
             dgvSanPham.TabIndex = 5;
             dgvSanPham.CellContentClick += dgvSanPham_CellContentClick;

@@ -355,6 +355,7 @@
             dgvSanPham.RowHeadersWidth = 51;
             dgvSanPham.Size = new Size(169, 197);
             dgvSanPham.TabIndex = 4;
+            dgvSanPham.CellClick += dgvSanPham_CellClick;
             dgvSanPham.CellContentClick += dgvSanPham_CellContentClick;
             // 
             // cbbLoaiSanPham

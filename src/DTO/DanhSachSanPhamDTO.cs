@@ -20,5 +20,7 @@ namespace DTO
         public string TrangThaiText { get; set; }
         public bool LaSanPhamTang { get; set; } = false;
         public string MaSanPhamGoc { get; set; } // dùng để đánh dấu sản phẩm tặng thuộc về mã nào
+        public decimal GiaGoc { get; set; } // giá gốc chưa giảm
+        public decimal TienGiam { get; set; } // số tiền giảm cho sản phẩm này
     }
 }

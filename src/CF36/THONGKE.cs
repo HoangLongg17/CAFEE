@@ -12,8 +12,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Linq; // (MỚI) Thêm thư viện này
-using System.Drawing; // (MỚI) Thêm thư viện này
 
 namespace CF36
 {
@@ -223,6 +221,7 @@ namespace CF36
             dgvHoaDon.Columns["LoaiVouCher"].HeaderText = "Loại voucher";
             dgvHoaDon.Columns["SanPhamMuaText"].HeaderText = "Sản phẩm mua";
             dgvHoaDon.Columns["SanPhamTangText"].HeaderText = "Sản phẩm tặng";
+            dgvHoaDon.Columns["SanPhamDuocGiamText"].HeaderText = "Sản phẩm được giảm";
         }
 
         // (MỚI) Hàm tùy chỉnh cột DGV cho Top Sản Phẩm

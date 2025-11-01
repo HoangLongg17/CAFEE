@@ -157,7 +157,7 @@ namespace CF36
                 return false;
             }
 
-            if (code.Length > 20)
+            if (code.Length > 50)
             {
                 message = "Mã giảm giá không được vượt quá 20 ký tự.";
                 return false;
@@ -261,6 +261,11 @@ namespace CF36
                 MessageBox.Show(message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (cbbLoaiSanPham.SelectedIndex != -1 && dgvSanPham.SelectedRows.Count > 0)
+            {
+                MessageBox.Show("Bạn chỉ được chọn loại sản phẩm hoặc sản phẩm cụ thể để áp dụng mã giảm giá, không thể chọn cả hai.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             // Cập nhật voucher
             bool ok = VoucherBUS.Instance.UpdateVoucher(dto);
@@ -307,16 +312,20 @@ namespace CF36
 
         private void dgvSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgvSanPham.SelectedRows.Count > 0)
-            {
-                cbbLoaiSanPham.SelectedIndex = -1; // bỏ chọn loại sản phẩm
-            }
 
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvSanPham.SelectedRows.Count > 0)
+            {
+                cbbLoaiSanPham.SelectedIndex = -1; // bỏ chọn loại sản phẩm
+            }
         }
     }
 }

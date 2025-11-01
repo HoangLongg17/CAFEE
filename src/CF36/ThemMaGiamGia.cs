@@ -204,15 +204,25 @@ namespace CF36
                 return;
             }
 
+            // Kiểm tra: không được chọn cả loại sản phẩm và sản phẩm cụ thể
+            if (cbbLoaiSanPham.SelectedIndex != -1 && dgvSanPham.SelectedRows.Count > 0)
+            {
+                MessageBox.Show("Bạn chỉ được chọn loại sản phẩm hoặc sản phẩm cụ thể để áp dụng mã giảm giá, không thể chọn cả hai.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             string code = txtMaGiamGia.Text.Trim();
             string ten = txtTenMa.Text.Trim();
             int maloaivc = Convert.ToInt32(cbbLoaiMaGG.SelectedValue);
+
             decimal? dieuKien = null;
             if (decimal.TryParse(txtGiaTriDonToiThieu.Text, out decimal dk))
                 dieuKien = dk;
 
             DateTime ngaybd = dTPBatDau.Value.Date;
             DateTime ngaykt = dTPHetHan.Value.Date;
+
+            // Nếu chọn loại sản phẩm → gán vào voucher
             int? maloai = cbbLoaiSanPham.SelectedIndex != -1 ? Convert.ToInt32(cbbLoaiSanPham.SelectedValue) : null;
 
             VoucherDTO voucher = new VoucherDTO(0, code, ten, giatri, ngaybd, ngaykt, dieuKien, maloaivc, maloai);
@@ -223,12 +233,12 @@ namespace CF36
 
                 if (mavc > 0)
                 {
-                    // Nếu có chọn sản phẩm cụ thể
+                    // Nếu chọn sản phẩm cụ thể → thêm vào CHITIETVC
                     if (dgvSanPham.SelectedRows.Count > 0)
                     {
                         int idkcsp = Convert.ToInt32(dgvSanPham.SelectedRows[0].Cells["ID"].Value);
                         bool added = VoucherBUS.Instance.AddVoucherChiTiet(mavc, idkcsp);
-
+                        MessageBox.Show("ID sản phẩm chọn: " + idkcsp);
                         if (!added)
                         {
                             MessageBox.Show("Không thể liên kết mã với sản phẩm đã chọn.");
@@ -236,9 +246,8 @@ namespace CF36
                     }
 
                     MessageBox.Show("Thêm mã giảm giá thành công!");
-                    VoucherUpdated?.Invoke(this, EventArgs.Empty); //báo cho form cha
+                    VoucherUpdated?.Invoke(this, EventArgs.Empty);
                     this.Close();
-
                 }
                 else
                 {
@@ -251,50 +260,7 @@ namespace CF36
             }
 
         }
-        private bool ValidateInputs()
-        {
-            // Kiểm tra mã và tên
-            if (string.IsNullOrWhiteSpace(txtMaGiamGia.Text) || string.IsNullOrWhiteSpace(txtTenMa.Text))
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ mã và tên mã giảm giá.");
-                return false;
-            }
 
-            // Kiểm tra giá trị giảm
-            int maloaivc = Convert.ToInt32(cbbLoaiMaGG.SelectedValue);
-            if (maloaivc == 1)
-            {
-                if (numGiamPhanTram.Value < 1 || numGiamPhanTram.Value > 100)
-                {
-                    MessageBox.Show("Giá trị phần trăm giảm phải từ 1 đến 100.");
-                    return false;
-                }
-            }
-            else if (maloaivc == 3)
-            {
-                if (!decimal.TryParse(txtGiaTriGiam.Text, out _))
-                {
-                    MessageBox.Show("Giá trị giảm không hợp lệ. Vui lòng nhập số.");
-                    return false;
-                }
-            }
-
-            // Kiểm tra giá trị đơn tối thiểu (nếu có nhập)
-            if (!string.IsNullOrWhiteSpace(txtGiaTriDonToiThieu.Text) && !decimal.TryParse(txtGiaTriDonToiThieu.Text, out _))
-            {
-                MessageBox.Show("Giá trị đơn tối thiểu không hợp lệ. Vui lòng nhập số.");
-                return false;
-            }
-
-            // Kiểm tra ngày
-            if (dTPHetHan.Value.Date < dTPBatDau.Value.Date)
-            {
-                MessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu.");
-                return false;
-            }
-
-            return true;
-        }
         private void txtGiaTriGiam_KeyPress(object sender, KeyPressEventArgs e)
         {
         }

@@ -26,20 +26,22 @@ namespace DTO
         public int? PhanTramGiam { get; set; }
         public int? LoaiVoucher { get; set; }
 
-        public List<DanhSachSanPhamDTO> SanPhamTang { get; set; }
-        public string SanPhamTangText
-        {
-            get
-            {
-                if (SanPhamTang == null || SanPhamTang.Count == 0)
-                    return "";
-                return string.Join(", ", SanPhamTang.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
-            }
-        }
-        public List<DanhSachSanPhamDTO> SanPhamMua { get; set; }
-
+        // ✅ Sản phẩm mua
+        public List<DanhSachSanPhamDTO> SanPhamMua { get; set; } = new List<DanhSachSanPhamDTO>();
         public string SanPhamMuaText => SanPhamMua == null ? "" :
             string.Join(", ", SanPhamMua.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
+
+        // ✅ Sản phẩm tặng
+        public List<DanhSachSanPhamDTO> SanPhamTang { get; set; } = new List<DanhSachSanPhamDTO>();
+        public string SanPhamTangText => SanPhamTang == null ? "" :
+            string.Join(", ", SanPhamTang.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
+
+        // ✅ Sản phẩm được áp dụng giảm giá
+        public List<DanhSachSanPhamDTO> SanPhamDuocGiam { get; set; } = new List<DanhSachSanPhamDTO>();
+        public string SanPhamDuocGiamText => SanPhamDuocGiam == null ? "" :
+            string.Join(", ", SanPhamDuocGiam.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
+
+
     }
 
     // DTO cho dữ liệu biểu đồ

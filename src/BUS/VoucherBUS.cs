@@ -98,6 +98,10 @@ namespace BUS
         {
             return VoucherDAO.Instance.AddVoucherChiTiet(mavc, idkcsp);
         }
+        public bool CheckChiTietVoucher(int mavc, int idkcsp)
+        {
+            return VoucherDAO.Instance.CheckChiTietVoucher(mavc, idkcsp);
+        }
         public int AddVoucherAndGetID(VoucherDTO voucher)
         {
             return VoucherDAO.Instance.AddVoucherAndReturnID(voucher);

@@ -98,42 +98,26 @@ namespace DAO
             provider.ExecuteNonQuery(query, parameters);
         }
         // 1. Tạo hóa đơn
-        public int TaoHoaDon(int? makh, string mand, decimal tongTien)
+        public int TaoHoaDon(int? makh, string mand, decimal tongTienGoc, decimal tienGiam, decimal tongTienSauGiam)
         {
             string query = @"
-            INSERT INTO HOADON (Ngaylap, Makh, Mand, Tongtien)
-            VALUES (@ngaylap, @makh, @mand, @tongtien);
+            INSERT INTO HOADON (Ngaylap, Makh, Mand, TongTienGoc, TienGiam, TongTien)
+            VALUES (@ngaylap, @makh, @mand, @tongTienGoc, @tienGiam, @tongTien);
             SELECT SCOPE_IDENTITY();";
 
             SqlParameter[] parameters = {
-            new SqlParameter("@Ngaylap", DateTime.Now),
-            new SqlParameter("@Makh", (object)makh ?? DBNull.Value),
-            new SqlParameter("@Mand", mand),
-            new SqlParameter("@Tongtien", tongTien)
+            new SqlParameter("@ngaylap", DateTime.Now),
+            new SqlParameter("@makh", (object)makh ?? DBNull.Value),
+            new SqlParameter("@mand", mand),
+            new SqlParameter("@tongTienGoc", tongTienGoc),
+            new SqlParameter("@tienGiam", tienGiam),
+            new SqlParameter("@tongTien", tongTienSauGiam)
             };
-            if (string.IsNullOrWhiteSpace(mand))
-                throw new Exception("mand bị null hoặc rỗng");
-
-            if (tongTien < 0)
-                throw new Exception("Tổng tiền không hợp lệ");
-
-            if (makh.HasValue && makh <= 0)
-                throw new Exception("Mã khách hàng không hợp lệ");
 
             object result = provider.ExecuteScalar(query, parameters);
-
-            if (result == null)
-            {
-                throw new Exception("ExecuteScalar trả về null. Kiểm tra lại truy vấn SQL hoặc dữ liệu đầu vào.");
-            }
-
-            if (int.TryParse(result.ToString(), out int mahd))
-            {
-                return mahd;
-            }
-
-            throw new Exception("Không thể lấy mã hóa đơn sau khi thêm.");
+            return Convert.ToInt32(result);
         }
+
         // 2. Thêm chi tiết hóa đơn
         public void ThemChiTietHoaDon(int mahd, BanHangDTO sp)
         {
@@ -194,6 +178,59 @@ namespace DAO
 
 
             DataTable dt = DataProvider.Instance.ExecuteQuery(query);
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new BanHangDTO
+                {
+                    IdKcsp = Convert.ToInt32(row["IdKCSP"]),
+                    MaSP = row["masp"].ToString(),
+                    TenSP = row["tensp"].ToString(),
+                    TenLoai = row["TenLoai"].ToString(),
+                    KichCo = row["kichco"].ToString(),
+                    GiaBan = Convert.ToDecimal(row["giaban"]),
+                    DuongDanAnh = row["duongdananh"].ToString(),
+                    Maloai = Convert.ToInt32(row["maloai"]),
+                    SoLuongTon = Convert.ToInt32(row["soluongton"]),
+                    TrangThaiText = row["TrangThaiText"].ToString()
+                });
+            }
+
+            return list;
+        }
+        public List<BanHangDTO> TimKiemSanPham(string searchType, string keyword)
+        {
+            List<BanHangDTO> list = new List<BanHangDTO>();
+
+            string query = @"
+            SELECT 
+            kc.id AS IdKCSP, 
+            sp.masp, 
+            sp.tensp, 
+            l.tenloai AS TenLoai, 
+            k.kichco, 
+            kc.giaban, 
+            sp.duongdananh,
+            sp.maloai,
+            kc.soluongton,
+            CASE WHEN kc.trangthaisp = 1 THEN N'Đang bán' ELSE N'Ngừng bán' END AS TrangThaiText
+            FROM SANPHAM sp
+            JOIN LOAISP l ON sp.maloai = l.maloai
+            JOIN KICHCOSP kc ON sp.masp = kc.masp
+            JOIN KICHCO k ON kc.makichco = k.makichco
+            WHERE kc.trangthaisp = 1";
+
+            if (searchType == "TenSP")
+            {
+                query += " AND sp.tensp LIKE @keyword";
+            }
+            else if (searchType == "MaSP")
+            {
+                query += " AND sp.masp LIKE @keyword";
+            }
+
+            SqlParameter param = new SqlParameter("@keyword", "%" + keyword + "%");
+            DataTable dt = provider.ExecuteQuery(query, new SqlParameter[] { param });
+
             foreach (DataRow row in dt.Rows)
             {
                 list.Add(new BanHangDTO

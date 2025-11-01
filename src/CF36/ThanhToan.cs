@@ -40,6 +40,7 @@ namespace CF36
             this.ketQua = ketQua;
 
 
+
         }
         private void HienThiSanPham()
         {
@@ -246,7 +247,7 @@ namespace CF36
             sb.AppendLine($"Tiền trả lại: {tienTraLai:N0} đ");
             MessageBox.Show(sb.ToString(), "HÓA ĐƠN", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        private bool XacNhanThanhToan(List<BanHangDTO> danhSachBanHang, List<DanhSachSanPhamDTO> danhSachMua, BanHangBUS bus)
+        private bool XacNhanThanhToan(List<BanHangDTO> danhSachBanHang, BanHangBUS bus)
         {
             StringBuilder xacNhan = new StringBuilder();
             xacNhan.AppendLine("Bạn có chắc muốn thanh toán đơn hàng sau?");
@@ -257,38 +258,56 @@ namespace CF36
                 xacNhan.AppendLine($"- {sp.TenSP} | Size: {sp.KichCo} | SL: {sp.SoLuong} | Đơn giá: {sp.GiaBan:N0} đ");
             }
 
-            decimal tongTien = bus.TinhTongTien(danhSachMua);
+            decimal tongTien = bus.TinhTongTien(
+                danhSachBanHang.Select(sp => new DanhSachSanPhamDTO
+                {
+                    GiaBan = sp.GiaBan,
+                    SoLuong = sp.SoLuong,
+                    LaSanPhamTang = sp.LaSanPhamTang
+                }).ToList()
+            );
+
             xacNhan.AppendLine("──────────────────────────────");
-            xacNhan.AppendLine($"Tổng tiền: {tongTienSauGiam:N0} đ");
+            xacNhan.AppendLine($"Tổng tiền: {tongTien:N0} đ");
 
             var result = MessageBox.Show(xacNhan.ToString(), "Xác nhận thanh toán", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             return result == DialogResult.Yes;
         }
         private void btnThanhtoan_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(maND))
-            {
-                MessageBox.Show("Không xác định được nhân viên. Vui lòng đăng nhập lại.");
-                return;
-            }
-            var bus = new BanHangBUS();
-            if (ketQua == null)
-            {
-                ketQua = new KetQuaGiamGiaDTO();
-            }
-            if (danhSachMua.Count == 0)
+            if (danhSachMua == null || danhSachMua.Count == 0)
             {
                 MessageBox.Show("Không có sản phẩm nào để thanh toán.");
                 return;
             }
             if (!KiemTraTienKhachDua(out decimal tienKhach))
             {
-                return; //Dừng nếu tiền không hợp lệ
+                return; // nếu không đủ tiền thì dừng luôn
+            }
+            var bus = new BanHangBUS();
+
+            // Cập nhật giá sau giảm
+            foreach (var sp in danhSachMua)
+            {
+                var spGiam = ketQua?.SanPhamDuocGiam?.FirstOrDefault(x => x.IdKcsp == sp.IdKcsp);
+                if (spGiam != null)
+                {
+                    if (sp.GiaGoc == 0) sp.GiaGoc = sp.GiaBan;
+                    sp.TienGiam = spGiam.TienGiam;
+                    sp.GiaBan = Math.Max(0, sp.GiaGoc - sp.TienGiam);
+                }
+                else
+                {
+                    if (sp.GiaGoc == 0) sp.GiaGoc = sp.GiaBan;
+                    sp.TienGiam = 0;
+                    sp.GiaBan = sp.GiaGoc;
+                }
             }
 
-            var danhSachBanHang = bus.ChuyenDoiDanhSachBanHang(danhSachMua);
+            var danhSachBanHang = bus.ChuyenDoiDanhSachBanHang(danhSachMua, ketQua);
 
-            if (ketQua?.SanPhamTang != null && ketQua.SanPhamTang.Count > 0)
+            // Gộp sản phẩm tặng
+            if (ketQua?.SanPhamTang?.Count > 0)
             {
                 var sanPhamTangGop = ketQua.SanPhamTang
                     .GroupBy(sp => sp.IdKcsp)
@@ -298,7 +317,7 @@ namespace CF36
                         TenSP = g.First().TenSP,
                         KichCo = g.First().KichCo,
                         LaSanPhamTang = true,
-                        SoLuong = g.Sum(x => x.SoLuong),
+                        SoLuong = 1,
                         MaSP = g.First().MaSP,
                         GiaBan = g.First().GiaBan,
                         Maloai = g.First().Maloai,
@@ -312,34 +331,58 @@ namespace CF36
                 danhSachBanHang.AddRange(sanPhamTangGop);
             }
 
-            //Kiểm tra tồn kho trước khi thanh toán
+            // Kiểm tra tồn kho
             foreach (var sp in danhSachBanHang)
             {
                 int tonKho = DanhSachSanPhamDAO.GetSoLuongTon(sp.IdKcsp);
-                if (tonKho < sp.SoLuong)
+                int soLuongThucTe = sp.LaSanPhamTang ? 1 : sp.SoLuong;
+                if (tonKho < soLuongThucTe)
                 {
-                    MessageBox.Show(
-                        $"❌ Sản phẩm {sp.TenSP} - Size {sp.KichCo} không đủ tồn kho.\n" +
-                        $"Tồn kho: {tonKho}, cần: {sp.SoLuong}",
-                        "Cảnh báo tồn kho", MessageBoxButtons.OK, MessageBoxIcon.Warning
-                    );
+                    MessageBox.Show($"❌ {sp.TenSP} - Size {sp.KichCo} không đủ tồn kho.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
-            if (!XacNhanThanhToan(danhSachBanHang, danhSachMua, bus))
-            {
-                return;
-            }
+
+            // Xác nhận thanh toán
+            if (!XacNhanThanhToan(danhSachBanHang, bus)) return;
+
             int mahd = bus.XuatHoaDon(maKH, maND, danhSachBanHang, maVoucherId);
             MessageBox.Show($"✅ Thanh toán thành công. Mã hóa đơn: {mahd}");
 
+
+            // ✅ In hóa đơn PDF nếu người dùng đồng ý
             if (MessageBox.Show("Bạn có muốn in hóa đơn?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                InHoaDon(mahd, danhSachBanHang, maND, maVoucherId, tienKhach);
+                // Tính tổng tiền
+                var danhSachSP_TinhTien = danhSachBanHang.Select(sp => new DanhSachSanPhamDTO
+                {
+                    GiaBan = sp.GiaBan,
+                    SoLuong = sp.SoLuong,
+                    LaSanPhamTang = sp.LaSanPhamTang
+                }).ToList();
 
-                decimal tongTienGoc = bus.TinhTongTien(danhSachMua);
-                decimal tongTienSauGiam = bus.TinhTienSauGiam(tongTienGoc, ketQua.TienGiam);
+                // Tính tổng tiền gốc và sau giảm dựa trên từng sản phẩm
+                decimal tongTienGoc = danhSachBanHang
+                    .Where(sp => !sp.LaSanPhamTang)
+                    .Sum(sp => sp.GiaGoc * sp.SoLuong);
 
+                decimal tongTienSauGiam = danhSachBanHang
+                    .Where(sp => !sp.LaSanPhamTang)
+                    .Sum(sp => (sp.GiaGoc - sp.TienGiam) * sp.SoLuong);
+
+                decimal tongTienGiam = tongTienGoc - tongTienSauGiam;
+                if (ketQua == null)
+                {
+                    ketQua = new KetQuaGiamGiaDTO
+                    {
+                        SanPhamTang = new List<BanHangDTO>(),
+                        SanPhamDuocGiam = new List<DanhSachSanPhamDTO>(),
+                        TienGiam = 0,
+                        LoaiVC = 0,   // 0 = không áp mã
+                        GiaTri = 0
+                    };
+                }
+                // Chuẩn bị dữ liệu hóa đơn
                 var hoaDonDTO = new HoaDonDTO
                 {
                     MaHD = mahd,
@@ -348,19 +391,56 @@ namespace CF36
                     SDTKH = maKH.HasValue ? KhachHangBUS.GetSDTKhachHang(maKH.Value) : "",
                     TenNhanVien = NhanVienBUS.GetTenNguoiDung(maND),
                     TongTienGoc = tongTienGoc,
-                    TienGiam = ketQua.TienGiam,
+                    TienGiam = (ketQua?.LoaiVC == 1 || ketQua?.LoaiVC == 3) ? ketQua.TienGiam : 0,
                     TongTien = tongTienSauGiam,
                     MaVoucher = maVoucherCode,
                     PhanTramGiam = ketQua.LoaiVC == 1 ? (int?)ketQua.GiaTri : null,
-                    SanPhamTang = ketQua.SanPhamTang != null
-                    ? ketQua.SanPhamTang.Select(sp => new DanhSachSanPhamDTO
+                    LoaiVoucher = ketQua.LoaiVC,
+                    SanPhamTang = ketQua.SanPhamTang?.Select(sp => new DanhSachSanPhamDTO
                     {
                         TenSP = sp.TenSP,
                         KichCo = sp.KichCo,
-                        SoLuong = sp.SoLuong
-                    }).ToList()
+                        SoLuong = 1
+                    }).ToList() ?? new List<DanhSachSanPhamDTO>(),
+                    SanPhamDuocGiam = (ketQua?.LoaiVC == 1 || ketQua?.LoaiVC == 3)
+                    ? (ketQua?.SanPhamDuocGiam ?? Enumerable.Empty<DanhSachSanPhamDTO>())
+                        .Select(sp => new DanhSachSanPhamDTO
+                        {
+                            TenSP = sp.TenSP,
+                            KichCo = sp.KichCo,
+                            SoLuong = sp.SoLuong,
+                            IdKcsp = sp.IdKcsp
+                        }).ToList()
                     : new List<DanhSachSanPhamDTO>()
                 };
+                // Dữ liệu chi tiết để in PDF
+                var danhSachSP_InPDF = danhSachBanHang.Select(sp =>
+                {
+                    var spGiam = ketQua.SanPhamDuocGiam?.FirstOrDefault(g => g.IdKcsp == sp.IdKcsp);
+
+                    decimal giaGoc = sp.GiaGoc > 0 ? sp.GiaGoc : sp.GiaBan;
+                    decimal tienGiam = spGiam?.TienGiam ?? 0;
+                    decimal giaSauGiam = Math.Max(0, giaGoc - tienGiam);
+
+                    return new DanhSachSanPhamDTO
+                    {
+                        IdKcsp = sp.IdKcsp,
+                        MaSP = sp.MaSP,
+                        TenSP = sp.TenSP,
+                        KichCo = sp.KichCo,
+                        SoLuong = sp.LaSanPhamTang ? 1 : sp.SoLuong,
+                        GiaGoc = giaGoc,
+                        GiaBan = giaSauGiam,
+                        TienGiam = tienGiam,
+                        LaSanPhamTang = sp.LaSanPhamTang,
+                        Maloai = sp.Maloai,
+                        MaSanPhamGoc = sp.MaSanPhamGoc,
+                        SoLuongTon = sp.SoLuongTon,
+                        DuongDanAnh = sp.DuongDanAnh,
+                        TenLoai = sp.TenLoai,
+                        TrangThaiText = sp.TrangThaiText
+                    };
+                }).ToList();
 
                 SaveFileDialog sfd = new SaveFileDialog
                 {
@@ -370,29 +450,30 @@ namespace CF36
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    bus.XuatHoaDonPDF(hoaDonDTO, danhSachMua, sfd.FileName);
+                    bus.XuatHoaDonPDF(hoaDonDTO, danhSachSP_InPDF, sfd.FileName);
                     MessageBox.Show("✅ Hóa đơn PDF đã được xuất thành công!");
                 }
             }
+            // ✅ Cập nhật tồn kho sau thanh toán
             var danhSachCapNhat = danhSachBanHang
-                .GroupBy(sp => new { sp.IdKcsp, sp.LaSanPhamTang }) // gộp theo cả IdKcsp và loại
+                .GroupBy(sp => new { sp.IdKcsp, sp.LaSanPhamTang })
                 .Select(g => new DanhSachSanPhamDTO
                 {
                     IdKcsp = g.Key.IdKcsp,
                     TenSP = g.First().TenSP,
                     KichCo = g.First().KichCo,
                     LaSanPhamTang = g.Key.LaSanPhamTang,
-                    SoLuong = 1
+                    SoLuong = g.Key.LaSanPhamTang ? 1 : g.Sum(x => x.SoLuong)
                 }).ToList();
 
-            BanHangBUS.CapNhatTonKhoSauThanhToan(danhSachCapNhat); // dùng danh sách đã gộp đúng
-            var formBanHang = Application.OpenForms["BANHANG"] as BANHANG;
-            if (formBanHang != null)
-            {
-                formBanHang.CapNhatGiaoDienSauThanhToan();
-            }
-            this.Close();
+            BanHangBUS.CapNhatTonKhoSauThanhToan(danhSachCapNhat);
 
+            // ✅ Làm mới giao diện bán hàng
+            var formBanHang = Application.OpenForms["BANHANG"] as BANHANG;
+            formBanHang?.CapNhatGiaoDienSauThanhToan();
+
+            this.Close();
+        
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

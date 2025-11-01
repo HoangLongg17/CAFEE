@@ -9,6 +9,7 @@ using DTO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
+using Microsoft.Data.SqlClient;
 namespace BUS
 {
     public class BanHangBUS
@@ -37,6 +38,9 @@ namespace BUS
         public List<DanhSachSanPhamDTO> LaySanPhamTang(int mavc, int maloaiGoc, string maSanPhamGoc, int soLuongMua, int loaiVC)
         {
             var ds = new List<DanhSachSanPhamDTO>();
+            if (loaiVC != 2 && loaiVC != 4)
+                return ds;
+
             DataTable dt;
 
             // Truy vấn sản phẩm tặng theo loại voucher
@@ -84,29 +88,43 @@ namespace BUS
 
 
         // Chuyển đổi từ DanhSachSanPhamDTO sang BanHangDTO
-        public List<BanHangDTO> ChuyenDoiDanhSachBanHang(List<DanhSachSanPhamDTO> danhSach)
+        public List<BanHangDTO> ChuyenDoiDanhSachBanHang(List<DanhSachSanPhamDTO> danhSach, KetQuaGiamGiaDTO ketQua)
         {
-            return danhSach.Select(sp => new BanHangDTO
-            {
-                IdKcsp = sp.IdKcsp,
-                MaSP = sp.MaSP,
-                TenSP = sp.TenSP,
-                KichCo = sp.KichCo,
-                SoLuong = sp.LaSanPhamTang ? 1 : sp.SoLuong,
-                GiaBan = sp.GiaBan,
-                LaSanPhamTang = sp.LaSanPhamTang,
-                Maloai = sp.Maloai,
-                MaSanPhamGoc = sp.MaSanPhamGoc,
-                SoLuongTon = sp.SoLuongTon,
-                DuongDanAnh = sp.DuongDanAnh,
-                TenLoai = sp.TenLoai,
-                TrangThaiText = sp.TrangThaiText
-            }).ToList();
-        }
+            var danhSachChuyenDoi = new List<BanHangDTO>();
 
+            foreach (var sp in danhSach)
+            {
+                var dto = new BanHangDTO
+                {
+                    IdKcsp = sp.IdKcsp,
+                    MaSP = sp.MaSP,
+                    TenSP = sp.TenSP,
+                    KichCo = sp.KichCo,
+                    SoLuong = sp.LaSanPhamTang ? 1 : sp.SoLuong,
+                    GiaGoc = sp.GiaGoc,               // ✅ Giữ nguyên giá gốc đã cập nhật
+                    GiaBan = sp.GiaBan,               // ✅ Giữ nguyên giá sau giảm
+                    TienGiam = sp.TienGiam,           // ✅ Giữ nguyên tiền giảm
+                    LaSanPhamTang = sp.LaSanPhamTang,
+                    Maloai = sp.Maloai,
+                    MaSanPhamGoc = sp.MaSanPhamGoc,
+                    SoLuongTon = sp.SoLuongTon,
+                    DuongDanAnh = sp.DuongDanAnh,
+                    TenLoai = sp.TenLoai,
+                    TrangThaiText = sp.TrangThaiText
+                };
+
+                danhSachChuyenDoi.Add(dto);
+            }
+
+            return danhSachChuyenDoi;
+        }
         public KetQuaGiamGiaDTO ApDungMaGiamGia(string code, List<DanhSachSanPhamDTO> danhSachDaChon)
         {
-            var result = new KetQuaGiamGiaDTO { SanPhamTang = new List<BanHangDTO>() };
+            var result = new KetQuaGiamGiaDTO
+            {
+                SanPhamTang = new List<BanHangDTO>(),
+                SanPhamDuocGiam = new List<DanhSachSanPhamDTO>()
+            };
 
             // 1. Lấy thông tin mã giảm giá
             var voucher = VoucherBUS.Instance.GetAllVouchersWithJoin()
@@ -125,18 +143,40 @@ namespace BUS
             int mavc = voucher.Field<int>("mavc");
             int? maloai = voucher.Field<int?>("maloai");
 
-            // 2. Kiểm tra sản phẩm mua có phù hợp
+            // 2. Lọc sản phẩm mua
             var danhSachMua = danhSachDaChon.Where(sp => !sp.LaSanPhamTang).ToList();
+
+            // 3. Kiểm tra sản phẩm phù hợp
+            bool coSanPhamPhuHop = false;
+            var sanPhamDuocGiam = new List<DanhSachSanPhamDTO>();
+
             if (maloai.HasValue)
             {
-                if (!KiemTraSanPhamPhuHopTheoLoai(danhSachMua, maloai.Value))
+                coSanPhamPhuHop = KiemTraSanPhamPhuHopTheoLoai(danhSachMua, maloai.Value);
+                if (coSanPhamPhuHop)
                 {
-                    result.Loi = "Mã giảm giá này không áp dụng cho dòng sản phẩm bạn đã chọn.";
-                    return result;
+                    sanPhamDuocGiam = danhSachMua.Where(sp => sp.Maloai == maloai.Value).ToList();
+                }
+            }
+            else
+            {
+                foreach (var sp in danhSachMua)
+                {
+                    if (VoucherBUS.Instance.CheckChiTietVoucher(mavc, sp.IdKcsp))
+                    {
+                        coSanPhamPhuHop = true;
+                        sanPhamDuocGiam.Add(sp);
+                    }
                 }
             }
 
-            // 3. Tính tổng tiền
+            if (!coSanPhamPhuHop)
+            {
+                result.Loi = "Mã giảm giá này không áp dụng cho sản phẩm bạn đã chọn.";
+                return result;
+            }
+
+            // 4. Kiểm tra điều kiện đơn hàng
             decimal tongTien = TinhTongTien(danhSachMua);
             result.TongTien = tongTien;
 
@@ -146,15 +186,23 @@ namespace BUS
                 return result;
             }
 
-            // 4. Áp dụng theo loại mã
+            // 5. Áp dụng mã theo loại
             switch (loaiVC)
             {
                 case 1: // Giảm theo %
                     result.TienGiam = tongTien * giatri / 100;
+                    result.SanPhamDuocGiam = sanPhamDuocGiam;
                     break;
 
                 case 3: // Giảm theo số tiền
                     result.TienGiam = giatri;
+
+                    if (sanPhamDuocGiam.Count > 0)
+                    {
+                        var sp = sanPhamDuocGiam.First();
+                        sp.TienGiam = giatri;   // ✅ gán giảm trực tiếp vào sản phẩm
+                        result.SanPhamDuocGiam = new List<DanhSachSanPhamDTO> { sp };
+                    }
                     break;
 
                 case 2: // Mua 1 tặng 1 cùng dòng
@@ -168,7 +216,7 @@ namespace BUS
                             TenSP = spTang.TenSP,
                             KichCo = spTang.KichCo,
                             GiaBan = 0,
-                            SoLuong = 1, // ✅ luôn tặng 1 sản phẩm
+                            SoLuong = 1,
                             LaSanPhamTang = true,
                             IdKcsp = spTang.IdKcsp,
                             Maloai = spTang.Maloai,
@@ -182,7 +230,7 @@ namespace BUS
                     break;
             }
 
-            // 5. Gán thông tin mã
+            // 6. Gán thông tin mã
             result.LoaiVC = loaiVC;
             result.GiaTri = giatri;
 
@@ -192,11 +240,15 @@ namespace BUS
         // Ghi hóa đơn, chi tiết, trừ tồn kho, áp mã giảm giá
         public int XuatHoaDon(int? makh, string mand, List<BanHangDTO> danhSachSanPham, int? maVoucher = null)
         {
-            decimal tongTien = danhSachSanPham
-                .Where(sp => !sp.LaSanPhamTang)
-                .Sum(sp => sp.SoLuong * sp.GiaBan);
+            decimal tongTienGoc = danhSachSanPham.Where(sp => !sp.LaSanPhamTang)
+                .Sum(sp => sp.GiaGoc * sp.SoLuong);
 
-            int mahd = dao.TaoHoaDon(makh, mand, tongTien);
+            decimal tongTienSauGiam = danhSachSanPham.Where(sp => !sp.LaSanPhamTang)
+                .Sum(sp => (sp.GiaGoc - sp.TienGiam) * sp.SoLuong);
+
+            decimal tienGiam = tongTienGoc - tongTienSauGiam;
+
+            int mahd = dao.TaoHoaDon(makh, mand, tongTienGoc, tienGiam, tongTienSauGiam);
 
             var danhSachGop = danhSachSanPham
                 .GroupBy(sp => sp.IdKcsp)
@@ -237,7 +289,7 @@ namespace BUS
             PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
             doc.Open();
 
-            // ✅ Nhúng font Unicode tiếng Việt
+            // Font tiếng Việt
             string fontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Fonts\times.ttf");
             fontPath = Path.GetFullPath(fontPath);
             if (!File.Exists(fontPath))
@@ -252,14 +304,13 @@ namespace BUS
             var fontNormal = new iTextSharp.text.Font(baseFont, 11, iTextSharp.text.Font.NORMAL);
 
             // Tiêu đề
-            Paragraph title = new Paragraph("HÓA ĐƠN BÁN HÀNG", fontTitle)
+            doc.Add(new Paragraph("HÓA ĐƠN BÁN HÀNG", fontTitle)
             {
                 Alignment = Element.ALIGN_CENTER,
                 SpacingAfter = 20
-            };
-            doc.Add(title);
+            });
 
-            // Thông tin cửa hàng và hóa đơn
+            // Thông tin hóa đơn
             doc.Add(new Paragraph("CỬA HÀNG CÀ PHÊ CF36", fontHeader));
             doc.Add(new Paragraph("Địa chỉ: TỊNH THẤT BỒNG LAI", fontNormal));
             doc.Add(new Paragraph("Điện thoại: 0999 999 999", fontNormal));
@@ -270,14 +321,11 @@ namespace BUS
             doc.Add(new Paragraph("Số điện thoại: " + hoaDon.SDTKH, fontNormal));
             doc.Add(new Paragraph(" "));
 
-            // Bảng sản phẩm chính
-            PdfPTable table = new PdfPTable(5)
-            {
-                WidthPercentage = 100
-            };
-            table.SetWidths(new float[] { 3, 1.2f, 1.5f, 1.2f, 1.5f });
+            // Bảng sản phẩm mua
+            PdfPTable table = new PdfPTable(7) { WidthPercentage = 100 };
+            table.SetWidths(new float[] { 3, 1.2f, 1.5f, 1.2f, 1.5f, 1.5f, 2 });
 
-            string[] headers = { "Tên sản phẩm", "Size", "Đơn giá", "Số lượng", "Thành tiền" };
+            string[] headers = { "Tên sản phẩm", "Size", "Giá gốc", "Số lượng", "Giá sau giảm", "Thành tiền", "Ghi chú" };
             foreach (var h in headers)
             {
                 PdfPCell cell = new PdfPCell(new Phrase(h, fontHeader))
@@ -288,22 +336,36 @@ namespace BUS
                 };
                 table.AddCell(cell);
             }
-
             foreach (var sp in danhSachSP.Where(sp => !sp.LaSanPhamTang))
             {
-                table.AddCell(new Phrase(sp.TenSP, fontNormal));
-                table.AddCell(new Phrase(sp.KichCo, fontNormal));
-                table.AddCell(new Phrase(sp.GiaBan.ToString("N0") + " đ", fontNormal));
-                table.AddCell(new Phrase(sp.SoLuong.ToString(), fontNormal));
-                table.AddCell(new Phrase((sp.GiaBan * sp.SoLuong).ToString("N0") + " đ", fontNormal));
-            }
+                table.AddCell(new Phrase(sp.TenSP, fontNormal));                        // 1. Tên sản phẩm
+                table.AddCell(new Phrase(sp.KichCo, fontNormal));                       // 2. Size
+                                                                                        // Đơn giá gốc
+                table.AddCell(new Phrase(sp.GiaGoc.ToString("N0") + " đ", fontNormal));
 
+                // Số lượng
+                table.AddCell(new Phrase(sp.SoLuong.ToString(), fontNormal));
+
+                // Giá sau giảm (nếu có)
+                decimal giaSauGiam = sp.GiaGoc - sp.TienGiam;
+                table.AddCell(new Phrase(giaSauGiam.ToString("N0") + " đ", fontNormal));
+
+                // Thành tiền
+                decimal thanhTien = giaSauGiam * sp.SoLuong;
+                table.AddCell(new Phrase(thanhTien.ToString("N0") + " đ", fontNormal));
+
+                // Ghi chú
+                string ghiChu = sp.TienGiam > 0
+                    ? $"Áp dụng mã {hoaDon.MaVoucher} (-{sp.TienGiam:N0} đ)"
+                    : "";
+                table.AddCell(new Phrase(ghiChu, fontNormal));
+
+            }
             doc.Add(table);
             doc.Add(new Paragraph(" "));
 
-            // ✅ Thông tin giảm giá
+            // Thông tin giảm giá
             doc.Add(new Paragraph("Tổng tiền gốc: " + hoaDon.TongTienGoc.ToString("N0") + " đ", fontNormal));
-
             if (!string.IsNullOrEmpty(hoaDon.MaVoucher))
             {
                 doc.Add(new Paragraph("Mã giảm giá: " + hoaDon.MaVoucher, fontNormal));
@@ -314,24 +376,20 @@ namespace BUS
                 doc.Add(new Paragraph("Tiền giảm: " + hoaDon.TienGiam.ToString("N0") + " đ", fontNormal));
             }
 
-            // ✅ Thành tiền sau giảm
-            Paragraph thanhTien = new Paragraph($"Thành tiền: {hoaDon.TongTien.ToString("N0")} đ", fontHeader)
+            // Thành tiền sau giảm
+            doc.Add(new Paragraph($"Thành tiền: {hoaDon.TongTien.ToString("N0")} đ", fontHeader)
             {
                 Alignment = Element.ALIGN_RIGHT,
                 SpacingBefore = 10,
                 SpacingAfter = 20
-            };
-            doc.Add(thanhTien);
+            });
 
-            // ✅ Sản phẩm tặng nếu có
+            // Sản phẩm tặng
             if (hoaDon.SanPhamTang != null && hoaDon.SanPhamTang.Count > 0)
             {
                 doc.Add(new Paragraph("🎁 Sản phẩm tặng theo mã voucher:", fontHeader));
 
-                PdfPTable tableTang = new PdfPTable(3)
-                {
-                    WidthPercentage = 100
-                };
+                PdfPTable tableTang = new PdfPTable(3) { WidthPercentage = 100 };
                 tableTang.SetWidths(new float[] { 3, 1.2f, 1.2f });
 
                 tableTang.AddCell(new Phrase("Tên sản phẩm", fontHeader));
@@ -362,13 +420,15 @@ namespace BUS
         {
             foreach (var sp in danhSachDaBan)
             {
+                int soLuongThucTe = sp.LaSanPhamTang ? 1 : sp.SoLuong;
+
                 int tonKhoHienTai = DanhSachSanPhamDAO.GetSoLuongTon(sp.IdKcsp);
 
-                if (tonKhoHienTai >= sp.SoLuong)
+                if (tonKhoHienTai >= soLuongThucTe)
                 {
-                    DanhSachSanPhamDAO.CapNhatSoLuongTon(sp.IdKcsp, -sp.SoLuong);
+                    DanhSachSanPhamDAO.CapNhatSoLuongTon(sp.IdKcsp, -soLuongThucTe);
 
-                    int tonMoi = tonKhoHienTai - sp.SoLuong;
+                    int tonMoi = tonKhoHienTai - soLuongThucTe;
                     if (tonMoi <= 0)
                     {
                         DanhSachSanPhamDAO.KhoaSanPham(sp.IdKcsp);
@@ -378,7 +438,7 @@ namespace BUS
                 {
                     MessageBox.Show(
                         $"❌ Không đủ tồn kho cho sản phẩm: {sp.TenSP} - Size {sp.KichCo}\n" +
-                        $"Tồn kho hiện tại: {tonKhoHienTai}, cần: {sp.SoLuong}",
+                        $"Tồn kho hiện tại: {tonKhoHienTai}, cần: {soLuongThucTe}",
                         "Thiếu hàng", MessageBoxButtons.OK, MessageBoxIcon.Warning
                     );
                 }
@@ -389,6 +449,14 @@ namespace BUS
             return BanHangDAO.Instance.LayTatCaSanPham();
         }
 
+        public List<BanHangDTO> SearchSanPham(string searchType, string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return BanHangDAO.Instance.LayTatCaSanPham();
+            }
+            return BanHangDAO.Instance.TimKiemSanPham(searchType, searchTerm);
+        }
 
     }
 }

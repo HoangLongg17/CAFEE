@@ -14,6 +14,6 @@ namespace DTO
         public decimal GiaTri { get; set; }
         public List<BanHangDTO> SanPhamTang { get; set; }
         public string Loi { get; set; } // nếu có lỗi thì gán vào đây
-
+        public List<DanhSachSanPhamDTO> SanPhamDuocGiam { get; set; } = new List<DanhSachSanPhamDTO>();
     }
 }

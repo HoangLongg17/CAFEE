@@ -21,5 +21,7 @@ namespace DTO
         public string TenLoai { get; set; }
         public string TrangThaiText { get; set; }
         public string MaSanPhamGoc { get; set; }
+        public decimal GiaGoc { get; set; } // giá gốc chưa giảm
+        public decimal TienGiam { get; set; } // số tiền giảm cho sản phẩm này
     }
 }

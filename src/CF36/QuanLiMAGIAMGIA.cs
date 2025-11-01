@@ -39,6 +39,7 @@ namespace CF36
         }
         public void LoadVouchers()
         {
+
             DataTable dt = VoucherBUS.Instance.GetAllVouchersWithJoin();
             dgvMaGiamGia.DataSource = dt;
             SetAllColumnHeaders();
@@ -133,8 +134,10 @@ namespace CF36
             SetColumnHeader("Maloaivc", "Loại mã");
             SetColumnHeader("maloai", "Mã loại sản phẩm mua");
             SetColumnHeader("TenLoaiVouCher", "Tên loại mã giảm giá");
-            SetColumnHeader("TenLoaiSanPhamApDung", "Loại SP áp dụng");
-            SetColumnHeader("TenLoaiSanPhamTang", "Loại SP tặng");
+            SetColumnHeader("TenLoaiSanPhamApDung", "Loại Sản phẩm áp dụng");
+            SetColumnHeader("TenLoaiSanPhamTang", "Loại Sản phẩm tặng");
+            SetColumnHeader("SanPhamApDung", "Sản phẩm áp dụng");
+            SetColumnHeader("SanPhamTang", "Sản phẩm tặng");
         }
         private void cbbLoaiVoucher_SelectedIndexChanged(object sender, EventArgs e)
         {

@@ -66,11 +66,10 @@ namespace DAO
         public bool AddVoucherChiTiet(int mavc, int idkcsp)
         {
             string query = "INSERT INTO CHITIETVC (Mavc, Idkcsp) VALUES (@Mavc, @Idkcsp)";
-            SqlParameter[] parameters = new SqlParameter[]
-            {
+            SqlParameter[] parameters = {
         new SqlParameter("@Mavc", mavc),
         new SqlParameter("@Idkcsp", idkcsp)
-            };
+    };
             return provider.ExecuteNonQuery(query, parameters) > 0;
         }
 
@@ -117,69 +116,85 @@ namespace DAO
         public DataTable GetAllVouchersWithJoin()
         {
             string query = @"
-        SELECT 
-        v.Mavc,
-        v.Code,
-        v.TenMaGiamGia, -- ✅ thêm dòng này
-        v.Giatri,
-        v.Ngaybd,
-        v.Ngaykt,
-        v.DieuKien,
-        v.Maloaivc,
-        kv.Tenloai AS TenLoaiVoucher,
-        v.maloai,
-        lsp_mua.tenloai AS TenLoaiSanPhamApDung,
-        lsp_tang.TenLoaiSanPhamTang
-        FROM VOUCHER v
-        JOIN KIEUVC kv ON v.Maloaivc = kv.Maloaivc
-        LEFT JOIN LOAISP lsp_mua ON v.maloai = lsp_mua.maloai
-        LEFT JOIN (
-        SELECT vc.Mavc, MIN(lsp.tenloai) AS TenLoaiSanPhamTang
-        FROM CHITIETVC ct
-        JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
-        JOIN SANPHAM sp ON kc.masp = sp.masp
-        JOIN LOAISP lsp ON sp.maloai = lsp.maloai
-        JOIN VOUCHER vc ON ct.Mavc = vc.Mavc
-        GROUP BY vc.Mavc
-        ) lsp_tang ON v.Mavc = lsp_tang.Mavc
-        ";
+            SELECT 
+            vc.Mavc,
+            vc.Code,
+            vc.TenMaGiamGia,
+            vc.Giatri,
+            vc.Ngaybd,
+            vc.Ngaykt,
+            vc.DieuKien,
+            vc.Maloaivc,
+            vc.maloai,
+            lv.Tenloai AS TenLoaiVouCher,
+            lsp.Tenloai AS TenLoaiSanPhamApDung,
+
+            CASE 
+                WHEN vc.Maloaivc IN (1, 3) THEN sp.tensp + ' - ' + kcinfo.kichco
+                ELSE NULL
+            END AS SanPhamApDung,
+
+            CASE 
+                WHEN vc.Maloaivc IN (2, 4) THEN sp.tensp + ' - ' + kcinfo.kichco
+                ELSE NULL
+            END AS SanPhamTang
+
+            FROM VOUCHER vc
+            LEFT JOIN KIEUVC lv ON vc.Maloaivc = lv.Maloaivc
+            LEFT JOIN LOAISP lsp ON vc.maloai = lsp.maloai
+            LEFT JOIN CHITIETVC ct ON vc.Mavc = ct.Mavc
+            LEFT JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
+            LEFT JOIN KICHCO kcinfo ON kc.makichco = kcinfo.makichco
+            LEFT JOIN SANPHAM sp ON kc.masp = sp.masp
+            ";
 
             return provider.ExecuteQuery(query);
-
+        }
+        public bool CheckChiTietVoucher(int mavc, int idkcsp)
+        {
+            string query = "SELECT COUNT(*) FROM CHITIETVC WHERE Mavc = @Mavc AND Idkcsp = @Idkcsp";
+            SqlParameter[] parameters = {
+            new SqlParameter("@Mavc", mavc),
+            new SqlParameter("@Idkcsp", idkcsp)
+            };
+            int count = (int)provider.ExecuteScalar(query, parameters);
+            return count > 0;
         }
         public DataTable GetVouchersByTypeWithJoin(int maloaivc)
         {
             string query = @"
             SELECT 
-            v.Mavc,
-            v.Code,
-            v.TenMaGiamGia, -- ✅ thêm dòng này
-            v.Giatri,
-            v.Ngaybd,
-            v.Ngaykt,
-            v.DieuKien,
-            v.Maloaivc,
-            kv.Tenloai AS TenLoaiVoucher,
-            v.maloai,
-            lsp_mua.tenloai AS TenLoaiSanPhamApDung,
-            lsp_tang.TenLoaiSanPhamTang
-            FROM VOUCHER v
-            JOIN KIEUVC kv ON v.Maloaivc = kv.Maloaivc
-            LEFT JOIN LOAISP lsp_mua ON v.maloai = lsp_mua.maloai
-            LEFT JOIN (
-            SELECT vc.Mavc, MIN(lsp.tenloai) AS TenLoaiSanPhamTang
-            FROM CHITIETVC ct
-            JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
-            JOIN SANPHAM sp ON kc.masp = sp.masp
-            JOIN LOAISP lsp ON sp.maloai = lsp.maloai
-            JOIN VOUCHER vc ON ct.Mavc = vc.Mavc
-            GROUP BY vc.Mavc
-            ) lsp_tang ON v.Mavc = lsp_tang.Mavc
-            WHERE v.Maloaivc = @Maloaivc";
+            vc.Mavc,
+            vc.Code,
+            vc.TenMaGiamGia,
+            vc.Giatri,
+            vc.Ngaybd,
+            vc.Ngaykt,
+            vc.DieuKien,
+            vc.Maloaivc,
+            vc.maloai,
+            lv.Tenloai AS TenLoaiVouCher,
+            lsp.Tenloai AS TenLoaiSanPhamApDung,
+            CASE 
+                WHEN vc.Maloaivc IN (1, 3) THEN sp.tensp + ' - ' + kcinfo.kichco
+                ELSE NULL
+            END AS SanPhamApDung,
+            CASE 
+                WHEN vc.Maloaivc IN (2, 4) THEN sp.tensp + ' - ' + kcinfo.kichco
+                ELSE NULL
+            END AS SanPhamTang
+            FROM VOUCHER vc
+            LEFT JOIN KIEUVC lv ON vc.Maloaivc = lv.Maloaivc
+            LEFT JOIN LOAISP lsp ON vc.maloai = lsp.maloai
+            LEFT JOIN CHITIETVC ct ON vc.Mavc = ct.Mavc
+            LEFT JOIN KICHCOSP kc ON ct.Idkcsp = kc.Id
+            LEFT JOIN KICHCO kcinfo ON kc.makichco = kcinfo.makichco
+            LEFT JOIN SANPHAM sp ON kc.masp = sp.masp
+            WHERE vc.Maloaivc = @maloaivc";
 
             SqlParameter[] parameters = {
-        new SqlParameter("@Maloaivc", maloaivc)
-        };
+            new SqlParameter("@maloaivc", maloaivc)
+            };
 
             return provider.ExecuteQuery(query, parameters);
         }

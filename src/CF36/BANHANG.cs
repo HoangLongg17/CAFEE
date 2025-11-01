@@ -42,7 +42,7 @@ namespace CF36
 
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
-            List<DanhSachSanPhamDTO> danhSachMua = LaySanPhamTuGiaoDien();
+            var danhSachMua = LaySanPhamTuGiaoDien();
             if (danhSachMua == null || danhSachMua.Count == 0)
             {
                 MessageBox.Show("Bạn chưa chọn sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -54,11 +54,13 @@ namespace CF36
                 MessageBox.Show("Không xác định được nhân viên. Vui lòng đăng nhập lại.");
                 return;
             }
-            ThanhToan formTT = new ThanhToan(danhSachMua, maND, maKH, maVoucherId, maVoucherCode, ketQuaGiamGia);
+
+            var formTT = new ThanhToan(danhSachMua, maND, maKH, maVoucherId, maVoucherCode, ketQuaGiamGia);
             formTT.SetMaKH(maKH);
             formTT.SoDienThoai = txtTimKhachHang.Text;
             formTT.TenKhachHang = KhachHangBUS.LayTenKhachHangTheoSDT(txtTimKhachHang.Text);
             formTT.Show();
+
         }
 
         private void BANHANG_Load(object sender, EventArgs e)
@@ -95,7 +97,7 @@ namespace CF36
             {
                 flpSanPham.Controls.Clear();
 
-                var danhSach = banHangBUS.LayTatCa();
+                var danhSach = banHangBUS.SearchSanPham(searchType, searchTerm);
 
                 var nhomSanPham = danhSach
                     .GroupBy(sp => new { sp.TenSP, sp.DuongDanAnh })
@@ -109,7 +111,7 @@ namespace CF36
 
                     Panel p = new Panel
                     {
-                        Size = new Size(180, 240),
+                        Size = new Size(300, 240),
                         Margin = new Padding(10),
                         BorderStyle = BorderStyle.FixedSingle,
                         BackColor = Color.White
@@ -146,9 +148,12 @@ namespace CF36
                     FlowLayoutPanel pnlSizes = new FlowLayoutPanel
                     {
                         Location = new Point(5, 160),
-                        Size = new Size(170, 70),
+                        AutoSize = true,                          // ✅ tự co giãn theo nội dung
+                        AutoSizeMode = AutoSizeMode.GrowAndShrink,
                         FlowDirection = FlowDirection.LeftToRight,
-                        WrapContents = true
+                        WrapContents = true,
+                        Margin = new Padding(0)
+
                     };
 
                     foreach (var sp in group)
@@ -156,14 +161,17 @@ namespace CF36
                         Button btnSize = new Button
                         {
                             Text = $"{sp.KichCo} - {sp.GiaBan:N0}đ",
-                            AutoSize = true,
+                            AutoSize = true,                          // ✅ tự co theo nội dung
+                            AutoSizeMode = AutoSizeMode.GrowAndShrink,
                             Height = 25,
                             Font = new Font("Segoe UI", 8, FontStyle.Regular),
                             Tag = sp,
                             FlatStyle = FlatStyle.Flat,
                             BackColor = Color.Beige,
                             Margin = new Padding(3)
+
                         };
+
                         btnSize.FlatAppearance.BorderSize = 1;
 
                         btnSize.Click += (s, e) => XuLyChonSanPham(sp);
@@ -187,6 +195,7 @@ namespace CF36
         }
         private void XuLyChonSanPham(BanHangDTO sp)
         {
+            sp.GiaGoc = sp.GiaBan; //lưu giá gốc ban đầu
             if (sp.SoLuongTon == 0)
             {
                 MessageBox.Show("❌ Sản phẩm đã hết hàng. Không thể mua.",
@@ -233,10 +242,9 @@ namespace CF36
 
         private void ThemSanPhamVaoFlow(BanHangDTO sp, int soLuong)
         {
-            // 🔍 Kiểm tra sản phẩm đã tồn tại chưa
             foreach (Control ctrl in fLPSanPhamDaChon.Controls)
             {
-                if (ctrl is Panel existingPanel && existingPanel.Tag is DanhSachSanPhamDTO existingSp)
+                if (ctrl is Panel existingPanel && existingPanel.Tag is BanHangDTO existingSp)
                 {
                     if (existingSp.MaSP == sp.MaSP && existingSp.KichCo == sp.KichCo)
                     {
@@ -248,7 +256,7 @@ namespace CF36
                             int oldSL = int.Parse(lblSL.Text.Replace("Số lượng:", "").Trim());
                             int newSL = oldSL + soLuong;
                             lblSL.Text = $"Số lượng: {newSL}";
-                            lblTong.Text = $"Tổng: {(sp.GiaBan * newSL):N0} đ";
+                            lblTong.Text = $"Tổng: {(existingSp.GiaBan * newSL):N0} đ";
 
                             existingSp.SoLuong = newSL; // ✅ Cập nhật lại số lượng trong Tag
                             existingPanel.BackColor = Color.LightGreen;
@@ -341,11 +349,9 @@ namespace CF36
             {
                 fLPSanPhamDaChon.Controls.Remove(newPanel);
 
-                // ✅ Xóa toàn bộ sản phẩm tặng (vì chỉ có 1 sản phẩm tặng duy nhất)
                 var panelsToRemove = fLPSanPhamDaChon.Controls.OfType<Panel>()
-                    .Where(p => p.Tag is DanhSachSanPhamDTO spTang && spTang.LaSanPhamTang)
+                    .Where(p => p.Tag is BanHangDTO spTang && spTang.LaSanPhamTang)
                     .ToList();
-
                 foreach (var p in panelsToRemove)
                 {
                     fLPSanPhamDaChon.Controls.Remove(p);
@@ -426,12 +432,15 @@ namespace CF36
                             KichCo = sp.KichCo,
                             SoLuong = sp.SoLuong,
                             GiaBan = sp.GiaBan,
+                            GiaGoc = sp.GiaGoc,
+                            TienGiam = sp.TienGiam,
                             SoLuongTon = sp.SoLuongTon,
                             DuongDanAnh = sp.DuongDanAnh,
                             Maloai = sp.Maloai,
                             TenLoai = sp.TenLoai,
                             TrangThaiText = sp.TrangThaiText,
-                            LaSanPhamTang = sp.LaSanPhamTang
+                            LaSanPhamTang = sp.LaSanPhamTang,
+                            MaSanPhamGoc = sp.MaSanPhamGoc
                         };
                     }
                     else
@@ -439,7 +448,7 @@ namespace CF36
                         return (DanhSachSanPhamDTO)tag;
                     }
                 })
-                .Where(sp => sp.IdKcsp > 0)
+                .Where(sp => sp != null && sp.IdKcsp > 0)
                 .ToList();
         }
 
