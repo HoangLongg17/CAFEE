@@ -34,14 +34,20 @@ namespace BUS
         // (BỔ SUNG HÀM 1) Lấy DTO đầy đủ cho form chi tiết
         public HoaDonDayDuDTO GetHoaDonDayDu(int maHD)
         {
-            // 1. Lấy thông tin cơ bản (Khách hàng, Nhân viên, Tổng tiền)
+            // 1. Lấy thông tin cơ bản
             HoaDonDayDuDTO dto = lichSuDAO.GetThongTinCoBanHD(maHD);
             if (dto == null) return null;
 
-            // 2. Lấy danh sách các món hàng (Tái sử dụng hàm cũ)
+            // 2. (SỬA) Lấy danh sách món BÁN (từ CHITIETHD)
             dto.Items = lichSuDAO.GetChiTietHoaDon(maHD);
 
-            // 3. Lấy danh sách voucher đã áp dụng
+            // 3. (BỔ SUNG) Lấy danh sách món TẶNG (từ CHITIETVC)
+            List<ChiTietLichSuDTO> itemsTang = lichSuDAO.GetChiTietVoucherTang(maHD);
+
+            // Gộp 2 danh sách lại
+            dto.Items.AddRange(itemsTang);
+
+            // 4. Lấy danh sách voucher
             dto.VouchersSuDung = lichSuDAO.GetVouchersSuDung(maHD);
 
             return dto;
