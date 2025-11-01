@@ -171,7 +171,7 @@ namespace CF36
                 if (NhanVienBUS.XoaNV(maNhanVienCanXoa))
                 {
                     MessageBox.Show("Xóa nhân viên thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadDanhSachNhanVien(); 
+                    LoadDanhSachNhanVien();
                 }
                 else
                 {
@@ -179,7 +179,8 @@ namespace CF36
                 }
             }
         }
-        private void btnQuayLai_Click(object sender, EventArgs e)
+
+        private void btnXoa_Click(object sender, EventArgs e)
         {
             if (dgvNhanVien.SelectedRows.Count == 0)
             {
