@@ -25,14 +25,14 @@ namespace BUS
         // Tính tổng tiền đơn hàng (không tính sản phẩm tặng)
         public decimal TinhTongTien(List<DanhSachSanPhamDTO> danhSach)
         {
-            return danhSach.Where(sp => !sp.LaSanPhamTang)
-                           .Sum(sp => sp.GiaBan * sp.SoLuong);
+            return danhSach
+                .Where(sp => !sp.LaSanPhamTang)
+                .Sum(sp => (sp.GiaGoc * sp.SoLuong) - sp.TienGiam);
         }
-
         // Tính tiền sau khi giảm
         public decimal TinhTienSauGiam(decimal tongTien, decimal giamGia)
         {
-            return tongTien - giamGia;
+            return Math.Max(0, tongTien - giamGia);
         }
 
         public List<DanhSachSanPhamDTO> LaySanPhamTang(int mavc, int maloaiGoc, string maSanPhamGoc, int soLuongMua, int loaiVC)
@@ -126,7 +126,6 @@ namespace BUS
                 SanPhamDuocGiam = new List<DanhSachSanPhamDTO>()
             };
 
-            // 1. Lấy thông tin mã giảm giá
             var voucher = VoucherBUS.Instance.GetAllVouchersWithJoin()
                 .AsEnumerable()
                 .FirstOrDefault(row => row.Field<string>("code") == code);
@@ -139,30 +138,25 @@ namespace BUS
 
             int loaiVC = voucher.Field<int>("maloaivc");
             decimal? dieuKien = voucher["DieuKien"] != DBNull.Value ? Convert.ToDecimal(voucher["DieuKien"]) : (decimal?)null;
-            decimal giatri = voucher.Field<decimal>("giatri");
-            int mavc = voucher.Field<int>("mavc");
-            int? maloai = voucher.Field<int?>("maloai");
+            decimal giaTri = voucher.Field<decimal>("giatri");
+            int maVC = voucher.Field<int>("mavc");
+            int? maLoai = voucher.Field<int?>("maloai");
 
-            // 2. Lọc sản phẩm mua
             var danhSachMua = danhSachDaChon.Where(sp => !sp.LaSanPhamTang).ToList();
-
-            // 3. Kiểm tra sản phẩm phù hợp
-            bool coSanPhamPhuHop = false;
             var sanPhamDuocGiam = new List<DanhSachSanPhamDTO>();
+            bool coSanPhamPhuHop = false;
 
-            if (maloai.HasValue)
+            if (maLoai.HasValue)
             {
-                coSanPhamPhuHop = KiemTraSanPhamPhuHopTheoLoai(danhSachMua, maloai.Value);
+                coSanPhamPhuHop = KiemTraSanPhamPhuHopTheoLoai(danhSachMua, maLoai.Value);
                 if (coSanPhamPhuHop)
-                {
-                    sanPhamDuocGiam = danhSachMua.Where(sp => sp.Maloai == maloai.Value).ToList();
-                }
+                    sanPhamDuocGiam = danhSachMua.Where(sp => sp.Maloai == maLoai.Value).ToList();
             }
             else
             {
                 foreach (var sp in danhSachMua)
                 {
-                    if (VoucherBUS.Instance.CheckChiTietVoucher(mavc, sp.IdKcsp))
+                    if (VoucherBUS.Instance.CheckChiTietVoucher(maVC, sp.IdKcsp))
                     {
                         coSanPhamPhuHop = true;
                         sanPhamDuocGiam.Add(sp);
@@ -176,38 +170,59 @@ namespace BUS
                 return result;
             }
 
-            // 4. Kiểm tra điều kiện đơn hàng
-            decimal tongTien = TinhTongTien(danhSachMua);
-            result.TongTien = tongTien;
+            decimal tongTienGoc = danhSachMua.Sum(sp => sp.GiaGoc * sp.SoLuong);
+            result.TongTien = tongTienGoc;
 
-            if (tongTien < dieuKien)
+            if (dieuKien.HasValue && tongTienGoc < dieuKien.Value)
             {
-                result.Loi = "Đơn hàng chưa đạt điều kiện tối thiểu để áp dụng mã giảm giá.";
+                result.Loi = $"Đơn hàng chưa đạt điều kiện tối thiểu {dieuKien:N0} đ để áp dụng mã giảm giá.";
                 return result;
             }
 
-            // 5. Áp dụng mã theo loại
             switch (loaiVC)
             {
                 case 1: // Giảm theo %
-                    result.TienGiam = tongTien * giatri / 100;
-                    result.SanPhamDuocGiam = sanPhamDuocGiam;
-                    break;
+                    decimal tongTienApDung = sanPhamDuocGiam.Sum(sp => sp.GiaGoc * sp.SoLuong);
+                    decimal tienGiam = tongTienApDung * giaTri / 100;
+                    result.TienGiam = tienGiam;
 
-                case 3: // Giảm theo số tiền
-                    result.TienGiam = giatri;
-
-                    if (sanPhamDuocGiam.Count > 0)
+                    foreach (var sp in sanPhamDuocGiam)
                     {
-                        var sp = sanPhamDuocGiam.First();
-                        sp.TienGiam = giatri;   // ✅ gán giảm trực tiếp vào sản phẩm
-                        result.SanPhamDuocGiam = new List<DanhSachSanPhamDTO> { sp };
+                        decimal tiLe = (sp.GiaGoc * sp.SoLuong) / tongTienApDung;
+                        decimal giamChoSP = Math.Round(tienGiam * tiLe, 0);
+                        sp.TienGiam = Math.Min(sp.GiaGoc * sp.SoLuong, giamChoSP);
+                        sp.GiaBan = sp.SoLuong > 0
+                            ? Math.Round((sp.GiaGoc * sp.SoLuong - sp.TienGiam) / sp.SoLuong, 0)
+                            : sp.GiaGoc;
+                        result.SanPhamDuocGiam.Add(sp);
                     }
                     break;
 
-                case 2: // Mua 1 tặng 1 cùng dòng
-                case 4: // Mua 1 tặng 1 bất kỳ
-                    var dsTang = LaySanPhamTang(mavc, maloai ?? 0, "", 1, loaiVC);
+                case 3: // Giảm theo số tiền
+                    decimal giamToiDa = giaTri;
+                    decimal daGiam = 0;
+
+                    foreach (var sp in sanPhamDuocGiam)
+                    {
+                        decimal tienGoc = sp.GiaGoc * sp.SoLuong;
+                        decimal tienGiamConLai = giamToiDa - daGiam;
+                        if (tienGiamConLai <= 0) break;
+
+                        decimal giamChoSP = Math.Min(tienGoc, tienGiamConLai);
+                        sp.TienGiam = giamChoSP;
+                        sp.GiaBan = sp.SoLuong > 0
+                            ? Math.Round((sp.GiaGoc * sp.SoLuong - sp.TienGiam) / sp.SoLuong, 0)
+                            : sp.GiaGoc;
+                        daGiam += giamChoSP;
+                        result.SanPhamDuocGiam.Add(sp);
+                    }
+
+                    result.TienGiam = daGiam;
+                    break;
+
+                case 2:
+                case 4:
+                    var dsTang = LaySanPhamTang(maVC, maLoai ?? 0, "", 1, loaiVC);
                     foreach (var spTang in dsTang)
                     {
                         result.SanPhamTang.Add(new BanHangDTO
@@ -230,13 +245,10 @@ namespace BUS
                     break;
             }
 
-            // 6. Gán thông tin mã
             result.LoaiVC = loaiVC;
-            result.GiaTri = giatri;
-
+            result.GiaTri = giaTri;
             return result;
         }
-
         // Ghi hóa đơn, chi tiết, trừ tồn kho, áp mã giảm giá
         public int XuatHoaDon(int? makh, string mand, List<BanHangDTO> danhSachSanPham, int? maVoucher = null)
         {
@@ -260,7 +272,7 @@ namespace BUS
                     LaSanPhamTang = g.Key.LaSanPhamTang,
                     SoLuong = g.Key.LaSanPhamTang ? 1 : g.Sum(x => x.SoLuong),
                     MaSP = g.First().MaSP,
-                    GiaBan = g.First().GiaBan,
+                    GiaBan = g.Sum(x => x.GiaBan * x.SoLuong) / g.Sum(x => x.SoLuong),
                     Maloai = g.First().Maloai,
                     MaSanPhamGoc = g.First().MaSanPhamGoc,
                     SoLuongTon = g.First().SoLuongTon,
@@ -283,7 +295,6 @@ namespace BUS
 
             return mahd;
         }
-        // Xuất hóa đơn ra file PDF
         public void XuatHoaDonPDF(HoaDonDTO hoaDon, List<DanhSachSanPhamDTO> danhSachSP, string filePath)
         {
             Document doc = new Document(PageSize.A4, 40, 40, 60, 50);
@@ -323,10 +334,10 @@ namespace BUS
             doc.Add(new Paragraph(" "));
 
             // Bảng sản phẩm mua
-            PdfPTable table = new PdfPTable(7) { WidthPercentage = 100 };
-            table.SetWidths(new float[] { 3, 1.2f, 1.5f, 1.2f, 1.5f, 1.5f, 2 });
+            PdfPTable table = new PdfPTable(6) { WidthPercentage = 100 };
+            table.SetWidths(new float[] { 3, 1.2f, 1.5f, 1.2f, 1.5f, 2 });
 
-            string[] headers = { "Tên sản phẩm", "Size", "Giá gốc", "Số lượng", "Giá sau giảm", "Thành tiền", "Ghi chú" };
+            string[] headers = { "Tên sản phẩm", "Size", "Giá gốc", "Số lượng", "Thành tiền", "Ghi chú" };
             foreach (var h in headers)
             {
                 PdfPCell cell = new PdfPCell(new Phrase(h, fontHeader))
@@ -337,31 +348,25 @@ namespace BUS
                 };
                 table.AddCell(cell);
             }
+
             foreach (var sp in danhSachSP.Where(sp => !sp.LaSanPhamTang))
             {
-                table.AddCell(new Phrase(sp.TenSP, fontNormal));                        // 1. Tên sản phẩm
-                table.AddCell(new Phrase(sp.KichCo, fontNormal));                       // 2. Size
-                                                                                        // Đơn giá gốc
-                table.AddCell(new Phrase(sp.GiaGoc.ToString("N0") + " đ", fontNormal));
+                table.AddCell(new Phrase(sp.TenSP, fontNormal));                        // Tên sản phẩm
+                table.AddCell(new Phrase(sp.KichCo, fontNormal));                       // Size
+                table.AddCell(new Phrase(sp.GiaGoc.ToString("N0") + " đ", fontNormal)); // Giá gốc
+                table.AddCell(new Phrase(sp.SoLuong.ToString(), fontNormal));          // Số lượng
 
-                // Số lượng
-                table.AddCell(new Phrase(sp.SoLuong.ToString(), fontNormal));
-
-                // Giá sau giảm (nếu có)
-                decimal giaSauGiam = sp.GiaGoc - sp.TienGiam;
-                table.AddCell(new Phrase(giaSauGiam.ToString("N0") + " đ", fontNormal));
-
-                // Thành tiền
-                decimal thanhTien = giaSauGiam * sp.SoLuong;
+                // Thành tiền sau giảm
+                decimal thanhTien = sp.GiaGoc * sp.SoLuong - sp.TienGiam;
                 table.AddCell(new Phrase(thanhTien.ToString("N0") + " đ", fontNormal));
 
-                // Ghi chú
+                // Ghi chú giảm giá
                 string ghiChu = sp.TienGiam > 0
                     ? $"Áp dụng mã {hoaDon.MaVoucher} (-{sp.TienGiam:N0} đ)"
                     : "";
                 table.AddCell(new Phrase(ghiChu, fontNormal));
-
             }
+
             doc.Add(table);
             doc.Add(new Paragraph(" "));
 

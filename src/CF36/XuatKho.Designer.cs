@@ -30,40 +30,27 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            panel2 = new Panel();
             tlpThongtin = new TableLayoutPanel();
             lbChonSanPham = new Label();
             txtSoLuong = new TextBox();
             lbxuatSoLuong = new Label();
             txtTimKiem = new TextBox();
-            panel3 = new Panel();
             dgvxuatkho = new DataGridView();
             MaSP = new DataGridViewTextBoxColumn();
             TenSP = new DataGridViewTextBoxColumn();
             Size = new DataGridViewTextBoxColumn();
             SoLuong = new DataGridViewTextBoxColumn();
-            panel1 = new Panel();
-            picLogo = new PictureBox();
+            tlpall = new TableLayoutPanel();
+            piclogo = new PictureBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             btnXuat = new Button();
             btnThoat = new Button();
-            panel2.SuspendLayout();
             tlpThongtin.SuspendLayout();
-            panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvxuatkho).BeginInit();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
+            tlpall.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)piclogo).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // panel2
-            // 
-            panel2.Controls.Add(tlpThongtin);
-            panel2.Location = new Point(3, 97);
-            panel2.Margin = new Padding(3, 4, 3, 4);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(775, 109);
-            panel2.TabIndex = 1;
             // 
             // tlpThongtin
             // 
@@ -71,27 +58,23 @@
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpThongtin.Controls.Add(lbChonSanPham, 0, 0);
-            tlpThongtin.Controls.Add(txtTimKiem, 0, 1);
-            tlpThongtin.Controls.Add(lbxuatSoLuong, 1, 0);
             tlpThongtin.Controls.Add(txtSoLuong, 1, 1);
+            tlpThongtin.Controls.Add(lbxuatSoLuong, 1, 0);
+            tlpThongtin.Controls.Add(txtTimKiem, 0, 1);
             tlpThongtin.Dock = DockStyle.Fill;
-            tlpThongtin.Location = new Point(0, 0);
+            tlpThongtin.Location = new Point(3, 106);
             tlpThongtin.Name = "tlpThongtin";
             tlpThongtin.RowCount = 2;
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 20.930233F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 28.125F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 23.4375F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 27.1929817F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
-            tlpThongtin.Size = new Size(775, 109);
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 42.6666641F));
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 57.3333359F));
+            tlpThongtin.Size = new Size(813, 73);
             tlpThongtin.TabIndex = 2;
             // 
             // lbChonSanPham
             // 
             lbChonSanPham.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lbChonSanPham.AutoSize = true;
-            lbChonSanPham.Location = new Point(3, 26);
+            lbChonSanPham.Location = new Point(3, 11);
             lbChonSanPham.Name = "lbChonSanPham";
             lbChonSanPham.Size = new Size(142, 20);
             lbChonSanPham.TabIndex = 2;
@@ -99,7 +82,7 @@
             // 
             // txtSoLuong
             // 
-            txtSoLuong.Location = new Point(390, 49);
+            txtSoLuong.Location = new Point(409, 34);
             txtSoLuong.Name = "txtSoLuong";
             txtSoLuong.Size = new Size(382, 27);
             txtSoLuong.TabIndex = 4;
@@ -108,7 +91,7 @@
             // 
             lbxuatSoLuong.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lbxuatSoLuong.AutoSize = true;
-            lbxuatSoLuong.Location = new Point(390, 26);
+            lbxuatSoLuong.Location = new Point(409, 11);
             lbxuatSoLuong.Name = "lbxuatSoLuong";
             lbxuatSoLuong.Size = new Size(129, 20);
             lbxuatSoLuong.TabIndex = 5;
@@ -116,23 +99,13 @@
             // 
             // txtTimKiem
             // 
-            txtTimKiem.Location = new Point(3, 49);
+            txtTimKiem.Location = new Point(3, 34);
             txtTimKiem.Name = "txtTimKiem";
             txtTimKiem.Size = new Size(380, 27);
             txtTimKiem.TabIndex = 3;
             // 
-            // panel3
-            // 
-            panel3.Controls.Add(dgvxuatkho);
-            panel3.Location = new Point(3, 203);
-            panel3.Margin = new Padding(3, 4, 3, 4);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(775, 304);
-            panel3.TabIndex = 2;
-            // 
             // dgvxuatkho
             // 
-            dgvxuatkho.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
@@ -152,13 +125,13 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvxuatkho.DefaultCellStyle = dataGridViewCellStyle2;
             dgvxuatkho.Dock = DockStyle.Fill;
-            dgvxuatkho.Location = new Point(0, 0);
+            dgvxuatkho.Location = new Point(3, 186);
             dgvxuatkho.Margin = new Padding(3, 4, 3, 4);
             dgvxuatkho.Name = "dgvxuatkho";
             dgvxuatkho.ReadOnly = true;
             dgvxuatkho.RowHeadersWidth = 51;
             dgvxuatkho.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvxuatkho.Size = new Size(775, 304);
+            dgvxuatkho.Size = new Size(813, 421);
             dgvxuatkho.TabIndex = 0;
             dgvxuatkho.CellContentClick += dgvxuatkho_CellContentClick;
             // 
@@ -169,6 +142,7 @@
             MaSP.MinimumWidth = 6;
             MaSP.Name = "MaSP";
             MaSP.ReadOnly = true;
+            MaSP.Width = 181;
             // 
             // TenSP
             // 
@@ -177,6 +151,7 @@
             TenSP.MinimumWidth = 6;
             TenSP.Name = "TenSP";
             TenSP.ReadOnly = true;
+            TenSP.Width = 180;
             // 
             // Size
             // 
@@ -185,6 +160,7 @@
             Size.MinimumWidth = 6;
             Size.Name = "Size";
             Size.ReadOnly = true;
+            Size.Width = 181;
             // 
             // SoLuong
             // 
@@ -193,59 +169,68 @@
             SoLuong.MinimumWidth = 6;
             SoLuong.Name = "SoLuong";
             SoLuong.ReadOnly = true;
+            SoLuong.Width = 180;
             // 
-            // panel1
+            // tlpall
             // 
-            panel1.Controls.Add(picLogo);
-            panel1.Location = new Point(3, 1);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(775, 89);
-            panel1.TabIndex = 4;
+            tlpall.ColumnCount = 1;
+            tlpall.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlpall.Controls.Add(piclogo, 0, 0);
+            tlpall.Controls.Add(tlpThongtin, 0, 1);
+            tlpall.Controls.Add(dgvxuatkho, 0, 2);
+            tlpall.Controls.Add(tableLayoutPanel1, 0, 3);
+            tlpall.Dock = DockStyle.Fill;
+            tlpall.Location = new Point(0, 0);
+            tlpall.Name = "tlpall";
+            tlpall.RowCount = 4;
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 14.651494F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 11.2375536F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 61.02418F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 12.9283485F));
+            tlpall.Size = new Size(819, 703);
+            tlpall.TabIndex = 6;
             // 
-            // picLogo
+            // piclogo
             // 
-            picLogo.Dock = DockStyle.Fill;
-            picLogo.Image = Properties.Resources.logo;
-            picLogo.Location = new Point(0, 0);
-            picLogo.Name = "picLogo";
-            picLogo.Size = new Size(775, 89);
-            picLogo.SizeMode = PictureBoxSizeMode.Zoom;
-            picLogo.TabIndex = 1;
-            picLogo.TabStop = false;
+            piclogo.Dock = DockStyle.Fill;
+            piclogo.Image = Properties.Resources.logo;
+            piclogo.Location = new Point(3, 3);
+            piclogo.Name = "piclogo";
+            piclogo.Size = new Size(813, 97);
+            piclogo.SizeMode = PictureBoxSizeMode.Zoom;
+            piclogo.TabIndex = 1;
+            piclogo.TabStop = false;
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 6.766917F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 93.2330856F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 107F));
-            tableLayoutPanel1.Controls.Add(btnXuat, 1, 0);
-            tableLayoutPanel1.Controls.Add(btnThoat, 2, 0);
-            tableLayoutPanel1.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tableLayoutPanel1.Location = new Point(3, 511);
-            tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 154F));
+            tableLayoutPanel1.Controls.Add(btnXuat, 0, 0);
+            tableLayoutPanel1.Controls.Add(btnThoat, 1, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(3, 614);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(775, 60);
-            tableLayoutPanel1.TabIndex = 5;
+            tableLayoutPanel1.Size = new Size(813, 86);
+            tableLayoutPanel1.TabIndex = 4;
             // 
             // btnXuat
             // 
             btnXuat.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnXuat.Location = new Point(538, 3);
+            btnXuat.Location = new Point(503, 3);
             btnXuat.Name = "btnXuat";
-            btnXuat.Size = new Size(126, 54);
+            btnXuat.Size = new Size(153, 74);
             btnXuat.TabIndex = 2;
             btnXuat.Text = "Xuất Kho";
             btnXuat.UseVisualStyleBackColor = true;
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(670, 3);
+            btnThoat.Location = new Point(662, 3);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(102, 54);
+            btnThoat.Size = new Size(148, 74);
             btnThoat.TabIndex = 3;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
@@ -255,29 +240,23 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(782, 573);
-            Controls.Add(tableLayoutPanel1);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
+            ClientSize = new Size(819, 703);
+            Controls.Add(tlpall);
             Margin = new Padding(3, 4, 3, 4);
             Name = "XuatKho";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Xuất kho";
             Load += XuatKho_Load_1;
-            panel2.ResumeLayout(false);
             tlpThongtin.ResumeLayout(false);
             tlpThongtin.PerformLayout();
-            panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvxuatkho).EndInit();
-            panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
+            tlpall.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)piclogo).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-        private Panel panel2;
         private TableLayoutPanel tlpThongtin;
         private Label lbChonSanPham;
         private TextBox txtTimKiem;
@@ -285,15 +264,15 @@
         private Label lbxuatSoLuong;
         private Panel panel3;
         private DataGridView dgvxuatkho;
-        private Panel panel1;
-        private PictureBox picLogo;
-        private TableLayoutPanel tableLayoutPanel1;
-        private Button btnXuat;
-        private Button btnThoat;
         private PaintEventHandler tlpThongtin_Paint;
         private DataGridViewTextBoxColumn MaSP;
         private DataGridViewTextBoxColumn TenSP;
         private DataGridViewTextBoxColumn Size;
         private DataGridViewTextBoxColumn SoLuong;
+        private TableLayoutPanel tlpall;
+        private PictureBox piclogo;
+        private Button btnXuat;
+        private Button btnThoat;
+        private TableLayoutPanel tableLayoutPanel1;
     }
 }

@@ -70,6 +70,13 @@ namespace CF36
                 txtLuongTheoGio.Focus();
                 return;
             }
+            // kiểm tra ngân hàng nếu có số tài khoản
+            if (!string.IsNullOrWhiteSpace(txtSoTaiKhoan.Text) && string.IsNullOrWhiteSpace(cbbNganHang.Text))
+            {
+                MessageBox.Show("Vui lòng chọn ngân hàng tương ứng với số tài khoản.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbNganHang.Focus();
+                return;
+            }
 
             NhanVienDTO nvMoi = new NhanVienDTO
             {

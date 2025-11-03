@@ -68,7 +68,7 @@ namespace DAO
                     SDTKH = row["SDTKH"].ToString(),
                     TongTienGoc = (decimal)row["TongTienGoc"],
                     TienGiam = (decimal)row["TienGiam"],
-                    TongTien = (decimal)row["TongTien"],
+                    TongTien = Math.Max(0, (decimal)row["TongTien"]),
                     MaVoucher = row["MaVoucher"]?.ToString(),
                     PhanTramGiam = (row["LoaiVoucher"] != DBNull.Value && (int)row["LoaiVoucher"] == 1)
                     ? (int?)Convert.ToInt32(row["GiaTriGiam"])
@@ -218,12 +218,12 @@ namespace DAO
             string query = @"
             SELECT 
             CAST(h.Ngaylap AS DATE) AS Ngay, 
-            SUM(ct.Thanhtien) AS TongDoanhThu
+            SUM(CASE WHEN ct.Thanhtien < 0 THEN 0 ELSE ct.Thanhtien END) AS TongDoanhThu
             FROM HOADON h
             JOIN CHITIETHD ct ON h.Mahd = ct.Mahd
             JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
             JOIN SANPHAM sp ON kcsp.masp = sp.masp
-            WHERE ct.IsTang = 0  -- ✅ chỉ tính sản phẩm mua
+            WHERE ct.IsTang = 0
             AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
             AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
             AND (@maLoai IS NULL OR sp.maloai = @maLoai)
@@ -255,12 +255,12 @@ namespace DAO
             SELECT 
             sp.tensp AS TenSP, 
             SUM(ct.Soluong) AS SoLuongBan,
-            SUM(ct.Thanhtien) AS TongDoanhThu
+            SUM(CASE WHEN ct.Thanhtien < 0 THEN 0 ELSE ct.Thanhtien END) AS TongDoanhThu
             FROM CHITIETHD ct
             JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
             JOIN SANPHAM sp ON kcsp.masp = sp.masp
             JOIN HOADON h ON h.Mahd = ct.Mahd
-            WHERE ct.IsTang = 0  -- ✅ chỉ tính sản phẩm mua
+            WHERE ct.IsTang = 0
             AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
             AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
             AND (@maLoai IS NULL OR sp.maloai = @maLoai)

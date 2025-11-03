@@ -63,7 +63,7 @@ namespace DAO
                     NgayLap = (DateTime)row["Ngaylap"],
                     TenNhanVien = row["TenNhanVien"].ToString(),
                     TenKhachHang = row["TenKhachHang"].ToString(),
-                    TongTien = (decimal)row["Tongtien"]
+                    TongTien = Math.Max(0, (decimal)row["Tongtien"])
                 });
             }
             return list;
@@ -118,8 +118,8 @@ namespace DAO
                     TenSP = row["tensp"].ToString(),
                     KichCo = row["kichco"].ToString(),
                     SoLuong = (int)row["Soluong"],
-                    DonGia = (decimal)row["Dongia"],
-                    ThanhTien = (decimal)row["Thanhtien"]
+                    DonGia = Math.Max(0, (decimal)row["Dongia"]),
+                    ThanhTien = Math.Max(0, (decimal)row["Thanhtien"])
                 });
             }
             return list;
@@ -129,16 +129,16 @@ namespace DAO
         {
             HoaDonDayDuDTO dto = null;
             string query = @"
-        SELECT 
+            SELECT 
             h.Mahd, h.Ngaylap, h.Tongtien, 
             n.Hoten AS TenNhanVien, 
             ISNULL(k.Tenkh, N'Khách vãng lai') AS TenKhachHang, 
             k.Sdt, 
             ISNULL(k.Tichdiem, 0) AS TichDiem
-        FROM HOADON h
-        JOIN NGUOIDUNG n ON h.Mand = n.Mand
-        LEFT JOIN KHACHHANG k ON h.Makh = k.Makh
-        WHERE h.Mahd = @maHD";
+            FROM HOADON h
+            JOIN NGUOIDUNG n ON h.Mand = n.Mand
+            LEFT JOIN KHACHHANG k ON h.Makh = k.Makh
+            WHERE h.Mahd = @maHD";
 
             SqlParameter[] param = { new SqlParameter("@maHD", maHD) };
             DataTable data = provider.ExecuteQuery(query, param);
@@ -154,7 +154,7 @@ namespace DAO
                     TenKhachHang = row["TenKhachHang"].ToString(),
                     SdtKhachHang = row["Sdt"]?.ToString(), // Xử lý null
                     TichDiem = (int)row["TichDiem"],
-                    TongTienCuoiCung = (decimal)row["Tongtien"]
+                    TongTienCuoiCung = Math.Max(0, (decimal)row["Tongtien"])
                 };
             }
             return dto;

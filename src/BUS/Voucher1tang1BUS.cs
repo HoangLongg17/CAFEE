@@ -35,8 +35,6 @@ namespace BUS
 
             foreach (int idkcsp in dsTang)
             {
-                MessageBox.Show($"DEBUG: InsertChiTietVC → mavc={mavc}, idkcsp={idkcsp}");
-
                 int inserted = Voucher1tang1DAO.Instance.InsertChiTietVC(mavc, idkcsp);
                 if (inserted <= 0)
                 {

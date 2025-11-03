@@ -599,14 +599,14 @@ namespace CF36
         }
         private void btnThemMaGiamGia_Click(object sender, EventArgs e)
         {
-            // Xóa sản phẩm tặng cũ khỏi danh sách
-            danhSachDaChon.RemoveAll(sp => sp.LaSanPhamTang);
-
-            // Xóa khỏi giao diện
-            XoaSanPhamTang();
-            QuanLiMAGIAMGIA formMaGiam = new QuanLiMAGIAMGIA(true, maND);
-            if (formMaGiam.ShowDialog() == DialogResult.OK)
             {
+                // Xóa sản phẩm tặng cũ khỏi danh sách
+                danhSachDaChon.RemoveAll(sp => sp.LaSanPhamTang);
+                XoaSanPhamTang();
+
+                QuanLiMAGIAMGIA formMaGiam = new QuanLiMAGIAMGIA(true, maND);
+                if (formMaGiam.ShowDialog() != DialogResult.OK) return;
+
                 string code = formMaGiam.MaGiamGiaDuocChon;
                 this.maVoucherCode = code;
                 this.maVoucherId = VoucherBUS.GetIdFromCode(code);
@@ -619,8 +619,8 @@ namespace CF36
                     MessageBox.Show(ketQuaGiamGia.Loi, "Lỗi áp dụng mã", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                //Kiểm tra sản phẩm tặng có hợp lệ không
 
+                // Kiểm tra sản phẩm tặng có hợp lệ
                 foreach (var spTang in ketQuaGiamGia.SanPhamTang)
                 {
                     if (spTang.SoLuongTon == 0 || spTang.TrangThaiText == "Ngừng bán")
@@ -629,6 +629,8 @@ namespace CF36
                         return;
                     }
                 }
+
+                // Thêm sản phẩm tặng vào giao diện
                 foreach (var spTang in ketQuaGiamGia.SanPhamTang)
                 {
                     var dto = new DanhSachSanPhamDTO
@@ -637,6 +639,7 @@ namespace CF36
                         TenSP = spTang.TenSP,
                         KichCo = spTang.KichCo,
                         GiaBan = 0,
+                        GiaGoc = 0,
                         SoLuong = 1,
                         IdKcsp = spTang.IdKcsp,
                         Maloai = spTang.Maloai,
@@ -645,13 +648,29 @@ namespace CF36
                         DuongDanAnh = spTang.DuongDanAnh,
                         TrangThaiText = spTang.TrangThaiText,
                         SoLuongTon = spTang.SoLuongTon,
-                        LaSanPhamTang = true
+                        LaSanPhamTang = true,
+                        TienGiam = 0
                     };
                     danhSachDaChon.Add(dto);
                     ThemSanPhamTangVaoFlow(dto);
                 }
+
                 txtMaGiamGia.Text = code;
-                txtTongTien.Text = (ketQuaGiamGia.TongTien - ketQuaGiamGia.TienGiam).ToString("N0") + " đ";
+
+                // Gán TienGiam cho từng sản phẩm mua
+                foreach (var sp in danhSachMua)
+                {
+                    var giam = ketQuaGiamGia.SanPhamDuocGiam.FirstOrDefault(x => x.IdKcsp == sp.IdKcsp);
+                    sp.TienGiam = giam?.TienGiam ?? 0;
+                    sp.GiaBan = sp.GiaGoc; // giữ nguyên giá gốc
+                }
+
+                // Tính tổng tiền sau giảm: Tổng gốc - Tổng giảm
+                decimal tongTienSauGiam = danhSachMua
+                    .Where(sp => !sp.LaSanPhamTang)
+                    .Sum(sp => sp.GiaGoc * sp.SoLuong) - ketQuaGiamGia.TienGiam;
+
+                txtTongTien.Text = tongTienSauGiam.ToString("N0") + " đ";
             }
         }
         private void XoaSanPhamTang()

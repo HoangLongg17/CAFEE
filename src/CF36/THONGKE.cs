@@ -420,7 +420,7 @@ namespace CF36
                         }
                     }
                 }
-                SetupDgvTopProductsColumns(); // (MỚI) Tùy chỉnh cột
+                SetupDgvTopProductsColumns(); //Tùy chỉnh cột
 
                 // 4. Xóa tổng doanh thu (vì không liên quan)
                 txtTongTien.Text = "";

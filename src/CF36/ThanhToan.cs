@@ -57,6 +57,8 @@ namespace CF36
                     BackColor = sp.LaSanPhamTang ? Color.LightYellow : Color.WhiteSmoke
                 };
 
+                int xLeft = 110;
+
                 // Ảnh sản phẩm
                 PictureBox pic = new PictureBox
                 {
@@ -84,21 +86,20 @@ namespace CF36
                     Text = sp.LaSanPhamTang ? $"🎁 {sp.TenSP} size {sp.KichCo}" : $"{sp.TenSP} size {sp.KichCo}",
                     Font = new Font("Segoe UI", 10, FontStyle.Bold),
                     MaximumSize = new Size(140, 0),
-                    AutoSize = true
+                    AutoSize = true,
+                    Location = new Point(xLeft, 10)
                 };
-                lblTen.Location = new Point(100, 10);
                 panel.Controls.Add(lblTen);
 
-                panel.PerformLayout();
                 int yOffset = lblTen.Bottom + 5;
 
-                // Đơn giá
+                // Đơn giá (giá gốc)
                 Label lblGia = new Label
                 {
-                    Text = sp.LaSanPhamTang ? "Đơn giá: Tặng" : "Đơn giá: " + sp.GiaBan.ToString("N0") + " đ",
+                    Text = sp.LaSanPhamTang ? "Đơn giá: Tặng" : "Đơn giá: " + sp.GiaGoc.ToString("N0") + " đ",
                     Font = new Font("Segoe UI", 9),
                     AutoSize = true,
-                    Location = new Point(100, yOffset)
+                    Location = new Point(xLeft, yOffset)
                 };
                 panel.Controls.Add(lblGia);
                 yOffset = lblGia.Bottom + 5;
@@ -109,40 +110,74 @@ namespace CF36
                     Text = "Số lượng: " + sp.SoLuong,
                     Font = new Font("Segoe UI", 9),
                     AutoSize = true,
-                    Location = new Point(100, yOffset)
+                    Location = new Point(xLeft, yOffset)
                 };
                 panel.Controls.Add(lblSL);
                 yOffset = lblSL.Bottom + 5;
 
-                // Tổng tiền
+                // Tổng tiền sau giảm
+                decimal thanhTienSauGiam = sp.GiaGoc * sp.SoLuong - sp.TienGiam;
                 Label lblTong = new Label
                 {
                     Text = sp.LaSanPhamTang
                         ? "Tổng: 0 đ (Tặng)"
-                        : "Tổng: " + (sp.GiaBan * sp.SoLuong).ToString("N0") + " đ",
+                        : "Tổng: " + thanhTienSauGiam.ToString("N0") + " đ",
                     Font = new Font("Segoe UI", 9, FontStyle.Bold),
                     AutoSize = true,
-                    Location = new Point(100, yOffset)
+                    Location = new Point(xLeft, yOffset)
                 };
                 panel.Controls.Add(lblTong);
+                yOffset = lblTong.Bottom + 5;
 
-                panel.Height = Math.Max(pic.Bottom + 10, lblTong.Bottom + 10);
+                // Ghi chú giảm giá nếu có
+                if (sp.TienGiam > 0)
+                {
+                    Label lblGhiChu = new Label
+                    {
+                        Text = $"Áp dụng mã {maVoucherCode} (-{sp.TienGiam:N0} đ)",
+                        Font = new Font("Segoe UI", 8, FontStyle.Italic),
+                        ForeColor = Color.DarkGreen,
+                        AutoSize = true,
+                        MaximumSize = new Size(120, 0),
+                        Location = new Point(xLeft, yOffset)
+                    };
+                    panel.Controls.Add(lblGhiChu);
+                    yOffset = lblGhiChu.Bottom + 5;
+                }
+
+                panel.Height = Math.Max(pic.Bottom + 10, yOffset + 10);
 
                 ToolTip tooltip = new ToolTip();
                 tooltip.SetToolTip(panel, sp.LaSanPhamTang
                     ? $"🎁 Sản phẩm tặng\nTên: {sp.TenSP}\nSize: {sp.KichCo}"
-                    : $"Tên: {sp.TenSP}\nSize: {sp.KichCo}\nGiá: {sp.GiaBan:N0} đ\nSố lượng: {sp.SoLuong}");
+                    : $"Tên: {sp.TenSP}\nSize: {sp.KichCo}\nGiá gốc: {sp.GiaGoc:N0} đ\nSố lượng: {sp.SoLuong}");
                 panel.Tag = sp;
                 flpSanPham.Controls.Add(panel);
             }
         }
+
         private void ThanhToan_Load(object sender, EventArgs e)
         {
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
+
+            foreach (var sp in danhSachMua)
+            {
+                var spGiam = ketQua?.SanPhamDuocGiam?.FirstOrDefault(x => x.IdKcsp == sp.IdKcsp);
+                sp.TienGiam = spGiam?.TienGiam ?? 0;
+                sp.GiaBan = sp.GiaGoc;
+            }
+
             HienThiSanPham();
-            tongTienGoc = new BanHangBUS().TinhTongTien(danhSachMua);
-            tongTienSauGiam = new BanHangBUS().TinhTienSauGiam(tongTienGoc, ketQua?.TienGiam ?? 0);
+
+            tongTienGoc = danhSachMua
+                .Where(sp => !sp.LaSanPhamTang)
+                .Sum(sp => sp.GiaGoc * sp.SoLuong);
+
+            tongTienSauGiam = danhSachMua
+                .Where(sp => !sp.LaSanPhamTang)
+                .Sum(sp => sp.GiaGoc * sp.SoLuong - sp.TienGiam);
+
             lbTongTien.Text = tongTienSauGiam.ToString("N0") + " đ";
             lblTenKhachHang.Text = TenKhachHang;
             lblSDT.Text = SoDienThoai;
@@ -255,17 +290,21 @@ namespace CF36
 
             foreach (var sp in danhSachBanHang.Where(sp => !sp.LaSanPhamTang))
             {
-                xacNhan.AppendLine($"- {sp.TenSP} | Size: {sp.KichCo} | SL: {sp.SoLuong} | Đơn giá: {sp.GiaBan:N0} đ");
+                decimal thanhTien = sp.GiaGoc * sp.SoLuong - sp.TienGiam;
+                string dong = $"- {sp.TenSP} | Size: {sp.KichCo} | SL: {sp.SoLuong} | Đơn giá: {sp.GiaGoc:N0} đ";
+
+                if (sp.TienGiam > 0)
+                {
+                    dong += $" | Giảm: -{sp.TienGiam:N0} đ";
+                }
+
+                dong += $" | Thành tiền: {thanhTien:N0} đ";
+                xacNhan.AppendLine(dong);
             }
 
-            decimal tongTien = bus.TinhTongTien(
-                danhSachBanHang.Select(sp => new DanhSachSanPhamDTO
-                {
-                    GiaBan = sp.GiaBan,
-                    SoLuong = sp.SoLuong,
-                    LaSanPhamTang = sp.LaSanPhamTang
-                }).ToList()
-            );
+            decimal tongTien = danhSachBanHang
+                .Where(sp => !sp.LaSanPhamTang)
+                .Sum(sp => sp.GiaGoc * sp.SoLuong - sp.TienGiam);
 
             xacNhan.AppendLine("──────────────────────────────");
             xacNhan.AppendLine($"Tổng tiền: {tongTien:N0} đ");
@@ -273,6 +312,7 @@ namespace CF36
             var result = MessageBox.Show(xacNhan.ToString(), "Xác nhận thanh toán", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             return result == DialogResult.Yes;
         }
+
         private void btnThanhtoan_Click(object sender, EventArgs e)
         {
             if (danhSachMua == null || danhSachMua.Count == 0)
@@ -280,33 +320,29 @@ namespace CF36
                 MessageBox.Show("Không có sản phẩm nào để thanh toán.");
                 return;
             }
+
             if (!KiemTraTienKhachDua(out decimal tienKhach))
             {
-                return; // nếu không đủ tiền thì dừng luôn
+                MessageBox.Show("Khách chưa đưa đủ tiền.");
+                return;
             }
+
             var bus = new BanHangBUS();
 
-            // Cập nhật giá sau giảm
             foreach (var sp in danhSachMua)
             {
                 var spGiam = ketQua?.SanPhamDuocGiam?.FirstOrDefault(x => x.IdKcsp == sp.IdKcsp);
-                if (spGiam != null)
-                {
-                    if (sp.GiaGoc == 0) sp.GiaGoc = sp.GiaBan;
-                    sp.TienGiam = spGiam.TienGiam;
-                    sp.GiaBan = Math.Max(0, sp.GiaGoc - sp.TienGiam);
-                }
-                else
-                {
-                    if (sp.GiaGoc == 0) sp.GiaGoc = sp.GiaBan;
-                    sp.TienGiam = 0;
-                    sp.GiaBan = sp.GiaGoc;
-                }
+                sp.TienGiam = spGiam?.TienGiam ?? 0;
+                sp.GiaBan = sp.GiaGoc; // giữ nguyên giá gốc
             }
 
             var danhSachBanHang = bus.ChuyenDoiDanhSachBanHang(danhSachMua, ketQua);
 
-            // Gộp sản phẩm tặng
+            foreach (var sp in danhSachBanHang)
+            {
+                sp.GiaBan = sp.GiaGoc; // không thay đổi đơn giá
+            }
+
             if (ketQua?.SanPhamTang?.Count > 0)
             {
                 var sanPhamTangGop = ketQua.SanPhamTang
@@ -319,7 +355,9 @@ namespace CF36
                         LaSanPhamTang = true,
                         SoLuong = 1,
                         MaSP = g.First().MaSP,
-                        GiaBan = g.First().GiaBan,
+                        GiaBan = 0,
+                        GiaGoc = 0,
+                        TienGiam = 0,
                         Maloai = g.First().Maloai,
                         MaSanPhamGoc = g.First().MaSanPhamGoc,
                         SoLuongTon = g.First().SoLuongTon,
@@ -331,7 +369,6 @@ namespace CF36
                 danhSachBanHang.AddRange(sanPhamTangGop);
             }
 
-            // Kiểm tra tồn kho
             foreach (var sp in danhSachBanHang)
             {
                 int tonKho = DanhSachSanPhamDAO.GetSoLuongTon(sp.IdKcsp);
@@ -343,46 +380,16 @@ namespace CF36
                 }
             }
 
-            // Xác nhận thanh toán
             if (!XacNhanThanhToan(danhSachBanHang, bus)) return;
 
             int mahd = bus.XuatHoaDon(maKH, maND, danhSachBanHang, maVoucherId);
             MessageBox.Show($"✅ Thanh toán thành công. Mã hóa đơn: {mahd}");
 
-
-            // ✅ In hóa đơn PDF nếu người dùng đồng ý
             if (MessageBox.Show("Bạn có muốn in hóa đơn?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                // Tính tổng tiền
-                var danhSachSP_TinhTien = danhSachBanHang.Select(sp => new DanhSachSanPhamDTO
-                {
-                    GiaBan = sp.GiaBan,
-                    SoLuong = sp.SoLuong,
-                    LaSanPhamTang = sp.LaSanPhamTang
-                }).ToList();
+                decimal tongTienGoc = danhSachBanHang.Where(sp => !sp.LaSanPhamTang).Sum(sp => sp.GiaGoc * sp.SoLuong);
+                decimal tongTienSauGiam = tongTienGoc - (ketQua?.TienGiam ?? 0);
 
-                // Tính tổng tiền gốc và sau giảm dựa trên từng sản phẩm
-                decimal tongTienGoc = danhSachBanHang
-                    .Where(sp => !sp.LaSanPhamTang)
-                    .Sum(sp => sp.GiaGoc * sp.SoLuong);
-
-                decimal tongTienSauGiam = danhSachBanHang
-                    .Where(sp => !sp.LaSanPhamTang)
-                    .Sum(sp => (sp.GiaGoc - sp.TienGiam) * sp.SoLuong);
-
-                decimal tongTienGiam = tongTienGoc - tongTienSauGiam;
-                if (ketQua == null)
-                {
-                    ketQua = new KetQuaGiamGiaDTO
-                    {
-                        SanPhamTang = new List<BanHangDTO>(),
-                        SanPhamDuocGiam = new List<DanhSachSanPhamDTO>(),
-                        TienGiam = 0,
-                        LoaiVC = 0,   // 0 = không áp mã
-                        GiaTri = 0
-                    };
-                }
-                // Chuẩn bị dữ liệu hóa đơn
                 var hoaDonDTO = new HoaDonDTO
                 {
                     MaHD = mahd,
@@ -391,56 +398,40 @@ namespace CF36
                     SDTKH = maKH.HasValue ? KhachHangBUS.GetSDTKhachHang(maKH.Value) : "",
                     TenNhanVien = NhanVienBUS.GetTenNguoiDung(maND),
                     TongTienGoc = tongTienGoc,
-                    TienGiam = (ketQua?.LoaiVC == 1 || ketQua?.LoaiVC == 3) ? ketQua.TienGiam : 0,
+                    TienGiam = ketQua?.TienGiam ?? 0,
                     TongTien = tongTienSauGiam,
                     MaVoucher = maVoucherCode,
-                    PhanTramGiam = ketQua.LoaiVC == 1 ? (int?)ketQua.GiaTri : null,
-                    LoaiVoucher = ketQua.LoaiVC,
-                    SanPhamTang = ketQua.SanPhamTang?.Select(sp => new DanhSachSanPhamDTO
+                    PhanTramGiam = ketQua?.LoaiVC == 1 ? (int?)ketQua.GiaTri : null,
+                    LoaiVoucher = ketQua?.LoaiVC ?? 0,
+                    SanPhamTang = ketQua?.SanPhamTang?.Select(sp => new DanhSachSanPhamDTO
                     {
                         TenSP = sp.TenSP,
                         KichCo = sp.KichCo,
                         SoLuong = 1
                     }).ToList() ?? new List<DanhSachSanPhamDTO>(),
-                    SanPhamDuocGiam = (ketQua?.LoaiVC == 1 || ketQua?.LoaiVC == 3)
-                    ? (ketQua?.SanPhamDuocGiam ?? Enumerable.Empty<DanhSachSanPhamDTO>())
-                        .Select(sp => new DanhSachSanPhamDTO
-                        {
-                            TenSP = sp.TenSP,
-                            KichCo = sp.KichCo,
-                            SoLuong = sp.SoLuong,
-                            IdKcsp = sp.IdKcsp
-                        }).ToList()
-                    : new List<DanhSachSanPhamDTO>()
+                    SanPhamDuocGiam = ketQua?.SanPhamDuocGiam ?? new List<DanhSachSanPhamDTO>()
                 };
-                // Dữ liệu chi tiết để in PDF
-                var danhSachSP_InPDF = danhSachBanHang.Select(sp =>
-                {
-                    var spGiam = ketQua.SanPhamDuocGiam?.FirstOrDefault(g => g.IdKcsp == sp.IdKcsp);
 
-                    decimal giaGoc = sp.GiaGoc > 0 ? sp.GiaGoc : sp.GiaBan;
-                    decimal tienGiam = spGiam?.TienGiam ?? 0;
-                    decimal giaSauGiam = Math.Max(0, giaGoc - tienGiam);
-
-                    return new DanhSachSanPhamDTO
+                var danhSachSP_InPDF = danhSachBanHang
+                    .Where(sp => !sp.LaSanPhamTang)
+                    .Select(sp => new DanhSachSanPhamDTO
                     {
                         IdKcsp = sp.IdKcsp,
                         MaSP = sp.MaSP,
                         TenSP = sp.TenSP,
                         KichCo = sp.KichCo,
-                        SoLuong = sp.LaSanPhamTang ? 1 : sp.SoLuong,
-                        GiaGoc = giaGoc,
-                        GiaBan = giaSauGiam,
-                        TienGiam = tienGiam,
-                        LaSanPhamTang = sp.LaSanPhamTang,
+                        SoLuong = sp.SoLuong,
+                        GiaGoc = sp.GiaGoc,
+                        GiaBan = sp.GiaGoc, // giữ nguyên giá gốc
+                        TienGiam = sp.TienGiam,
+                        LaSanPhamTang = false,
                         Maloai = sp.Maloai,
                         MaSanPhamGoc = sp.MaSanPhamGoc,
                         SoLuongTon = sp.SoLuongTon,
                         DuongDanAnh = sp.DuongDanAnh,
                         TenLoai = sp.TenLoai,
                         TrangThaiText = sp.TrangThaiText
-                    };
-                }).ToList();
+                    }).ToList();
 
                 SaveFileDialog sfd = new SaveFileDialog
                 {
@@ -454,7 +445,7 @@ namespace CF36
                     MessageBox.Show("✅ Hóa đơn PDF đã được xuất thành công!");
                 }
             }
-            // ✅ Cập nhật tồn kho sau thanh toán
+
             var danhSachCapNhat = danhSachBanHang
                 .GroupBy(sp => new { sp.IdKcsp, sp.LaSanPhamTang })
                 .Select(g => new DanhSachSanPhamDTO
@@ -468,12 +459,10 @@ namespace CF36
 
             BanHangBUS.CapNhatTonKhoSauThanhToan(danhSachCapNhat);
 
-            // ✅ Làm mới giao diện bán hàng
             var formBanHang = Application.OpenForms["BANHANG"] as BANHANG;
             formBanHang?.CapNhatGiaoDienSauThanhToan();
 
             this.Close();
-        
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

@@ -136,6 +136,10 @@ namespace CF36
         private void ChiTietHoaDon_Load(object sender, EventArgs e)
         {
             LoadChiTiet();
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
+            UIText.ApplyButtonTextStyle(this);
+            UIDataGridView.FormatDataGridView(dgvChiTiet);
+            UIDataGridView.FormatDataGridView(dgvThongTinChung);
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
