@@ -129,9 +129,10 @@ namespace CF36
 
             if (Voucher1tang1BUS.Instance.CheckCodeExists(ma))
             {
-                message = "Mã giảm giá đã tồn tại.";
+                message = "Mã giảm giá đã tồn tại. Vui lòng chọn mã khác.";
                 return false;
             }
+
 
             if (ten.Length > 100)
             {
@@ -146,10 +147,19 @@ namespace CF36
             }
 
             string input = txtGiaTriToiThieu.Text.Trim();
-            if (!string.IsNullOrEmpty(input) && !decimal.TryParse(input, out dieuKien))
+            if (!string.IsNullOrEmpty(input))
             {
-                message = "Giá trị tối thiểu không hợp lệ.";
-                return false;
+                if (!decimal.TryParse(input, out dieuKien))
+                {
+                    message = "Giá trị tối thiểu không hợp lệ.";
+                    return false;
+                }
+
+                if (dieuKien <= 0)
+                {
+                    message = "Giá trị tối thiểu phải lớn hơn 0.";
+                    return false;
+                }
             }
 
             if (dgvSanPham.SelectedRows.Count == 0)
@@ -235,24 +245,6 @@ namespace CF36
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
 
-        }
-        private bool ValidateInputs()
-        {
-            // Kiểm tra mã và tên
-            if (string.IsNullOrWhiteSpace(txtMaGG.Text) || string.IsNullOrWhiteSpace(txtTenMaGiamGia.Text))
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ mã và tên mã giảm giá.");
-                return false;
-            }
-
-            // Kiểm tra ngày
-            if (dTPHetHan.Value.Date < dTPBatDau.Value.Date)
-            {
-                MessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu.");
-                return false;
-            }
-
-            return true;
         }
         private void txtGiaTriToiThieu_KeyPress(object sender, KeyPressEventArgs e)
         {

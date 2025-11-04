@@ -125,9 +125,14 @@ namespace CF36
                 return false;
             }
 
-            if (code.Length > 20 || !System.Text.RegularExpressions.Regex.IsMatch(code, @"^[a-zA-Z0-9]+$"))
+            if (code.Length > 50 || !System.Text.RegularExpressions.Regex.IsMatch(code, @"^[a-zA-Z0-9]+$"))
             {
-                message = "Mã giảm giá không hợp lệ. Chỉ chứa chữ và số, tối đa 20 ký tự.";
+                message = "Mã giảm giá không hợp lệ. Chỉ chứa chữ và số, tối đa 50 ký tự.";
+                return false;
+            }
+            if (Voucher1tang1BUS.Instance.CheckCodeExists(code, mavc))
+            {
+                message = "Mã giảm giá đã tồn tại. Vui lòng chọn mã khác.";
                 return false;
             }
 
@@ -149,6 +154,26 @@ namespace CF36
             if (!decimal.TryParse(txtHoaDonToiThieu.Text.Trim(), out dieuKien))
             {
                 message = "Giá trị hóa đơn tối thiểu không hợp lệ.";
+                return false;
+            }
+
+            if (dieuKien <= 0)
+            {
+                message = "Giá trị hóa đơn tối thiểu phải lớn hơn 0.";
+                return false;
+            }
+            DateTime ngaybd = DateTime.Today;
+            DateTime ngaykt = DateTime.Today;
+
+            if (dtpNgayBatDau.Value.Date < DateTime.Today)
+            {
+                message = "Ngày bắt đầu không được nhỏ hơn ngày hiện tại.";
+                return false;
+            }
+
+            if (dtpNgayHetHan.Value.Date <= dtpNgayBatDau.Value.Date)
+            {
+                message = "Ngày kết thúc phải sau ngày bắt đầu.";
                 return false;
             }
 

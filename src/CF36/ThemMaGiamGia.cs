@@ -122,7 +122,7 @@ namespace CF36
 
             if (code.Length > 50)
             {
-                message = "Mã giảm giá không được vượt quá 20 ký tự.";
+                message = "Mã giảm giá không được vượt quá 50 ký tự.";
                 return false;
             }
 
@@ -173,12 +173,27 @@ namespace CF36
                     message = "Giá trị giảm không hợp lệ. Vui lòng nhập số.";
                     return false;
                 }
+
+                if (giatri <= 0)
+                {
+                    message = "Giá trị giảm phải lớn hơn 0.";
+                    return false;
+                }
             }
 
-            if (!string.IsNullOrWhiteSpace(txtGiaTriDonToiThieu.Text) && !decimal.TryParse(txtGiaTriDonToiThieu.Text, out _))
+            if (!string.IsNullOrWhiteSpace(txtGiaTriDonToiThieu.Text))
             {
-                message = "Giá trị đơn tối thiểu không hợp lệ. Vui lòng nhập số.";
-                return false;
+                if (!decimal.TryParse(txtGiaTriDonToiThieu.Text, out decimal giaTriDonToiThieu))
+                {
+                    message = "Giá trị đơn tối thiểu không hợp lệ. Vui lòng nhập số.";
+                    return false;
+                }
+
+                if (giaTriDonToiThieu <= 0)
+                {
+                    message = "Giá trị đơn tối thiểu phải lớn hơn 0.";
+                    return false;
+                }
             }
 
             if (dTPBatDau.Value.Date < DateTime.Today)

@@ -191,6 +191,29 @@ namespace CF36
         }
         private void XuLyChonSanPham(BanHangDTO sp)
         {
+            // ✅ Nếu đã áp mã giảm giá thì reset khi thêm sản phẩm mới
+            if (!string.IsNullOrEmpty(maVoucherCode))
+            {
+                txtMaGiamGia.Text = "";
+                maVoucherId = null;
+                maVoucherCode = "";
+                ketQuaGiamGia = new KetQuaGiamGiaDTO();
+
+                // Xóa sản phẩm tặng khỏi giao diện
+                XoaSanPhamTang();
+
+                // Khôi phục giá gốc cho các sản phẩm đã chọn
+                foreach (Control ctrl in fLPSanPhamDaChon.Controls)
+                {
+                    if (ctrl.Tag is DanhSachSanPhamDTO dto && !dto.LaSanPhamTang)
+                    {
+                        dto.GiaBan = dto.GiaGoc;
+                        dto.TienGiam = 0;
+                    }
+                }
+
+                CapNhatTongTien();
+            }
             sp.GiaGoc = sp.GiaBan; //lưu giá gốc ban đầu
             if (sp.SoLuongTon == 0)
             {

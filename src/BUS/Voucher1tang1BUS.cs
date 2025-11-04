@@ -85,9 +85,9 @@ namespace BUS
         {
             return Voucher1tang1DAO.Instance.TimSanPhamTangTheoLoai(maloai);
         }
-        public bool CheckCodeExists(string code)
+        public bool CheckCodeExists(string code, int? excludeMavc = null)
         {
-            return Voucher1tang1DAO.Instance.CheckCodeExists(code);
+            return Voucher1tang1DAO.Instance.CheckCodeExists(code, excludeMavc);
         }
     }
 }

@@ -30,16 +30,18 @@ namespace DAO
             object result = DataProvider.Instance.ExecuteScalar(query, parameters);
             return result?.ToString() ?? "";
         }
-        public bool CheckCodeExists(string code)
+        public bool CheckCodeExists(string code, int? excludeMavc = null)
         {
-            string query = "SELECT COUNT(*) FROM VOUCHER WHERE Code = @code"; //đúng cột
+            string query = "SELECT COUNT(*) FROM VOUCHER WHERE Code = @code AND Mavc <> @excludeMavc";
             SqlParameter[] parameters = {
-            new SqlParameter("@code", code)
+            new SqlParameter("@code", code),
+            new SqlParameter("@excludeMavc", excludeMavc)
             };
 
             object result = DataProvider.Instance.ExecuteScalar(query, parameters);
             return Convert.ToInt32(result) > 0;
         }
+
         private Voucher1tang1DAO() { }
 
         // Thêm mã giảm giá mua 1 tặng 1

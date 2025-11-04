@@ -38,10 +38,21 @@ namespace CF36
             if (!KiemTraDuLieuHopLe(tenKH, sdt))
                 return;
 
-            // Kiểm tra tích điểm
             if (!int.TryParse(txtTichDiem.Text.Trim(), out tichdiem))
             {
                 MessageBox.Show("Tích điểm phải là số nguyên.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (tichdiem < 0)
+            {
+                MessageBox.Show("Tích điểm không được nhỏ hơn 0.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (tichdiem > 100000)
+            {
+                MessageBox.Show("Tích điểm không được vượt quá 100000.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
