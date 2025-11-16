@@ -44,19 +44,26 @@ namespace BUS
         // --- Logic Lưu (Save) ---
 
         // (VIẾT LẠI HOÀN TOÀN)
-        public void LuuThongTinSanPham(SanPhamDTO sp,
-                                       bool cbS, string giaS,
-                                       bool cbM, string giaM,
-                                       bool cbL, string giaL,
-                                       Dictionary<char, int> kichCoMap)
+        public void LuuThongTinSanPham(string maSP, string tenSP, int maLoai, int canhBao,
+                              bool cbS, string giaS,
+                              bool cbM, string giaM,
+                              bool cbL, string giaL,
+                              Dictionary<char, int> kichCoMap)
         {
             // --- 1. Validation ---
-            if (string.IsNullOrWhiteSpace(sp.TenSP))
+
+            // (SỬA LẠI) Dùng 'tenSP' (biến string) thay vì 'sp.TenSP'
+            if (string.IsNullOrWhiteSpace(tenSP))
+            {
                 throw new Exception("Tên sản phẩm không được để trống.");
+            }
 
             if (!cbS && !cbM && !cbL)
+            {
                 throw new Exception("Phải chọn ít nhất một kích cỡ (size).");
+            }
 
+            // (Code parse giá S, M, L giữ nguyên)
             decimal giaBanS = 0, giaBanM = 0, giaBanL = 0;
             if (cbS && (!decimal.TryParse(giaS, out giaBanS) || giaBanS <= 0))
                 throw new Exception("Giá size S không hợp lệ.");
@@ -65,21 +72,27 @@ namespace BUS
             if (cbL && (!decimal.TryParse(giaL, out giaBanL) || giaBanL <= 0))
                 throw new Exception("Giá size L không hợp lệ.");
 
-            // --- 2. Transaction ---
+            // --- 3. Xử lý Transaction ---
             using (TransactionScope scope = new TransactionScope())
             {
                 try
                 {
-                    // A. Cập nhật bảng SANPHAM (bao gồm ảnh nếu có)
-                    suaSanPhamDAO.UpdateSanPham(sp);
+                    // (SỬA LẠI) Tạo đối tượng 'sp' (SanPhamDTO) ở đây
+                    SanPhamDTO sp = new SanPhamDTO
+                    {
+                        MaSP = maSP,
+                        TenSP = tenSP,
+                        MaLoai = maLoai
+                    };
 
-                    // B. Lấy danh sách size hiện tại từ DB
-                    List<KichCoSPDTO> oldSizes = suaSanPhamDAO.GetKichCoSPList(sp.MaSP);
+                    // A. Cập nhật bảng SANPHAM
+                    suaSanPhamDAO.UpdateSanPham(sp); // <-- Giờ 'sp' đã tồn tại
 
-                    // C. Xử lý từng size
-                    ProcessSizeMerge(sp.MaSP, kichCoMap['S'], cbS, giaBanS, oldSizes);
-                    ProcessSizeMerge(sp.MaSP, kichCoMap['M'], cbM, giaBanM, oldSizes);
-                    ProcessSizeMerge(sp.MaSP, kichCoMap['L'], cbL, giaBanL, oldSizes);
+                    // B. Logic Merge (Giữ nguyên)
+                    List<KichCoSPDTO> oldSizes = suaSanPhamDAO.GetKichCoSPList(maSP);
+                    ProcessSizeMerge(maSP, kichCoMap['S'], cbS, giaBanS, oldSizes, canhBao);
+                    ProcessSizeMerge(maSP, kichCoMap['M'], cbM, giaBanM, oldSizes, canhBao);
+                    ProcessSizeMerge(maSP, kichCoMap['L'], cbL, giaBanL, oldSizes, canhBao);
 
                     scope.Complete();
                 }
@@ -92,54 +105,47 @@ namespace BUS
 
 
         // (MỚI) Hàm trợ giúp cho logic Merge
-        private void ProcessSizeMerge(string maSP, int maKichCo, bool isChecked, decimal newPrice, List<KichCoSPDTO> oldSizes)
+        private void ProcessSizeMerge(string maSP, int maKichCo, bool isChecked, decimal newPrice, List<KichCoSPDTO> oldSizes, int canhBao)
         {
-            // Tìm xem size này có trong DB từ trước không
             KichCoSPDTO oldSize = oldSizes.FirstOrDefault(s => s.MaKichCo == maKichCo);
 
             if (isChecked)
             {
-                // Người dùng MUỐN có size này
                 if (oldSize != null)
                 {
                     // ĐÃ CÓ -> UPDATE
-                    // (Chỉ update nếu giá khác, cho tối ưu)
-                    if (oldSize.GiaBan != newPrice)
-                    {
-                        suaSanPhamDAO.UpdateKichCoSP(maSP, maKichCo, newPrice);
-                    }
+                    // (SỬA) Truyền 'canhBao'
+                    suaSanPhamDAO.UpdateKichCoSP(maSP, maKichCo, newPrice, canhBao);
                 }
                 else
                 {
                     // CHƯA CÓ -> INSERT
-                    // Dùng lại helper cũ, nó sẽ set Tồn kho = 0
-                    KichCoSPDTO newDto = CreateKichCoSP(maSP, maKichCo, newPrice);
+                    // (SỬA) Truyền 'canhBao'
+                    KichCoSPDTO newDto = CreateKichCoSP(maSP, maKichCo, newPrice, canhBao);
                     suaSanPhamDAO.InsertKichCoSP(newDto);
                 }
             }
             else
             {
-                // Người dùng KHÔNG MUỐN có size này
                 if (oldSize != null)
                 {
-                    // ĐÃ CÓ -> DELETE
+                    // ĐÃ CÓ -> DELETE (Giữ nguyên)
                     suaSanPhamDAO.DeleteSpecificKichCoSP(maSP, maKichCo);
                 }
-                // else: CHƯA CÓ -> Không làm gì cả (đúng)
             }
         }
 
 
         // (Giữ nguyên) Hàm trợ giúp tạo DTO
-        private KichCoSPDTO CreateKichCoSP(string maSP, int maKichCo, decimal giaBan)
+        private KichCoSPDTO CreateKichCoSP(string maSP, int maKichCo, decimal giaBan, int canhBao)
         {
             return new KichCoSPDTO
             {
                 MaSP = maSP,
                 MaKichCo = maKichCo,
                 GiaBan = giaBan,
-                SoLuongTon = 0,      // Mặc định về 0 khi thêm MỚI
-                CanhBaoTonKho = 10,
+                SoLuongTon = 0,
+                CanhBaoTonKho = canhBao, // <-- (SỬA) Dùng giá trị mới
                 TrangThaiSP = true
             };
         }
