@@ -78,6 +78,7 @@ namespace CF36
                 // 1. Tải thông tin cơ bản
                 txtTen.Text = info.TenSP;
                 cbbLoaiSanPham.SelectedValue = info.MaLoai;
+                txtSoLuongCanhBao.Text = info.CanhBaoTonKho.ToString();
 
                 // 2. Tải thông tin size/giá
                 // Vô hiệu hóa hết textbox trước
@@ -211,41 +212,30 @@ namespace CF36
         {
             try
             {
-                // 1. Tạo DTO sản phẩm
-                SanPhamDTO sp = new SanPhamDTO
+                // (BỔ SUNG) Đọc số lượng cảnh báo
+                if (!int.TryParse(txtSoLuongCanhBao.Text, out int canhBao) || canhBao < 0)
                 {
-                    MaSP = this.maSP,
-                    TenSP = txtTen.Text.Trim(),
-                    MaLoai = (int)cbbLoaiSanPham.SelectedValue
-                };
-
-                // 2. Nếu có ảnh mới, gán đường dẫn tương đối
-                if (!string.IsNullOrEmpty(selectedImagePath))
-                {
-                    string extension = Path.GetExtension(selectedImagePath);
-                    string fileName = this.maSP + extension;
-                    string relativePath = Path.Combine("images", "products", fileName);
-                    sp.DuongDanAnh = relativePath;
-
-                    // Giải phóng ảnh cũ nếu đang hiển thị
-                    if (picAnhSua.Image != null)
-                    {
-                        picAnhSua.Image.Dispose();
-                        picAnhSua.Image = null;
-                    }
-
-                    // Copy ảnh vào thư mục
-                    HandleImageUpload(this.maSP);
+                    MessageBox.Show("Số lượng cảnh báo không hợp lệ.");
+                    return;
                 }
 
-                // 3. Gọi BUS để lưu thông tin + ảnh
+                // 1. (SỬA) Gọi BUS (truyền thêm 'canhBao')
                 suaSanPhamBUS.LuuThongTinSanPham(
-                    sp,
+                    this.maSP,
+                    txtTen.Text.Trim(),
+                    (int)cbbLoaiSanPham.SelectedValue,
+                    canhBao, // <-- Tham số mới
                     cbS.Checked, txtSuaGiaS.Text,
                     cbM.Checked, txtSuaGiaM.Text,
                     cbL.Checked, txtSuaGiaL.Text,
                     kichCoMap
                 );
+
+                // 2. Xử lý ảnh (giữ nguyên)
+                if (selectedImagePath != null)
+                {
+                    HandleImageUpload(this.maSP);
+                }
 
                 MessageBox.Show("Cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;

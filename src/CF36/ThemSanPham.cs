@@ -128,42 +128,30 @@ namespace CF36
                 string tenSP = txtTenSanPham.Text.Trim();
                 int maLoai = (int)cbbLoaiSanPham.SelectedValue;
 
-                // Kiểm tra ảnh đã chọn chưa
-                string relativeImagePath = null;
-                if (!string.IsNullOrEmpty(selectedImagePath))
+                // (BỔ SUNG) Đọc số lượng cảnh báo
+                if (!int.TryParse(txtSoLuongCanhBao.Text, out int canhBao) || canhBao < 0)
                 {
-                    string extension = Path.GetExtension(selectedImagePath);
-                    string fileName = maSP + extension;
-                    relativeImagePath = Path.Combine("images", "products", fileName);
+                    MessageBox.Show("Số lượng cảnh báo không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
-                // 2. Tạo DTO sản phẩm
-                SanPhamDTO sp = new SanPhamDTO
-                {
-                    MaSP = maSP,
-                    TenSP = tenSP,
-                    MaLoai = maLoai,
-                    DuongDanAnh = relativeImagePath
-                };
-
-                // 3. Gọi BUS để xử lý thêm sản phẩm + kích cỡ
-                themSanPhamBUS.ThemSanPham(sp,
+                // 2. (SỬA) Gọi BUS (truyền thêm 'canhBao')
+                themSanPhamBUS.ThemSanPham(maSP, tenSP, maLoai, canhBao,
                                            cbS.Checked, txtGiaS.Text,
                                            cbM.Checked, txtGiaM.Text,
                                            cbL.Checked, txtGiaL.Text,
                                            kichCoMap);
 
-                // 4. Lưu ảnh vào thư mục nếu có
+                // 3. Xử lý ảnh (giữ nguyên)
                 HandleImageUpload(maSP);
 
-                // 5. Thông báo thành công
                 MessageBox.Show("Thêm sản phẩm mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
