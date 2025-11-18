@@ -53,16 +53,23 @@ namespace DAO
 
             // Lấy thông tin các size/giá (để fill lên form)
             string querySize = @"
-                SELECT kc.kichco, kcsp.giaban 
-                FROM KICHCOSP kcsp
-                JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-                WHERE kcsp.masp = @maSP";
+        SELECT kc.kichco, kcsp.giaban, kcsp.canhbaotonkho 
+        FROM KICHCOSP kcsp
+        JOIN KICHCO kc ON kcsp.makichco = kc.makichco
+        WHERE kcsp.masp = @maSP";
 
             SqlParameter[] paramSize = { new SqlParameter("@maSP", maSP) };
             DataTable dataSize = provider.ExecuteQuery(querySize, paramSize);
 
+
             foreach (DataRow row in dataSize.Rows)
             {
+                // (BỔ SUNG) Lấy CanhBaoTonKho từ hàng ĐẦU TIÊN
+                if (dto.DanhSachKichCo.Count == 0)
+                {
+                    dto.CanhBaoTonKho = (int)row["canhbaotonkho"];
+                }
+
                 dto.DanhSachKichCo.Add(new KichCoGiaDTO
                 {
                     KichCo = row["kichco"].ToString()[0],
@@ -113,15 +120,24 @@ namespace DAO
         }
 
         // (MỚI) 3. Cập nhật GIÁ BÁN của một KICHCOSP
-        public bool UpdateKichCoSP(string maSP, int maKichCo, decimal giaBan)
+        public bool UpdateKichCoSP(string maSP, int maKichCo, decimal giaBan, int canhBao)
         {
-            // Chỉ cập nhật giá, giữ nguyên ID, tồn kho...
-            string query = "UPDATE KICHCOSP SET giaban = @giaban WHERE masp = @masp AND makichco = @makichco";
+            // (SỬA LẠI) Thêm "canhbaotonkho = @canhbaotonkho"
+            string query = @"UPDATE KICHCOSP 
+                       SET giaban = @giaban, 
+                           canhbaotonkho = @canhbaotonkho 
+                       WHERE masp = @masp AND makichco = @makichco";
+
             SqlParameter[] param = {
-                new SqlParameter("@giaban", giaBan),
-                new SqlParameter("@masp", maSP),
-                new SqlParameter("@makichco", maKichCo)
-            };
+        new SqlParameter("@giaban", giaBan),
+        
+        // (BỔ SUNG) Thêm tham số này
+        new SqlParameter("@canhbaotonkho", canhBao),
+
+        new SqlParameter("@masp", maSP),
+        new SqlParameter("@makichco", maKichCo)
+    };
+
             int result = provider.ExecuteNonQuery(query, param);
             return result > 0;
         }
