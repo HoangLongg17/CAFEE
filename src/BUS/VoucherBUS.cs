@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 using DAO;
 using DTO;
-using Microsoft.Data.SqlClient;
-using System.Data;
+
 namespace BUS
 {
     public class VoucherBUS
@@ -42,49 +39,124 @@ namespace BUS
 
         public bool AddVoucher(VoucherDTO voucher)
         {
-            // Kiểm tra trùng mã
-            if (VoucherDAO.Instance.CheckCodeExists(voucher.Code))
+            if (voucher == null) return false;
+
+            // Duplicate code check
+            if (VoucherDAO.GetIdFromCode(voucher.Code) != null)
                 return false;
 
-            // Kiểm tra giá trị giảm
-            if (voucher.Giatri <= 0 || voucher.Giatri > 100)
-                return false;
-
-            // Kiểm tra ngày
+            // Date validation
             if (voucher.Ngaykt < voucher.Ngaybd)
                 return false;
 
-            return VoucherDAO.Instance.AddVoucher(voucher);
+            // Business rule for Giatri depending on Maloaivc
+            if (voucher.Maloaivc == 1 || voucher.Maloaivc == 3)
+            {
+                if (voucher.Giatri <= 0) return false;
+            }
+            else if (voucher.Maloaivc == 2 || voucher.Maloaivc == 4)
+            {
+                if (voucher.Giatri != 0) return false;
+            }
+
+            try
+            {
+                return VoucherDAO.Instance.AddVoucher(voucher);
+            }
+            catch
+            {
+                return false;
+            }
         }
+
         public bool UpdateVoucher(VoucherDTO voucher)
         {
-            return VoucherDAO.Instance.UpdateVoucher(voucher);
+            if (voucher == null) return false;
+
+            // Check code uniqueness excluding current voucher
+            if (Voucher1tang1DAO.Instance.CheckCodeExists(voucher.Code, voucher.Mavc))
+                return false;
+
+            // Date validation
+            if (voucher.Ngaykt < voucher.Ngaybd)
+                return false;
+
+            // Business rule for Giatri depending on Maloaivc
+            if (voucher.Maloaivc == 1 || voucher.Maloaivc == 3)
+            {
+                if (voucher.Giatri <= 0) return false;
+            }
+            else if (voucher.Maloaivc == 2 || voucher.Maloaivc == 4)
+            {
+                if (voucher.Giatri != 0) return false;
+            }
+
+            try
+            {
+                return VoucherDAO.Instance.UpdateVoucher(voucher);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public int UpdateVoucherAndReturnAffectedRows(VoucherDTO voucher)
         {
-            return VoucherDAO.Instance.UpdateVoucherAndReturnAffectedRows(voucher);
+            if (voucher == null) return 0;
+
+            // basic validation kept in UpdateVoucher; here we delegate to DAO
+            try
+            {
+                return VoucherDAO.Instance.UpdateVoucherAndReturnAffectedRows(voucher);
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public bool UpdateVoucherChiTiet(int mavc, List<int> idkcspList)
         {
-            return VoucherDAO.Instance.UpdateVoucherChiTiet(mavc, idkcspList);
+            try
+            {
+                return VoucherDAO.Instance.UpdateVoucherChiTiet(mavc, idkcspList);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool DeleteVoucher(int mavc)
         {
-            return VoucherDAO.Instance.DeleteVoucher(mavc);
+            try
+            {
+                return VoucherDAO.Instance.DeleteVoucher(mavc);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool CheckCodeExists(string code, int? excludeMavc = null)
         {
-            return VoucherDAO.Instance.CheckCodeExists(code, excludeMavc);
+            if (string.IsNullOrWhiteSpace(code)) return false;
+
+            if (excludeMavc.HasValue)
+            {
+                return Voucher1tang1DAO.Instance.CheckCodeExists(code, excludeMavc);
+            }
+
+            return VoucherDAO.GetIdFromCode(code) != null;
         }
 
         public DataTable GetVouchersByDateRange(DateTime from, DateTime to)
         {
             return VoucherDAO.Instance.GetVouchersByDateRange(from, to);
         }
+
         public static string GetCode(int mavc)
         {
             return VoucherDAO.GetCode(mavc);
@@ -94,26 +166,61 @@ namespace BUS
         {
             return VoucherDAO.Instance.GetVoucherTypes();
         }
+
         public bool AddVoucherChiTiet(int mavc, int idkcsp)
         {
-            return VoucherDAO.Instance.AddVoucherChiTiet(mavc, idkcsp);
+            try
+            {
+                return VoucherDAO.Instance.AddVoucherChiTiet(mavc, idkcsp);
+            }
+            catch
+            {
+                return false;
+            }
         }
+
         public bool CheckChiTietVoucher(int mavc, int idkcsp)
         {
-            return VoucherDAO.Instance.CheckChiTietVoucher(mavc, idkcsp);
+            try
+            {
+                return VoucherDAO.Instance.CheckChiTietVoucher(mavc, idkcsp);
+            }
+            catch
+            {
+                return false;
+            }
         }
+
         public int AddVoucherAndGetID(VoucherDTO voucher)
         {
-            return VoucherDAO.Instance.AddVoucherAndReturnID(voucher);
+            if (voucher == null) return -1;
+
+            // reuse AddVoucher validations but return inserted id
+            if (VoucherDAO.GetIdFromCode(voucher.Code) != null) return -1;
+            if (voucher.Ngaykt < voucher.Ngaybd) return -1;
+            if ((voucher.Maloaivc == 1 || voucher.Maloaivc == 3) && voucher.Giatri <= 0) return -1;
+            if ((voucher.Maloaivc == 2 || voucher.Maloaivc == 4) && voucher.Giatri != 0) return -1;
+
+            try
+            {
+                return VoucherDAO.Instance.AddVoucherAndReturnID(voucher);
+            }
+            catch
+            {
+                return -1;
+            }
         }
+
         public DataTable GetAllVouchersWithJoin()
         {
             return VoucherDAO.Instance.GetAllVouchersWithJoin();
         }
+
         public DataTable GetVouchersByTypeWithJoin(int maloaivc)
         {
             return VoucherDAO.Instance.GetVouchersByTypeWithJoin(maloaivc);
         }
+
         public static int? GetIdFromCode(string code)
         {
             return VoucherDAO.GetIdFromCode(code);

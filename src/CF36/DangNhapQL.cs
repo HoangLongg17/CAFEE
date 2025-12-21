@@ -81,5 +81,10 @@ namespace CF36
         {
 
         }
+
+        private void tlpusername_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

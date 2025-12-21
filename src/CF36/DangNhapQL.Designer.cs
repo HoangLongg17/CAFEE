@@ -149,6 +149,7 @@
             tlpusername.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpusername.Size = new Size(498, 60);
             tlpusername.TabIndex = 5;
+            tlpusername.Paint += tlpusername_Paint;
             // 
             // txtusernv
             // 
@@ -157,7 +158,7 @@
             txtusernv.Name = "txtusernv";
             txtusernv.Size = new Size(200, 27);
             txtusernv.TabIndex = 1;
-            txtusernv.Text = "admin";
+            txtusernv.Text = "quanly";
             // 
             // tlppass
             // 

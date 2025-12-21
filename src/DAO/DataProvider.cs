@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Data;
+using System;
 using System.Data;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
@@ -59,6 +60,93 @@ namespace DAO
             }
 
             return data;
+        }
+
+        // Execute stored procedure and return DataTable
+        public DataTable ExecuteStoredProcedure(string spName, SqlParameter[] parameters = null)
+        {
+            DataTable data = new DataTable();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionSTR))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(spName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        if (parameters != null)
+                            command.Parameters.AddRange(parameters);
+
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            adapter.Fill(data);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện stored procedure: " + ex.Message);
+            }
+
+            return data;
+        }
+
+        // Execute stored procedure non-query (INSERT/UPDATE/DELETE)
+        public int ExecuteNonQueryStoredProcedure(string spName, SqlParameter[] parameters = null)
+        {
+            int result = 0;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionSTR))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(spName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        if (parameters != null)
+                            command.Parameters.AddRange(parameters);
+
+                        result = command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện stored procedure: " + ex.Message);
+            }
+
+            return result;
+        }
+
+        // Execute stored procedure scalar (return single value)
+        public object ExecuteScalarStoredProcedure(string spName, SqlParameter[] parameters = null)
+        {
+            object result = null;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionSTR))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(spName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        if (parameters != null)
+                            command.Parameters.AddRange(parameters);
+
+                        result = command.ExecuteScalar();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện stored procedure: " + ex.Message);
+            }
+
+            return result;
         }
 
 

@@ -293,27 +293,39 @@ namespace DAO
 
             return -1; // hoặc 0 nếu bạn muốn mặc định là không xác định
         }
+        // ... other using and class unchanged ...
         public int GetIdKcsp(string maSP, string kichCo)
         {
-            string query = @"
-            SELECT k.id
-            FROM KICHCOSP k
-            JOIN SANPHAM sp ON k.masp = sp.masp
-            JOIN KICHCO kc ON k.makichco = kc.makichco
-            WHERE sp.masp = @masp AND kc.kichco = @kichco";
+            // Since size/idkcsp removed, try to resolve numeric Masp from maSP string.
+            if (string.IsNullOrWhiteSpace(maSP)) return 0;
 
-            SqlParameter[] parameters = {
-            new SqlParameter("@masp", maSP),
-            new SqlParameter("@kichco", kichCo)
+            // If maSP is numerical string, return it
+            if (int.TryParse(maSP, out int parsed))
+            {
+                // verify exists
+                string queryVerify = "SELECT TOP 1 Masp FROM SANPHAM WHERE Masp = @masp";
+                SqlParameter[] p = { new SqlParameter("@masp", parsed) };
+                DataTable dtV = provider.ExecuteQuery(queryVerify, p);
+                if (dtV.Rows.Count > 0) return parsed;
+                return 0;
+            }
+
+            // Otherwise try to match by product name or cast match
+            string query = @"
+            SELECT TOP 1 Masp
+            FROM SANPHAM
+            WHERE CAST(Masp AS NVARCHAR(50)) = @maSP OR tensp = @maSP";
+                SqlParameter[] parameters = {
+            new SqlParameter("@maSP", maSP)
             };
 
             var dt = provider.ExecuteQuery(query, parameters);
             if (dt.Rows.Count > 0)
             {
-                return Convert.ToInt32(dt.Rows[0]["id"]);
+                return Convert.ToInt32(dt.Rows[0]["Masp"]);
             }
 
-            return 0; // không tìm thấy
+            return 0; // not found
         }
         public static void CapNhatSoLuongTon(int idKcsp, int soLuongThayDoi)
         {
