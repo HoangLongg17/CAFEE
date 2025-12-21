@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
 using System.Data.SqlClient;
 using DTO;
 
@@ -13,17 +8,29 @@ namespace DAO
 {
     public static class LSNhapKhoDAO
     {
-        private static readonly string connStr =
-            ConfigurationManager.ConnectionStrings["QUANLICAFE36"].ConnectionString;
+        private static readonly string connStr = GetConnectionString();
 
+        private static string GetConnectionString()
+        {
+            var cs = ConfigurationManager.ConnectionStrings["QLCH"];
+            if (cs == null || string.IsNullOrWhiteSpace(cs.ConnectionString))
+            {
+                throw new Exception(
+                    "Không tìm thấy connection string 'QLCH'. " +
+                    "Kiểm tra App.config / Web.config và đảm bảo đúng project startup.");
+            }
+            return cs.ConnectionString;
+        }
+
+        // ================= MAP DTO =================
         private static LSNhapKhoDTO MapToDto(SqlDataReader r)
         {
             return new LSNhapKhoDTO
             {
-                Mank = Convert.ToInt32(r["Mank"]),
-                Ngaynhap = Convert.ToDateTime(r["Ngaynhap"]),
+                Mank = (int)r["Mank"],
+                Ngaynhap = (DateTime)r["Ngaynhap"],
                 Tennhacc = r["Tennhacc"].ToString(),
-                Tongtien = Convert.ToDecimal(r["Tongtien"])
+                Tongtien = (decimal)r["Tongtien"]
             };
         }
 
@@ -31,25 +38,24 @@ namespace DAO
         {
             return new ChiTietNhapKhoDTO
             {
-                Mank = Convert.ToInt32(r["Mank"]),
-                MaSP = r["Masp"].ToString(),
+                Mank = (int)r["Mank"],
+                MaSP = (int)r["Masp"],
                 TenSP = r["Tensp"].ToString(),
-                Size = r["Size"].ToString(),
-                SoLuongNhap = Convert.ToInt32(r["Soluongnhap"]),
-                GiaNhap = Convert.ToDecimal(r["Gianhap"]),
-                Thanhtien = Convert.ToDecimal(r["Thanhtien"])   
+                SoLuongNhap = (int)r["Soluongnhap"],
+                GiaNhap = (decimal)r["Gianhap"],
+                Thanhtien = (decimal)r["Thanhtien"]
             };
         }
 
-
+        // ================= PHIẾU NHẬP =================
         public static List<LSNhapKhoDTO> GetAll()
         {
             string sql = @"
                 SELECT nk.Mank, nk.Ngaynhap, ncc.Tennhacc,
-                       SUM(ct.Soluongnhap * ct.Gianhap) AS Tongtien
+                       ISNULL(SUM(ct.Soluongnhap * ct.Gianhap),0) AS Tongtien
                 FROM NHAPKHO nk
                 JOIN NHACUNGCAP ncc ON nk.Manhacc = ncc.Manhacc
-                JOIN CHITIETNHAPKHO ct ON nk.Mank = ct.Mank
+                LEFT JOIN CHITIETNHAPKHO ct ON nk.Mank = ct.Mank
                 GROUP BY nk.Mank, nk.Ngaynhap, ncc.Tennhacc
                 ORDER BY nk.Mank DESC";
 
@@ -58,60 +64,52 @@ namespace DAO
 
         public static List<LSNhapKhoDTO> Search(string keyword)
         {
-            if (string.IsNullOrWhiteSpace(keyword))
-                return GetAll();
-
             string sql = @"
                 SELECT nk.Mank, nk.Ngaynhap, ncc.Tennhacc,
-                       SUM(ct.Soluongnhap * ct.Gianhap) AS Tongtien
+                       ISNULL(SUM(ct.Soluongnhap * ct.Gianhap),0) AS Tongtien
                 FROM NHAPKHO nk
                 JOIN NHACUNGCAP ncc ON nk.Manhacc = ncc.Manhacc
-                JOIN CHITIETNHAPKHO ct ON nk.Mank = ct.Mank
+                LEFT JOIN CHITIETNHAPKHO ct ON nk.Mank = ct.Mank
                 WHERE CAST(nk.Mank AS NVARCHAR) LIKE @kw
                 GROUP BY nk.Mank, nk.Ngaynhap, ncc.Tennhacc
                 ORDER BY nk.Mank DESC";
 
-            var parameters = new Dictionary<string, object>
-            {
-                { "@kw", $"%{keyword.Trim()}%" }
-            };
-
-            return ExecuteQuery(sql, parameters, MapToDto);
+            return ExecuteQuery(sql,
+                new Dictionary<string, object> { { "@kw", $"%{keyword}%" } },
+                MapToDto);
         }
 
         public static List<LSNhapKhoDTO> FilterByDate(DateTime from, DateTime to)
         {
             string sql = @"
                 SELECT nk.Mank, nk.Ngaynhap, ncc.Tennhacc,
-                       SUM(ct.Soluongnhap * ct.Gianhap) AS Tongtien
+                       ISNULL(SUM(ct.Soluongnhap * ct.Gianhap),0) AS Tongtien
                 FROM NHAPKHO nk
                 JOIN NHACUNGCAP ncc ON nk.Manhacc = ncc.Manhacc
-                JOIN CHITIETNHAPKHO ct ON nk.Mank = ct.Mank
-                WHERE nk.Ngaynhap BETWEEN @from AND @to
+                LEFT JOIN CHITIETNHAPKHO ct ON nk.Mank = ct.Mank
+                WHERE CAST(nk.Ngaynhap AS DATE) BETWEEN @from AND @to
                 GROUP BY nk.Mank, nk.Ngaynhap, ncc.Tennhacc
                 ORDER BY nk.Ngaynhap DESC";
 
-            var parameters = new Dictionary<string, object>
-            {
-                { "@from", from },
-                { "@to", to }
-            };
-
-            return ExecuteQuery(sql, parameters, MapToDto);
+            return ExecuteQuery(sql,
+                new Dictionary<string, object>
+                {
+                    { "@from", from },
+                    { "@to", to }
+                },
+                MapToDto);
         }
 
+        // ================= CHI TIẾT NHẬP =================
         public static List<ChiTietNhapKhoDTO> GetChiTietNhapKho()
         {
             string sql = @"
-        SELECT nk.Mank, sp.Masp, sp.Tensp, kc.kichco AS Size,
-               ct.Soluongnhap, ct.Gianhap,
-               (ct.Soluongnhap * ct.Gianhap) AS Thanhtien
-        FROM CHITIETNHAPKHO ct
-        JOIN NHAPKHO nk ON ct.Mank = nk.Mank
-        JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
-        JOIN SANPHAM sp ON kcsp.Masp = sp.Masp
-        JOIN KICHCO kc ON kcsp.Makichco = kc.Makichco
-        ORDER BY nk.Mank DESC";
+                SELECT nk.Mank, sp.Masp, sp.Tensp,
+                       ct.Soluongnhap, ct.Gianhap, ct.Thanhtien
+                FROM CHITIETNHAPKHO ct
+                JOIN NHAPKHO nk ON ct.Mank = nk.Mank
+                JOIN SANPHAM sp ON ct.Masp = sp.Masp
+                ORDER BY nk.Mank DESC";
 
             return ExecuteQuery(sql, null, MapToChiTietDto);
         }
@@ -119,67 +117,37 @@ namespace DAO
         public static List<ChiTietNhapKhoDTO> GetChiTietNhapKhoTheoNgay(DateTime from, DateTime to)
         {
             string sql = @"
-        SELECT nk.Mank, sp.Masp, sp.Tensp, kc.kichco AS Size,
-               ct.Soluongnhap, ct.Gianhap,
-               (ct.Soluongnhap * ct.Gianhap) AS Thanhtien
-        FROM CHITIETNHAPKHO ct
-        JOIN NHAPKHO nk ON ct.Mank = nk.Mank
-        JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
-        JOIN SANPHAM sp ON kcsp.Masp = sp.Masp
-        JOIN KICHCO kc ON kcsp.Makichco = kc.Makichco
-        WHERE nk.Ngaynhap BETWEEN @from AND @to
-        ORDER BY nk.Mank DESC";
+                SELECT nk.Mank, sp.Masp, sp.Tensp,
+                       ct.Soluongnhap, ct.Gianhap, ct.Thanhtien
+                FROM CHITIETNHAPKHO ct
+                JOIN NHAPKHO nk ON ct.Mank = nk.Mank
+                JOIN SANPHAM sp ON ct.Masp = sp.Masp
+                WHERE CAST(nk.Ngaynhap AS DATE) BETWEEN @from AND @to
+                ORDER BY nk.Mank DESC";
 
-            var parameters = new Dictionary<string, object>
-           {
-            { "@from", from },
-            { "@to", to }
-             };
-
-            return ExecuteQuery(sql, parameters, MapToChiTietDto);
+            return ExecuteQuery(sql,
+                new Dictionary<string, object>
+                {
+                    { "@from", from },
+                    { "@to", to }
+                },
+                MapToChiTietDto);
         }
+
         public static List<ChiTietNhapKhoDTO> GetChiTietNhapKhoTheoMaNK(int maNK)
         {
             string sql = @"
-        SELECT nk.Mank, sp.Masp, sp.Tensp, kc.Kichco AS Size,
-               ct.Soluongnhap, ct.Gianhap,
-               (ct.Soluongnhap * ct.Gianhap) AS Thanhtien
-        FROM CHITIETNHAPKHO ct
-        JOIN NHAPKHO nk ON ct.Mank = nk.Mank
-        JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.Id
-        JOIN SANPHAM sp ON kcsp.Masp = sp.Masp
-        JOIN KICHCO kc ON kcsp.MaKichco = kc.MaKichco
-        WHERE nk.Mank = @maNK";
+                SELECT nk.Mank, sp.Masp, sp.Tensp,
+                       ct.Soluongnhap, ct.Gianhap, ct.Thanhtien
+                FROM CHITIETNHAPKHO ct
+                JOIN NHAPKHO nk ON ct.Mank = nk.Mank
+                JOIN SANPHAM sp ON ct.Masp = sp.Masp
+                WHERE nk.Mank = @maNK";
 
-            var parameters = new Dictionary<string, object>
-                {
-                    { "@maNK", maNK }
-                };
-
-            return ExecuteQuery(sql, parameters, MapToChiTietDto);
+            return ExecuteQuery(sql,
+                new Dictionary<string, object> { { "@maNK", maNK } },
+                MapToChiTietDto);
         }
-
-        public static List<ChiTietNhapKhoDTO> GetChiTietNhapKhoTheoDanhSach(List<int> maNKList)
-        {
-            if (maNKList == null || maNKList.Count == 0)
-                return new List<ChiTietNhapKhoDTO>();
-
-            string maList = string.Join(",", maNKList);
-            string sql = $@"
-        SELECT nk.Mank, sp.Masp, sp.Tensp, kc.Kichco AS Size,
-               ct.Soluongnhap, ct.Gianhap,
-               (ct.Soluongnhap * ct.Gianhap) AS Thanhtien
-        FROM CHITIETNHAPKHO ct
-        JOIN NHAPKHO nk ON ct.Mank = nk.Mank
-        JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.Id
-        JOIN SANPHAM sp ON kcsp.Masp = sp.Masp
-        JOIN KICHCO kc ON kcsp.MaKichco = kc.MaKichco
-        WHERE nk.Mank IN ({maList})
-        ORDER BY nk.Mank DESC";
-
-            return ExecuteQuery(sql, null, MapToChiTietDto);
-        }
-
 
         private static List<T> ExecuteQuery<T>(
             string sql,
@@ -192,21 +160,14 @@ namespace DAO
             using (var cmd = new SqlCommand(sql, conn))
             {
                 if (parameters != null)
-                {
                     foreach (var p in parameters)
-                        cmd.Parameters.AddWithValue(p.Key, p.Value ?? DBNull.Value);
-                }
+                        cmd.Parameters.AddWithValue(p.Key, p.Value);
 
                 conn.Open();
                 using (var r = cmd.ExecuteReader())
-                {
                     while (r.Read())
-                    {
                         list.Add(mapFunc(r));
-                    }
-                }
             }
-
             return list;
         }
     }

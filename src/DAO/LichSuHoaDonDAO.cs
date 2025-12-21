@@ -10,47 +10,38 @@ namespace DAO
     {
         private DataProvider provider = DataProvider.Instance;
 
-        // 1. Tìm kiếm/Lọc hóa đơn (Giữ nguyên)
+        // 1. Tìm kiếm / lọc hóa đơn
         public List<LichSuHoaDonDTO> SearchHoaDon(string timKiem, string maNV, DateTime? tuNgay, DateTime? denNgay)
         {
             List<LichSuHoaDonDTO> list = new List<LichSuHoaDonDTO>();
 
             string query = @"
                 SELECT 
-                    h.Mahd, 
-                    h.Ngaylap, 
-                    n.Hoten AS TenNhanVien, 
-                    ISNULL(k.Tenkh, N'Khách vãng lai') AS TenKhachHang, 
-                    h.Tongtien 
+                    h.Mahd,
+                    h.Ngaylap,
+                    nv.Hoten AS TenNhanVien,
+                    ISNULL(k.Tenkh, N'Khách vãng lai') AS TenKhachHang,
+                    h.TongTien
                 FROM HOADON h
-                JOIN NGUOIDUNG n ON h.Mand = n.Mand
+                JOIN NHANVIEN nv ON h.Manv = nv.Manv
                 LEFT JOIN KHACHHANG k ON h.Makh = k.Makh
-                WHERE 
-                    (@timKiem IS NULL OR 
-                     k.Tenkh LIKE @timKiemLike OR 
-                     k.Sdt LIKE @timKiemLike OR 
-                     CAST(h.Mahd AS VARCHAR(10)) = @timKiem)
-                AND 
-                    (@maNV IS NULL OR h.Mand = @maNV)
-                AND 
-                    (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
-                AND 
-                    (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
+                WHERE
+                    (@timKiem IS NULL 
+                     OR k.Tenkh LIKE @timKiemLike
+                     OR k.Sdt LIKE @timKiemLike
+                     OR CAST(h.Mahd AS NVARCHAR) = @timKiem)
+                AND (@maNV IS NULL OR h.Manv = @maNV)
+                AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
+                AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
                 ORDER BY h.Ngaylap DESC";
 
-            object paramTimKiem = string.IsNullOrEmpty(timKiem) ? DBNull.Value : (object)timKiem;
-            object paramTimKiemLike = string.IsNullOrEmpty(timKiem) ? DBNull.Value : (object)($"%{timKiem}%");
-            object paramMaNV = string.IsNullOrEmpty(maNV) ? DBNull.Value : (object)maNV;
-            object paramTuNgay = tuNgay.HasValue ? (object)tuNgay.Value : DBNull.Value;
-            object paramDenNgay = denNgay.HasValue ? (object)denNgay.Value : DBNull.Value;
-
-            SqlParameter[] parameters = new SqlParameter[]
+            SqlParameter[] parameters =
             {
-                new SqlParameter("@timKiem", paramTimKiem),
-                new SqlParameter("@timKiemLike", paramTimKiemLike),
-                new SqlParameter("@maNV", paramMaNV),
-                new SqlParameter("@tuNgay", paramTuNgay),
-                new SqlParameter("@denNgay", paramDenNgay)
+                new SqlParameter("@timKiem", (object)timKiem ?? DBNull.Value),
+                new SqlParameter("@timKiemLike", timKiem == null ? DBNull.Value : $"%{timKiem}%"),
+                new SqlParameter("@maNV", (object)maNV ?? DBNull.Value),
+                new SqlParameter("@tuNgay", (object)tuNgay ?? DBNull.Value),
+                new SqlParameter("@denNgay", (object)denNgay ?? DBNull.Value)
             };
 
             DataTable data = provider.ExecuteQuery(query, parameters);
@@ -63,139 +54,139 @@ namespace DAO
                     NgayLap = (DateTime)row["Ngaylap"],
                     TenNhanVien = row["TenNhanVien"].ToString(),
                     TenKhachHang = row["TenKhachHang"].ToString(),
-                    TongTien = Math.Max(0, (decimal)row["Tongtien"])
+                    TongTien = (decimal)row["TongTien"]
                 });
             }
             return list;
         }
 
-        // 2. (THAY ĐỔI) Lấy danh sách nhân viên
+        // 2. Danh sách nhân viên
         public List<NhanVienDTO> GetNhanVienList()
         {
             List<NhanVienDTO> list = new List<NhanVienDTO>();
-            string query = "SELECT Mand, Hoten, Vitri FROM NGUOIDUNG WHERE Vitri = N'NhanVien'";
+            string query = "SELECT Manv, Hoten, Vitri FROM NHANVIEN";
 
             DataTable data = provider.ExecuteQuery(query);
-
             foreach (DataRow row in data.Rows)
             {
                 list.Add(new NhanVienDTO
                 {
-                    Mand = row["Mand"].ToString(),
+                    Mand = row["Manv"].ToString(),
                     Hoten = row["Hoten"].ToString(),
                     Vitri = row["Vitri"].ToString()
                 });
             }
             return list;
         }
+
+        // 3. Chi tiết hóa đơn
         public List<ChiTietLichSuDTO> GetChiTietHoaDon(int maHD)
         {
             List<ChiTietLichSuDTO> list = new List<ChiTietLichSuDTO>();
+
             string query = @"
-        SELECT 
-            sp.tensp, 
-            kc.kichco, 
-            ct.Soluong, 
-            ct.Dongia, 
-            ct.Thanhtien 
-        FROM CHITIETHD ct
-        JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
-        JOIN SANPHAM sp ON kcsp.masp = sp.masp
-        JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-        WHERE ct.Mahd = @maHD";
+                SELECT 
+                    sp.Tensp,
+                    ct.Soluong,
+                    ct.Dongia,
+                    ct.Thanhtien
+                FROM CHITIETHD ct
+                JOIN SANPHAM sp ON ct.Masp = sp.Masp
+                WHERE ct.Mahd = @maHD";
 
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-        new SqlParameter("@maHD", maHD)
-            };
-
-            DataTable data = provider.ExecuteQuery(query, parameters);
+            SqlParameter[] param = { new SqlParameter("@maHD", maHD) };
+            DataTable data = provider.ExecuteQuery(query, param);
 
             foreach (DataRow row in data.Rows)
             {
                 list.Add(new ChiTietLichSuDTO
                 {
-                    TenSP = row["tensp"].ToString(),
-                    KichCo = row["kichco"].ToString(),
+                    TenSP = row["Tensp"].ToString(),
                     SoLuong = (int)row["Soluong"],
-                    DonGia = Math.Max(0, (decimal)row["Dongia"]),
-                    ThanhTien = Math.Max(0, (decimal)row["Thanhtien"])
+                    DonGia = (decimal)row["Dongia"],
+                    ThanhTien = (decimal)row["Thanhtien"]
                 });
             }
             return list;
         }
-        // (BỔ SUNG HÀM 1) Lấy thông tin cơ bản của HĐ
+
+        // 4. Thông tin cơ bản hóa đơn
         public HoaDonDayDuDTO GetThongTinCoBanHD(int maHD)
         {
-            HoaDonDayDuDTO dto = null;
             string query = @"
-            SELECT 
-            h.Mahd, h.Ngaylap, h.Tongtien, 
-            n.Hoten AS TenNhanVien, 
-            ISNULL(k.Tenkh, N'Khách vãng lai') AS TenKhachHang, 
-            k.Sdt, 
-            ISNULL(k.Tichdiem, 0) AS TichDiem
-            FROM HOADON h
-            JOIN NGUOIDUNG n ON h.Mand = n.Mand
-            LEFT JOIN KHACHHANG k ON h.Makh = k.Makh
-            WHERE h.Mahd = @maHD";
+                SELECT 
+                    h.Mahd,
+                    h.Ngaylap,
+                    h.TongTien,
+                    nv.Hoten AS TenNhanVien,
+                    ISNULL(k.Tenkh, N'Khách vãng lai') AS TenKhachHang,
+                    k.Sdt,
+                    ISNULL(k.Tichdiem, 0) AS TichDiem
+                FROM HOADON h
+                JOIN NHANVIEN nv ON h.Manv = nv.Manv
+                LEFT JOIN KHACHHANG k ON h.Makh = k.Makh
+                WHERE h.Mahd = @maHD";
 
             SqlParameter[] param = { new SqlParameter("@maHD", maHD) };
             DataTable data = provider.ExecuteQuery(query, param);
 
-            if (data.Rows.Count > 0)
+            if (data.Rows.Count == 0) return null;
+
+            DataRow r = data.Rows[0];
+            return new HoaDonDayDuDTO
             {
-                DataRow row = data.Rows[0];
-                dto = new HoaDonDayDuDTO
-                {
-                    MaHD = (int)row["Mahd"],
-                    NgayLap = (DateTime)row["Ngaylap"],
-                    TenNhanVien = row["TenNhanVien"].ToString(),
-                    TenKhachHang = row["TenKhachHang"].ToString(),
-                    SdtKhachHang = row["Sdt"]?.ToString(), // Xử lý null
-                    TichDiem = (int)row["TichDiem"],
-                    TongTienCuoiCung = Math.Max(0, (decimal)row["Tongtien"])
-                };
-            }
-            return dto;
+                MaHD = (int)r["Mahd"],
+                NgayLap = (DateTime)r["Ngaylap"],
+                TenNhanVien = r["TenNhanVien"].ToString(),
+                TenKhachHang = r["TenKhachHang"].ToString(),
+                SdtKhachHang = r["Sdt"]?.ToString(),
+                TichDiem = (int)r["TichDiem"],
+                TongTienCuoiCung = (decimal)r["TongTien"]
+            };
         }
 
-        // (BỔ SUNG HÀM 2) Lấy danh sách voucher đã dùng
+        // 5. Voucher đã dùng
         public List<string> GetVouchersSuDung(int maHD)
         {
-            List<string> vouchers = new List<string>();
+            List<string> list = new List<string>();
             string query = @"
-        SELECT v.Code 
-        FROM APMAVC a
-        JOIN VOUCHER v ON a.Mavc = v.Mavc
-        WHERE a.Mahd = @maHD";
+                SELECT v.Code
+                FROM APMAVC a
+                JOIN VOUCHER v ON a.Mavc = v.Mavc
+                WHERE a.Mahd = @maHD";
 
             SqlParameter[] param = { new SqlParameter("@maHD", maHD) };
             DataTable data = provider.ExecuteQuery(query, param);
 
             foreach (DataRow row in data.Rows)
-            {
-                vouchers.Add(row["Code"].ToString());
-            }
-            return vouchers;
+                list.Add(row["Code"].ToString());
+
+            return list;
         }
-        // (BỔ SUNG HÀM MỚI NÀY VÀO LichSuHoaDonDAO.cs)
+
+        // 6. Lấy danh sách khách hàng theo nhân viên
         public List<KhachHangCuaNVDTO> GetKhachHangCuaNhanVien(string maNV)
         {
             List<KhachHangCuaNVDTO> list = new List<KhachHangCuaNVDTO>();
+
             string query = @"
         SELECT 
-            k.Tenkh, 
-            k.Sdt, 
-            SUM(h.Tongtien) as TongChiTieu 
+            k.Tenkh,
+            k.Sdt,
+            SUM(h.TongTien) AS TongChiTieu
         FROM HOADON h
         JOIN KHACHHANG k ON h.Makh = k.Makh
-        WHERE h.Mand = @maNV AND h.Makh IS NOT NULL
+        WHERE h.Manv = @maNV
+          AND h.Makh IS NOT NULL
         GROUP BY k.Tenkh, k.Sdt
         ORDER BY TongChiTieu DESC";
 
-            SqlParameter[] param = { new SqlParameter("@maNV", maNV) };
-            DataTable data = provider.ExecuteQuery(query, param); // Giả sử ông dùng DataProvider
+            SqlParameter[] param =
+            {
+        new SqlParameter("@maNV", maNV)
+    };
+
+            DataTable data = provider.ExecuteQuery(query, param);
 
             foreach (DataRow row in data.Rows)
             {
@@ -206,7 +197,9 @@ namespace DAO
                     TongChiTieu = (decimal)row["TongChiTieu"]
                 });
             }
+
             return list;
         }
+
     }
 }

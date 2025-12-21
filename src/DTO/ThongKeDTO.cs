@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DTO
 {
-    // DTO cho ComboBox Loại sản phẩm
+
     public class LoaiSPDTO
     {
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }
     }
 
-    // DTO cho DataGridView Hóa đơn
     public class HoaDonDTO
     {
         public int MaHD { get; set; }
@@ -26,25 +26,16 @@ namespace DTO
         public int? PhanTramGiam { get; set; }
         public int? LoaiVoucher { get; set; }
 
-        // ✅ Sản phẩm mua
-        public List<DanhSachSanPhamDTO> SanPhamMua { get; set; } = new List<DanhSachSanPhamDTO>();
-        public string SanPhamMuaText => SanPhamMua == null ? "" :
-            string.Join(", ", SanPhamMua.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
+        public List<DanhSachSanPhamDTO> SanPhamMua { get; set; } = new();
+        public List<DanhSachSanPhamDTO> SanPhamTang { get; set; } = new();
+        public List<DanhSachSanPhamDTO> SanPhamDuocGiam { get; set; } = new(); // Thêm
 
-        // ✅ Sản phẩm tặng
-        public List<DanhSachSanPhamDTO> SanPhamTang { get; set; } = new List<DanhSachSanPhamDTO>();
-        public string SanPhamTangText => SanPhamTang == null ? "" :
-            string.Join(", ", SanPhamTang.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
-
-        // ✅ Sản phẩm được áp dụng giảm giá
-        public List<DanhSachSanPhamDTO> SanPhamDuocGiam { get; set; } = new List<DanhSachSanPhamDTO>();
-        public string SanPhamDuocGiamText => SanPhamDuocGiam == null ? "" :
-            string.Join(", ", SanPhamDuocGiam.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
-
-
+        // Các property Text để hiển thị trong DGV hoặc PDF
+        public string SanPhamMuaText => SanPhamMua != null ? string.Join(", ", SanPhamMua.Select(p => p.TenSP)) : "";
+        public string SanPhamTangText => SanPhamTang != null ? string.Join(", ", SanPhamTang.Select(p => p.TenSP)) : "";
+        public string SanPhamDuocGiamText => SanPhamDuocGiam != null ? string.Join(", ", SanPhamDuocGiam.Select(p => p.TenSP)) : "";
     }
 
-    // DTO cho dữ liệu biểu đồ
     public class DoanhThuChartDTO
     {
         public DateTime Ngay { get; set; }
