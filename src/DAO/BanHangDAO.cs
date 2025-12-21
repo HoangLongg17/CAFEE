@@ -98,17 +98,17 @@ namespace DAO
             provider.ExecuteNonQuery(query, parameters);
         }
         // 1. Tạo hóa đơn
-        public int TaoHoaDon(int? makh, string mand, decimal tongTienGoc, decimal tienGiam, decimal tongTienSauGiam)
+        public int TaoHoaDon(int? makh, string manv, decimal tongTienGoc, decimal tienGiam, decimal tongTienSauGiam)
         {
             string query = @"
-            INSERT INTO HOADON (Ngaylap, Makh, Mand, TongTienGoc, TienGiam, TongTien)
-            VALUES (@ngaylap, @makh, @mand, @tongTienGoc, @tienGiam, @tongTien);
+            INSERT INTO HOADON (Ngaylap, Makh, Manv, TongTienGoc, TienGiam, TongTien)
+            VALUES (@ngaylap, @makh, @manv, @tongTienGoc, @tienGiam, @tongTien);
             SELECT SCOPE_IDENTITY();";
 
             SqlParameter[] parameters = {
             new SqlParameter("@ngaylap", DateTime.Now),
             new SqlParameter("@makh", (object)makh ?? DBNull.Value),
-            new SqlParameter("@mand", mand),
+            new SqlParameter("@manv", manv),
             new SqlParameter("@tongTienGoc", tongTienGoc),
             new SqlParameter("@tienGiam", tienGiam),
             new SqlParameter("@tongTien", tongTienSauGiam)

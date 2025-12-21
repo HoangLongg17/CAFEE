@@ -27,7 +27,7 @@ namespace DAO
         {
             get
             {
-                return System.Configuration.ConfigurationManager.ConnectionStrings["QUANLICAFE36"].ConnectionString;
+                return System.Configuration.ConfigurationManager.ConnectionStrings["QUANLICHTL"].ConnectionString;
             }
         }
 

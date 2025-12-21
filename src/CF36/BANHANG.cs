@@ -30,7 +30,7 @@ namespace CF36
         public BANHANG()
         {
             InitializeComponent();
-            maND = CurrentUser.Mand;
+            maND = CurrentUser.Manv;
         }
 
         private void btnThemKhachHangMoi_Click(object sender, EventArgs e)
@@ -69,7 +69,7 @@ namespace CF36
             UIText.ApplyButtonTextStyle(this);
             LoadSanPham();
 
-            maND = CurrentUser.Mand;
+            maND = CurrentUser.Manv;
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)

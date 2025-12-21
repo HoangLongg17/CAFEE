@@ -17,7 +17,7 @@ namespace DAO
 
         public DangNhapNVDTO Dangnhap(string username)
         {
-            string query = "SELECT Mand,Tk,Mk,Hoten FROM NGUOIDUNG WHERE Tk = @Tk AND Mand LIKE 'NV%'";
+            string query = "SELECT Manv,Tk,Mk,Hoten FROM NHANVIEN WHERE Tk = @Tk AND Mand LIKE 'NV%'";
             SqlParameter[] parameters = new SqlParameter[]
             {
                  new SqlParameter("@Tk", username)
@@ -31,7 +31,7 @@ namespace DAO
             DataRow row = dt.Rows[0];
             DangNhapNVDTO user = new DangNhapNVDTO
             {
-                Mand = row["MaND"].ToString(),
+                Manv = row["Manv"].ToString(),
                 Tk = row["Tk"].ToString(),
                 Mk = row["Mk"].ToString(),
                 Hoten = row["Hoten"].ToString()

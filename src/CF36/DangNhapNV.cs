@@ -45,7 +45,7 @@ namespace CF36
             }
 
             // Gán thông tin người dùng hiện tại
-            CurrentUser.Mand = mand;
+            CurrentUser.Manv = mand;
 
             // Tạo form nhân viên
             NHANVIEN nhanvien = new NHANVIEN(result.user.Hoten, username, mand);

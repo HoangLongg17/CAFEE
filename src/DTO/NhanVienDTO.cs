@@ -24,13 +24,13 @@ namespace DTO
             public NhanVienDTO(DataRow row)
             {
 
-                this.Mand = row["Mand"].ToString();
+                this.Mand = row["Manv"].ToString();
                 this.Tk = row["Tk"].ToString();
                 this.Mk = row["Mk"].ToString();
                 this.Vitri = row["Vitri"].ToString();
                 this.Hoten = row["Hoten"].ToString();
                 this.Sdt = row["Sdt"].ToString();
-                this.Email = row["email"].ToString();
+                this.Email = row.IsNull("email") ? string.Empty : row["email"].ToString();
                 this.NgaySinh = row.IsNull("Ngsinh") ? DateTime.MinValue : Convert.ToDateTime(row["Ngsinh"]);
                 this.Diachi = row.IsNull("Diachi") ? string.Empty : row["Diachi"].ToString();
                 this.Luong = row.IsNull("Luong") ? 0m : Convert.ToDecimal(row["Luong"]);

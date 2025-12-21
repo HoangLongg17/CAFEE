@@ -59,7 +59,7 @@ namespace BUS
         public string GetEmployeeIDByUsername(string username)
         {
             var user = userDAO.Dangnhap(username);
-            return user?.Mand;
+            return user?.Manv;
         }
     }
 }

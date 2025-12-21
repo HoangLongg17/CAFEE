@@ -17,7 +17,7 @@ namespace DAO
             List<NhanVienDTO> dsNV = new List<NhanVienDTO>();
             try
             {
-                string query = "SELECT * FROM NGUOIDUNG";
+                string query = "SELECT * FROM NHANVIEN";
                 DataTable data = DataProvider.Instance.ExecuteQuery(query);
 
                 if (data != null && data.Rows.Count > 0)
@@ -39,10 +39,10 @@ namespace DAO
 
         public static void XoaNV(string maNV)
         {
-            string sql = "DELETE FROM NGUOIDUNG WHERE Mand=@Mand";
+            string sql = "DELETE FROM NHANVIEN WHERE Manv=@Manv";
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@Mand", maNV)
+                new SqlParameter("@Manv", maNV)
             };
             DataProvider.Instance.ExecuteNonQuery(sql, parameters);
         }
@@ -50,14 +50,14 @@ namespace DAO
         public static void SuaNV(NhanVienDTO nv)
         {
             string sql = @"
-                UPDATE NGUOIDUNG SET 
+                UPDATE NHANVIEN SET 
                     Hoten=@Hoten, Sdt=@Sdt, email=@Email, Vitri=@Vitri, Luong=@Luong, 
                     Tk=@Tk, Mk=@Mk, Bank=@Bank, stk=@Stk, Ngsinh=@Ngsinh
-                WHERE Mand=@Mand";
+                WHERE Manv=@Manv";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@Mand", nv.Mand),
+                new SqlParameter("@Manv", nv.Mand),
                 new SqlParameter("@Hoten", nv.Hoten),
                 new SqlParameter("@Sdt", nv.Sdt),
                 new SqlParameter("@Email", nv.Email),
@@ -74,13 +74,13 @@ namespace DAO
 
         public static DataTable LayDanhSachNhanVien()
         {
-            string query = "SELECT Mand, Hoten, Sdt, email, Vitri, Luong, Tk, Mk, Bank, stk, Ngsinh FROM NGUOIDUNG";
+            string query = "SELECT Manv AS Mand, Hoten, Sdt, email, Vitri, Luong, Tk, Mk, Bank, stk, Ngsinh FROM NHANVIEN";
             return DataProvider.Instance.ExecuteQuery(query);
         }
 
         public static DataTable TimKiemNhanVien(string keyword)
         {
-            string query = "SELECT * FROM NGUOIDUNG WHERE Hoten LIKE @Keyword OR Sdt LIKE @Keyword";
+            string query = "SELECT * FROM NHANVIEN WHERE Hoten LIKE @Keyword OR Sdt LIKE @Keyword";
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Keyword", "%" + keyword + "%")
@@ -101,7 +101,7 @@ namespace DAO
             List<NhanVienDTO> dsNV = new List<NhanVienDTO>();
             try
             {
-                string query = "SELECT * FROM NGUOIDUNG WHERE Luong > 0";
+                string query = "SELECT * FROM NHANVIEN WHERE Luong > 0";
                 DataTable data = DataProvider.Instance.ExecuteQuery(query);
                 foreach (DataRow row in data.Rows)
                 {
@@ -119,11 +119,11 @@ namespace DAO
         public static void themNV(NhanVienDTO hs)
         {
             string sql = @"
-                INSERT INTO NGUOIDUNG (Mand, Hoten, Sdt, email, Vitri, Luong, Tk, Mk, Bank, stk, Ngsinh) 
-                VALUES (@Mand, @Hoten, @Sdt, @Email, @Vitri, @Luong, @Tk, @Mk, @Bank, @Stk, @Ngsinh)";
+                INSERT INTO NHANVIEN (Manv, Hoten, Sdt, email, Vitri, Luong, Tk, Mk, Bank, stk, Ngsinh) 
+                VALUES (@Manv, @Hoten, @Sdt, @Email, @Vitri, @Luong, @Tk, @Mk, @Bank, @Stk, @Ngsinh)";
 
             SqlParameter[] parameters = new SqlParameter[11];
-            parameters[0] = new SqlParameter("@Mand", hs.Mand);
+            parameters[0] = new SqlParameter("@Manv", hs.Mand);
             parameters[1] = new SqlParameter("@Hoten", hs.Hoten);
             parameters[2] = new SqlParameter("@Sdt", hs.Sdt);
             parameters[3] = new SqlParameter("@Email", hs.Email);
@@ -140,10 +140,10 @@ namespace DAO
 
         public static NhanVienDTO LayNhanVienTheoID(string id)
         {
-            string query = "SELECT * FROM NGUOIDUNG WHERE Mand = @Mand";
+            string query = "SELECT * FROM NHANVIEN WHERE Manv = @Manv";
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@Mand", id)
+                new SqlParameter("@Manv", id)
             };
             DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
             if (data.Rows.Count > 0)
@@ -154,8 +154,8 @@ namespace DAO
         }
         public static string LayTenNhanVien(string mand)
         {
-            string query = "SELECT Hoten FROM NGUOIDUNG WHERE Mand = @mand";
-            SqlParameter[] parameters = { new SqlParameter("@mand", mand) };
+            string query = "SELECT Hoten FROM NHANVIEN WHERE Manv = @manv";
+            SqlParameter[] parameters = { new SqlParameter("@manv", mand) };
             DataTable dt = DataProvider.Instance.ExecuteQuery(query, parameters);
 
             if (dt.Rows.Count > 0)
@@ -168,10 +168,10 @@ namespace DAO
         // thêm nhân viên
         public static bool KiemTraTonTaiMaNV(string maNV)
         {
-            string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE Mand = @Mand";
+            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Manv = @Manv";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@Mand", maNV)
+        new SqlParameter("@Manv", maNV)
             };
             // ExecuteScalar sẽ trả về giá trị đầu tiên của hàng đầu tiên (là COUNT(*))
             object result = DataProvider.Instance.ExecuteScalar(query, parameters);
@@ -185,7 +185,7 @@ namespace DAO
         }
         public static bool KiemTraTonTaiTenTaiKhoan(string tenTaiKhoan)
         {
-            string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE Tk = @Tk";
+            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Tk = @Tk";
             SqlParameter[] parameters = new SqlParameter[]
             {
         new SqlParameter("@Tk", tenTaiKhoan)
@@ -203,7 +203,7 @@ namespace DAO
         public static bool KiemTraTonTaiSdt(string sdt)
         {
             // Dùng COUNT(*) để kiểm tra số lượng bản ghi có Sdt trùng khớp
-            string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE Sdt = @Sdt";
+            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Sdt = @Sdt";
             SqlParameter[] parameters = new SqlParameter[]
             {
         new SqlParameter("@Sdt", sdt)
@@ -215,7 +215,7 @@ namespace DAO
         public static bool KiemTraTonTaiEmail(string email)
         {
             // Dùng COUNT(*) để kiểm tra số lượng bản ghi có Email trùng khớp
-            string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE Email = @Email";
+            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Email = @Email";
             SqlParameter[] parameters = new SqlParameter[]
             {
         new SqlParameter("@Email", email)
@@ -227,12 +227,12 @@ namespace DAO
         // sửa nhân viên
         public static bool KiemTraTonTaiTenTaiKhoanKhac(string tenTaiKhoan, string mandCanLoaiTru)
         {
-            // Tìm COUNT(*) của các bản ghi có Tk trùng với tenTaiKhoan VÀ Mand KHÁC với mandCanLoaiTru
-            string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE Tk = @Tk AND Mand != @MandCanLoaiTru";
+            // Tìm COUNT(*) của các bản ghi có Tk trùng với tenTaiKhoan VÀ Manv KHÁC với mandCanLoaiTru
+            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Tk = @Tk AND Manv != @ManvCanLoaiTru";
             SqlParameter[] parameters = new SqlParameter[]
             {
         new SqlParameter("@Tk", tenTaiKhoan),
-        new SqlParameter("@MandCanLoaiTru", mandCanLoaiTru)
+        new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
             };
             object result = DataProvider.Instance.ExecuteScalar(query, parameters);
 
@@ -241,12 +241,12 @@ namespace DAO
         }
         public static bool KiemTraTonTaiSdtKhac(string sdt, string mandCanLoaiTru)
         {
-            // Tìm COUNT(*) các bản ghi có Sdt trùng VÀ Mand KHÁC với MandCanLoaiTru
-            string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE Sdt = @Sdt AND Mand != @MandCanLoaiTru";
+            // Tìm COUNT(*) các bản ghi có Sdt trùng VÀ Manv KHÁC với ManvCanLoaiTru
+            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Sdt = @Sdt AND Manv != @ManvCanLoaiTru";
             SqlParameter[] parameters = new SqlParameter[]
             {
         new SqlParameter("@Sdt", sdt),
-        new SqlParameter("@MandCanLoaiTru", mandCanLoaiTru)
+        new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
             };
             object result = DataProvider.Instance.ExecuteScalar(query, parameters);
 
@@ -255,12 +255,12 @@ namespace DAO
 
         public static bool KiemTraTonTaiEmailKhac(string email, string mandCanLoaiTru)
         {
-            // Tìm COUNT(*) các bản ghi có Email trùng VÀ Mand KHÁC với MandCanLoaiTru
-            string query = "SELECT COUNT(*) FROM NGUOIDUNG WHERE Email = @Email AND Mand != @MandCanLoaiTru";
+            // Tìm COUNT(*) các bản ghi có Email trùng VÀ Manv KHÁC với ManvCanLoaiTru
+            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Email = @Email AND Manv != @ManvCanLoaiTru";
             SqlParameter[] parameters = new SqlParameter[]
             {
         new SqlParameter("@Email", email),
-        new SqlParameter("@MandCanLoaiTru", mandCanLoaiTru)
+        new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
             };
             object result = DataProvider.Instance.ExecuteScalar(query, parameters);
 

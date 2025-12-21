@@ -8,7 +8,7 @@ namespace CF36
 {
     public class CurrentUser
     {
-        public static string Mand { get; set; }
+        public static string Manv { get; set; }
         public static string Tk { get; set; }
     }
 }

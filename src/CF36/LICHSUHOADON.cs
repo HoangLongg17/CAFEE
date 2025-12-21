@@ -466,5 +466,10 @@ namespace CF36
                 }
             }
         }
+
+        private void tlpall_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

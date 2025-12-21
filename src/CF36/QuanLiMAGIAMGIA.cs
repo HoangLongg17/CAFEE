@@ -20,7 +20,7 @@ namespace CF36
         {
             InitializeComponent();
             this.isChonMa = false;
-            this.maND = CurrentUser.Mand ?? "";
+            this.maND = CurrentUser.Manv ?? "";
 
         }
         public QuanLiMAGIAMGIA(bool chonMa, string maND)

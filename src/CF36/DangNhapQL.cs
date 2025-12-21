@@ -32,8 +32,8 @@ namespace CF36
             }
 
             MessageBox.Show(result.message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            MaNguoiDungDangNhap = result.user.Mand;
-            CurrentUser.Mand = result.user.Mand;
+            MaNguoiDungDangNhap = result.user.Manv;
+            CurrentUser.Manv = result.user.Manv;
             string username = txtusernv.Text.Trim();
             QuanLi ql = new QuanLi(result.user.Hoten, username);
             this.Hide();

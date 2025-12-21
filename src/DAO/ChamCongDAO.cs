@@ -17,13 +17,13 @@ namespace DAO
         private DataProvider provider = DataProvider.Instance;
 
         // Bắt đầu làm việc: chỉ lưu giờ bắt đầu
-        public bool InsertBatDauLam(string mand, DateTime gioBatDau)
+        public bool InsertBatDauLam(string manv, DateTime gioBatDau)
         {
             string query = @"
-                INSERT INTO CHAMCONG (Mand, Ngay, GioBatDau)
-                VALUES (@Mand, @Ngay, @GioBatDau)";
+                INSERT INTO CHAMCONG (Manv, Ngay, GioBatDau)
+                VALUES (@Manv, @Ngay, @GioBatDau)";
             SqlParameter[] parameters = {
-                new SqlParameter("@Mand", mand),
+                new SqlParameter("@Manv", manv),
                 new SqlParameter("@Ngay", gioBatDau.Date),
                 new SqlParameter("@GioBatDau", gioBatDau)
             };
@@ -31,14 +31,14 @@ namespace DAO
         }
 
         // Chấm công: cập nhật giờ kết thúc và tổng thời gian
-        public bool UpdateChamCong(string mand, DateTime ngay, DateTime gioKetThuc, int tongPhut)
+        public bool UpdateChamCong(string manv, DateTime ngay, DateTime gioKetThuc, int tongPhut)
         {
             string query = @"
                 UPDATE CHAMCONG
                 SET GioKetThuc = @GioKetThuc, TongThoiGian = @Tong
-                WHERE Mand = @Mand AND Ngay = @Ngay AND GioKetThuc IS NULL";
+                WHERE Manv = @Manv AND Ngay = @Ngay AND GioKetThuc IS NULL";
             SqlParameter[] parameters = {
-                new SqlParameter("@Mand", mand),
+                new SqlParameter("@Manv", manv),
                 new SqlParameter("@Ngay", ngay),
                 new SqlParameter("@GioKetThuc", gioKetThuc),
                 new SqlParameter("@Tong", tongPhut)
@@ -47,13 +47,13 @@ namespace DAO
         }
 
         // Lưu đầy đủ một lượt chấm công (nếu không dùng bắt đầu riêng)
-        public bool InsertChamCongFull(string mand, DateTime gioBatDau, DateTime gioKetThuc, int tongPhut)
+        public bool InsertChamCongFull(string manv, DateTime gioBatDau, DateTime gioKetThuc, int tongPhut)
         {
             string query = @"
-                INSERT INTO CHAMCONG (Mand, Ngay, GioBatDau, GioKetThuc, TongThoiGian)
-                VALUES (@Mand, @Ngay, @GioBatDau, @GioKetThuc, @TongThoiGian)";
+                INSERT INTO CHAMCONG (Manv, Ngay, GioBatDau, GioKetThuc, TongThoiGian)
+                VALUES (@Manv, @Ngay, @GioBatDau, @GioKetThuc, @TongThoiGian)";
             SqlParameter[] parameters = {
-                new SqlParameter("@Mand", mand),
+                new SqlParameter("@Manv", manv),
                 new SqlParameter("@Ngay", gioBatDau.Date),
                 new SqlParameter("@GioBatDau", gioBatDau),
                 new SqlParameter("@GioKetThuc", gioKetThuc),
@@ -63,14 +63,14 @@ namespace DAO
         }
 
         // Lấy tổng thời gian làm trong ngày
-        public int GetTongPhutTrongNgay(string mand, DateTime ngay)
+        public int GetTongPhutTrongNgay(string manv, DateTime ngay)
         {
             string query = @"
                 SELECT ISNULL(SUM(TongThoiGian), 0)
                 FROM CHAMCONG
-                WHERE Mand = @Mand AND Ngay = @Ngay";
+                WHERE Manv = @Manv AND Ngay = @Ngay";
             SqlParameter[] parameters = {
-                new SqlParameter("@Mand", mand),
+                new SqlParameter("@Manv", manv),
                 new SqlParameter("@Ngay", ngay)
             };
             object result = provider.ExecuteScalar(query, parameters);
@@ -78,14 +78,14 @@ namespace DAO
         }
 
         // Lấy giờ bắt đầu chưa chấm công
-        public DateTime? GetGioBatDauChuaChamCong(string mand, DateTime ngay)
+        public DateTime? GetGioBatDauChuaChamCong(string manv, DateTime ngay)
         {
             string query = @"
                 SELECT TOP 1 GioBatDau
                 FROM CHAMCONG
-                WHERE Mand = @Mand AND Ngay = @Ngay AND GioKetThuc IS NULL";
+                WHERE Manv = @Manv AND Ngay = @Ngay AND GioKetThuc IS NULL";
             SqlParameter[] parameters = {
-                new SqlParameter("@Mand", mand),
+                new SqlParameter("@Manv", manv),
                 new SqlParameter("@Ngay", ngay)
             };
             object result = provider.ExecuteScalar(query, parameters);
@@ -94,12 +94,12 @@ namespace DAO
         public List<ChamCongDTO> GetLichSuChamCongChiTiet(string keyword, DateTime tuNgay, DateTime denNgay)
         {
             string query = @"
-        SELECT c.Mand, n.HoTen, n.Luong, c.Ngay, c.GioBatDau, c.GioKetThuc, c.TongThoiGian,
+        SELECT c.Manv, n.HoTen, n.Luong, c.Ngay, c.GioBatDau, c.GioKetThuc, c.TongThoiGian,
                (ISNULL(c.TongThoiGian, 0) / 60.0) * n.Luong AS TongLuong
         FROM CHAMCONG c
-        JOIN NGUOIDUNG n ON c.Mand = n.Mand
+        JOIN NHANVIEN n ON c.Manv = n.Manv
         WHERE c.Ngay BETWEEN @TuNgay AND @DenNgay
-        AND (n.HoTen LIKE @Keyword OR c.Mand LIKE @Keyword)
+        AND (n.HoTen LIKE @Keyword OR c.Manv LIKE @Keyword)
         ORDER BY c.Ngay DESC";
 
             SqlParameter[] parameters = {
@@ -115,7 +115,7 @@ namespace DAO
             {
                 list.Add(new ChamCongDTO
                 {
-                    MaND = row["Mand"].ToString(),
+                    MaND = row["Manv"].ToString(),
                     TenNhanVien = row["HoTen"].ToString(),
                     Luong = Convert.ToInt32(row["Luong"]),
                     Ngay = Convert.ToDateTime(row["Ngay"]),
@@ -129,11 +129,11 @@ namespace DAO
             return list;
         }
 
-        public int GetLuongTheoGio(string mand)
+        public int GetLuongTheoGio(string manv)
         {
-            string query = "SELECT Luong FROM NGUOIDUNG WHERE Mand = @Mand";
+            string query = "SELECT Luong FROM NHANVIEN WHERE Manv = @Manv";
             SqlParameter[] parameters = {
-        new SqlParameter("@Mand", mand)
+        new SqlParameter("@Manv", manv)
     };
 
             object result = provider.ExecuteScalar(query, parameters);
