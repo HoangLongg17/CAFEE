@@ -13,13 +13,13 @@ namespace DTO
         public string Tennhacc { get; set; }
         public decimal Tongtien { get; set; }
     }
+
     public class ChiTietNhapKhoDTO
     {
-        public int Mank { get; set; }         
-        public string MaSP { get; set; }      
-        public string TenSP { get; set; }     
-        public string Size { get; set; }      
-        public int SoLuongNhap { get; set; }  
+        public int Mank { get; set; }
+        public int MaSP { get; set; }
+        public string TenSP { get; set; }
+        public int SoLuongNhap { get; set; }
         public decimal GiaNhap { get; set; }
         public decimal Thanhtien { get; set; }
     }
