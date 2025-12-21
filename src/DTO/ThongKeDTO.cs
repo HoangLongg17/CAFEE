@@ -1,15 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DTO
 {
-    // DTO cho ComboBox Loại sản phẩm
+    public class DanhSachSanPhamDTO
+    {
+        public int IdKcsp { get; set; }                // ID của KICHCOSP
+        public string MaSP { get; set; }
+        public string TenSP { get; set; }
+        public int Maloai { get; set; }
+        public string TenLoai { get; set; }
+        public string KichCo { get; set; }
+        public decimal GiaBan { get; set; }
+        public int SoLuong { get; set; } = 1;
+        public int SoLuongTon { get; set; }
+        public string DuongDanAnh { get; set; }
+        public string TrangThaiText { get; set; }      // chuyển đổi bit thành chuỗi
+        public bool LaSanPhamTang { get; set; } = false;
+        public string MaSanPhamGoc { get; set; }       // sản phẩm tặng thuộc về mã nào
+        public decimal GiaGoc { get; set; }            // giá gốc
+        public decimal TienGiam { get; set; }          // tiền giảm cho sản phẩm
+    }
+
     public class LoaiSPDTO
     {
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }
     }
 
-    // DTO cho DataGridView Hóa đơn
     public class HoaDonDTO
     {
         public int MaHD { get; set; }
@@ -26,25 +44,10 @@ namespace DTO
         public int? PhanTramGiam { get; set; }
         public int? LoaiVoucher { get; set; }
 
-        // ✅ Sản phẩm mua
-        public List<DanhSachSanPhamDTO> SanPhamMua { get; set; } = new List<DanhSachSanPhamDTO>();
-        public string SanPhamMuaText => SanPhamMua == null ? "" :
-            string.Join(", ", SanPhamMua.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
-
-        // ✅ Sản phẩm tặng
-        public List<DanhSachSanPhamDTO> SanPhamTang { get; set; } = new List<DanhSachSanPhamDTO>();
-        public string SanPhamTangText => SanPhamTang == null ? "" :
-            string.Join(", ", SanPhamTang.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
-
-        // ✅ Sản phẩm được áp dụng giảm giá
-        public List<DanhSachSanPhamDTO> SanPhamDuocGiam { get; set; } = new List<DanhSachSanPhamDTO>();
-        public string SanPhamDuocGiamText => SanPhamDuocGiam == null ? "" :
-            string.Join(", ", SanPhamDuocGiam.Select(sp => $"{sp.TenSP} ({sp.KichCo}) x{sp.SoLuong}"));
-
-
+        public List<DanhSachSanPhamDTO> SanPhamMua { get; set; } = new();
+        public List<DanhSachSanPhamDTO> SanPhamTang { get; set; } = new();
     }
 
-    // DTO cho dữ liệu biểu đồ
     public class DoanhThuChartDTO
     {
         public DateTime Ngay { get; set; }

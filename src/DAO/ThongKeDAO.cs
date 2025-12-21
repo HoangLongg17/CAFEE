@@ -10,231 +10,147 @@ namespace DAO
     {
         private DataProvider provider = DataProvider.Instance;
 
+        // ================= LOẠI SẢN PHẨM =================
         public List<LoaiSPDTO> GetLoaiSP()
         {
             List<LoaiSPDTO> list = new List<LoaiSPDTO>();
-            string query = "SELECT maloai, tenloai FROM LOAISP";
+            string query = "SELECT Maloai, Tenloai FROM LOAISP";
             DataTable data = provider.ExecuteQuery(query);
 
             foreach (DataRow row in data.Rows)
             {
                 list.Add(new LoaiSPDTO
                 {
-                    MaLoai = (int)row["maloai"],
-                    TenLoai = row["tenloai"].ToString()
+                    MaLoai = (int)row["Maloai"],
+                    TenLoai = row["Tenloai"].ToString()
                 });
             }
             return list;
         }
+
+        // ================= HÓA ĐƠN =================
         public List<HoaDonDTO> GetHoaDonList(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
         {
             List<HoaDonDTO> list = new List<HoaDonDTO>();
-
             string query = @"
-            SELECT 
-            h.Mahd, h.Ngaylap, 
-            h.TongTienGoc, h.TienGiam, h.TongTien,
-            ISNULL(k.Tenkh, N'Khách vãng lai') AS TenKH,
-            ISNULL(k.Sdt, '') AS SDTKH,
-            n.Hoten AS TenNhanVien,
-            v.Code AS MaVoucher,
-            v.Giatri AS GiaTriGiam,
-            v.Maloaivc AS LoaiVoucher
-            FROM HOADON h
-            LEFT JOIN KHACHHANG k ON h.Makh = k.Makh
-            JOIN NGUOIDUNG n ON h.Mand = n.Mand
-            LEFT JOIN APMAVC ap ON h.Mahd = ap.Mahd
-            LEFT JOIN VOUCHER v ON ap.Mavc = v.Mavc
-            WHERE 
-            (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
-            AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
-            ORDER BY h.Ngaylap DESC";
+                SELECT 
+                    h.Mahd,
+                    h.Ngaylap,
+                    h.TongTienGoc,
+                    h.TienGiam,
+                    h.TongTien,
+                    ISNULL(k.Tenkh, N'Khách vãng lai') AS TenKH,
+                    ISNULL(k.Sdt, '') AS SDTKH,
+                    nv.Hoten AS TenNhanVien,
+                    v.Code AS MaVoucher,
+                    v.Giatri,
+                    v.Maloaivc
+                FROM HOADON h
+                JOIN NHANVIEN nv ON h.Manv = nv.Manv
+                LEFT JOIN KHACHHANG k ON h.Makh = k.Makh
+                LEFT JOIN APMAVC ap ON h.Mahd = ap.Mahd
+                LEFT JOIN VOUCHER v ON ap.Mavc = v.Mavc
+                WHERE (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
+                  AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
+                ORDER BY h.Ngaylap DESC";
 
-            SqlParameter paramTuNgay = new SqlParameter("@tuNgay", tuNgay.HasValue ? (object)tuNgay.Value : DBNull.Value);
-            SqlParameter paramDenNgay = new SqlParameter("@denNgay", denNgay.HasValue ? (object)denNgay.Value : DBNull.Value);
+            SqlParameter[] param =
+            {
+                new SqlParameter("@tuNgay", tuNgay ?? (object)DBNull.Value),
+                new SqlParameter("@denNgay", denNgay ?? (object)DBNull.Value)
+            };
 
-            DataTable data = provider.ExecuteQuery(query, new object[] { paramTuNgay, paramDenNgay });
+            DataTable data = provider.ExecuteQuery(query, param);
 
             foreach (DataRow row in data.Rows)
             {
-                int maHD = (int)row["Mahd"];
-
-                HoaDonDTO hoaDon = new HoaDonDTO
+                int mahd = (int)row["Mahd"];
+                list.Add(new HoaDonDTO
                 {
-                    MaHD = maHD,
+                    MaHD = mahd,
                     NgayLap = (DateTime)row["Ngaylap"],
                     TenNhanVien = row["TenNhanVien"].ToString(),
                     TenKH = row["TenKH"].ToString(),
                     SDTKH = row["SDTKH"].ToString(),
                     TongTienGoc = (decimal)row["TongTienGoc"],
                     TienGiam = (decimal)row["TienGiam"],
-                    TongTien = Math.Max(0, (decimal)row["TongTien"]),
+                    TongTien = (decimal)row["TongTien"],
                     MaVoucher = row["MaVoucher"]?.ToString(),
-                    PhanTramGiam = (row["LoaiVoucher"] != DBNull.Value && (int)row["LoaiVoucher"] == 1)
-                    ? (int?)Convert.ToInt32(row["GiaTriGiam"])
-                    : null,
-                    LoaiVoucher = row["LoaiVoucher"] != DBNull.Value ? (int?)row["LoaiVoucher"] : null,
-                    SanPhamMua = GetSanPhamMua(maHD),
-                    SanPhamTang = GetSanPhamTang(maHD),
-                    SanPhamDuocGiam = (row["LoaiVoucher"] != DBNull.Value && ((int)row["LoaiVoucher"] == 1 || (int)row["LoaiVoucher"] == 3))
-                    ? GetSanPhamDuocGiam(maHD)
-                    : new List<DanhSachSanPhamDTO>()
-                };
-
-
-                list.Add(hoaDon);
+                    PhanTramGiam = row["Maloaivc"] != DBNull.Value && (int)row["Maloaivc"] == 1
+                        ? Convert.ToInt32(row["Giatri"])
+                        : null,
+                    LoaiVoucher = row["Maloaivc"] != DBNull.Value ? (int?)row["Maloaivc"] : null,
+                    SanPhamMua = GetSanPham(mahd, false),
+                    SanPhamTang = GetSanPham(mahd, true)
+                });
             }
-
             return list;
         }
 
-        private decimal TinhTongTienGoc(int maHD)
-        {
-            string query = "SELECT SUM(Soluong * Dongia) FROM CHITIETHD WHERE Mahd = @maHD";
-            SqlParameter param = new SqlParameter("@maHD", maHD);
-            object result = provider.ExecuteScalar(query, new SqlParameter[] { param });
-            return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
-        }
-        private List<DanhSachSanPhamDTO> GetSanPhamMua(int maHD)
+        // ================= SẢN PHẨM TRONG HÓA ĐƠN =================
+        private List<DanhSachSanPhamDTO> GetSanPham(int mahd, bool isTang)
         {
             string query = @"
-            SELECT 
-            sp.tensp AS TenSP,
-            kc.kichco AS KichCo,
-            ct.Soluong,
-            kcsp.id AS IdKcsp,
-            sp.maloai AS Maloai,
-            sp.masp AS MaSP,
-            sp.duongdananh AS DuongDanAnh,
-            CASE WHEN kcsp.trangthaisp = 1 THEN N'Đang bán' ELSE N'Ngừng bán' END AS TrangThaiText
-            FROM CHITIETHD ct
-            JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
-            JOIN SANPHAM sp ON kcsp.masp = sp.masp
-            JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-            WHERE ct.Mahd = @maHD AND ct.IsTang = 0";  //chỉ lấy sản phẩm mua
+                SELECT 
+                    sp.Masp,
+                    sp.Tensp,
+                    sp.Maloai,
+                    sp.Duongdananh,
+                    ct.Soluong
+                FROM CHITIETHD ct
+                JOIN SANPHAM sp ON ct.Masp = sp.Masp
+                WHERE ct.Mahd = @mahd AND ct.IsTang = @isTang";
 
-            SqlParameter param = new SqlParameter("@maHD", maHD);
-            DataTable data = provider.ExecuteQuery(query, new SqlParameter[] { param });
+            SqlParameter[] param =
+            {
+                new SqlParameter("@mahd", mahd),
+                new SqlParameter("@isTang", isTang)
+            };
 
+            DataTable data = provider.ExecuteQuery(query, param);
             List<DanhSachSanPhamDTO> list = new List<DanhSachSanPhamDTO>();
+
             foreach (DataRow row in data.Rows)
             {
                 list.Add(new DanhSachSanPhamDTO
                 {
-                    TenSP = row["TenSP"].ToString(),
-                    KichCo = row["KichCo"].ToString(),
+                    MaSP = row["Masp"].ToString(),
+                    TenSP = row["Tensp"].ToString(),
+                    Maloai = (int)row["Maloai"],
+                    DuongDanAnh = row["Duongdananh"].ToString(),
                     SoLuong = (int)row["Soluong"],
-                    IdKcsp = (int)row["IdKcsp"],
-                    Maloai = (int)row["Maloai"],
-                    MaSP = row["MaSP"].ToString(),
-                    DuongDanAnh = row["DuongDanAnh"].ToString(),
-                    TrangThaiText = row["TrangThaiText"].ToString(),
-                    LaSanPhamTang = false
+                    LaSanPhamTang = isTang
                 });
             }
             return list;
         }
 
-
-        private List<DanhSachSanPhamDTO> GetSanPhamTang(int maHD)
-        {
-            string query = @"
-            SELECT 
-            sp.tensp AS TenSP,
-            kc.kichco AS KichCo,
-            ct.Soluong,
-            kcsp.id AS IdKcsp,
-            sp.maloai AS Maloai,
-            sp.masp AS MaSP,
-            sp.duongdananh AS DuongDanAnh
-            FROM CHITIETHD ct
-            JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
-            JOIN SANPHAM sp ON kcsp.masp = sp.masp
-            JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-            WHERE ct.Mahd = @maHD AND ct.IsTang = 1";  //chỉ lấy sản phẩm tặng
-
-            SqlParameter param = new SqlParameter("@maHD", maHD);
-            DataTable data = provider.ExecuteQuery(query, new SqlParameter[] { param });
-
-            List<DanhSachSanPhamDTO> list = new List<DanhSachSanPhamDTO>();
-            foreach (DataRow row in data.Rows)
-            {
-                list.Add(new DanhSachSanPhamDTO
-                {
-                    TenSP = row["TenSP"].ToString(),
-                    KichCo = row["KichCo"].ToString(),
-                    SoLuong = (int)row["Soluong"], // số lượng tặng thực tế
-                    IdKcsp = (int)row["IdKcsp"],
-                    Maloai = (int)row["Maloai"],
-                    MaSP = row["MaSP"].ToString(),
-                    DuongDanAnh = row["DuongDanAnh"].ToString(),
-                    LaSanPhamTang = true
-                });
-            }
-            return list;
-        }
-
-        private List<DanhSachSanPhamDTO> GetSanPhamDuocGiam(int maHD)
-        {
-            string query = @"
-            SELECT 
-            sp.tensp AS TenSP, kc.kichco AS KichCo, ct.Soluong,
-            kcsp.id AS IdKcsp, sp.maloai AS Maloai, sp.masp AS MaSP,
-            sp.duongdananh AS DuongDanAnh
-            FROM CHITIETHD ct
-            JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
-            JOIN SANPHAM sp ON kcsp.masp = sp.masp
-            JOIN KICHCO kc ON kcsp.makichco = kc.makichco
-            WHERE ct.Mahd = @maHD
-            AND ct.IsTang = 0              
-            AND ct.Dongia < kcsp.giaban";  // giá sau giảm < giá gốc
-
-            SqlParameter param = new SqlParameter("@maHD", maHD);
-            DataTable data = provider.ExecuteQuery(query, new SqlParameter[] { param });
-
-            List<DanhSachSanPhamDTO> list = new List<DanhSachSanPhamDTO>();
-            foreach (DataRow row in data.Rows)
-            {
-                list.Add(new DanhSachSanPhamDTO
-                {
-                    TenSP = row["TenSP"].ToString(),
-                    KichCo = row["KichCo"].ToString(),
-                    SoLuong = (int)row["Soluong"],
-                    IdKcsp = (int)row["IdKcsp"],
-                    Maloai = (int)row["Maloai"],
-                    MaSP = row["MaSP"].ToString(),
-                    DuongDanAnh = row["DuongDanAnh"].ToString(),
-                    LaSanPhamTang = false
-                });
-            }
-            return list;
-        }
-
-
+        // ================= DOANH THU =================
         public List<DoanhThuChartDTO> GetDoanhThuData(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
         {
-            List<DoanhThuChartDTO> list = new List<DoanhThuChartDTO>();
-
             string query = @"
-            SELECT 
-            CAST(h.Ngaylap AS DATE) AS Ngay, 
-            SUM(CASE WHEN ct.Thanhtien < 0 THEN 0 ELSE ct.Thanhtien END) AS TongDoanhThu
-            FROM HOADON h
-            JOIN CHITIETHD ct ON h.Mahd = ct.Mahd
-            JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
-            JOIN SANPHAM sp ON kcsp.masp = sp.masp
-            WHERE ct.IsTang = 0
-            AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
-            AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
-            AND (@maLoai IS NULL OR sp.maloai = @maLoai)
-            GROUP BY CAST(h.Ngaylap AS DATE)
-            ORDER BY Ngay";
+                SELECT 
+                    CAST(h.Ngaylap AS DATE) AS Ngay,
+                    SUM(ct.Soluong * ct.Dongia) AS TongDoanhThu
+                FROM HOADON h
+                JOIN CHITIETHD ct ON h.Mahd = ct.Mahd
+                JOIN SANPHAM sp ON ct.Masp = sp.Masp
+                WHERE ct.IsTang = 0
+                  AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
+                  AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
+                  AND (@maLoai IS NULL OR sp.Maloai = @maLoai)
+                GROUP BY CAST(h.Ngaylap AS DATE)
+                ORDER BY Ngay";
 
-            SqlParameter paramTuNgay = new SqlParameter("@tuNgay", tuNgay.HasValue ? (object)tuNgay.Value : DBNull.Value);
-            SqlParameter paramDenNgay = new SqlParameter("@denNgay", denNgay.HasValue ? (object)denNgay.Value : DBNull.Value);
-            SqlParameter paramMaLoai = new SqlParameter("@maLoai", maLoai.HasValue ? (object)maLoai.Value : DBNull.Value);
+            SqlParameter[] param =
+            {
+                new SqlParameter("@tuNgay", tuNgay ?? (object)DBNull.Value),
+                new SqlParameter("@denNgay", denNgay ?? (object)DBNull.Value),
+                new SqlParameter("@maLoai", maLoai ?? (object)DBNull.Value)
+            };
 
-            DataTable data = provider.ExecuteQuery(query, new object[] { paramTuNgay, paramDenNgay, paramMaLoai });
+            DataTable data = provider.ExecuteQuery(query, param);
+            List<DoanhThuChartDTO> list = new List<DoanhThuChartDTO>();
 
             foreach (DataRow row in data.Rows)
             {
@@ -247,43 +163,49 @@ namespace DAO
             return list;
         }
 
-        public List<SanPhamBanChayDTO> GetSanPhamBanChay(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
+        // ================= SẢN PHẨM BÁN CHẠY =================
+        public List<DanhSachSanPhamDTO> GetSanPhamBanChay(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
         {
-            List<SanPhamBanChayDTO> list = new List<SanPhamBanChayDTO>();
-
             string query = @"
-            SELECT 
-            sp.tensp AS TenSP, 
-            SUM(ct.Soluong) AS SoLuongBan,
-            SUM(CASE WHEN ct.Thanhtien < 0 THEN 0 ELSE ct.Thanhtien END) AS TongDoanhThu
-            FROM CHITIETHD ct
-            JOIN KICHCOSP kcsp ON ct.Idkcsp = kcsp.id
-            JOIN SANPHAM sp ON kcsp.masp = sp.masp
-            JOIN HOADON h ON h.Mahd = ct.Mahd
-            WHERE ct.IsTang = 0
-            AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
-            AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
-            AND (@maLoai IS NULL OR sp.maloai = @maLoai)
-            GROUP BY sp.tensp
-            ORDER BY SoLuongBan DESC";
+                SELECT TOP 10 
+                    sp.Masp,
+                    sp.Tensp,
+                    sp.Maloai,
+                    sp.Duongdananh,
+                    SUM(ct.Soluong) AS SoLuong
+                FROM CHITIETHD ct
+                JOIN SANPHAM sp ON ct.Masp = sp.Masp
+                JOIN HOADON h ON ct.Mahd = h.Mahd
+                WHERE ct.IsTang = 0
+                  AND (@tuNgay IS NULL OR CAST(h.Ngaylap AS DATE) >= @tuNgay)
+                  AND (@denNgay IS NULL OR CAST(h.Ngaylap AS DATE) <= @denNgay)
+                  AND (@maLoai IS NULL OR sp.Maloai = @maLoai)
+                GROUP BY sp.Masp, sp.Tensp, sp.Maloai, sp.Duongdananh
+                ORDER BY SoLuong DESC";
 
-            SqlParameter paramTuNgay = new SqlParameter("@tuNgay", tuNgay.HasValue ? (object)tuNgay.Value : DBNull.Value);
-            SqlParameter paramDenNgay = new SqlParameter("@denNgay", denNgay.HasValue ? (object)denNgay.Value : DBNull.Value);
-            SqlParameter paramMaLoai = new SqlParameter("@maLoai", maLoai.HasValue ? (object)maLoai.Value : DBNull.Value);
+            SqlParameter[] param =
+            {
+                new SqlParameter("@tuNgay", tuNgay ?? (object)DBNull.Value),
+                new SqlParameter("@denNgay", denNgay ?? (object)DBNull.Value),
+                new SqlParameter("@maLoai", maLoai ?? (object)DBNull.Value)
+            };
 
-            DataTable data = provider.ExecuteQuery(query, new object[] { paramTuNgay, paramDenNgay, paramMaLoai });
+            DataTable data = provider.ExecuteQuery(query, param);
+            List<DanhSachSanPhamDTO> list = new List<DanhSachSanPhamDTO>();
 
             foreach (DataRow row in data.Rows)
             {
-                list.Add(new SanPhamBanChayDTO
+                list.Add(new DanhSachSanPhamDTO
                 {
-                    TenSP = row["TenSP"].ToString(),
-                    SoLuongBan = (int)row["SoLuongBan"],
-                    TongDoanhThu = (decimal)row["TongDoanhThu"]
+                    MaSP = row["Masp"].ToString(),
+                    TenSP = row["Tensp"].ToString(),
+                    Maloai = (int)row["Maloai"],
+                    DuongDanAnh = row["Duongdananh"].ToString(),
+                    SoLuong = Convert.ToInt32(row["SoLuong"])
                 });
             }
+
             return list;
         }
-
     }
 }
