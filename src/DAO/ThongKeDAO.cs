@@ -81,7 +81,8 @@ namespace DAO
                         : null,
                     LoaiVoucher = row["Maloaivc"] != DBNull.Value ? (int?)row["Maloaivc"] : null,
                     SanPhamMua = GetSanPham(mahd, false),
-                    SanPhamTang = GetSanPham(mahd, true)
+                    SanPhamTang = GetSanPham(mahd, true),
+                    SanPhamDuocGiam = GetSanPhamDuocGiam(mahd)
                 });
             }
             return list;
@@ -125,6 +126,57 @@ namespace DAO
             return list;
         }
 
+        // ================= SẢN PHẨM ĐƯỢC GIẢM =================
+        private List<DanhSachSanPhamDTO> GetSanPhamDuocGiam(int mahd)
+        {
+            string query = @"
+        SELECT 
+            sp.Masp,
+            sp.Tensp,
+            sp.Maloai,
+            sp.Duongdananh,
+            ct.Soluong,
+            v.Giatri,
+            v.Maloaivc,
+            v.maloai AS MaLoaiVoucher
+        FROM CHITIETHD ct
+        JOIN SANPHAM sp ON ct.Masp = sp.Masp
+        LEFT JOIN APMAVC ap ON ct.Mahd = ap.Mahd
+        LEFT JOIN VOUCHER v ON ap.Mavc = v.Mavc
+        WHERE ct.Mahd = @mahd AND ct.IsTang = 0
+          AND v.Mavc IS NOT NULL
+          AND (v.Maloaivc = 1 OR v.maloai = sp.Maloai)"; // voucher % hoặc áp dụng cho loại sản phẩm
+
+            SqlParameter[] param =
+            {
+        new SqlParameter("@mahd", mahd)
+    };
+
+            DataTable data = provider.ExecuteQuery(query, param);
+            List<DanhSachSanPhamDTO> list = new List<DanhSachSanPhamDTO>();
+
+            foreach (DataRow row in data.Rows)
+            {
+                decimal? phanTramGiam = null;
+                if ((int)row["Maloaivc"] == 1) // giảm % theo hóa đơn
+                    phanTramGiam = Convert.ToDecimal(row["Giatri"]);
+
+                list.Add(new DanhSachSanPhamDTO
+                {
+                    MaSP = row["Masp"].ToString(),
+                    TenSP = row["Tensp"].ToString(),
+                    Maloai = (int)row["Maloai"],
+                    DuongDanAnh = row["Duongdananh"].ToString(),
+                    SoLuong = (int)row["Soluong"],
+                    LaSanPhamTang = false,
+                    PhanTramGiam = phanTramGiam,
+                    LoaiVoucher = row["Maloaivc"] != DBNull.Value ? (int?)row["Maloaivc"] : null
+                });
+            }
+            return list;
+        }
+
+
         // ================= DOANH THU =================
         public List<DoanhThuChartDTO> GetDoanhThuData(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
         {
@@ -164,7 +216,7 @@ namespace DAO
         }
 
         // ================= SẢN PHẨM BÁN CHẠY =================
-        public List<DanhSachSanPhamDTO> GetSanPhamBanChay(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
+        public List<SanPhamBanChayDTO> GetSanPhamBanChay(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
         {
             string query = @"
                 SELECT TOP 10 
@@ -172,7 +224,8 @@ namespace DAO
                     sp.Tensp,
                     sp.Maloai,
                     sp.Duongdananh,
-                    SUM(ct.Soluong) AS SoLuong
+                    SUM(ct.Soluong) AS SoLuong,
+                    SUM(ct.Soluong * ct.Dongia) AS TongDoanhThu
                 FROM CHITIETHD ct
                 JOIN SANPHAM sp ON ct.Masp = sp.Masp
                 JOIN HOADON h ON ct.Mahd = h.Mahd
@@ -191,17 +244,15 @@ namespace DAO
             };
 
             DataTable data = provider.ExecuteQuery(query, param);
-            List<DanhSachSanPhamDTO> list = new List<DanhSachSanPhamDTO>();
+            List<SanPhamBanChayDTO> list = new List<SanPhamBanChayDTO>();
 
             foreach (DataRow row in data.Rows)
             {
-                list.Add(new DanhSachSanPhamDTO
+                list.Add(new SanPhamBanChayDTO
                 {
-                    MaSP = row["Masp"].ToString(),
                     TenSP = row["Tensp"].ToString(),
-                    Maloai = (int)row["Maloai"],
-                    DuongDanAnh = row["Duongdananh"].ToString(),
-                    SoLuong = Convert.ToInt32(row["SoLuong"])
+                    SoLuongBan = Convert.ToInt32(row["SoLuong"]),
+                    TongDoanhThu = Convert.ToDecimal(row["TongDoanhThu"])
                 });
             }
 

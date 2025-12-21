@@ -14,6 +14,5 @@
         public string TrangThaiText { get; set; }
         public int IdKcsp { get; set; }
 
-
     }
 }

@@ -31,7 +31,7 @@ namespace BUS
             return chartData.Sum(x => x.TongDoanhThu);
         }
 
-        public List<DanhSachSanPhamDTO> GetSanPhamBanChay(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
+        public List<SanPhamBanChayDTO> GetSanPhamBanChay(DateTime? tuNgay, DateTime? denNgay, int? maLoai)
         {
             if (tuNgay.HasValue && denNgay.HasValue && denNgay < tuNgay)
                 throw new Exception("Ngày kết thúc không thể nhỏ hơn ngày bắt đầu.");

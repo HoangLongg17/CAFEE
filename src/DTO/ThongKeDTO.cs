@@ -3,24 +3,6 @@ using System.Collections.Generic;
 
 namespace DTO
 {
-    public class DanhSachSanPhamDTO
-    {
-        public int IdKcsp { get; set; }                // ID của KICHCOSP
-        public string MaSP { get; set; }
-        public string TenSP { get; set; }
-        public int Maloai { get; set; }
-        public string TenLoai { get; set; }
-        public string KichCo { get; set; }
-        public decimal GiaBan { get; set; }
-        public int SoLuong { get; set; } = 1;
-        public int SoLuongTon { get; set; }
-        public string DuongDanAnh { get; set; }
-        public string TrangThaiText { get; set; }      // chuyển đổi bit thành chuỗi
-        public bool LaSanPhamTang { get; set; } = false;
-        public string MaSanPhamGoc { get; set; }       // sản phẩm tặng thuộc về mã nào
-        public decimal GiaGoc { get; set; }            // giá gốc
-        public decimal TienGiam { get; set; }          // tiền giảm cho sản phẩm
-    }
 
     public class LoaiSPDTO
     {
@@ -46,6 +28,12 @@ namespace DTO
 
         public List<DanhSachSanPhamDTO> SanPhamMua { get; set; } = new();
         public List<DanhSachSanPhamDTO> SanPhamTang { get; set; } = new();
+        public List<DanhSachSanPhamDTO> SanPhamDuocGiam { get; set; } = new(); // Thêm
+
+        // Các property Text để hiển thị trong DGV hoặc PDF
+        public string SanPhamMuaText => SanPhamMua != null ? string.Join(", ", SanPhamMua.Select(p => p.TenSP)) : "";
+        public string SanPhamTangText => SanPhamTang != null ? string.Join(", ", SanPhamTang.Select(p => p.TenSP)) : "";
+        public string SanPhamDuocGiamText => SanPhamDuocGiam != null ? string.Join(", ", SanPhamDuocGiam.Select(p => p.TenSP)) : "";
     }
 
     public class DoanhThuChartDTO
