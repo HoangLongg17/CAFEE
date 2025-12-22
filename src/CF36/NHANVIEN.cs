@@ -62,27 +62,27 @@ namespace CF36
         }
         private void btnBatDau_Click(object sender, EventArgs e)
         {
-            gioBatDau = DateTime.Now;
-            lblTrangThai.Text = $"Đang làm việc từ {gioBatDau.Value:HH:mm:ss}";
-            btnBatDau.Enabled = false;
+            bool ok = ChamCongBUS.Instance.BatDauLam(maNhanVien);
+            if (!ok)
+            {
+                MessageBox.Show("Không thể bắt đầu làm việc.");
+                return;
+            }
 
+            gioBatDau = DateTime.Now;
+            lblTrangThai.Text = $"Đang làm việc từ {gioBatDau:HH:mm:ss}";
+            btnBatDau.Enabled = false;
         }
 
         private void btnChamCong_Click(object sender, EventArgs e)
         {
-            if (gioBatDau == null)
-            {
-                MessageBox.Show("Bạn chưa bắt đầu làm việc.");
-                return;
-            }
+            bool success = ChamCongBUS.Instance.ChamCong(maNhanVien);
 
-            DateTime gioKetThuc = DateTime.Now;
-            TimeSpan thoiGianLam = gioKetThuc - gioBatDau.Value;
-            int tongPhut = (int)thoiGianLam.TotalMinutes;
-
-            bool success = ChamCongBUS.Instance.LuuChamCong(maNhanVien, gioBatDau.Value, gioKetThuc, tongPhut);
             if (success)
             {
+                int tongPhut = ChamCongBUS.Instance
+                    .TinhTongGioLamTrongNgay(maNhanVien, DateTime.Today);
+
                 MessageBox.Show($"Chấm công thành công. Tổng thời gian làm: {tongPhut} phút.");
                 lblTrangThai.Text = "Chưa làm việc";
                 gioBatDau = null;
@@ -90,9 +90,8 @@ namespace CF36
             }
             else
             {
-                MessageBox.Show("Chấm công thất bại.");
+                MessageBox.Show("Chưa bấm Bắt đầu hoặc đã chấm công.");
             }
-
         }
         //Chấm công
         private void đỔIMẬTKHẨToolStripMenuItem_Click(object sender, EventArgs e)

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DTO;
+﻿using DTO;
 using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace DAO
@@ -16,65 +13,36 @@ namespace DAO
 
         private DataProvider provider = DataProvider.Instance;
 
-        // Bắt đầu làm việc: chỉ lưu giờ bắt đầu
+        // Bắt đầu làm việc
         public bool InsertBatDauLam(string manv, DateTime gioBatDau)
         {
             string query = @"
                 INSERT INTO CHAMCONG (Manv, Ngay, GioBatDau)
                 VALUES (@Manv, @Ngay, @GioBatDau)";
-            SqlParameter[] parameters = {
+            SqlParameter[] pr =
+            {
                 new SqlParameter("@Manv", manv),
                 new SqlParameter("@Ngay", gioBatDau.Date),
                 new SqlParameter("@GioBatDau", gioBatDau)
             };
-            return provider.ExecuteNonQuery(query, parameters) > 0;
+            return provider.ExecuteNonQuery(query, pr) > 0;
         }
 
-        // Chấm công: cập nhật giờ kết thúc và tổng thời gian
+        // Kết thúc ca
         public bool UpdateChamCong(string manv, DateTime ngay, DateTime gioKetThuc, int tongPhut)
         {
             string query = @"
                 UPDATE CHAMCONG
-                SET GioKetThuc = @GioKetThuc, TongThoiGian = @Tong
+                SET GioKetThuc = @GioKT, TongThoiGian = @Tong
                 WHERE Manv = @Manv AND Ngay = @Ngay AND GioKetThuc IS NULL";
-            SqlParameter[] parameters = {
+            SqlParameter[] pr =
+            {
                 new SqlParameter("@Manv", manv),
                 new SqlParameter("@Ngay", ngay),
-                new SqlParameter("@GioKetThuc", gioKetThuc),
+                new SqlParameter("@GioKT", gioKetThuc),
                 new SqlParameter("@Tong", tongPhut)
             };
-            return provider.ExecuteNonQuery(query, parameters) > 0;
-        }
-
-        // Lưu đầy đủ một lượt chấm công (nếu không dùng bắt đầu riêng)
-        public bool InsertChamCongFull(string manv, DateTime gioBatDau, DateTime gioKetThuc, int tongPhut)
-        {
-            string query = @"
-                INSERT INTO CHAMCONG (Manv, Ngay, GioBatDau, GioKetThuc, TongThoiGian)
-                VALUES (@Manv, @Ngay, @GioBatDau, @GioKetThuc, @TongThoiGian)";
-            SqlParameter[] parameters = {
-                new SqlParameter("@Manv", manv),
-                new SqlParameter("@Ngay", gioBatDau.Date),
-                new SqlParameter("@GioBatDau", gioBatDau),
-                new SqlParameter("@GioKetThuc", gioKetThuc),
-                new SqlParameter("@TongThoiGian", tongPhut)
-            };
-            return provider.ExecuteNonQuery(query, parameters) > 0;
-        }
-
-        // Lấy tổng thời gian làm trong ngày
-        public int GetTongPhutTrongNgay(string manv, DateTime ngay)
-        {
-            string query = @"
-                SELECT ISNULL(SUM(TongThoiGian), 0)
-                FROM CHAMCONG
-                WHERE Manv = @Manv AND Ngay = @Ngay";
-            SqlParameter[] parameters = {
-                new SqlParameter("@Manv", manv),
-                new SqlParameter("@Ngay", ngay)
-            };
-            object result = provider.ExecuteScalar(query, parameters);
-            return Convert.ToInt32(result);
+            return provider.ExecuteNonQuery(query, pr) > 0;
         }
 
         // Lấy giờ bắt đầu chưa chấm công
@@ -84,60 +52,85 @@ namespace DAO
                 SELECT TOP 1 GioBatDau
                 FROM CHAMCONG
                 WHERE Manv = @Manv AND Ngay = @Ngay AND GioKetThuc IS NULL";
-            SqlParameter[] parameters = {
+            SqlParameter[] pr =
+            {
                 new SqlParameter("@Manv", manv),
                 new SqlParameter("@Ngay", ngay)
             };
-            object result = provider.ExecuteScalar(query, parameters);
-            return result != DBNull.Value ? (DateTime?)result : null;
+            object rs = provider.ExecuteScalar(query, pr);
+            return rs == DBNull.Value ? null : (DateTime?)rs;
         }
+
+        // Tổng phút trong ngày
+        public int GetTongPhutTrongNgay(string manv, DateTime ngay)
+        {
+            string query = @"
+                SELECT ISNULL(SUM(TongThoiGian),0)
+                FROM CHAMCONG
+                WHERE Manv = @Manv AND Ngay = @Ngay";
+            SqlParameter[] pr =
+            {
+                new SqlParameter("@Manv", manv),
+                new SqlParameter("@Ngay", ngay)
+            };
+            return Convert.ToInt32(provider.ExecuteScalar(query, pr));
+        }
+
+        // Lịch sử chấm công
         public List<ChamCongDTO> GetLichSuChamCongChiTiet(string keyword, DateTime tuNgay, DateTime denNgay)
         {
             string query = @"
-        SELECT c.Manv, n.HoTen, n.Luong, c.Ngay, c.GioBatDau, c.GioKetThuc, c.TongThoiGian,
-               (ISNULL(c.TongThoiGian, 0) / 60.0) * n.Luong AS TongLuong
-        FROM CHAMCONG c
-        JOIN NHANVIEN n ON c.Manv = n.Manv
-        WHERE c.Ngay BETWEEN @TuNgay AND @DenNgay
-        AND (n.HoTen LIKE @Keyword OR c.Manv LIKE @Keyword)
-        ORDER BY c.Ngay DESC";
+                SELECT 
+                    c.Idcc,
+                    c.Manv,
+                    n.Hoten,
+                    n.Luong,
+                    c.Ngay,
+                    c.GioBatDau,
+                    c.GioKetThuc,
+                    c.TongThoiGian,
+                    (ISNULL(c.TongThoiGian,0) / 60.0) * n.Luong AS TongLuong
+                FROM CHAMCONG c
+                JOIN NHANVIEN n ON c.Manv = n.Manv
+                WHERE c.Ngay BETWEEN @TuNgay AND @DenNgay
+                  AND (@Kw = '' OR n.Hoten LIKE @Kw OR c.Manv LIKE @Kw)
+                ORDER BY c.Ngay DESC";
 
-            SqlParameter[] parameters = {
-        new SqlParameter("@TuNgay", tuNgay),
-        new SqlParameter("@DenNgay", denNgay),
-        new SqlParameter("@Keyword", $"%{keyword}%")
-    };
+            SqlParameter[] pr =
+            {
+                new SqlParameter("@TuNgay", tuNgay),
+                new SqlParameter("@DenNgay", denNgay),
+                new SqlParameter("@Kw", $"%{keyword}%")
+            };
 
-            DataTable dt = provider.ExecuteQuery(query, parameters);
-            List<ChamCongDTO> list = new List<ChamCongDTO>();
+            DataTable dt = provider.ExecuteQuery(query, pr);
+            List<ChamCongDTO> list = new();
 
-            foreach (DataRow row in dt.Rows)
+            foreach (DataRow r in dt.Rows)
             {
                 list.Add(new ChamCongDTO
                 {
-                    MaND = row["Manv"].ToString(),
-                    TenNhanVien = row["HoTen"].ToString(),
-                    Luong = Convert.ToInt32(row["Luong"]),
-                    Ngay = Convert.ToDateTime(row["Ngay"]),
-                    GioBatDau = Convert.ToDateTime(row["GioBatDau"]),
-                    GioKetThuc = row["GioKetThuc"] == DBNull.Value ? null : (DateTime?)row["GioKetThuc"],
-                    TongThoiGian = row["TongThoiGian"] == DBNull.Value ? 0 : Convert.ToInt32(row["TongThoiGian"]),
-                    TongLuong = Convert.ToDecimal(row["TongLuong"])
+                    Id = Convert.ToInt32(r["Idcc"]),
+                    Manv = r["Manv"].ToString(),
+                    TenNhanVien = r["Hoten"].ToString(),
+                    Luong = Convert.ToDecimal(r["Luong"]),
+                    Ngay = Convert.ToDateTime(r["Ngay"]),
+                    GioBatDau = Convert.ToDateTime(r["GioBatDau"]),
+                    GioKetThuc = r["GioKetThuc"] == DBNull.Value ? null : (DateTime?)r["GioKetThuc"],
+                    TongThoiGian = r["TongThoiGian"] == DBNull.Value ? null : Convert.ToInt32(r["TongThoiGian"]),
+                    TongLuong = Convert.ToDecimal(r["TongLuong"])
                 });
             }
 
             return list;
         }
 
-        public int GetLuongTheoGio(string manv)
+        public decimal GetLuongTheoGio(string manv)
         {
             string query = "SELECT Luong FROM NHANVIEN WHERE Manv = @Manv";
-            SqlParameter[] parameters = {
-        new SqlParameter("@Manv", manv)
-    };
-
-            object result = provider.ExecuteScalar(query, parameters);
-            return result != DBNull.Value ? Convert.ToInt32(result) : 0;
+            SqlParameter[] pr = { new SqlParameter("@Manv", manv) };
+            object rs = provider.ExecuteScalar(query, pr);
+            return rs == DBNull.Value ? 0 : Convert.ToDecimal(rs);
         }
     }
 }
