@@ -49,6 +49,8 @@
             tÀIKHOẢNToolStripMenuItem = new ToolStripMenuItem();
             đỔIMẬTKHẨUToolStripMenuItem = new ToolStripMenuItem();
             đĂNGXUẤTToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
+            chiTiếtTrảHàngToolStripMenuItem = new ToolStripMenuItem();
             tlpthan = new TableLayoutPanel();
             picLogo = new PictureBox();
             bThoiGian = new Label();
@@ -56,8 +58,7 @@
             btnThoat = new Button();
             lblWelcome = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            chiTiếtTrảHàngToolStripMenuItem = new ToolStripMenuItem();
+            lịchSửTrảHàngToolStripMenuItem = new ToolStripMenuItem();
             menuQuanLi.SuspendLayout();
             tlpthan.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
@@ -142,7 +143,7 @@
             // 
             // tHỐNGKÊToolStripMenuItem
             // 
-            tHỐNGKÊToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { báoCáoDoanhThuToolStripMenuItem, lịchSửHóaĐơnToolStripMenuItem, lịchSửNhậpKhoToolStripMenuItem, lịchSửChấmCôngToolStripMenuItem });
+            tHỐNGKÊToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { báoCáoDoanhThuToolStripMenuItem, lịchSửHóaĐơnToolStripMenuItem, lịchSửNhậpKhoToolStripMenuItem, lịchSửChấmCôngToolStripMenuItem, lịchSửTrảHàngToolStripMenuItem });
             tHỐNGKÊToolStripMenuItem.Name = "tHỐNGKÊToolStripMenuItem";
             tHỐNGKÊToolStripMenuItem.Size = new Size(76, 17);
             tHỐNGKÊToolStripMenuItem.Text = "THỐNG KÊ";
@@ -150,28 +151,28 @@
             // báoCáoDoanhThuToolStripMenuItem
             // 
             báoCáoDoanhThuToolStripMenuItem.Name = "báoCáoDoanhThuToolStripMenuItem";
-            báoCáoDoanhThuToolStripMenuItem.Size = new Size(174, 22);
+            báoCáoDoanhThuToolStripMenuItem.Size = new Size(180, 22);
             báoCáoDoanhThuToolStripMenuItem.Text = "Báo cáo doanh thu";
             báoCáoDoanhThuToolStripMenuItem.Click += báoCáoDoanhThuToolStripMenuItem_Click;
             // 
             // lịchSửHóaĐơnToolStripMenuItem
             // 
             lịchSửHóaĐơnToolStripMenuItem.Name = "lịchSửHóaĐơnToolStripMenuItem";
-            lịchSửHóaĐơnToolStripMenuItem.Size = new Size(174, 22);
+            lịchSửHóaĐơnToolStripMenuItem.Size = new Size(180, 22);
             lịchSửHóaĐơnToolStripMenuItem.Text = "Lịch sử hóa đơn";
             lịchSửHóaĐơnToolStripMenuItem.Click += lịchSửHóaĐơnToolStripMenuItem_Click;
             // 
             // lịchSửNhậpKhoToolStripMenuItem
             // 
             lịchSửNhậpKhoToolStripMenuItem.Name = "lịchSửNhậpKhoToolStripMenuItem";
-            lịchSửNhậpKhoToolStripMenuItem.Size = new Size(174, 22);
+            lịchSửNhậpKhoToolStripMenuItem.Size = new Size(180, 22);
             lịchSửNhậpKhoToolStripMenuItem.Text = "Lịch sử nhập kho";
             lịchSửNhậpKhoToolStripMenuItem.Click += lịchSửNhậpKhoToolStripMenuItem_Click;
             // 
             // lịchSửChấmCôngToolStripMenuItem
             // 
             lịchSửChấmCôngToolStripMenuItem.Name = "lịchSửChấmCôngToolStripMenuItem";
-            lịchSửChấmCôngToolStripMenuItem.Size = new Size(174, 22);
+            lịchSửChấmCôngToolStripMenuItem.Size = new Size(180, 22);
             lịchSửChấmCôngToolStripMenuItem.Text = "Lịch sử chấm công";
             lịchSửChấmCôngToolStripMenuItem.Click += lịchSửChấmCôngToolStripMenuItem_Click;
             // 
@@ -208,6 +209,20 @@
             đĂNGXUẤTToolStripMenuItem.Name = "đĂNGXUẤTToolStripMenuItem";
             đĂNGXUẤTToolStripMenuItem.Size = new Size(157, 22);
             đĂNGXUẤTToolStripMenuItem.Text = "ĐĂNG XUẤT";
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { chiTiếtTrảHàngToolStripMenuItem });
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(77, 17);
+            toolStripMenuItem1.Text = "TRẢ HÀNG";
+            // 
+            // chiTiếtTrảHàngToolStripMenuItem
+            // 
+            chiTiếtTrảHàngToolStripMenuItem.Name = "chiTiếtTrảHàngToolStripMenuItem";
+            chiTiếtTrảHàngToolStripMenuItem.Size = new Size(183, 22);
+            chiTiếtTrảHàngToolStripMenuItem.Text = "CHI TIẾT MẶT HÀNG";
+            chiTiếtTrảHàngToolStripMenuItem.Click += chiTiếtTrảHàngToolStripMenuItem_Click;
             // 
             // tlpthan
             // 
@@ -297,19 +312,12 @@
             // 
             timer1.Tick += timer1_Tick;
             // 
-            // toolStripMenuItem1
+            // lịchSửTrảHàngToolStripMenuItem
             // 
-            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { chiTiếtTrảHàngToolStripMenuItem });
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(77, 17);
-            toolStripMenuItem1.Text = "TRẢ HÀNG";
-            // 
-            // chiTiếtTrảHàngToolStripMenuItem
-            // 
-            chiTiếtTrảHàngToolStripMenuItem.Name = "chiTiếtTrảHàngToolStripMenuItem";
-            chiTiếtTrảHàngToolStripMenuItem.Size = new Size(183, 22);
-            chiTiếtTrảHàngToolStripMenuItem.Text = "CHI TIẾT MẶT HÀNG";
-            chiTiếtTrảHàngToolStripMenuItem.Click += chiTiếtTrảHàngToolStripMenuItem_Click;
+            lịchSửTrảHàngToolStripMenuItem.Name = "lịchSửTrảHàngToolStripMenuItem";
+            lịchSửTrảHàngToolStripMenuItem.Size = new Size(180, 22);
+            lịchSửTrảHàngToolStripMenuItem.Text = "Lịch sử trả hàng";
+            lịchSửTrảHàngToolStripMenuItem.Click += lịchSửTrảHàngToolStripMenuItem_Click;
             // 
             // QuanLi
             // 
@@ -364,5 +372,6 @@
         private ToolStripMenuItem lịchSửChấmCôngToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem chiTiếtTrảHàngToolStripMenuItem;
+        private ToolStripMenuItem lịchSửTrảHàngToolStripMenuItem;
     }
 }

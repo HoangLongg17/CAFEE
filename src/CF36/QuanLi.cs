@@ -159,6 +159,12 @@ namespace CF36
             TraHang frmTraHang = new TraHang();
             frmTraHang.Show();
         }
+
+        private void lịchSửTrảHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LichSuTraHang frmLichSuTraHang = new LichSuTraHang();
+            frmLichSuTraHang.Show();
+        }
     }
 
 }
