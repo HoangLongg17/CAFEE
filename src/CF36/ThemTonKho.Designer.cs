@@ -28,34 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             tlpend = new TableLayoutPanel();
             btnThem = new Button();
             btnThoat = new Button();
             picLogo = new PictureBox();
             tlpall = new TableLayoutPanel();
-            dgvThemkho = new DataGridView();
-            MaSP = new DataGridViewTextBoxColumn();
-            TenSP = new DataGridViewTextBoxColumn();
-            Size = new DataGridViewTextBoxColumn();
-            SoLuong = new DataGridViewTextBoxColumn();
+            flpDanhSachSP = new FlowLayoutPanel();
             tlpThongtin = new TableLayoutPanel();
             lbChonNhaCungCap = new Label();
-            lbChonSanPham = new Label();
-            txtTimKiem = new TextBox();
-            txtSoLuong = new TextBox();
-            lbGiaNhap = new Label();
             cbbNhaCungCap = new ComboBox();
-            lbNhapSoLuong = new Label();
-            txtGiaNhap = new TextBox();
             lbltongtien = new Label();
             texttongtien = new TextBox();
+            lbChonSanPham = new Label();
+            txtTimKiem = new TextBox();
+            lbNhapSoLuong = new Label();
+            txtSoLuong = new TextBox();
+            lbGiaNhap = new Label();
+            txtGiaNhap = new TextBox();
             tlpend.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             tlpall.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvThemkho).BeginInit();
             tlpThongtin.SuspendLayout();
             SuspendLayout();
             // 
@@ -68,40 +60,43 @@
             tlpend.Controls.Add(btnThem, 1, 0);
             tlpend.Controls.Add(btnThoat, 2, 0);
             tlpend.Dock = DockStyle.Fill;
-            tlpend.Location = new Point(3, 512);
+            tlpend.Location = new Point(3, 469);
+            tlpend.Margin = new Padding(3, 2, 3, 2);
             tlpend.Name = "tlpend";
             tlpend.RowCount = 1;
             tlpend.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpend.Size = new Size(776, 58);
+            tlpend.Size = new Size(710, 56);
             tlpend.TabIndex = 3;
             // 
             // btnThem
             // 
             btnThem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnThem.Location = new Point(507, 3);
+            btnThem.Location = new Point(469, 2);
+            btnThem.Margin = new Padding(3, 2, 3, 2);
             btnThem.Name = "btnThem";
-            btnThem.Size = new Size(126, 52);
+            btnThem.Size = new Size(110, 39);
             btnThem.TabIndex = 1;
             btnThem.Text = "THÊM";
             btnThem.UseVisualStyleBackColor = true;
             // 
             // btnThoat
             // 
-            btnThoat.Location = new Point(639, 3);
+            btnThoat.Location = new Point(585, 2);
+            btnThoat.Margin = new Padding(3, 2, 3, 2);
             btnThoat.Name = "btnThoat";
-            btnThoat.Size = new Size(134, 52);
+            btnThoat.Size = new Size(117, 39);
             btnThoat.TabIndex = 0;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
-            btnThoat.Click += btnThoat_Click_1;
             // 
             // picLogo
             // 
             picLogo.Dock = DockStyle.Fill;
             picLogo.Image = Properties.Resources.logo;
-            picLogo.Location = new Point(3, 3);
+            picLogo.Location = new Point(3, 2);
+            picLogo.Margin = new Padding(3, 2, 3, 2);
             picLogo.Name = "picLogo";
-            picLogo.Size = new Size(776, 89);
+            picLogo.Size = new Size(710, 83);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
             picLogo.TabIndex = 0;
             picLogo.TabStop = false;
@@ -110,91 +105,34 @@
             // 
             tlpall.ColumnCount = 1;
             tlpall.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tlpall.Controls.Add(dgvThemkho, 0, 2);
+            tlpall.Controls.Add(flpDanhSachSP, 0, 2);
             tlpall.Controls.Add(picLogo, 0, 0);
             tlpall.Controls.Add(tlpThongtin, 0, 1);
             tlpall.Controls.Add(tlpend, 0, 3);
             tlpall.Dock = DockStyle.Fill;
             tlpall.Location = new Point(0, 0);
+            tlpall.Margin = new Padding(3, 2, 3, 2);
             tlpall.Name = "tlpall";
             tlpall.RowCount = 4;
             tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 16.5384617F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 37.787056F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 34.4467659F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 10.9615383F));
-            tlpall.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
-            tlpall.Size = new Size(782, 573);
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
+            tlpall.RowStyles.Add(new RowStyle(SizeType.Percent, 11F));
+            tlpall.Size = new Size(716, 527);
             tlpall.TabIndex = 0;
             // 
-            // dgvThemkho
+            // flpDanhSachSP
             // 
-            dgvThemkho.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(0, 192, 0);
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvThemkho.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvThemkho.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvThemkho.Columns.AddRange(new DataGridViewColumn[] { MaSP, TenSP, Size, SoLuong });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(0, 192, 0);
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvThemkho.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvThemkho.Dock = DockStyle.Fill;
-            dgvThemkho.Location = new Point(3, 315);
-            dgvThemkho.Name = "dgvThemkho";
-            dgvThemkho.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(0, 192, 0);
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvThemkho.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dgvThemkho.RowHeadersWidth = 51;
-            dgvThemkho.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvThemkho.Size = new Size(776, 191);
-            dgvThemkho.TabIndex = 4;
-            // 
-            // MaSP
-            // 
-            MaSP.DataPropertyName = "MaSP";
-            MaSP.HeaderText = "Mã sản phẩm";
-            MaSP.MinimumWidth = 6;
-            MaSP.Name = "MaSP";
-            MaSP.ReadOnly = true;
-            // 
-            // TenSP
-            // 
-            TenSP.DataPropertyName = "TenSP";
-            TenSP.HeaderText = "Tên sản phẩm";
-            TenSP.MinimumWidth = 6;
-            TenSP.Name = "TenSP";
-            TenSP.ReadOnly = true;
-            // 
-            // Size
-            // 
-            Size.DataPropertyName = "Size";
-            Size.HeaderText = "Size";
-            Size.MinimumWidth = 6;
-            Size.Name = "Size";
-            Size.ReadOnly = true;
-            // 
-            // SoLuong
-            // 
-            SoLuong.DataPropertyName = "SoLuong";
-            SoLuong.HeaderText = "Số lượng";
-            SoLuong.MinimumWidth = 6;
-            SoLuong.Name = "SoLuong";
-            SoLuong.ReadOnly = true;
+            flpDanhSachSP.AutoScroll = true;
+            flpDanhSachSP.BackColor = Color.White;
+            flpDanhSachSP.Dock = DockStyle.Fill;
+            flpDanhSachSP.FlowDirection = FlowDirection.TopDown;
+            flpDanhSachSP.Location = new Point(3, 194);
+            flpDanhSachSP.Margin = new Padding(3, 2, 3, 2);
+            flpDanhSachSP.Name = "flpDanhSachSP";
+            flpDanhSachSP.Size = new Size(710, 271);
+            flpDanhSachSP.TabIndex = 4;
+            flpDanhSachSP.WrapContents = false;
             // 
             // tlpThongtin
             // 
@@ -202,133 +140,132 @@
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpThongtin.Controls.Add(lbChonNhaCungCap, 0, 0);
+            tlpThongtin.Controls.Add(cbbNhaCungCap, 0, 1);
+            tlpThongtin.Controls.Add(lbltongtien, 1, 0);
+            tlpThongtin.Controls.Add(texttongtien, 1, 1);
             tlpThongtin.Controls.Add(lbChonSanPham, 0, 2);
             tlpThongtin.Controls.Add(txtTimKiem, 0, 3);
-            tlpThongtin.Controls.Add(txtSoLuong, 1, 3);
-            tlpThongtin.Controls.Add(lbGiaNhap, 1, 0);
-            tlpThongtin.Controls.Add(cbbNhaCungCap, 0, 1);
             tlpThongtin.Controls.Add(lbNhapSoLuong, 1, 2);
-            tlpThongtin.Controls.Add(txtGiaNhap, 1, 1);
-            tlpThongtin.Controls.Add(lbltongtien, 1, 4);
-            tlpThongtin.Controls.Add(texttongtien, 1, 5);
+            tlpThongtin.Controls.Add(txtSoLuong, 1, 3);
+            tlpThongtin.Controls.Add(lbGiaNhap, 1, 4);
+            tlpThongtin.Controls.Add(txtGiaNhap, 1, 5);
             tlpThongtin.Dock = DockStyle.Fill;
-            tlpThongtin.Location = new Point(3, 98);
+            tlpThongtin.Location = new Point(3, 89);
+            tlpThongtin.Margin = new Padding(3, 2, 3, 2);
             tlpThongtin.Name = "tlpThongtin";
             tlpThongtin.RowCount = 6;
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 20.930233F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 28.125F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 23.4375F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 27.1929817F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Absolute, 41F));
-            tlpThongtin.Size = new Size(776, 211);
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Absolute, 0F));
+            tlpThongtin.Size = new Size(710, 101);
             tlpThongtin.TabIndex = 1;
-            tlpThongtin.Paint += tlpThongtin_Paint;
             // 
             // lbChonNhaCungCap
             // 
             lbChonNhaCungCap.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lbChonNhaCungCap.AutoSize = true;
-            lbChonNhaCungCap.Location = new Point(3, 10);
+            lbChonNhaCungCap.Location = new Point(3, 15);
             lbChonNhaCungCap.Name = "lbChonNhaCungCap";
-            lbChonNhaCungCap.Size = new Size(135, 20);
+            lbChonNhaCungCap.Size = new Size(111, 15);
             lbChonNhaCungCap.TabIndex = 0;
             lbChonNhaCungCap.Text = "Chọn nhà cung cấp";
-            // 
-            // lbChonSanPham
-            // 
-            lbChonSanPham.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lbChonSanPham.AutoSize = true;
-            lbChonSanPham.Location = new Point(3, 85);
-            lbChonSanPham.Name = "lbChonSanPham";
-            lbChonSanPham.Size = new Size(142, 20);
-            lbChonSanPham.TabIndex = 2;
-            lbChonSanPham.Text = "Tìm kiếm sản phẩm ";
-            // 
-            // txtTimKiem
-            // 
-            txtTimKiem.Location = new Point(3, 108);
-            txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(380, 27);
-            txtTimKiem.TabIndex = 3;
-            txtTimKiem.TextChanged += txtTimKiem_TextChanged;
-            // 
-            // txtSoLuong
-            // 
-            txtSoLuong.Location = new Point(391, 108);
-            txtSoLuong.Name = "txtSoLuong";
-            txtSoLuong.Size = new Size(380, 27);
-            txtSoLuong.TabIndex = 4;
-            // 
-            // lbGiaNhap
-            // 
-            lbGiaNhap.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lbGiaNhap.AutoSize = true;
-            lbGiaNhap.Location = new Point(391, 10);
-            lbGiaNhap.Name = "lbGiaNhap";
-            lbGiaNhap.Size = new Size(68, 20);
-            lbGiaNhap.TabIndex = 6;
-            lbGiaNhap.Text = "Giá nhập";
-            lbGiaNhap.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // cbbNhaCungCap
             // 
             cbbNhaCungCap.FormattingEnabled = true;
-            cbbNhaCungCap.Location = new Point(3, 33);
+            cbbNhaCungCap.Location = new Point(3, 32);
+            cbbNhaCungCap.Margin = new Padding(3, 2, 3, 2);
             cbbNhaCungCap.Name = "cbbNhaCungCap";
-            cbbNhaCungCap.Size = new Size(380, 28);
+            cbbNhaCungCap.Size = new Size(333, 23);
             cbbNhaCungCap.TabIndex = 1;
-            // 
-            // lbNhapSoLuong
-            // 
-            lbNhapSoLuong.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lbNhapSoLuong.AutoSize = true;
-            lbNhapSoLuong.Location = new Point(391, 85);
-            lbNhapSoLuong.Name = "lbNhapSoLuong";
-            lbNhapSoLuong.Size = new Size(162, 20);
-            lbNhapSoLuong.TabIndex = 5;
-            lbNhapSoLuong.Text = "Số lượng nhập vào kho";
-            // 
-            // txtGiaNhap
-            // 
-            txtGiaNhap.Location = new Point(391, 33);
-            txtGiaNhap.Name = "txtGiaNhap";
-            txtGiaNhap.Size = new Size(380, 27);
-            txtGiaNhap.TabIndex = 7;
             // 
             // lbltongtien
             // 
             lbltongtien.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lbltongtien.AutoSize = true;
-            lbltongtien.Location = new Point(391, 148);
+            lbltongtien.Location = new Point(358, 15);
             lbltongtien.Name = "lbltongtien";
-            lbltongtien.Size = new Size(72, 20);
+            lbltongtien.Size = new Size(57, 15);
             lbltongtien.TabIndex = 9;
             lbltongtien.Text = "Tổng tiền";
             lbltongtien.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // texttongtien
             // 
-            texttongtien.Location = new Point(391, 171);
+            texttongtien.Location = new Point(358, 32);
+            texttongtien.Margin = new Padding(3, 2, 3, 2);
             texttongtien.Name = "texttongtien";
             texttongtien.ReadOnly = true;
-            texttongtien.Size = new Size(380, 27);
+            texttongtien.Size = new Size(333, 23);
             texttongtien.TabIndex = 13;
+            // 
+            // lbChonSanPham
+            // 
+            lbChonSanPham.Location = new Point(3, 100);
+            lbChonSanPham.Name = "lbChonSanPham";
+            lbChonSanPham.Size = new Size(88, 1);
+            lbChonSanPham.TabIndex = 14;
+            lbChonSanPham.Visible = false;
+            // 
+            // txtTimKiem
+            // 
+            txtTimKiem.Location = new Point(3, 102);
+            txtTimKiem.Margin = new Padding(3, 2, 3, 2);
+            txtTimKiem.Name = "txtTimKiem";
+            txtTimKiem.Size = new Size(88, 23);
+            txtTimKiem.TabIndex = 15;
+            txtTimKiem.Visible = false;
+            // 
+            // lbNhapSoLuong
+            // 
+            lbNhapSoLuong.Location = new Point(358, 100);
+            lbNhapSoLuong.Name = "lbNhapSoLuong";
+            lbNhapSoLuong.Size = new Size(88, 1);
+            lbNhapSoLuong.TabIndex = 16;
+            lbNhapSoLuong.Visible = false;
+            // 
+            // txtSoLuong
+            // 
+            txtSoLuong.Location = new Point(358, 102);
+            txtSoLuong.Margin = new Padding(3, 2, 3, 2);
+            txtSoLuong.Name = "txtSoLuong";
+            txtSoLuong.Size = new Size(88, 23);
+            txtSoLuong.TabIndex = 17;
+            txtSoLuong.Visible = false;
+            // 
+            // lbGiaNhap
+            // 
+            lbGiaNhap.Location = new Point(358, 100);
+            lbGiaNhap.Name = "lbGiaNhap";
+            lbGiaNhap.Size = new Size(88, 1);
+            lbGiaNhap.TabIndex = 18;
+            lbGiaNhap.Visible = false;
+            // 
+            // txtGiaNhap
+            // 
+            txtGiaNhap.Location = new Point(358, 102);
+            txtGiaNhap.Margin = new Padding(3, 2, 3, 2);
+            txtGiaNhap.Name = "txtGiaNhap";
+            txtGiaNhap.Size = new Size(88, 23);
+            txtGiaNhap.TabIndex = 19;
+            txtGiaNhap.Visible = false;
             // 
             // ThemTonKho
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(782, 573);
+            ClientSize = new Size(716, 527);
             Controls.Add(tlpall);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "ThemTonKho";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thêm tồn kho";
-            Load += ThemTonKho_Load;
             tlpend.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             tlpall.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvThemkho).EndInit();
             tlpThongtin.ResumeLayout(false);
             tlpThongtin.PerformLayout();
             ResumeLayout(false);
@@ -341,11 +278,8 @@
         private Button btnThem;
         private PictureBox picLogo;
         private TableLayoutPanel tlpall;
-        private DataGridView dgvThemkho;
-        private DataGridViewTextBoxColumn MaSP;
-        private DataGridViewTextBoxColumn TenSP;
-        private DataGridViewTextBoxColumn Size;
-        private DataGridViewTextBoxColumn SoLuong;
+        // private DataGridView dgvThemkho; // Đã xóa
+        private FlowLayoutPanel flpDanhSachSP; // Đã thêm
         private TableLayoutPanel tlpThongtin;
         private Label lbChonNhaCungCap;
         private Label lbChonSanPham;

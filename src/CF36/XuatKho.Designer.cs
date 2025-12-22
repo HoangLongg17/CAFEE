@@ -28,25 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             tlpThongtin = new TableLayoutPanel();
+            // Control mới cho Lý do
+            lblLyDo = new Label();
+            txtLyDo = new TextBox();
+
+            // Các control cũ giữ khai báo để tránh lỗi reference
             lbChonSanPham = new Label();
             txtSoLuong = new TextBox();
             lbxuatSoLuong = new Label();
             txtTimKiem = new TextBox();
-            dgvxuatkho = new DataGridView();
-            MaSP = new DataGridViewTextBoxColumn();
-            TenSP = new DataGridViewTextBoxColumn();
-            Size = new DataGridViewTextBoxColumn();
-            SoLuong = new DataGridViewTextBoxColumn();
+
+            // Thay thế dgv bằng flp
+            flpDanhSachSP = new FlowLayoutPanel();
+
             tlpall = new TableLayoutPanel();
             piclogo = new PictureBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             btnXuat = new Button();
             btnThoat = new Button();
+
             tlpThongtin.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvxuatkho).BeginInit();
             tlpall.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)piclogo).BeginInit();
             tableLayoutPanel1.SuspendLayout();
@@ -55,121 +57,60 @@
             // tlpThongtin
             // 
             tlpThongtin.ColumnCount = 2;
-            tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tlpThongtin.Controls.Add(lbChonSanPham, 0, 0);
+            tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            tlpThongtin.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+
+            // Thêm control Lý do vào đây thay cho Search/Số lượng cũ
+            tlpThongtin.Controls.Add(lblLyDo, 0, 0);
+            tlpThongtin.Controls.Add(txtLyDo, 1, 0);
+
+            // Giữ lại control cũ nhưng ẩn đi
+            tlpThongtin.Controls.Add(lbChonSanPham, 0, 1);
             tlpThongtin.Controls.Add(txtSoLuong, 1, 1);
-            tlpThongtin.Controls.Add(lbxuatSoLuong, 1, 0);
-            tlpThongtin.Controls.Add(txtTimKiem, 0, 1);
+
             tlpThongtin.Dock = DockStyle.Fill;
             tlpThongtin.Location = new Point(3, 106);
             tlpThongtin.Name = "tlpThongtin";
             tlpThongtin.RowCount = 2;
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 42.6666641F));
-            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 57.3333359F));
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpThongtin.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpThongtin.Size = new Size(813, 73);
             tlpThongtin.TabIndex = 2;
+
             // 
-            // lbChonSanPham
+            // lblLyDo
             // 
-            lbChonSanPham.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lbChonSanPham.AutoSize = true;
-            lbChonSanPham.Location = new Point(3, 11);
-            lbChonSanPham.Name = "lbChonSanPham";
-            lbChonSanPham.Size = new Size(142, 20);
-            lbChonSanPham.TabIndex = 2;
-            lbChonSanPham.Text = "Tìm kiếm sản phẩm ";
+            lblLyDo.Anchor = AnchorStyles.Left;
+            lblLyDo.AutoSize = true;
+            lblLyDo.Text = "Lý do xuất kho:";
+            lblLyDo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+
             // 
-            // txtSoLuong
+            // txtLyDo
             // 
-            txtSoLuong.Location = new Point(409, 34);
-            txtSoLuong.Name = "txtSoLuong";
-            txtSoLuong.Size = new Size(382, 27);
-            txtSoLuong.TabIndex = 4;
+            txtLyDo.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtLyDo.Location = new Point(3, 3);
+            txtLyDo.Size = new Size(500, 27);
+
+            // Ẩn control cũ
+            lbChonSanPham.Visible = false;
+            txtSoLuong.Visible = false;
+            lbxuatSoLuong.Visible = false;
+            txtTimKiem.Visible = false;
+
             // 
-            // lbxuatSoLuong
+            // flpDanhSachSP (Thay thế dgv)
             // 
-            lbxuatSoLuong.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            lbxuatSoLuong.AutoSize = true;
-            lbxuatSoLuong.Location = new Point(409, 11);
-            lbxuatSoLuong.Name = "lbxuatSoLuong";
-            lbxuatSoLuong.Size = new Size(129, 20);
-            lbxuatSoLuong.TabIndex = 5;
-            lbxuatSoLuong.Text = "Số lượng xuất kho";
-            // 
-            // txtTimKiem
-            // 
-            txtTimKiem.Location = new Point(3, 34);
-            txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(380, 27);
-            txtTimKiem.TabIndex = 3;
-            // 
-            // dgvxuatkho
-            // 
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(0, 192, 0);
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvxuatkho.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvxuatkho.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvxuatkho.Columns.AddRange(new DataGridViewColumn[] { MaSP, TenSP, Size, SoLuong });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(0, 192, 0);
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvxuatkho.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvxuatkho.Dock = DockStyle.Fill;
-            dgvxuatkho.Location = new Point(3, 186);
-            dgvxuatkho.Margin = new Padding(3, 4, 3, 4);
-            dgvxuatkho.Name = "dgvxuatkho";
-            dgvxuatkho.ReadOnly = true;
-            dgvxuatkho.RowHeadersWidth = 51;
-            dgvxuatkho.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvxuatkho.Size = new Size(813, 421);
-            dgvxuatkho.TabIndex = 0;
-            dgvxuatkho.CellContentClick += dgvxuatkho_CellContentClick;
-            // 
-            // MaSP
-            // 
-            MaSP.DataPropertyName = "MaSP";
-            MaSP.HeaderText = "Mã sản phẩm";
-            MaSP.MinimumWidth = 6;
-            MaSP.Name = "MaSP";
-            MaSP.ReadOnly = true;
-            MaSP.Width = 181;
-            // 
-            // TenSP
-            // 
-            TenSP.DataPropertyName = "TenSP";
-            TenSP.HeaderText = "Tên";
-            TenSP.MinimumWidth = 6;
-            TenSP.Name = "TenSP";
-            TenSP.ReadOnly = true;
-            TenSP.Width = 180;
-            // 
-            // Size
-            // 
-            Size.DataPropertyName = "Size";
-            Size.HeaderText = "Size";
-            Size.MinimumWidth = 6;
-            Size.Name = "Size";
-            Size.ReadOnly = true;
-            Size.Width = 181;
-            // 
-            // SoLuong
-            // 
-            SoLuong.DataPropertyName = "SoLuong";
-            SoLuong.HeaderText = "Số lượng ";
-            SoLuong.MinimumWidth = 6;
-            SoLuong.Name = "SoLuong";
-            SoLuong.ReadOnly = true;
-            SoLuong.Width = 180;
+            flpDanhSachSP.Dock = DockStyle.Fill;
+            flpDanhSachSP.AutoScroll = true;
+            flpDanhSachSP.BackColor = Color.White;
+            flpDanhSachSP.FlowDirection = FlowDirection.TopDown;
+            flpDanhSachSP.WrapContents = false;
+            flpDanhSachSP.Location = new Point(3, 186);
+            flpDanhSachSP.Name = "flpDanhSachSP";
+            flpDanhSachSP.Size = new Size(813, 421);
+            flpDanhSachSP.TabIndex = 0;
+
             // 
             // tlpall
             // 
@@ -177,7 +118,8 @@
             tlpall.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tlpall.Controls.Add(piclogo, 0, 0);
             tlpall.Controls.Add(tlpThongtin, 0, 1);
-            tlpall.Controls.Add(dgvxuatkho, 0, 2);
+            // Thay dgv bằng flp
+            tlpall.Controls.Add(flpDanhSachSP, 0, 2);
             tlpall.Controls.Add(tableLayoutPanel1, 0, 3);
             tlpall.Dock = DockStyle.Fill;
             tlpall.Location = new Point(0, 0);
@@ -234,7 +176,6 @@
             btnThoat.TabIndex = 3;
             btnThoat.Text = "THOÁT";
             btnThoat.UseVisualStyleBackColor = true;
-            btnThoat.Click += btnThoat_Click;
             // 
             // XuatKho
             // 
@@ -246,10 +187,9 @@
             Name = "XuatKho";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Xuất kho";
-            Load += XuatKho_Load_1;
+            Load += XuatKho_Load;
             tlpThongtin.ResumeLayout(false);
             tlpThongtin.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvxuatkho).EndInit();
             tlpall.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)piclogo).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
@@ -262,13 +202,10 @@
         private TextBox txtTimKiem;
         private TextBox txtSoLuong;
         private Label lbxuatSoLuong;
-        private Panel panel3;
-        private DataGridView dgvxuatkho;
-        private PaintEventHandler tlpThongtin_Paint;
-        private DataGridViewTextBoxColumn MaSP;
-        private DataGridViewTextBoxColumn TenSP;
-        private DataGridViewTextBoxColumn Size;
-        private DataGridViewTextBoxColumn SoLuong;
+        private Label lblLyDo; // Mới
+        private TextBox txtLyDo; // Mới
+        // Đã xóa DataGridView dgvxuatkho
+        private FlowLayoutPanel flpDanhSachSP; // Mới
         private TableLayoutPanel tlpall;
         private PictureBox piclogo;
         private Button btnXuat;
