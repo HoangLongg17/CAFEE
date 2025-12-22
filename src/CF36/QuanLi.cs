@@ -153,6 +153,18 @@ namespace CF36
         {
 
         }
+
+        private void chiTiếtTrảHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TraHang frmTraHang = new TraHang();
+            frmTraHang.Show();
+        }
+
+        private void lịchSửTrảHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LichSuTraHang frmLichSuTraHang = new LichSuTraHang();
+            frmLichSuTraHang.Show();
+        }
     }
 
 }
