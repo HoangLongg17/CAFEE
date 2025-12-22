@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using BUS;
 using DTO;
@@ -18,121 +12,95 @@ namespace CF36
         {
             InitializeComponent();
             this.Load += LichSuNhapKho_Load;
-            this.txtTimKiem.TextChanged += txtTimKiem_TextChanged;
+
             this.btnLamMoi.Click += btnLamMoi_Click;
-            this.btnThoat.Click += btnThoat_Click;
-            this.btnXuatExcel.Click += new EventHandler(this.btnXuatExcel_Click);
+            this.btnThoat.Click += (s, e) => Close();
+
+            this.txtTimKiem.TextChanged += (s, e) => LoadData(null, null);
+            this.dtpTuNgay.ValueChanged += LoadData;
+            this.dtpDenNgay.ValueChanged += LoadData;
+
             this.dgvLichSuNhapKho.CellContentClick += dgvLichSuNhapKho_CellContentClick;
-
-
-            this.dtpTuNgay.ValueChanged += LocTheoNgay;
-            this.dtpDenNgay.ValueChanged += LocTheoNgay;
         }
 
         private void LichSuNhapKho_Load(object sender, EventArgs e)
         {
             dgvLichSuNhapKho.AutoGenerateColumns = false;
-            dgvLichSuNhapKho.DataSource = LSNhapKhoBUS.LayTatCa();
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
-            UIText.ApplyButtonTextStyle(this);
-            UIDataGridView.FormatDataGridView(dgvLichSuNhapKho);
+
+            dtpTuNgay.Value = DateTime.Now.AddDays(-30);
+            dtpDenNgay.Value = DateTime.Now;
+
+            LoadData(null, null);
+
+            try
+            {
+                UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
+                UIText.ApplyButtonTextStyle(this);
+                UIDataGridView.FormatDataGridView(dgvLichSuNhapKho);
+            }
+            catch { }
         }
 
-        private void txtTimKiem_TextChanged(object sender, EventArgs e)
-        {
-            dgvLichSuNhapKho.DataSource = LSNhapKhoBUS.TimKiem(txtTimKiem.Text);
-        }
-
-        private void LocTheoNgay(object sender, EventArgs e)
+        private void LoadData(object sender, EventArgs e)
         {
             DateTime tu = dtpTuNgay.Value.Date;
-            DateTime den = dtpDenNgay.Value.Date;
-            dgvLichSuNhapKho.DataSource = LSNhapKhoBUS.LocTheoNgay(tu, den);
+            DateTime den = dtpDenNgay.Value.Date.AddDays(1).AddSeconds(-1); // Hết ngày
+
+            string tuKhoa = txtTimKiem.Text.Trim();
+
+            List<PhieuNhapDTO> list = KhoBUS.LayLichSuNhap(tu, den, tuKhoa);
+            dgvLichSuNhapKho.DataSource = list;
         }
 
         private void btnLamMoi_Click(object sender, EventArgs e)
         {
-            txtTimKiem.Clear();
-            dgvLichSuNhapKho.DataSource = LSNhapKhoBUS.LayTatCa();
-            dtpTuNgay.Value = DateTime.Now;
-            dtpDenNgay.Value = DateTime.Now.AddDays(1);
+            dtpTuNgay.Value = DateTime.Now.AddDays(-30);
+            dtpDenNgay.Value = DateTime.Now;
+            LoadData(null, null);
         }
-
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        private void btnXuatExcel_Click(object sender, EventArgs e)
-        {
-            if (dgvLichSuNhapKho.Rows.Count == 0)
-            {
-                MessageBox.Show("Không có dữ liệu để xuất!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var selectedRows = dgvLichSuNhapKho.SelectedRows;
-            List<LSNhapKhoDTO> dataToExport = new List<LSNhapKhoDTO>();
-
-            if (selectedRows.Count > 0)
-            {
-                foreach (DataGridViewRow row in selectedRows)
-                {
-                    if (row.DataBoundItem is LSNhapKhoDTO item)
-                        dataToExport.Add(item);
-                }
-            }
-            else
-            {
-                dataToExport = dgvLichSuNhapKho.DataSource as List<LSNhapKhoDTO>;
-            }
-
-            if (dataToExport == null || dataToExport.Count == 0)
-            {
-                MessageBox.Show("Không có dữ liệu để xuất!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            using (SaveFileDialog sfd = new SaveFileDialog()
-            {
-                Filter = "Excel files (*.xlsx)|*.xlsx",
-                Title = "Lưu file Excel",
-                FileName = "LichSuNhapKho.xlsx"
-            })
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    DateTime? tu = dtpTuNgay.Checked ? dtpTuNgay.Value.Date : (DateTime?)null;
-                    DateTime? den = dtpDenNgay.Checked ? dtpDenNgay.Value.Date : (DateTime?)null;
-
-                    bool success = LSNhapKhoBUS.XuatExcel(dataToExport, sfd.FileName, tu, den);
-
-                    if (success)
-                        MessageBox.Show("Xuất Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    else
-                        MessageBox.Show("Lỗi khi xuất file Excel!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
 
         private void dgvLichSuNhapKho_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && dgvLichSuNhapKho.Columns[e.ColumnIndex].Name == "chitietnhapkho")
             {
-                int mank = (int)dgvLichSuNhapKho.Rows[e.RowIndex].Cells["MaNk"].Value;
-                var frmChiTiet = new LichSuChiTietNhapKho(mank);
-                frmChiTiet.ShowDialog();
+                var item = dgvLichSuNhapKho.Rows[e.RowIndex].DataBoundItem as PhieuNhapDTO;
+                if (item != null)
+                {
+                    var frmChiTiet = new LichSuChiTietNhapKho(item.MaNK);
+                    frmChiTiet.ShowDialog();
+                }
             }
         }
 
-        private void LichSuNhapKho_Load_1(object sender, EventArgs e)
+        private void btnXuatExcel_Click(object sender, EventArgs e)
         {
+            var data = dgvLichSuNhapKho.DataSource as List<PhieuNhapDTO>;
 
+            if (data == null || data.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel files (*.xlsx)|*.xlsx", FileName = "LichSuNhapKho.xlsx" })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    DateTime? tu = dtpTuNgay.Value.Date;
+                    DateTime? den = dtpDenNgay.Value.Date;
+
+                    bool success = KhoBUS.XuatExcel(data, sfd.FileName, tu, den);
+
+                    if (success)
+                        MessageBox.Show("Xuất Excel thành công!", "Thông báo");
+                    else
+                        MessageBox.Show("Xuất Excel không thành công!", "Thông báo");
+
+                }
+            }
         }
 
-        private void btnThoat_Click_1(object sender, EventArgs e)
-        {
-
-        }
+        private void LichSuNhapKho_Load_1(object sender, EventArgs e) { }
+        private void btnThoat_Click_1(object sender, EventArgs e) { }
     }
 }

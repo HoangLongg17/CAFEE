@@ -165,6 +165,14 @@ namespace CF36
             LichSuTraHang frmLichSuTraHang = new LichSuTraHang();
             frmLichSuTraHang.Show();
         }
+
+        private void lịchSửXuấtKhoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LichSuXuatKho LichSuXuatKho = new LichSuXuatKho();
+            LichSuXuatKho.ShowDialog();
+            this.Show();
+        }
     }
 
 }
