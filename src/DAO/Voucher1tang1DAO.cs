@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Data;
 using DTO;
 using System;
 using Microsoft.Data.SqlClient;
@@ -24,13 +25,9 @@ namespace DAO
 
         public static string GetCode(int mavc)
         {
-            string query = "SELECT code FROM VOUCHER WHERE mavc = @mavc";
-            SqlParameter[] parameters = {
-                new SqlParameter("@mavc", mavc)
-            };
-
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
-            return result?.ToString() ?? "";
+            SqlParameter[] parameters = { new SqlParameter("@Mavc", mavc) };
+            DataTable dt = DataProvider.Instance.ExecuteStoredProcedure("sp_GetVoucherById", parameters);
+            return dt.Rows.Count > 0 ? dt.Rows[0]["Code"].ToString() : "";
         }
 
         public bool CheckCodeExists(string code, int? excludeMavc = null)
@@ -44,12 +41,14 @@ namespace DAO
             return result != null && Convert.ToInt32(result) > 0;
         }
 
-        public int InsertVoucher(string code, string tenMa, int loaiVC, int maloai, decimal dieuKien, DateTime ngaybd, DateTime ngaykt)
+        // Insert voucher — return inserted id (sp_InsertVoucher uses OUTPUT INSERTED.Mavc)
+        public int InsertVoucher(string code, string tenMa, int loaiVC, int? maloai, decimal? dieuKien, DateTime ngaybd, DateTime ngaykt, decimal giaTri = 0m)
         {
+            // Use the single parameter name the proc defines: @Giatri
             SqlParameter[] parameters = {
                 new SqlParameter("@Code", code),
                 new SqlParameter("@TenMaGiamGia", (object)tenMa ?? DBNull.Value),
-                new SqlParameter("@Giatri", 0m),
+                new SqlParameter("@Giatri", giaTri),
                 new SqlParameter("@Ngaybd", ngaybd),
                 new SqlParameter("@Ngaykt", ngaykt),
                 new SqlParameter("@DieuKien", (object)dieuKien ?? DBNull.Value),
@@ -68,7 +67,6 @@ namespace DAO
             return result != null ? Convert.ToInt32(result) : -1;
         }
 
-        // Now accepts Masp (int)
         public int InsertChiTietVC(int mavc, int masp)
         {
             SqlParameter[] parameters = {
@@ -79,16 +77,16 @@ namespace DAO
             return result != null ? Convert.ToInt32(result) : -1;
         }
 
-        // NEW: resolve IdKcsp from Masp + Size using stored procedure sp_GetIdKcspByMaSPAndSize
-        public int GetIdkcsp(string maSP, string kichco)
+        public int GetMasp(string maSP)
         {
-            SqlParameter[] parameters = {
-                new SqlParameter("@MaSP", maSP ?? string.Empty),
-                new SqlParameter("@Size", kichco ?? string.Empty)
-            };
+            if (string.IsNullOrWhiteSpace(maSP)) return -1;
 
-            object result = provider.ExecuteScalarStoredProcedure("sp_GetIdKcspByMaSPAndSize", parameters);
-            return result != null && int.TryParse(result.ToString(), out int id) ? id : -1;
+            SqlParameter[] parameters = { new SqlParameter("@MaSP", maSP) };
+            DataTable dt = provider.ExecuteStoredProcedure("sp_GetMaspFromMaSP", parameters);
+            if (dt.Rows.Count == 0) return -1;
+            if (dt.Columns.Contains("Masp") && int.TryParse(dt.Rows[0]["Masp"].ToString(), out int masp))
+                return masp;
+            return -1;
         }
 
         public DataRow GetVoucherByID(int mavc)
@@ -116,18 +114,18 @@ namespace DAO
             return provider.ExecuteStoredProcedure("sp_SearchSanPhamTang", parameters);
         }
 
-        public bool UpdateVoucher(int mavc, string code, string tenMaGiamGia, int loaiVC, int maloai, decimal dieuKien)
+        public bool UpdateVoucher(int mavc, string code, string tenMaGiamGia, int loaiVC, int? maloai, decimal? dieuKien, decimal giaTri = 0m, DateTime? ngaybd = null, DateTime? ngaykt = null)
         {
             SqlParameter[] parameters = {
                 new SqlParameter("@Mavc", mavc),
                 new SqlParameter("@Code", code),
                 new SqlParameter("@TenMaGiamGia", (object)tenMaGiamGia ?? DBNull.Value),
-                new SqlParameter("@Giatri", 0m),
-                new SqlParameter("@Ngaybd", DateTime.Today),
-                new SqlParameter("@Ngaykt", DateTime.Today),
-                new SqlParameter("@DieuKien", dieuKien),
+                new SqlParameter("@Giatri", giaTri),
+                new SqlParameter("@Ngaybd", (object)ngaybd ?? DateTime.Today),
+                new SqlParameter("@Ngaykt", (object)ngaykt ?? DateTime.Today),
+                new SqlParameter("@DieuKien", (object)dieuKien ?? DBNull.Value),
                 new SqlParameter("@Maloaivc", loaiVC),
-                new SqlParameter("@Maloai", maloai)
+                new SqlParameter("@Maloai", (object)maloai ?? DBNull.Value)
             };
 
             object res = provider.ExecuteScalarStoredProcedure("sp_UpdateVoucher", parameters);

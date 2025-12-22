@@ -49,8 +49,7 @@ namespace CF36
 
             try
             {
-                // 2. Lấy MaSP từ dòng đã chọn
-                // (Giả sử DTO của ông có thuộc tính MaSP)
+                // 2. Lấy MaSP từ dòng đã chọn (string mã hoặc numeric id)
                 string maSPCanSua = dgvDanhSachSanPham.CurrentRow.Cells["MaSP"].Value.ToString();
 
                 // 3. Mở form Sửa và truyền MaSP vào
@@ -108,20 +107,33 @@ namespace CF36
         // Cấu hình hiển thị cho DataGridView
         private void SetupDataGridView()
         {
-            // Đặt tên các cột còn lại
-            dgvDanhSachSanPham.Columns["Idkcsp"].HeaderText = "ID";
-            dgvDanhSachSanPham.Columns["MaSP"].HeaderText = "Mã SP";
-            dgvDanhSachSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
-            dgvDanhSachSanPham.Columns["TenLoai"].HeaderText = "Loại";
-            dgvDanhSachSanPham.Columns["KichCo"].HeaderText = "Size";
-            dgvDanhSachSanPham.Columns["GiaBan"].HeaderText = "Giá Bán";
-            dgvDanhSachSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
-            dgvDanhSachSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
+            // Guard: check columns exist before referencing them
+            if (dgvDanhSachSanPham.Columns.Contains("Masp"))
+                dgvDanhSachSanPham.Columns["Masp"].HeaderText = "ID";
+            if (dgvDanhSachSanPham.Columns.Contains("MaSP"))
+                dgvDanhSachSanPham.Columns["MaSP"].HeaderText = "Mã SP";
+            if (dgvDanhSachSanPham.Columns.Contains("TenSP"))
+                dgvDanhSachSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
+            if (dgvDanhSachSanPham.Columns.Contains("TenLoai"))
+                dgvDanhSachSanPham.Columns["TenLoai"].HeaderText = "Loại";
+            if (dgvDanhSachSanPham.Columns.Contains("GiaBan"))
+                dgvDanhSachSanPham.Columns["GiaBan"].HeaderText = "Giá Bán";
+            if (dgvDanhSachSanPham.Columns.Contains("SoLuongTon"))
+                dgvDanhSachSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
+            if (dgvDanhSachSanPham.Columns.Contains("TrangThaiText"))
+                dgvDanhSachSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
 
-            dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
-            dgvDanhSachSanPham.Columns["Idkcsp"].Visible = false;
-            dgvDanhSachSanPham.Columns["GiaGoc"].Visible = false;
-            dgvDanhSachSanPham.Columns["TienGiam"].Visible = false;
+            if (dgvDanhSachSanPham.Columns.Contains("GiaBan"))
+                dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
+
+            if (dgvDanhSachSanPham.Columns.Contains("Masp"))
+                dgvDanhSachSanPham.Columns["Masp"].Visible = false;
+
+            if (dgvDanhSachSanPham.Columns.Contains("GiaGoc"))
+                dgvDanhSachSanPham.Columns["GiaGoc"].Visible = false;
+            if (dgvDanhSachSanPham.Columns.Contains("TienGiam"))
+                dgvDanhSachSanPham.Columns["TienGiam"].Visible = false;
+
             dgvDanhSachSanPham.RowHeadersWidth = 50;
         }
 
@@ -135,16 +147,16 @@ namespace CF36
 
                 // 2. Gán vào DataGridView
                 dgvDanhSachSanPham.DataSource = danhSach;
-                if (dgvDanhSachSanPham.Columns.Contains("duongdananh"))
-                    dgvDanhSachSanPham.Columns["duongdananh"].Visible = false;
+                if (dgvDanhSachSanPham.Columns.Contains("DuongDanAnh"))
+                    dgvDanhSachSanPham.Columns["DuongDanAnh"].Visible = false;
                 if (dgvDanhSachSanPham.Columns.Contains("LaSanPhamTang"))
                     dgvDanhSachSanPham.Columns["LaSanPhamTang"].Visible = false;
                 if (dgvDanhSachSanPham.Columns.Contains("SoLuong"))
                     dgvDanhSachSanPham.Columns["SoLuong"].Visible = false;
                 if (dgvDanhSachSanPham.Columns.Contains("MaSanPhamGoc"))
                     dgvDanhSachSanPham.Columns["MaSanPhamGoc"].Visible = false;
-                if (dgvDanhSachSanPham.Columns.Contains("maloai"))
-                    dgvDanhSachSanPham.Columns["maloai"].HeaderText = "Mã loại sản phẩm";
+                if (dgvDanhSachSanPham.Columns.Contains("Maloai"))
+                    dgvDanhSachSanPham.Columns["Maloai"].HeaderText = "Mã loại sản phẩm";
                 // 3. Thêm cột ảnh nếu chưa có
                 if (!dgvDanhSachSanPham.Columns.Contains("Anh"))
                 {
@@ -160,7 +172,7 @@ namespace CF36
 
                 foreach (DataGridViewRow row in dgvDanhSachSanPham.Rows)
                 {
-                    if (row.Cells["DuongDanAnh"] != null && row.Cells["DuongDanAnh"].Value != null)
+                    if (dgvDanhSachSanPham.Columns.Contains("DuongDanAnh") && row.Cells["DuongDanAnh"] != null && row.Cells["DuongDanAnh"].Value != null)
                     {
                         string relativePath = row.Cells["DuongDanAnh"].Value.ToString();
                         string fullPath = Path.Combine(rootPath, relativePath);
@@ -180,18 +192,26 @@ namespace CF36
                     }
                 }
 
-                // 5. Đặt tên cột sau khi gán DataSource
-                dgvDanhSachSanPham.Columns["Idkcsp"].HeaderText = "ID";
-                dgvDanhSachSanPham.Columns["MaSP"].HeaderText = "Mã SP";
-                dgvDanhSachSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
-                dgvDanhSachSanPham.Columns["TenLoai"].HeaderText = "Loại";
-                dgvDanhSachSanPham.Columns["KichCo"].HeaderText = "Size";
-                dgvDanhSachSanPham.Columns["GiaBan"].HeaderText = "Giá Bán";
-                dgvDanhSachSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
-                dgvDanhSachSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
+                // 5. Đặt tên cột sau khi gán DataSource (guarded)
+                if (dgvDanhSachSanPham.Columns.Contains("Masp"))
+                    dgvDanhSachSanPham.Columns["Masp"].HeaderText = "ID";
+                if (dgvDanhSachSanPham.Columns.Contains("MaSP"))
+                    dgvDanhSachSanPham.Columns["MaSP"].HeaderText = "Mã SP";
+                if (dgvDanhSachSanPham.Columns.Contains("TenSP"))
+                    dgvDanhSachSanPham.Columns["TenSP"].HeaderText = "Tên Sản Phẩm";
+                if (dgvDanhSachSanPham.Columns.Contains("TenLoai"))
+                    dgvDanhSachSanPham.Columns["TenLoai"].HeaderText = "Loại";
+                if (dgvDanhSachSanPham.Columns.Contains("GiaBan"))
+                    dgvDanhSachSanPham.Columns["GiaBan"].HeaderText = "Giá Bán";
+                if (dgvDanhSachSanPham.Columns.Contains("SoLuongTon"))
+                    dgvDanhSachSanPham.Columns["SoLuongTon"].HeaderText = "Tồn Kho";
+                if (dgvDanhSachSanPham.Columns.Contains("TrangThaiText"))
+                    dgvDanhSachSanPham.Columns["TrangThaiText"].HeaderText = "Trạng Thái";
 
-                dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
-                dgvDanhSachSanPham.Columns["Idkcsp"].Visible = false;
+                if (dgvDanhSachSanPham.Columns.Contains("GiaBan"))
+                    dgvDanhSachSanPham.Columns["GiaBan"].DefaultCellStyle.Format = "N0";
+                if (dgvDanhSachSanPham.Columns.Contains("Masp"))
+                    dgvDanhSachSanPham.Columns["Masp"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -237,14 +257,21 @@ namespace CF36
 
             try
             {
-                int selectedID = (int)dgvDanhSachSanPham.CurrentRow.Cells["Idkcsp"].Value;
+                int selectedID = 0;
+                if (dgvDanhSachSanPham.Columns.Contains("Masp") && dgvDanhSachSanPham.CurrentRow.Cells["Masp"].Value != null)
+                    selectedID = Convert.ToInt32(dgvDanhSachSanPham.CurrentRow.Cells["Masp"].Value);
+                else
+                {
+                    MessageBox.Show("Không tìm thấy ID sản phẩm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 string tenSP = dgvDanhSachSanPham.CurrentRow.Cells["TenSP"].Value.ToString();
-                string size = dgvDanhSachSanPham.CurrentRow.Cells["KichCo"].Value.ToString();
                 string trangThaiHienTai = dgvDanhSachSanPham.CurrentRow.Cells["TrangThaiText"].Value.ToString();
                 string trangThaiMoi = (trangThaiHienTai == "Đang bán") ? "Ngừng bán" : "Đang bán";
 
                 DialogResult confirm = MessageBox.Show(
-                    $"Bạn có chắc muốn đổi trạng thái của '{tenSP} (Size {size})' từ '{trangThaiHienTai}' thành '{trangThaiMoi}' không?",
+                    $"Bạn có chắc muốn đổi trạng thái của '{tenSP}' từ '{trangThaiHienTai}' thành '{trangThaiMoi}' không?",
                     "Xác nhận Ẩn/Hiện",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
@@ -282,15 +309,22 @@ namespace CF36
             try
             {
                 // Lấy thông tin
-                int selectedID = (int)dgvDanhSachSanPham.CurrentRow.Cells["Idkcsp"].Value;
-                string maSP = dgvDanhSachSanPham.CurrentRow.Cells["MaSP"].Value.ToString(); // <-- LẤY THÊM MaSP
+                int selectedID = 0;
+                if (dgvDanhSachSanPham.Columns.Contains("Masp") && dgvDanhSachSanPham.CurrentRow.Cells["Masp"].Value != null)
+                    selectedID = Convert.ToInt32(dgvDanhSachSanPham.CurrentRow.Cells["Masp"].Value);
+                else
+                {
+                    MessageBox.Show("Không tìm thấy ID sản phẩm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string maSP = dgvDanhSachSanPham.CurrentRow.Cells["MaSP"].Value.ToString(); // <-- LẤY MaSP hiển thị
                 string tenSP = dgvDanhSachSanPham.CurrentRow.Cells["TenSP"].Value.ToString();
-                string size = dgvDanhSachSanPham.CurrentRow.Cells["KichCo"].Value.ToString();
 
                 // Xác nhận
                 DialogResult confirm = MessageBox.Show(
-                    $"Bạn có chắc muốn XÓA vĩnh viễn '{tenSP} (Size {size})'?\n" +
-                    $"Nếu đây là size cuối cùng, sản phẩm '{maSP}' sẽ bị xóa hoàn toàn.",
+                    $"Bạn có chắc muốn XÓA vĩnh viễn '{tenSP}'?\n" +
+                    $"Sản phẩm mã: {maSP}",
                     "Xác nhận Xóa",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
@@ -298,7 +332,7 @@ namespace CF36
 
                 if (confirm == DialogResult.Yes)
                 {
-                    // Gọi BUS (SỬA LẠI)
+                    // Gọi BUS
                     bool success = sanPhamBUS.DeleteSanPham(selectedID, maSP); // <-- Truyền cả ID và MaSP
 
                     if (success)
@@ -316,7 +350,7 @@ namespace CF36
             {
                 if (ex.Message.Contains("REFERENCE constraint"))
                 {
-                    MessageBox.Show("Không thể xóa size này vì đã tồn tại trong hóa đơn/phiếu nhập.", "Lỗi ràng buộc", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Không thể xóa sản phẩm vì đã tồn tại trong hóa đơn/phiếu nhập.", "Lỗi ràng buộc", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {

@@ -9,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace CF36
 {
     public partial class ThemSanPham : Form
     {
-        private ThemSanPhamBUS themSanPhamBUS = new ThemSanPhamBUS();
-        private Dictionary<char, int> kichCoMap; // Biến lưu map S/M/L -> 1/2/3
+        private DanhSachSanPhamBUS sanPhamBUS = DanhSachSanPhamBUS.Instance;
         private string selectedImagePath = null; // Biến lưu đường dẫn ảnh đã chọn
         public ThemSanPham()
         {
@@ -25,8 +25,6 @@ namespace CF36
         private void ThemSanPham_Load(object sender, EventArgs e)
         {
             LoadLoaiSanPham();
-            LoadKichCoMap();
-            SetupInitialState();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
         }
@@ -34,39 +32,15 @@ namespace CF36
         {
             try
             {
-                cbbLoaiSanPham.DataSource = themSanPhamBUS.GetLoaiSP();
-                cbbLoaiSanPham.DisplayMember = "TenLoai";
-                cbbLoaiSanPham.ValueMember = "MaLoai";
+                cbbLoaiSanPham.DataSource = sanPhamBUS.GetLoaiSanPham();
+                cbbLoaiSanPham.DisplayMember = "Tenloai";
+                cbbLoaiSanPham.ValueMember = "Maloai";
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi tải loại sản phẩm: " + ex.Message);
             }
         }
-        private void LoadKichCoMap()
-        {
-            try
-            {
-                // Lấy map S/M/L về và lưu lại
-                kichCoMap = themSanPhamBUS.GetKichCoMap();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải kích cỡ: " + ex.Message);
-            }
-        }
-        // Cài đặt ban đầu: vô hiệu hóa các textbox giá
-        private void SetupInitialState()
-        {
-            txtGiaS.Enabled = false;
-            txtGiaM.Enabled = false;
-            txtGiaL.Enabled = false;
-        }
-
-
-
-
-
 
         private void HandleImageUpload(string maSP)
         {
@@ -93,27 +67,6 @@ namespace CF36
             }
 
         }
-
-
-
-        private void cbS_CheckedChanged(object sender, EventArgs e)
-        {
-            txtGiaS.Enabled = cbS.Checked;
-            if (!cbS.Checked) txtGiaS.Text = "";
-        }
-
-        private void cbM_CheckedChanged(object sender, EventArgs e)
-        {
-            txtGiaM.Enabled = cbM.Checked;
-            if (!cbM.Checked) txtGiaM.Text = "";
-        }
-
-        private void cbL_CheckedChanged(object sender, EventArgs e)
-        {
-            txtGiaL.Enabled = cbL.Checked;
-            if (!cbL.Checked) txtGiaL.Text = "";
-        }
-
         private void btnThoat_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -126,7 +79,19 @@ namespace CF36
                 // 1. Thu thập dữ liệu
                 string maSP = txtMaSanPham.Text.Trim();
                 string tenSP = txtTenSanPham.Text.Trim();
-                int maLoai = (int)cbbLoaiSanPham.SelectedValue;
+                int maLoai = cbbLoaiSanPham.SelectedValue != null ? Convert.ToInt32(cbbLoaiSanPham.SelectedValue) : 0;
+
+                if (string.IsNullOrWhiteSpace(tenSP))
+                {
+                    MessageBox.Show("Tên sản phẩm không được để trống.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (maLoai == 0)
+                {
+                    MessageBox.Show("Vui lòng chọn loại sản phẩm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 // (BỔ SUNG) Đọc số lượng cảnh báo
                 if (!int.TryParse(txtSoLuongCanhBao.Text, out int canhBao) || canhBao < 0)
@@ -135,19 +100,40 @@ namespace CF36
                     return;
                 }
 
-                // 2. (SỬA) Gọi BUS (truyền thêm 'canhBao')
-                themSanPhamBUS.ThemSanPham(maSP, tenSP, maLoai, canhBao,
-                                           cbS.Checked, txtGiaS.Text,
-                                           cbM.Checked, txtGiaM.Text,
-                                           cbL.Checked, txtGiaL.Text,
-                                           kichCoMap);
+                // Đọc giá bán từ trường duy nhất (txtGiaS used as single price input)
+                if (!decimal.TryParse(txtGia.Text.Trim(), out decimal giaBan) || giaBan <= 0)
+                {
+                    MessageBox.Show("Vui lòng nhập giá bán hợp lệ (số lớn hơn 0).", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                // 3. Xử lý ảnh (giữ nguyên)
+                // Build DTO and call BUS (uses stored procedure internally)
+                SanPhamDTO sp = new SanPhamDTO
+                {
+                    // Masp is identity, MaSP field may be used for filenames; DAO sp_ThemSanPham_Moi doesn't accept MaSP string
+                    MaSP = maSP,
+                    TenSP = tenSP,
+                    MaLoai = maLoai,
+                    GiaBan = giaBan,
+                    CanhBaoTonKho = canhBao,
+                    DuongDanAnh = null
+                };
+
+                bool ok = sanPhamBUS.AddSanPham(sp);
+
+                // 3. Xử lý ảnh (giữ nguyên) - use provided maSP for filename (legacy)
                 HandleImageUpload(maSP);
 
-                MessageBox.Show("Thêm sản phẩm mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                if (ok)
+                {
+                    MessageBox.Show("Thêm sản phẩm mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Thêm sản phẩm thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {

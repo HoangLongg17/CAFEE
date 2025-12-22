@@ -87,14 +87,18 @@ namespace CF36
         private void LoadSanPham()
         {
             dgvSanPham.DataSource = DanhSachSanPhamBUS.Instance.GetAllSanPham();
-            dgvSanPham.Columns["IdKcsp"].HeaderText = "ID";
-            dgvSanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
-            dgvSanPham.Columns["KichCo"].HeaderText = "Size";
-            dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
+
+            // Use product-level Masp column and hide size related columns
+            if (dgvSanPham.Columns.Contains("Masp"))
+                dgvSanPham.Columns["Masp"].HeaderText = "ID";
+            if (dgvSanPham.Columns.Contains("TenSP"))
+                dgvSanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
+            if (dgvSanPham.Columns.Contains("GiaBan"))
+                dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
 
             foreach (DataGridViewColumn col in dgvSanPham.Columns)
             {
-                if (col.Name != "IdKcsp" && col.Name != "TenSP" && col.Name != "KichCo" && col.Name != "GiaBan")
+                if (col.Name != "Masp" && col.Name != "TenSP" && col.Name != "GiaBan")
                 {
                     col.Visible = false;
                 }
@@ -247,15 +251,18 @@ namespace CF36
 
                 if (mavc > 0)
                 {
-                    // Nếu chọn sản phẩm cụ thể → thêm vào CHITIETVC
+                    // Nếu chọn sản phẩm cụ thể → thêm vào VOUCHER_SANPHAM by Masp
                     if (dgvSanPham.SelectedRows.Count > 0)
                     {
-                        int idkcsp = Convert.ToInt32(dgvSanPham.SelectedRows[0].Cells["Idkcsp"].Value);
-                        bool added = VoucherBUS.Instance.AddVoucherChiTiet(mavc, idkcsp);
-                        MessageBox.Show("ID sản phẩm chọn: " + idkcsp);
-                        if (!added)
+                        if (dgvSanPham.SelectedRows[0].Cells["Masp"].Value != null)
                         {
-                            MessageBox.Show("Không thể liên kết mã với sản phẩm đã chọn.");
+                            int masp = Convert.ToInt32(dgvSanPham.SelectedRows[0].Cells["Masp"].Value);
+                            bool added = VoucherBUS.Instance.AddVoucherChiTiet(mavc, masp);
+                            MessageBox.Show("Mã sản phẩm chọn: " + masp);
+                            if (!added)
+                            {
+                                MessageBox.Show("Không thể liên kết mã với sản phẩm đã chọn.");
+                            }
                         }
                     }
 
@@ -306,7 +313,6 @@ namespace CF36
             {
                 cbbLoaiSanPham.SelectedIndex = -1; //bỏ chọn loại sản phẩm
             }
-
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

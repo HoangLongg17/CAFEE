@@ -9,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace CF36
 {
     public partial class SuaSanPham : Form
     {
-        private SuaSanPhamBUS suaSanPhamBUS = new SuaSanPhamBUS();
-        private Dictionary<char, int> kichCoMap;
+        private DanhSachSanPhamBUS sanPhamBUS = DanhSachSanPhamBUS.Instance;
         private string maSP; // Mã sản phẩm đang sửa
         private string selectedImagePath = null; // Đường dẫn ảnh mới (nếu có)
         public SuaSanPham(string maSP)
@@ -30,7 +30,6 @@ namespace CF36
             txtMa.Text = this.maSP;
 
             LoadComboBoxes();
-            LoadKichCoMap();
             LoadProductDetails();
             LoadProductImage();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
@@ -40,25 +39,14 @@ namespace CF36
         {
             try
             {
-                cbbLoaiSanPham.DataSource = suaSanPhamBUS.GetLoaiSP();
-                cbbLoaiSanPham.DisplayMember = "TenLoai";
-                cbbLoaiSanPham.ValueMember = "MaLoai";
+                // GetLoaiSanPham trả về DataTable từ DAO -> bind trực tiếp
+                cbbLoaiSanPham.DataSource = sanPhamBUS.GetLoaiSanPham();
+                cbbLoaiSanPham.DisplayMember = "Tenloai";
+                cbbLoaiSanPham.ValueMember = "Maloai";
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi tải loại sản phẩm: " + ex.Message);
-            }
-        }
-
-        private void LoadKichCoMap()
-        {
-            try
-            {
-                kichCoMap = suaSanPhamBUS.GetKichCoMap();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải kích cỡ: " + ex.Message);
             }
         }
 
@@ -67,7 +55,8 @@ namespace CF36
         {
             try
             {
-                SuaSanPhamLoadDTO info = suaSanPhamBUS.GetSanPhamInfo(this.maSP);
+                // Lấy thông tin sản phẩm (kích cỡ removed)
+                SanPhamDTO info = sanPhamBUS.GetSanPhamTheoMaVaKichCo(this.maSP, null);
                 if (info == null)
                 {
                     MessageBox.Show("Không tìm thấy thông tin sản phẩm.");
@@ -77,37 +66,21 @@ namespace CF36
 
                 // 1. Tải thông tin cơ bản
                 txtTen.Text = info.TenSP;
-                cbbLoaiSanPham.SelectedValue = info.MaLoai;
+                // MaLoai trong DTO mapped as MaLoai
+                if (info.MaLoai != 0 && cbbLoaiSanPham.Items.Count > 0)
+                {
+                    try { cbbLoaiSanPham.SelectedValue = info.MaLoai; } catch { }
+                }
+
+                // Nếu DB có CanhBaoTonKho thì hiển thị (SanPhamDTO có trường CanhBaoTonKho)
                 txtSoLuongCanhBao.Text = info.CanhBaoTonKho.ToString();
 
-                // 2. Tải thông tin size/giá
-                // Vô hiệu hóa hết textbox trước
-                txtSuaGiaS.Enabled = false;
-                txtSuaGiaM.Enabled = false;
-                txtSuaGiaL.Enabled = false;
-
-                // Duyệt qua danh sách size/giá đã lấy từ DB
-                foreach (var item in info.DanhSachKichCo)
+                // 2. Vì kích cỡ đã bị remove, dùng single price control (txtSuaGiaS) to show GiaBan
+                try
                 {
-                    if (item.KichCo == 'S')
-                    {
-                        cbS.Checked = true;
-                        txtSuaGiaS.Enabled = true;
-                        txtSuaGiaS.Text = item.GiaBan.ToString("F0"); // F0 để bỏ .00
-                    }
-                    else if (item.KichCo == 'M')
-                    {
-                        cbM.Checked = true;
-                        txtSuaGiaM.Enabled = true;
-                        txtSuaGiaM.Text = item.GiaBan.ToString("F0");
-                    }
-                    else if (item.KichCo == 'L')
-                    {
-                        cbL.Checked = true;
-                        txtSuaGiaL.Enabled = true;
-                        txtSuaGiaL.Text = item.GiaBan.ToString("F0");
-                    }
+                    txtGia.Text = info.GiaBan.ToString("F0");
                 }
+                catch { /* Ignore if control missing */ }
             }
             catch (Exception ex)
             {
@@ -185,23 +158,6 @@ namespace CF36
                 MessageBox.Show("Cập nhật dữ liệu thành công, nhưng lưu ảnh thất bại: " + ex.Message, "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private void cbS_CheckedChanged(object sender, EventArgs e)
-        {
-            txtSuaGiaS.Enabled = cbS.Checked;
-            if (!cbS.Checked) txtSuaGiaS.Text = "";
-        }
-
-        private void cbM_CheckedChanged(object sender, EventArgs e)
-        {
-            txtSuaGiaM.Enabled = cbM.Checked;
-            if (!cbM.Checked) txtSuaGiaM.Text = "";
-        }
-
-        private void cbL_CheckedChanged(object sender, EventArgs e)
-        {
-            txtSuaGiaL.Enabled = cbL.Checked;
-            if (!cbL.Checked) txtSuaGiaL.Text = "";
-        }
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
@@ -219,17 +175,38 @@ namespace CF36
                     return;
                 }
 
-                // 1. (SỬA) Gọi BUS (truyền thêm 'canhBao')
-                suaSanPhamBUS.LuuThongTinSanPham(
-                    this.maSP,
-                    txtTen.Text.Trim(),
-                    (int)cbbLoaiSanPham.SelectedValue,
-                    canhBao, // <-- Tham số mới
-                    cbS.Checked, txtSuaGiaS.Text,
-                    cbM.Checked, txtSuaGiaM.Text,
-                    cbL.Checked, txtSuaGiaL.Text,
-                    kichCoMap
-                );
+                // Read price from single control txtSuaGiaS
+                if (!decimal.TryParse(txtGia.Text.Trim(), out decimal giaBan) || giaBan < 0)
+                {
+                    MessageBox.Show("Giá bán không hợp lệ.");
+                    return;
+                }
+
+                // Resolve numeric Masp
+                int maspInt = sanPhamBUS.GetMasp(this.maSP);
+                if (maspInt == 0)
+                {
+                    // try parse directly if user provided numeric string
+                    int.TryParse(this.maSP, out maspInt);
+                }
+
+                if (maspInt == 0)
+                {
+                    MessageBox.Show("Không xác định được Mã sản phẩm để cập nhật.");
+                    return;
+                }
+
+                SanPhamDTO sp = new SanPhamDTO
+                {
+                    Masp = maspInt,
+                    TenSP = txtTen.Text.Trim(),
+                    MaLoai = cbbLoaiSanPham.SelectedValue != null ? Convert.ToInt32(cbbLoaiSanPham.SelectedValue) : 0,
+                    GiaBan = giaBan,
+                    DuongDanAnh = null,
+                    CanhBaoTonKho = canhBao
+                };
+
+                bool ok = sanPhamBUS.UpdateSanPham(sp);
 
                 // 2. Xử lý ảnh (giữ nguyên)
                 if (selectedImagePath != null)
@@ -237,9 +214,16 @@ namespace CF36
                     HandleImageUpload(this.maSP);
                 }
 
-                MessageBox.Show("Cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                if (ok)
+                {
+                    MessageBox.Show("Cập nhật sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Cập nhật thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
@@ -259,13 +243,13 @@ namespace CF36
                 {
                     selectedImagePath = openFileDialog.FileName; // Lưu đường dẫn
 
-                    // (SỬA LẠI) Giải phóng ảnh cũ (nếu có)
+                    // Giải phóng ảnh cũ (nếu có)
                     if (picAnhSua.Image != null)
                     {
                         picAnhSua.Image.Dispose();
                     }
 
-                    // (SỬA LẠI) Tải ảnh vào MemoryStream để không khóa file
+                    // Tải ảnh vào MemoryStream để không khóa file
                     // Đọc tất cả byte của file vào bộ nhớ
                     byte[] imageBytes = File.ReadAllBytes(selectedImagePath);
                     using (var ms = new MemoryStream(imageBytes))

@@ -89,14 +89,17 @@ namespace CF36
                 return;
             }
 
-            // Gán sản phẩm áp dụng
+            // Gán sản phẩm áp dụng (mỗi phần tử trong chiTiet là Masp)
             var chiTiet = DanhSachSanPhamBUS.Instance.GetChiTietVoucher(mavc);
             foreach (DataGridViewRow row in dgvSanPham.Rows)
             {
-                int id = Convert.ToInt32(row.Cells["Idkcsp"].Value);
-                if (chiTiet.Contains(id))
-                    row.Selected = true;
+                if (dgvSanPham.Columns.Contains("Masp") && row.Cells["Masp"].Value != null && int.TryParse(row.Cells["Masp"].Value.ToString(), out int masp))
+                {
+                    if (chiTiet.Contains(masp))
+                        row.Selected = true;
+                }
             }
+
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvSanPham);
@@ -126,25 +129,32 @@ namespace CF36
         {
             dgvSanPham.DataSource = DanhSachSanPhamBUS.Instance.GetAllSanPham();
 
-            dgvSanPham.Columns["IdKcsp"].HeaderText = "ID";
-            dgvSanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
-            dgvSanPham.Columns["KichCo"].HeaderText = "Size";
-            dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
+            if (dgvSanPham.Columns.Contains("Masp"))
+                dgvSanPham.Columns["Masp"].HeaderText = "ID";
+
+            if (dgvSanPham.Columns.Contains("MaSP"))
+                dgvSanPham.Columns["MaSP"].HeaderText = "Mã SP";
+
+            if (dgvSanPham.Columns.Contains("TenSP"))
+                dgvSanPham.Columns["TenSP"].HeaderText = "Tên sản phẩm";
+
+            if (dgvSanPham.Columns.Contains("GiaBan"))
+                dgvSanPham.Columns["GiaBan"].HeaderText = "Giá bán";
 
             foreach (DataGridViewColumn col in dgvSanPham.Columns)
             {
-                if (col.Name != "IdKcsp" && col.Name != "TenSP" && col.Name != "KichCo" && col.Name != "GiaBan")
+                if (col.Name != "Masp" && col.Name != "MaSP" && col.Name != "TenSP" && col.Name != "GiaBan")
                 {
                     col.Visible = false;
                 }
             }
         }
 
-        private bool KiemTraDuLieuVoucherSua(out string message, out VoucherDTO dto, out List<int> idkcspList)
+        private bool KiemTraDuLieuVoucherSua(out string message, out VoucherDTO dto, out List<int> maspList)
         {
             message = "";
             dto = null;
-            idkcspList = new List<int>();
+            maspList = new List<int>();
 
             string code = txtMaGiamGia.Text.Trim();
             string tenMa = txtTenMaGiamGia.Text.Trim();
@@ -207,7 +217,7 @@ namespace CF36
                 giatri = numGiaTriGiamTheoPT.Value;
                 if (giatri > numGiaTriGiamTheoPT.Maximum)
                 {
-                    message = $"Giá trị phần trăm giảm không được vượt quá {numGiaTriGiamTheoPT.Maximum}%.";
+                    message = $"Giá trị phần trăm giảm không được vượt quá {numGiaTriGiamTheoPT.Maximum}%. ";
                     return false;
                 }
             }
@@ -243,12 +253,11 @@ namespace CF36
 
                 dieuKien = dk;
             }
-
             foreach (DataGridViewRow row in dgvSanPham.SelectedRows)
             {
-                if (row.Cells["Idkcsp"].Value != null)
+                if (dgvSanPham.Columns.Contains("Masp") && row.Cells["Masp"].Value != null && int.TryParse(row.Cells["Masp"].Value.ToString(), out int masp))
                 {
-                    idkcspList.Add(Convert.ToInt32(row.Cells["Idkcsp"].Value));
+                    maspList.Add(masp);
                 }
             }
 
@@ -269,7 +278,7 @@ namespace CF36
         }
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (!KiemTraDuLieuVoucherSua(out string message, out VoucherDTO dto, out List<int> idkcspList))
+            if (!KiemTraDuLieuVoucherSua(out string message, out VoucherDTO dto, out List<int> maspList))
             {
                 MessageBox.Show(message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -282,7 +291,7 @@ namespace CF36
 
             // Cập nhật voucher
             bool ok = VoucherBUS.Instance.UpdateVoucher(dto);
-            bool chiTietOk = VoucherBUS.Instance.UpdateVoucherChiTiet(mavc, idkcspList);
+            bool chiTietOk = VoucherBUS.Instance.UpdateVoucherChiTiet(mavc, maspList);
 
             MessageBox.Show(ok && chiTietOk ? "Cập nhật thành công!" : "Cập nhật thất bại!");
             if (ok && chiTietOk)

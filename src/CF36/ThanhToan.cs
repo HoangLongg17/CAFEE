@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,9 +39,6 @@ namespace CF36
             this.maVoucherId = maVoucherId;
             this.maVoucherCode = maVoucherCode;
             this.ketQua = ketQua;
-
-
-
         }
         private void HienThiSanPham()
         {
@@ -80,10 +78,10 @@ namespace CF36
                 }
                 panel.Controls.Add(pic);
 
-                // Tên sản phẩm
+                // Tên sản phẩm (no size)
                 Label lblTen = new Label
                 {
-                    Text = sp.LaSanPhamTang ? $"🎁 {sp.TenSP} size {sp.KichCo}" : $"{sp.TenSP} size {sp.KichCo}",
+                    Text = sp.LaSanPhamTang ? $"🎁 {sp.TenSP}" : $"{sp.TenSP}",
                     Font = new Font("Segoe UI", 10, FontStyle.Bold),
                     MaximumSize = new Size(140, 0),
                     AutoSize = true,
@@ -149,8 +147,8 @@ namespace CF36
 
                 ToolTip tooltip = new ToolTip();
                 tooltip.SetToolTip(panel, sp.LaSanPhamTang
-                    ? $"🎁 Sản phẩm tặng\nTên: {sp.TenSP}\nSize: {sp.KichCo}"
-                    : $"Tên: {sp.TenSP}\nSize: {sp.KichCo}\nGiá gốc: {sp.GiaGoc:N0} đ\nSố lượng: {sp.SoLuong}");
+                    ? $"🎁 Sản phẩm tặng\nTên: {sp.TenSP}"
+                    : $"Tên: {sp.TenSP}\nGiá gốc: {sp.GiaGoc:N0} đ\nSố lượng: {sp.SoLuong}");
                 panel.Tag = sp;
                 flpSanPham.Controls.Add(panel);
             }
@@ -163,7 +161,8 @@ namespace CF36
 
             foreach (var sp in danhSachMua)
             {
-                var spGiam = ketQua?.SanPhamDuocGiam?.FirstOrDefault(x => x.IdKcsp == sp.IdKcsp);
+                // match by MaSP (string) — no IdKcsp
+                var spGiam = ketQua?.SanPhamDuocGiam?.FirstOrDefault(x => x.MaSP == sp.MaSP);
                 sp.TienGiam = spGiam?.TienGiam ?? 0;
                 sp.GiaBan = sp.GiaGoc;
             }
@@ -265,7 +264,7 @@ namespace CF36
             sb.AppendLine("Sản phẩm:");
             foreach (var sp in danhSach.Where(sp => !sp.LaSanPhamTang))
             {
-                sb.AppendLine($"- {sp.TenSP} | Size: {sp.KichCo} | SL: {sp.SoLuong} | Đơn giá: {sp.GiaBan:N0} đ");
+                sb.AppendLine($"- {sp.TenSP} | SL: {sp.SoLuong} | Đơn giá: {sp.GiaBan:N0} đ");
             }
 
             if (maVoucher.HasValue)
@@ -291,7 +290,7 @@ namespace CF36
             foreach (var sp in danhSachBanHang.Where(sp => !sp.LaSanPhamTang))
             {
                 decimal thanhTien = sp.GiaGoc * sp.SoLuong - sp.TienGiam;
-                string dong = $"- {sp.TenSP} | Size: {sp.KichCo} | SL: {sp.SoLuong} | Đơn giá: {sp.GiaGoc:N0} đ";
+                string dong = $"- {sp.TenSP} | SL: {sp.SoLuong} | Đơn giá: {sp.GiaGoc:N0} đ";
 
                 if (sp.TienGiam > 0)
                 {
@@ -331,7 +330,7 @@ namespace CF36
 
             foreach (var sp in danhSachMua)
             {
-                var spGiam = ketQua?.SanPhamDuocGiam?.FirstOrDefault(x => x.IdKcsp == sp.IdKcsp);
+                var spGiam = ketQua?.SanPhamDuocGiam?.FirstOrDefault(x => x.MaSP == sp.MaSP);
                 sp.TienGiam = spGiam?.TienGiam ?? 0;
                 sp.GiaBan = sp.GiaGoc; // giữ nguyên giá gốc
             }
@@ -346,15 +345,14 @@ namespace CF36
             if (ketQua?.SanPhamTang?.Count > 0)
             {
                 var sanPhamTangGop = ketQua.SanPhamTang
-                    .GroupBy(sp => sp.IdKcsp)
+                    .GroupBy(sp => sp.MaSP)
                     .Select(g => new BanHangDTO
                     {
-                        IdKcsp = g.Key,
+                        MaSP = g.Key,
+                        Masp = int.TryParse(g.Key, out int id) ? id : DanhSachSanPhamBUS.Instance.GetMasp(g.Key),
                         TenSP = g.First().TenSP,
-                        KichCo = g.First().KichCo,
                         LaSanPhamTang = true,
                         SoLuong = 1,
-                        MaSP = g.First().MaSP,
                         GiaBan = 0,
                         GiaGoc = 0,
                         TienGiam = 0,
@@ -371,11 +369,11 @@ namespace CF36
 
             foreach (var sp in danhSachBanHang)
             {
-                int tonKho = DanhSachSanPhamDAO.GetSoLuongTon(sp.IdKcsp);
+                int tonKho = sp.SoLuongTon; // use cached SoLuongTon
                 int soLuongThucTe = sp.LaSanPhamTang ? 1 : sp.SoLuong;
                 if (tonKho < soLuongThucTe)
                 {
-                    MessageBox.Show($"❌ {sp.TenSP} - Size {sp.KichCo} không đủ tồn kho.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"❌ {sp.TenSP} không đủ tồn kho.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
@@ -406,7 +404,6 @@ namespace CF36
                     SanPhamTang = ketQua?.SanPhamTang?.Select(sp => new DanhSachSanPhamDTO
                     {
                         TenSP = sp.TenSP,
-                        KichCo = sp.KichCo,
                         SoLuong = 1
                     }).ToList() ?? new List<DanhSachSanPhamDTO>(),
                     SanPhamDuocGiam = ketQua?.SanPhamDuocGiam ?? new List<DanhSachSanPhamDTO>()
@@ -416,10 +413,9 @@ namespace CF36
                     .Where(sp => !sp.LaSanPhamTang)
                     .Select(sp => new DanhSachSanPhamDTO
                     {
-                        IdKcsp = sp.IdKcsp,
+                        Masp = sp.Masp,
                         MaSP = sp.MaSP,
                         TenSP = sp.TenSP,
-                        KichCo = sp.KichCo,
                         SoLuong = sp.SoLuong,
                         GiaGoc = sp.GiaGoc,
                         GiaBan = sp.GiaGoc, // giữ nguyên giá gốc
@@ -447,12 +443,11 @@ namespace CF36
             }
 
             var danhSachCapNhat = danhSachBanHang
-                .GroupBy(sp => new { sp.IdKcsp, sp.LaSanPhamTang })
+                .GroupBy(sp => new { sp.Masp, sp.LaSanPhamTang })
                 .Select(g => new DanhSachSanPhamDTO
                 {
-                    IdKcsp = g.Key.IdKcsp,
+                    Masp = g.Key.Masp,
                     TenSP = g.First().TenSP,
-                    KichCo = g.First().KichCo,
                     LaSanPhamTang = g.Key.LaSanPhamTang,
                     SoLuong = g.Key.LaSanPhamTang ? 1 : g.Sum(x => x.SoLuong)
                 }).ToList();

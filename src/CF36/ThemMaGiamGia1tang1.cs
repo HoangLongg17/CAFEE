@@ -19,12 +19,14 @@ namespace CF36
             InitializeComponent();
         }
         public event EventHandler VoucherUpdated;
+
         private void LoadSanPhamTang()
         {
             dgvSanPham.DataSource = Voucher1tang1BUS.Instance.TimSanPhamTang("");
-            dgvSanPham.Columns["masp"].HeaderText = "Mã sản phẩm";
-            dgvSanPham.Columns["tensp"].HeaderText = "Tên sản phẩm";
-            dgvSanPham.Columns["kichco"].HeaderText = "Size";
+            if (dgvSanPham.Columns.Contains("masp"))
+                dgvSanPham.Columns["masp"].HeaderText = "Mã sản phẩm";
+            if (dgvSanPham.Columns.Contains("tensp"))
+                dgvSanPham.Columns["tensp"].HeaderText = "Tên sản phẩm";
         }
 
         private void ThemMaGiamGia1tang1_Load(object sender, EventArgs e)
@@ -45,23 +47,20 @@ namespace CF36
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvSanPham);
+
             if (dgvSanPham.Columns.Contains("masp"))
                 dgvSanPham.Columns["masp"].HeaderText = "Mã sản phẩm";
 
             if (dgvSanPham.Columns.Contains("tensp"))
                 dgvSanPham.Columns["tensp"].HeaderText = "Tên sản phẩm";
 
-            if (dgvSanPham.Columns.Contains("kichco"))
-                dgvSanPham.Columns["kichco"].HeaderText = "Size";
-
+            // do not try to access 'kichco' column — it no longer exists
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
         {
             string keyword = txtTimKiem.Text.Trim();
             dgvSanPham.DataSource = Voucher1tang1BUS.Instance.TimSanPhamTang(keyword);
-
-
         }
 
         private void cbbLoaiMa_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,7 +76,6 @@ namespace CF36
                     {
                         dgvSanPham.Columns["maloai"].Visible = false;
                     }
-
                 }
                 else
                 {
@@ -91,9 +89,8 @@ namespace CF36
             }
 
             dgvSanPham.Enabled = true;
-
-
         }
+
         private bool KiemTraDuLieuVoucher1Tang1(
             out string ma,
             out string ten,
@@ -133,7 +130,6 @@ namespace CF36
                 return false;
             }
 
-
             if (ten.Length > 100)
             {
                 message = "Tên mã giảm giá không được vượt quá 100 ký tự.";
@@ -171,11 +167,10 @@ namespace CF36
             foreach (DataGridViewRow row in dgvSanPham.SelectedRows)
             {
                 string masp = row.Cells["masp"].Value?.ToString();
-                string kichco = row.Cells["kichco"].Value?.ToString();
 
-                if (string.IsNullOrEmpty(masp) || string.IsNullOrEmpty(kichco))
+                if (string.IsNullOrEmpty(masp))
                 {
-                    message = "Thiếu thông tin sản phẩm tặng.";
+                    message = "Thiếu thông tin mã sản phẩm tặng.";
                     return false;
                 }
 
@@ -195,18 +190,20 @@ namespace CF36
                     }
                 }
 
-                int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(masp, kichco);
-                if (idkcsp <= 0)
+                // Resolve Masp (numeric id) from MaSP string and validate existence
+                int maspId = Voucher1tang1DAO.Instance.GetMasp(masp);
+                if (maspId <= 0)
                 {
-                    message = $"Không tìm thấy sản phẩm tặng '{masp}' với size '{kichco}'.";
+                    message = $"Không tìm thấy sản phẩm tặng '{masp}' trong hệ thống.";
                     return false;
                 }
 
-                dsTang.Add(idkcsp);
+                dsTang.Add(maspId);
             }
 
             return true;
         }
+
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (!KiemTraDuLieuVoucher1Tang1(
@@ -233,7 +230,6 @@ namespace CF36
                     MessageBox.Show("Thêm mã giảm giá thành công!");
                     VoucherUpdated?.Invoke(this, EventArgs.Empty); //  báo cho form cha
                     this.Close();
-
                 }
                 else
                 {
@@ -244,8 +240,8 @@ namespace CF36
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
-
         }
+
         private void txtGiaTriToiThieu_KeyPress(object sender, KeyPressEventArgs e)
         {
 
@@ -260,7 +256,6 @@ namespace CF36
                     dgvSanPham.DataSource = Voucher1tang1BUS.Instance.TimSanPhamTangTheoLoai(maloai);
                 }
             }
-
         }
 
         private void btnThoat_Click(object sender, EventArgs e)

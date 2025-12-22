@@ -116,11 +116,11 @@ namespace BUS
             }
         }
 
-        public bool UpdateVoucherChiTiet(int mavc, List<int> idkcspList)
+        public bool UpdateVoucherChiTiet(int mavc, List<int> maspList)
         {
             try
             {
-                return VoucherDAO.Instance.UpdateVoucherChiTiet(mavc, idkcspList);
+                return VoucherDAO.Instance.UpdateVoucherChiTiet(mavc, maspList);
             }
             catch
             {
@@ -167,11 +167,11 @@ namespace BUS
             return VoucherDAO.Instance.GetVoucherTypes();
         }
 
-        public bool AddVoucherChiTiet(int mavc, int idkcsp)
+        public bool AddVoucherChiTiet(int mavc, int masp)
         {
             try
             {
-                return VoucherDAO.Instance.AddVoucherChiTiet(mavc, idkcsp);
+                return VoucherDAO.Instance.AddVoucherChiTiet(mavc, masp);
             }
             catch
             {
@@ -179,11 +179,11 @@ namespace BUS
             }
         }
 
-        public bool CheckChiTietVoucher(int mavc, int idkcsp)
+        public bool CheckChiTietVoucher(int mavc, int masp)
         {
             try
             {
-                return VoucherDAO.Instance.CheckChiTietVoucher(mavc, idkcsp);
+                return VoucherDAO.Instance.CheckChiTietVoucher(mavc, masp);
             }
             catch
             {

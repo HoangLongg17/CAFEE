@@ -35,9 +35,7 @@ namespace CF36
             if (dgvSanPhamTang.Columns.Contains("tensp"))
                 dgvSanPhamTang.Columns["tensp"].HeaderText = "Tên sản phẩm";
 
-            if (dgvSanPhamTang.Columns.Contains("kichco"))
-                dgvSanPhamTang.Columns["kichco"].HeaderText = "Size";
-
+            // Kích cỡ (kichco) removed from model — do not refer to it anymore.
         }
         private void LoadLoaiMaGiamGia1Tang1()
         {
@@ -73,22 +71,25 @@ namespace CF36
                 int loaiVC = Convert.ToInt32(row["Maloaivc"]);
                 cbbLoaiMaGiamGia.SelectedIndex = (loaiVC == 2) ? 0 : 1;
 
-                // Nếu là loại 4 thì load sản phẩm tặng đã chọn
+                // Nếu là loại 4 thì load sản phẩm tặng đã chọn (match by masp only; sizes removed)
                 if (loaiVC == 4)
                 {
                     var dsTang = Voucher1tang1BUS.Instance.GetSanPhamTangByVoucher(mavc);
+
+                    // Build set of masp strings from voucher details
+                    var maspSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                    foreach (DataRow d in dsTang.Rows)
+                    {
+                        if (d.Table.Columns.Contains("masp") && d["masp"] != null)
+                            maspSet.Add(d["masp"].ToString());
+                    }
+
                     foreach (DataGridViewRow r in dgvSanPhamTang.Rows)
                     {
                         string masp = r.Cells["masp"].Value?.ToString() ?? "";
-                        string kichco = r.Cells["kichco"].Value?.ToString() ?? "";
-
-                        foreach (DataRow d in dsTang.Rows)
+                        if (!string.IsNullOrEmpty(masp) && maspSet.Contains(masp))
                         {
-                            if (d["masp"].ToString() == masp && d["kichco"].ToString() == kichco)
-                            {
-                                r.Selected = true;
-                                break;
-                            }
+                            r.Selected = true;
                         }
                     }
                 }
@@ -177,12 +178,12 @@ namespace CF36
                 return false;
             }
 
+            // SelectedRows may include multiple; sizes removed so match by masp -> resolve to numeric Masp
             foreach (DataGridViewRow row in dgvSanPhamTang.SelectedRows)
             {
                 string masp = row.Cells["masp"].Value?.ToString();
-                string kichco = row.Cells["kichco"].Value?.ToString();
 
-                if (string.IsNullOrEmpty(masp) || string.IsNullOrEmpty(kichco))
+                if (string.IsNullOrEmpty(masp))
                 {
                     message = "Thiếu thông tin sản phẩm tặng.";
                     return false;
@@ -204,15 +205,15 @@ namespace CF36
                     }
                 }
 
-                // ✅ Lấy idkcsp và kiểm tra tồn tại
-                int idkcsp = Voucher1tang1DAO.Instance.GetIdkcsp(masp, kichco);
-                if (idkcsp <= 0)
+                // Resolve Masp (numeric id) from MaSP string and validate existence
+                int maspId = Voucher1tang1DAO.Instance.GetMasp(masp);
+                if (maspId <= 0)
                 {
-                    message = $"Không tìm thấy sản phẩm tặng '{masp}' với size '{kichco}' trong hệ thống.";
+                    message = $"Không tìm thấy sản phẩm tặng '{masp}' trong hệ thống.";
                     return false;
                 }
 
-                dsTang.Add(idkcsp);
+                dsTang.Add(maspId);
             }
 
             if (dsTang.Count == 0)

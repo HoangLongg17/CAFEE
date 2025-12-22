@@ -1,7 +1,9 @@
 ﻿using DTO;
+using System.Data;
+using DTO;
+using System.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using Microsoft.Data.SqlClient;
 
 namespace DAO
@@ -23,13 +25,10 @@ namespace DAO
 
         public static string GetCode(int mavc)
         {
-            string query = "SELECT code FROM VOUCHER WHERE mavc = @mavc";
-            SqlParameter[] parameters = {
-                new SqlParameter("@mavc", mavc)
-            };
-
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
-            return result?.ToString() ?? "";
+            SqlParameter[] parameters = { new SqlParameter("@Mavc", mavc) };
+            DataTable dt = DataProvider.Instance.ExecuteStoredProcedure("sp_GetVoucherById", parameters);
+            if (dt.Rows.Count == 0) return "";
+            return dt.Rows[0]["Code"]?.ToString() ?? "";
         }
 
         public static int? GetIdFromCode(string code)
@@ -58,7 +57,6 @@ namespace DAO
             return result != null && Convert.ToInt32(result) > 0;
         }
 
-        // Now accepts Masp (int) — stored proc inserts into VOUCHER_SANPHAM
         public bool AddVoucherChiTiet(int mavc, int masp)
         {
             SqlParameter[] parameters = {
@@ -69,7 +67,6 @@ namespace DAO
             return result != null && Convert.ToInt32(result) > 0;
         }
 
-        // Check whether (Mavc, Masp) exists using stored proc
         public bool CheckChiTietVoucher(int mavc, int masp)
         {
             SqlParameter[] parameters = {
@@ -200,7 +197,6 @@ namespace DAO
 
         public bool UpdateVoucherChiTiet(int mavc, List<int> maspList)
         {
-            // Delete existing mappings then add new ones via procedures
             SqlParameter[] delParams = { new SqlParameter("@Mavc", mavc) };
             provider.ExecuteNonQueryStoredProcedure("sp_DeleteChiTietVC", delParams);
 

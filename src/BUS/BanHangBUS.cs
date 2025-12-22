@@ -1,15 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DAO;
+using DTO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAO;
+using DTO;
 using DAO;
 using DTO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using System.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Data.SqlClient;
+using iTextRectangle = iTextSharp.text.Rectangle;
 namespace BUS
 {
     public class BanHangBUS
@@ -35,6 +43,7 @@ namespace BUS
             return Math.Max(0, tongTien - giamGia);
         }
 
+        // Lấy danh sách sản phẩm tặng từ proc (DB hiện tại trả Masp-level rows)
         public List<DanhSachSanPhamDTO> LaySanPhamTang(int mavc, int maloaiGoc, string maSanPhamGoc, int soLuongMua, int loaiVC)
         {
             var ds = new List<DanhSachSanPhamDTO>();
@@ -46,41 +55,37 @@ namespace BUS
             // Truy vấn sản phẩm tặng theo loại voucher
             if (loaiVC == 2)
             {
-                // Mua 1 tặng 1 cùng dòng → lấy toàn bộ sản phẩm tặng theo mã
                 dt = dao.GetSanPhamTangByVoucher(mavc);
             }
             else
             {
-                // Các loại khác → truyền thêm maloai nếu cần
                 dt = dao.GetSanPhamTangByVoucher(mavc, maloaiGoc, loaiVC);
             }
+
             if (dt.Rows.Count > 0)
             {
-                var row = dt.Rows[0]; // ✅ chỉ lấy 1 sản phẩm tặng đầu tiên
-                string masp = row["MaSP"].ToString().Trim();
-                string kichco = row["KichCo"].ToString().Trim();
+                var row = dt.Rows[0];
+                string maspStr = row["MaSP"].ToString().Trim();
+                int maspId = int.TryParse(maspStr, out int tmp) ? tmp : DanhSachSanPhamBUS.Instance.GetMasp(maspStr);
 
-                var sp = DanhSachSanPhamBUS.Instance.GetSanPhamTheoMaVaKichCo(masp, kichco);
-                if (sp != null)
+                var sp = new DanhSachSanPhamDTO
                 {
-                    sp.IdKcsp = DanhSachSanPhamBUS.Instance.GetIdKcsp(sp.MaSP, sp.KichCo);
-                    ds.Add(new DanhSachSanPhamDTO
-                    {
-                        MaSP = sp.MaSP,
-                        TenSP = sp.TenSP,
-                        DuongDanAnh = sp.DuongDanAnh,
-                        KichCo = sp.KichCo,
-                        GiaBan = 0,
-                        SoLuong = 1,
-                        LaSanPhamTang = true,
-                        MaSanPhamGoc = maSanPhamGoc,
-                        Maloai = sp.Maloai,
-                        TenLoai = sp.TenLoai,
-                        TrangThaiText = sp.TrangThaiText,
-                        SoLuongTon = sp.SoLuongTon,
-                        IdKcsp = sp.IdKcsp
-                    });
-                }
+                    Masp = maspId,
+                    MaSP = maspStr,
+                    TenSP = row["TenSP"].ToString(),
+                    DuongDanAnh = row.Table.Columns.Contains("DuongDanAnh") ? row["DuongDanAnh"].ToString() : null,
+                    GiaBan = row.Table.Columns.Contains("GiaBan") ? Convert.ToDecimal(row["GiaBan"]) : 0m,
+                    Maloai = row.Table.Columns.Contains("Maloai") ? Convert.ToInt32(row["Maloai"]) : 0,
+                    TenLoai = row.Table.Columns.Contains("TenLoai") ? row["TenLoai"].ToString() : null,
+                    TrangThaiText = row.Table.Columns.Contains("TrangThaiText") ? row["TrangThaiText"].ToString() : null,
+                    SoLuongTon = row.Table.Columns.Contains("SoLuongTon") ? Convert.ToInt32(row["SoLuongTon"]) : 0
+                };
+
+                sp.SoLuong = 1;
+                sp.LaSanPhamTang = true;
+                sp.MaSanPhamGoc = maSanPhamGoc;
+
+                ds.Add(sp);
             }
 
             return ds;
@@ -94,16 +99,21 @@ namespace BUS
 
             foreach (var sp in danhSach)
             {
+                int resolvedMasp = sp.Masp;
+                if (resolvedMasp <= 0)
+                {
+                    resolvedMasp = int.TryParse(sp.MaSP, out int m) ? m : DanhSachSanPhamBUS.Instance.GetMasp(sp.MaSP);
+                }
+
                 var dto = new BanHangDTO
                 {
-                    IdKcsp = sp.IdKcsp,
+                    Masp = resolvedMasp,
                     MaSP = sp.MaSP,
                     TenSP = sp.TenSP,
-                    KichCo = sp.KichCo,
                     SoLuong = sp.LaSanPhamTang ? 1 : sp.SoLuong,
-                    GiaGoc = sp.GiaGoc,               // ✅ Giữ nguyên giá gốc đã cập nhật
-                    GiaBan = sp.GiaBan,               // ✅ Giữ nguyên giá sau giảm
-                    TienGiam = sp.TienGiam,           // ✅ Giữ nguyên tiền giảm
+                    GiaGoc = sp.GiaGoc,
+                    GiaBan = sp.GiaBan,
+                    TienGiam = sp.TienGiam,
                     LaSanPhamTang = sp.LaSanPhamTang,
                     Maloai = sp.Maloai,
                     MaSanPhamGoc = sp.MaSanPhamGoc,
@@ -118,351 +128,392 @@ namespace BUS
 
             return danhSachChuyenDoi;
         }
-        public KetQuaGiamGiaDTO ApDungMaGiamGia(string code, List<DanhSachSanPhamDTO> danhSachDaChon)
+
+        // Create invoice, invoice lines, apply voucher and decrement stock
+        // Uses local SqlConnection + SqlTransaction to keep operations atomic
+        public int XuatHoaDon(int? makh, string manv, List<BanHangDTO> danhSachBanHang, int? mavc)
+        {
+            if (string.IsNullOrWhiteSpace(manv)) throw new ArgumentException("manv is required.", nameof(manv));
+            if (danhSachBanHang == null || danhSachBanHang.Count == 0) throw new ArgumentException("No products.", nameof(danhSachBanHang));
+
+            // Calculate totals
+            decimal tongTienGoc = danhSachBanHang.Where(s => !s.LaSanPhamTang).Sum(s => s.GiaGoc * s.SoLuong);
+            decimal tienGiam = danhSachBanHang.Where(s => !s.LaSanPhamTang).Sum(s => s.TienGiam);
+            decimal tongTienSauGiam = Math.Max(0, tongTienGoc - tienGiam);
+
+            using (SqlConnection conn = new SqlConnection(DataProvider.connectionSTR))
+            {
+                conn.Open();
+                using (SqlTransaction tran = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1) TaoHoaDon -> returns Mahd
+                        using (SqlCommand cmd = conn.CreateCommand())
+                        {
+                            cmd.Transaction = tran;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandText = "sp_TaoHoaDon";
+                            cmd.Parameters.AddWithValue("@Makh", (object)makh ?? DBNull.Value);
+                            cmd.Parameters.AddWithValue("@Manv", manv);
+                            cmd.Parameters.AddWithValue("@TongTienGoc", tongTienGoc);
+                            cmd.Parameters.AddWithValue("@TienGiam", tienGiam);
+                            cmd.Parameters.AddWithValue("@TongTien", tongTienSauGiam);
+
+                            object result = cmd.ExecuteScalar();
+                            if (result == null) throw new Exception("Failed to create invoice (no id returned).");
+                            int mahd = Convert.ToInt32(result);
+
+                            // 2) ThemChiTietHoaDon for each product
+                            // Group lines by Masp + IsTang to avoid PK violation (Mahd,Masp,IsTang)
+                            var groupedLines = danhSachBanHang
+                                .GroupBy(s => new { s.Masp, IsTang = s.LaSanPhamTang ? 1 : 0 })
+                                .Select(g => new
+                                {
+                                    Masp = g.Key.Masp,
+                                    IsTang = g.Key.IsTang,
+                                    Soluong = g.Sum(x => x.SoLuong),
+                                    // Dongia should be consistent for grouped items; take first non-null
+                                    Dongia = g.First().GiaBan
+                                })
+                                .ToList();
+
+                            foreach (var line in groupedLines)
+                            {
+                                using (SqlCommand cmdCt = conn.CreateCommand())
+                                {
+                                    cmdCt.Transaction = tran;
+                                    cmdCt.CommandType = CommandType.StoredProcedure;
+                                    cmdCt.CommandText = "sp_ThemChiTietHoaDon";
+                                    cmdCt.Parameters.AddWithValue("@Mahd", mahd);
+                                    cmdCt.Parameters.AddWithValue("@Masp", line.Masp);
+                                    cmdCt.Parameters.AddWithValue("@Soluong", line.Soluong);
+                                    cmdCt.Parameters.AddWithValue("@Dongia", line.Dongia);
+                                    cmdCt.Parameters.AddWithValue("@IsTang", line.IsTang);
+
+                                    cmdCt.ExecuteNonQuery();
+                                }
+                            }
+
+                            // 3) Apply voucher if present
+                            if (mavc.HasValue)
+                            {
+                                using (SqlCommand cmdVc = conn.CreateCommand())
+                                {
+                                    cmdVc.Transaction = tran;
+                                    cmdVc.CommandType = CommandType.StoredProcedure;
+                                    cmdVc.CommandText = "sp_ApDungVoucher";
+                                    cmdVc.Parameters.AddWithValue("@Mavc", mavc.Value);
+                                    cmdVc.Parameters.AddWithValue("@Mahd", mahd);
+
+                                    cmdVc.ExecuteNonQuery();
+                                }
+                            }
+
+                            // 4) Decrement stock for non-gift items
+                            foreach (var sp in groupedLines.Where(l => l.IsTang == 0))
+                            {
+                                using (SqlCommand cmdTk = conn.CreateCommand())
+                                {
+                                    cmdTk.Transaction = tran;
+                                    cmdTk.CommandType = CommandType.StoredProcedure;
+                                    cmdTk.CommandText = "sp_TruTonKho";
+                                    cmdTk.Parameters.AddWithValue("@Masp", sp.Masp);
+                                    cmdTk.Parameters.AddWithValue("@SoLuong", sp.Soluong);
+
+                                    cmdTk.ExecuteNonQuery();
+                                }
+                            }
+
+                            // Commit
+                            tran.Commit();
+                            return mahd;
+                        }
+                    }
+                    catch
+                    {
+                        try { tran.Rollback(); } catch { }
+                        throw;
+                    }
+                }
+            }
+        }
+
+        // Export invoice to PDF. Uses same font path convention as forms.
+        public void XuatHoaDonPDF(HoaDonDTO hoaDon, List<DanhSachSanPhamDTO> danhSach, string filePath)
+        {
+            if (hoaDon == null) throw new ArgumentNullException(nameof(hoaDon));
+            if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentException("Invalid file path.", nameof(filePath));
+
+            string FONT_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fonts", "times.ttf");
+            BaseFont vietnameseFont = null;
+            if (!File.Exists(FONT_PATH))
+            {
+                // Fallback to built-in font (may not render Vietnamese accents)
+                vietnameseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            }
+            else
+            {
+                vietnameseFont = BaseFont.CreateFont(FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            }
+
+            iTextSharp.text.Font titleFont = new iTextSharp.text.Font(vietnameseFont, 16f, iTextSharp.text.Font.BOLD);
+            iTextSharp.text.Font headerFont = new iTextSharp.text.Font(vietnameseFont, 12f, iTextSharp.text.Font.BOLD);
+            iTextSharp.text.Font normalFont = new iTextSharp.text.Font(vietnameseFont, 10f, iTextSharp.text.Font.NORMAL);
+
+            Document document = new Document(PageSize.A4, 25f, 25f, 30f, 30f);
+            PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
+            document.Open();
+
+            // Header
+            var title = new Paragraph("HÓA ĐƠN BÁN HÀNG", titleFont) { Alignment = Element.ALIGN_CENTER, SpacingAfter = 10f };
+            document.Add(title);
+
+            var infoTable = new PdfPTable(2) { WidthPercentage = 100 };
+            infoTable.SetWidths(new float[] { 1f, 2f });
+
+            infoTable.AddCell(new PdfPCell(new Phrase("Mã HĐ", headerFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+            infoTable.AddCell(new PdfPCell(new Phrase(hoaDon.MaHD.ToString(), normalFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+
+            infoTable.AddCell(new PdfPCell(new Phrase("Ngày lập", headerFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+            infoTable.AddCell(new PdfPCell(new Phrase(hoaDon.NgayLap.ToString("dd/MM/yyyy HH:mm"), normalFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+
+            infoTable.AddCell(new PdfPCell(new Phrase("Nhân viên", headerFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+            infoTable.AddCell(new PdfPCell(new Phrase(hoaDon.TenNhanVien ?? "", normalFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+
+            infoTable.AddCell(new PdfPCell(new Phrase("Khách hàng", headerFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+            infoTable.AddCell(new PdfPCell(new Phrase(hoaDon.TenKH ?? "(Khách lẻ)", normalFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+
+            infoTable.SpacingAfter = 10f;
+            document.Add(infoTable);
+
+            // Items table
+            document.Add(new Paragraph("SẢN PHẨM:", headerFont) { SpacingAfter = 5f });
+            PdfPTable itemTable = new PdfPTable(4) { WidthPercentage = 100 };
+            itemTable.SetWidths(new float[] { 5f, 1f, 2f, 2f });
+
+            itemTable.AddCell(new PdfPCell(new Phrase("Tên sản phẩm", headerFont)) { Padding = 5 });
+            itemTable.AddCell(new PdfPCell(new Phrase("SL", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+            itemTable.AddCell(new PdfPCell(new Phrase("Đơn giá", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+            itemTable.AddCell(new PdfPCell(new Phrase("Thành tiền", headerFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+
+            foreach (var sp in danhSach.Where(s => !s.LaSanPhamTang))
+            {
+                itemTable.AddCell(new PdfPCell(new Phrase(sp.TenSP ?? "", normalFont)) { Padding = 5 });
+                itemTable.AddCell(new PdfPCell(new Phrase(sp.SoLuong.ToString(), normalFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+                itemTable.AddCell(new PdfPCell(new Phrase(sp.GiaBan.ToString("N0") + " đ", normalFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+                decimal thanhTien = sp.GiaBan * sp.SoLuong - sp.TienGiam;
+                itemTable.AddCell(new PdfPCell(new Phrase(thanhTien.ToString("N0") + " đ", normalFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+            }
+
+            // Gift items
+            var gifts = danhSach.Where(s => s.LaSanPhamTang).ToList();
+            if (gifts.Any())
+            {
+                itemTable.AddCell(new PdfPCell(new Phrase("---- Sản phẩm tặng ----", headerFont)) { Colspan = 4, HorizontalAlignment = Element.ALIGN_LEFT, Padding = 5 });
+                foreach (var g in gifts)
+                {
+                    itemTable.AddCell(new PdfPCell(new Phrase(g.TenSP ?? "", normalFont)) { Padding = 5 });
+                    itemTable.AddCell(new PdfPCell(new Phrase(g.SoLuong.ToString(), normalFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+                    itemTable.AddCell(new PdfPCell(new Phrase("0 đ", normalFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+                    itemTable.AddCell(new PdfPCell(new Phrase("0 đ", normalFont)) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+                }
+            }
+
+            itemTable.SpacingAfter = 10f;
+            document.Add(itemTable);
+
+            // Totals
+            PdfPTable totTable = new PdfPTable(2) { WidthPercentage = 40, HorizontalAlignment = Element.ALIGN_RIGHT };
+            totTable.AddCell(new PdfPCell(new Phrase("Tổng tiền gốc", headerFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+            totTable.AddCell(new PdfPCell(new Phrase(hoaDon.TongTienGoc.ToString("N0") + " đ", normalFont)) { Border = iTextRectangle.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+
+            totTable.AddCell(new PdfPCell(new Phrase("Tiền giảm", headerFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+            totTable.AddCell(new PdfPCell(new Phrase(hoaDon.TienGiam.ToString("N0") + " đ", normalFont)) { Border = iTextRectangle.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+
+            totTable.AddCell(new PdfPCell(new Phrase("Tổng phải trả", headerFont)) { Border = iTextRectangle.NO_BORDER, Padding = 5 });
+            totTable.AddCell(new PdfPCell(new Phrase(hoaDon.TongTien.ToString("N0") + " đ", normalFont)) { Border = iTextRectangle.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5 });
+
+            document.Add(totTable);
+
+            document.Close();
+            writer.Close();
+        }
+
+        // Update stock after payment (static so callers can call without instance)
+        public static bool CapNhatTonKhoSauThanhToan(List<DanhSachSanPhamDTO> danhSach)
+        {
+            if (danhSach == null || danhSach.Count == 0) return true;
+
+            try
+            {
+                foreach (var sp in danhSach.Where(s => !s.LaSanPhamTang))
+                {
+                    // Use DAO.Instance to call stored procedure sp_TruTonKho
+                    BanHangDAO.Instance.TruTonKho(sp.Masp, sp.SoLuong);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public KetQuaGiamGiaDTO ApDungMaGiamGia(string code, List<DanhSachSanPhamDTO> danhSachMua)
         {
             var result = new KetQuaGiamGiaDTO
             {
                 SanPhamTang = new List<BanHangDTO>(),
-                SanPhamDuocGiam = new List<DanhSachSanPhamDTO>()
+                SanPhamDuocGiam = new List<DanhSachSanPhamDTO>(),
+                Loi = ""
             };
 
-            var voucher = VoucherBUS.Instance.GetAllVouchersWithJoin()
-                .AsEnumerable()
-                .FirstOrDefault(row => row.Field<string>("code") == code);
-
-            if (voucher == null)
+            if (string.IsNullOrWhiteSpace(code))
             {
-                result.Loi = "Không tìm thấy mã giảm giá.";
+                result.Loi = "Mã giảm giá rỗng.";
                 return result;
             }
 
-            int loaiVC = voucher.Field<int>("maloaivc");
-            decimal? dieuKien = voucher["DieuKien"] != DBNull.Value ? Convert.ToDecimal(voucher["DieuKien"]) : (decimal?)null;
-            decimal giaTri = voucher.Field<decimal>("giatri");
-            int maVC = voucher.Field<int>("mavc");
-            int? maLoai = voucher.Field<int?>("maloai");
-
-            var danhSachMua = danhSachDaChon.Where(sp => !sp.LaSanPhamTang).ToList();
-            var sanPhamDuocGiam = new List<DanhSachSanPhamDTO>();
-            bool coSanPhamPhuHop = false;
-
-            if (maLoai.HasValue)
+            var mua = (danhSachMua ?? new List<DanhSachSanPhamDTO>()).Where(s => !s.LaSanPhamTang).ToList();
+            if (!mua.Any())
             {
-                coSanPhamPhuHop = KiemTraSanPhamPhuHopTheoLoai(danhSachMua, maLoai.Value);
-                if (coSanPhamPhuHop)
-                    sanPhamDuocGiam = danhSachMua.Where(sp => sp.Maloai == maLoai.Value).ToList();
+                result.Loi = "Vui lòng chọn sản phẩm trước khi áp dụng mã giảm giá.";
+                return result;
+            }
+
+            int? mavc = VoucherBUS.GetIdFromCode(code);
+            if (!mavc.HasValue || mavc.Value <= 0)
+            {
+                result.Loi = "Mã giảm giá không tồn tại.";
+                return result;
+            }
+
+            var voucher = VoucherBUS.Instance.GetVoucherByID(mavc.Value);
+            if (voucher == null)
+            {
+                result.Loi = "Không lấy được thông tin mã giảm giá.";
+                return result;
+            }
+
+            DateTime today = DateTime.Today;
+            if (voucher.Ngaybd.Date > today || voucher.Ngaykt.Date < today)
+            {
+                result.Loi = "Mã giảm giá chưa đến hạn hoặc đã hết hạn.";
+                return result;
+            }
+
+            decimal tongTien = TinhTongTien(danhSachMua);
+            result.TongTien = tongTien;
+
+            if (voucher.DieuKien.HasValue && voucher.DieuKien.Value > 0 && tongTien < voucher.DieuKien.Value)
+            {
+                result.Loi = $"Yêu cầu đơn hàng tối thiểu {voucher.DieuKien.Value:N0} đ để áp mã.";
+                return result;
+            }
+
+            if (voucher.Maloai.HasValue && voucher.Maloai.Value > 0)
+            {
+                if (!KiemTraSanPhamPhuHopTheoLoai(danhSachMua, voucher.Maloai.Value))
+                {
+                    result.Loi = "Mã giảm giá không áp dụng cho sản phẩm đã chọn.";
+                    return result;
+                }
+            }
+
+            // Buy-1-get-1
+            if (voucher.Maloaivc == 2 || voucher.Maloaivc == 4)
+            {
+                var sanPhamMua = mua.First();
+                var dsTang = LaySanPhamTang(mavc.Value, sanPhamMua.Maloai, sanPhamMua.MaSP, sanPhamMua.SoLuong, voucher.Maloaivc);
+                foreach (var t in dsTang)
+                {
+                    result.SanPhamTang.Add(new BanHangDTO
+                    {
+                        Masp = t.Masp,
+                        MaSP = t.MaSP,
+                        TenSP = t.TenSP,
+                        GiaBan = 0,
+                        GiaGoc = 0,
+                        SoLuong = t.SoLuong,
+                        Maloai = t.Maloai,
+                        DuongDanAnh = t.DuongDanAnh,
+                        TenLoai = t.TenLoai,
+                        TrangThaiText = t.TrangThaiText,
+                        LaSanPhamTang = true,
+                        MaSanPhamGoc = t.MaSanPhamGoc,
+                        SoLuongTon = t.SoLuongTon
+                    });
+                }
+
+                result.LoaiVC = voucher.Maloaivc;
+                result.GiaTri = voucher.Giatri;
+                result.TienGiam = 0;
+                return result;
+            }
+
+            // Value / percent discounts
+            decimal tienGiam = 0m;
+            if (voucher.Maloaivc == 1) // 1 = percent
+            {
+                decimal percentFactor = voucher.Giatri <= 1m ? voucher.Giatri : voucher.Giatri / 100m;
+                tienGiam = Math.Round(tongTien * percentFactor, 0, MidpointRounding.AwayFromZero);
+            }
+            else if (voucher.Maloaivc == 3) // 3 = fixed amount
+            {
+                tienGiam = voucher.Giatri;
             }
             else
             {
-                foreach (var sp in danhSachMua)
-                {
-                    if (VoucherBUS.Instance.CheckChiTietVoucher(maVC, sp.IdKcsp))
-                    {
-                        coSanPhamPhuHop = true;
-                        sanPhamDuocGiam.Add(sp);
-                    }
-                }
+                // fallback: treat as fixed
+                tienGiam = voucher.Giatri;
             }
 
-            if (!coSanPhamPhuHop)
+            if (tienGiam <= 0)
             {
-                result.Loi = "Mã giảm giá này không áp dụng cho sản phẩm bạn đã chọn.";
+                result.Loi = "Mã giảm giá không có giá trị giảm.";
                 return result;
             }
 
-            decimal tongTienGoc = danhSachMua.Sum(sp => sp.GiaGoc * sp.SoLuong);
-            result.TongTien = tongTienGoc;
+            var eligibles = danhSachMua.Where(s => !s.LaSanPhamTang &&
+                                                   (!voucher.Maloai.HasValue || voucher.Maloai.Value == 0 || s.Maloai == voucher.Maloai.Value))
+                                       .ToList();
 
-            if (dieuKien.HasValue && tongTienGoc < dieuKien.Value)
+            if (!eligibles.Any())
             {
-                result.Loi = $"Đơn hàng chưa đạt điều kiện tối thiểu {dieuKien:N0} đ để áp dụng mã giảm giá.";
+                result.Loi = "Không có sản phẩm hợp lệ để áp mã giảm giá.";
                 return result;
             }
 
-            switch (loaiVC)
+            decimal sumEligible = eligibles.Sum(s => s.GiaGoc * s.SoLuong);
+            if (sumEligible <= 0)
             {
-                case 1: // Giảm theo %
-                    decimal tongTienApDung = sanPhamDuocGiam.Sum(sp => sp.GiaGoc * sp.SoLuong);
-                    decimal tienGiam = tongTienApDung * giaTri / 100;
-                    result.TienGiam = tienGiam;
-
-                    foreach (var sp in sanPhamDuocGiam)
-                    {
-                        decimal tiLe = (sp.GiaGoc * sp.SoLuong) / tongTienApDung;
-                        decimal giamChoSP = Math.Round(tienGiam * tiLe, 0);
-                        sp.TienGiam = Math.Min(sp.GiaGoc * sp.SoLuong, giamChoSP);
-                        sp.GiaBan = sp.SoLuong > 0
-                            ? Math.Round((sp.GiaGoc * sp.SoLuong - sp.TienGiam) / sp.SoLuong, 0)
-                            : sp.GiaGoc;
-                        result.SanPhamDuocGiam.Add(sp);
-                    }
-                    break;
-
-                case 3: // Giảm theo số tiền
-                    decimal giamToiDa = giaTri;
-                    decimal daGiam = 0;
-
-                    foreach (var sp in sanPhamDuocGiam)
-                    {
-                        decimal tienGoc = sp.GiaGoc * sp.SoLuong;
-                        decimal tienGiamConLai = giamToiDa - daGiam;
-                        if (tienGiamConLai <= 0) break;
-
-                        decimal giamChoSP = Math.Min(tienGoc, tienGiamConLai);
-                        sp.TienGiam = giamChoSP;
-                        sp.GiaBan = sp.SoLuong > 0
-                            ? Math.Round((sp.GiaGoc * sp.SoLuong - sp.TienGiam) / sp.SoLuong, 0)
-                            : sp.GiaGoc;
-                        daGiam += giamChoSP;
-                        result.SanPhamDuocGiam.Add(sp);
-                    }
-
-                    result.TienGiam = daGiam;
-                    break;
-
-                case 2:
-                case 4:
-                    var dsTang = LaySanPhamTang(maVC, maLoai ?? 0, "", 1, loaiVC);
-                    foreach (var spTang in dsTang)
-                    {
-                        result.SanPhamTang.Add(new BanHangDTO
-                        {
-                            MaSP = spTang.MaSP,
-                            TenSP = spTang.TenSP,
-                            KichCo = spTang.KichCo,
-                            GiaBan = 0,
-                            SoLuong = 1,
-                            LaSanPhamTang = true,
-                            IdKcsp = spTang.IdKcsp,
-                            Maloai = spTang.Maloai,
-                            MaSanPhamGoc = spTang.MaSanPhamGoc,
-                            TenLoai = spTang.TenLoai,
-                            DuongDanAnh = spTang.DuongDanAnh,
-                            TrangThaiText = spTang.TrangThaiText,
-                            SoLuongTon = spTang.SoLuongTon
-                        });
-                    }
-                    break;
+                result.Loi = "Dữ liệu giá sản phẩm không hợp lệ.";
+                return result;
             }
 
-            result.LoaiVC = loaiVC;
-            result.GiaTri = giaTri;
+            decimal assignedSum = 0m;
+            foreach (var sp in eligibles)
+            {
+                decimal portion = (sp.GiaGoc * sp.SoLuong) / sumEligible;
+                decimal share = Math.Round(tienGiam * portion, 0, MidpointRounding.AwayFromZero);
+                sp.TienGiam = share;
+                assignedSum += share;
+                result.SanPhamDuocGiam.Add(sp);
+            }
+
+            decimal diff = tienGiam - assignedSum;
+            if (diff != 0 && result.SanPhamDuocGiam.Count > 0)
+            {
+                result.SanPhamDuocGiam[0].TienGiam += diff;
+            }
+
+            result.TienGiam = tienGiam;
+            result.GiaTri = voucher.Giatri;
+            result.LoaiVC = voucher.Maloaivc;
+            result.Loi = "";
+
             return result;
         }
-        // Ghi hóa đơn, chi tiết, trừ tồn kho, áp mã giảm giá
-        public int XuatHoaDon(int? makh, string mand, List<BanHangDTO> danhSachSanPham, int? maVoucher = null)
-        {
-            decimal tongTienGoc = danhSachSanPham.Where(sp => !sp.LaSanPhamTang)
-                .Sum(sp => sp.GiaGoc * sp.SoLuong);
-
-            decimal tongTienSauGiam = danhSachSanPham.Where(sp => !sp.LaSanPhamTang)
-                .Sum(sp => (sp.GiaGoc - sp.TienGiam) * sp.SoLuong);
-
-            decimal tienGiam = tongTienGoc - tongTienSauGiam;
-
-            int mahd = dao.TaoHoaDon(makh, mand, tongTienGoc, tienGiam, tongTienSauGiam);
-
-            var danhSachGop = danhSachSanPham
-                .GroupBy(sp => new { sp.IdKcsp, sp.LaSanPhamTang })
-                .Select(g => new BanHangDTO
-                {
-                    IdKcsp = g.Key.IdKcsp,
-                    TenSP = g.First().TenSP,
-                    KichCo = g.First().KichCo,
-                    LaSanPhamTang = g.Key.LaSanPhamTang,
-                    SoLuong = g.Key.LaSanPhamTang ? 1 : g.Sum(x => x.SoLuong),
-                    MaSP = g.First().MaSP,
-                    GiaBan = g.Sum(x => x.GiaBan * x.SoLuong) / g.Sum(x => x.SoLuong),
-                    Maloai = g.First().Maloai,
-                    MaSanPhamGoc = g.First().MaSanPhamGoc,
-                    SoLuongTon = g.First().SoLuongTon,
-                    DuongDanAnh = g.First().DuongDanAnh,
-                    TenLoai = g.First().TenLoai,
-                    TrangThaiText = g.First().TrangThaiText
-                }).ToList();
-
-
-
-            foreach (var sp in danhSachGop)
-            {
-                dao.ThemChiTietHoaDon(mahd, sp);
-            }
-
-            if (maVoucher.HasValue)
-            {
-                dao.ApDungVoucher(maVoucher.Value, mahd);
-            }
-
-            return mahd;
-        }
-        public void XuatHoaDonPDF(HoaDonDTO hoaDon, List<DanhSachSanPhamDTO> danhSachSP, string filePath)
-        {
-            Document doc = new Document(PageSize.A4, 40, 40, 60, 50);
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filePath, FileMode.Create));
-            doc.Open();
-
-            // Font tiếng Việt
-            string fontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Fonts\times.ttf");
-            fontPath = Path.GetFullPath(fontPath);
-            if (!File.Exists(fontPath))
-            {
-                MessageBox.Show("Không tìm thấy file font tại: " + fontPath);
-                return;
-            }
-
-            BaseFont baseFont = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            var fontTitle = new iTextSharp.text.Font(baseFont, 16, iTextSharp.text.Font.BOLD);
-            var fontHeader = new iTextSharp.text.Font(baseFont, 12, iTextSharp.text.Font.BOLD);
-            var fontNormal = new iTextSharp.text.Font(baseFont, 11, iTextSharp.text.Font.NORMAL);
-
-            // Tiêu đề
-            doc.Add(new Paragraph("HÓA ĐƠN BÁN HÀNG", fontTitle)
-            {
-                Alignment = Element.ALIGN_CENTER,
-                SpacingAfter = 20
-            });
-
-            // Thông tin hóa đơn
-            doc.Add(new Paragraph("CỬA HÀNG CÀ PHÊ CF36", fontHeader));
-            doc.Add(new Paragraph("Địa chỉ: TỊNH THẤT BỒNG LAI", fontNormal));
-            doc.Add(new Paragraph("Điện thoại: 0999 999 999", fontNormal));
-            doc.Add(new Paragraph("Ngày lập: " + hoaDon.NgayLap.ToString("dd/MM/yyyy HH:mm:ss"), fontNormal));
-            doc.Add(new Paragraph("Mã hóa đơn: " + hoaDon.MaHD, fontNormal));
-            doc.Add(new Paragraph("Nhân viên lập: " + hoaDon.TenNhanVien, fontNormal));
-            doc.Add(new Paragraph("Khách hàng: " + hoaDon.TenKH, fontNormal));
-            doc.Add(new Paragraph("Số điện thoại: " + hoaDon.SDTKH, fontNormal));
-            doc.Add(new Paragraph(" "));
-
-            // Bảng sản phẩm mua
-            PdfPTable table = new PdfPTable(6) { WidthPercentage = 100 };
-            table.SetWidths(new float[] { 3, 1.2f, 1.5f, 1.2f, 1.5f, 2 });
-
-            string[] headers = { "Tên sản phẩm", "Size", "Giá gốc", "Số lượng", "Thành tiền", "Ghi chú" };
-            foreach (var h in headers)
-            {
-                PdfPCell cell = new PdfPCell(new Phrase(h, fontHeader))
-                {
-                    BackgroundColor = BaseColor.LIGHT_GRAY,
-                    HorizontalAlignment = Element.ALIGN_CENTER,
-                    Padding = 5
-                };
-                table.AddCell(cell);
-            }
-
-            foreach (var sp in danhSachSP.Where(sp => !sp.LaSanPhamTang))
-            {
-                table.AddCell(new Phrase(sp.TenSP, fontNormal));                        // Tên sản phẩm
-                table.AddCell(new Phrase(sp.KichCo, fontNormal));                       // Size
-                table.AddCell(new Phrase(sp.GiaGoc.ToString("N0") + " đ", fontNormal)); // Giá gốc
-                table.AddCell(new Phrase(sp.SoLuong.ToString(), fontNormal));          // Số lượng
-
-                // Thành tiền sau giảm
-                decimal thanhTien = sp.GiaGoc * sp.SoLuong - sp.TienGiam;
-                table.AddCell(new Phrase(thanhTien.ToString("N0") + " đ", fontNormal));
-
-                // Ghi chú giảm giá
-                string ghiChu = sp.TienGiam > 0
-                    ? $"Áp dụng mã {hoaDon.MaVoucher} (-{sp.TienGiam:N0} đ)"
-                    : "";
-                table.AddCell(new Phrase(ghiChu, fontNormal));
-            }
-
-            doc.Add(table);
-            doc.Add(new Paragraph(" "));
-
-            // Thông tin giảm giá
-            doc.Add(new Paragraph("Tổng tiền gốc: " + hoaDon.TongTienGoc.ToString("N0") + " đ", fontNormal));
-            if (!string.IsNullOrEmpty(hoaDon.MaVoucher))
-            {
-                doc.Add(new Paragraph("Mã giảm giá: " + hoaDon.MaVoucher, fontNormal));
-                if (hoaDon.PhanTramGiam.HasValue)
-                {
-                    doc.Add(new Paragraph("Hình thức: Giảm " + hoaDon.PhanTramGiam.Value + "%", fontNormal));
-                }
-                doc.Add(new Paragraph("Tiền giảm: " + hoaDon.TienGiam.ToString("N0") + " đ", fontNormal));
-            }
-
-            // Thành tiền sau giảm
-            doc.Add(new Paragraph($"Thành tiền: {hoaDon.TongTien.ToString("N0")} đ", fontHeader)
-            {
-                Alignment = Element.ALIGN_RIGHT,
-                SpacingBefore = 10,
-                SpacingAfter = 20
-            });
-
-            // Sản phẩm tặng
-            if (hoaDon.SanPhamTang != null && hoaDon.SanPhamTang.Count > 0)
-            {
-                doc.Add(new Paragraph("🎁 Sản phẩm tặng theo mã voucher:", fontHeader));
-
-                PdfPTable tableTang = new PdfPTable(3) { WidthPercentage = 100 };
-                tableTang.SetWidths(new float[] { 3, 1.2f, 1.2f });
-
-                tableTang.AddCell(new Phrase("Tên sản phẩm", fontHeader));
-                tableTang.AddCell(new Phrase("Size", fontHeader));
-                tableTang.AddCell(new Phrase("Số lượng", fontHeader));
-
-                foreach (var sp in hoaDon.SanPhamTang)
-                {
-                    tableTang.AddCell(new Phrase(sp.TenSP, fontNormal));
-                    tableTang.AddCell(new Phrase(sp.KichCo, fontNormal));
-                    tableTang.AddCell(new Phrase(sp.SoLuong.ToString(), fontNormal));
-                }
-
-                doc.Add(tableTang);
-                doc.Add(new Paragraph(" "));
-            }
-
-            // Ghi chú và ký tên
-            doc.Add(new Paragraph("Ghi chú: Quý khách vui lòng kiểm tra kỹ sản phẩm trước khi rời khỏi cửa hàng.", fontNormal));
-            doc.Add(new Paragraph(" "));
-            doc.Add(new Paragraph("Người lập hóa đơn", fontNormal));
-            doc.Add(new Paragraph(" ", fontNormal));
-            doc.Add(new Paragraph("(Ký và ghi rõ họ tên)", fontNormal));
-
-            doc.Close();
-        }
-        public static void CapNhatTonKhoSauThanhToan(List<DanhSachSanPhamDTO> danhSachDaBan)
-        {
-            foreach (var sp in danhSachDaBan)
-            {
-                int soLuongThucTe = sp.LaSanPhamTang ? 1 : sp.SoLuong;
-
-                int tonKhoHienTai = DanhSachSanPhamDAO.GetSoLuongTon(sp.IdKcsp);
-
-                if (tonKhoHienTai >= soLuongThucTe)
-                {
-                    DanhSachSanPhamDAO.CapNhatSoLuongTon(sp.IdKcsp, -soLuongThucTe);
-
-                    int tonMoi = tonKhoHienTai - soLuongThucTe;
-                    if (tonMoi <= 0)
-                    {
-                        DanhSachSanPhamDAO.KhoaSanPham(sp.IdKcsp);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(
-                        $"❌ Không đủ tồn kho cho sản phẩm: {sp.TenSP} - Size {sp.KichCo}\n" +
-                        $"Tồn kho hiện tại: {tonKhoHienTai}, cần: {soLuongThucTe}",
-                        "Thiếu hàng", MessageBoxButtons.OK, MessageBoxIcon.Warning
-                    );
-                }
-            }
-        }
-        public List<BanHangDTO> LayTatCa()
-        {
-            return BanHangDAO.Instance.LayTatCaSanPham();
-        }
-
-        public List<BanHangDTO> SearchSanPham(string searchType, string searchTerm)
-        {
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                return BanHangDAO.Instance.LayTatCaSanPham();
-            }
-            return BanHangDAO.Instance.TimKiemSanPham(searchType, searchTerm);
-        }
-
     }
 }

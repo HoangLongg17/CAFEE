@@ -8,14 +8,5 @@ namespace DTO
 {
     public class SuaSanPhamLoadDTO
     {
-        public string TenSP { get; set; }
-        public int MaLoai { get; set; }
-        public int CanhBaoTonKho { get; set; }
-        public List<KichCoGiaDTO> DanhSachKichCo { get; set; }
-
-        public SuaSanPhamLoadDTO()
-        {
-            DanhSachKichCo = new List<KichCoGiaDTO>();
-        }
     }
 }

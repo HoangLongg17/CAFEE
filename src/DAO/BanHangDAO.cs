@@ -1,11 +1,12 @@
 ﻿using DTO;
 using System.Data;
+using DTO;
+using System.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DTO;
 using Microsoft.Data.SqlClient;
 
 namespace DAO
@@ -81,16 +82,16 @@ namespace DAO
             return result != null ? Convert.ToInt32(result) : -1;
         }
 
-        // Add invoice detail - now pass Masp (product id)
+        // Add invoice detail - now pass Masp (product id) in BanHangDTO.Masp
         public void ThemChiTietHoaDon(int mahd, BanHangDTO sp)
         {
             if (sp == null) throw new ArgumentNullException(nameof(sp));
-            if (sp.IdKcsp <= 0 || sp.SoLuong <= 0 || sp.GiaBan < 0) throw new ArgumentException("Dữ liệu sản phẩm không hợp lệ.");
+            if (sp.Masp <= 0 || sp.SoLuong <= 0 || sp.GiaBan < 0) throw new ArgumentException("Dữ liệu sản phẩm không hợp lệ.");
 
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Mahd", mahd),
-                new SqlParameter("@Masp", sp.IdKcsp),   // IdKcsp now stores Masp
+                new SqlParameter("@Masp", sp.Masp),
                 new SqlParameter("@Soluong", sp.SoLuong),
                 new SqlParameter("@Dongia", sp.GiaBan),
                 new SqlParameter("@IsTang", sp.LaSanPhamTang ? 1 : 0)
@@ -124,13 +125,13 @@ namespace DAO
             DataTable dt = provider.ExecuteStoredProcedure("sp_LayDanhSachSanPham_Admin", parameters);
             foreach (DataRow row in dt.Rows)
             {
+                int masp = row.Table.Columns.Contains("Masp") ? Convert.ToInt32(row["Masp"]) : 0;
                 list.Add(new BanHangDTO
                 {
-                    IdKcsp = row.Table.Columns.Contains("Masp") ? Convert.ToInt32(row["Masp"]) : 0, // use Masp in IdKcsp
+                    Masp = masp,
                     MaSP = row["Masp"].ToString(),
                     TenSP = row["TenSP"].ToString(),
                     TenLoai = row["TenLoai"].ToString(),
-                    KichCo = string.Empty,
                     GiaBan = row.Table.Columns.Contains("GiaBan") ? Convert.ToDecimal(row["GiaBan"]) : 0m,
                     DuongDanAnh = row.Table.Columns.Contains("DuongDanAnh") ? row["DuongDanAnh"].ToString() : string.Empty,
                     Maloai = row.Table.Columns.Contains("Maloai") ? Convert.ToInt32(row["Maloai"]) : 0,
@@ -155,13 +156,13 @@ namespace DAO
 
             foreach (DataRow row in dt.Rows)
             {
+                int masp = row.Table.Columns.Contains("Masp") ? Convert.ToInt32(row["Masp"]) : 0;
                 list.Add(new BanHangDTO
                 {
-                    IdKcsp = row.Table.Columns.Contains("Masp") ? Convert.ToInt32(row["Masp"]) : 0,
+                    Masp = masp,
                     MaSP = row["Masp"].ToString(),
                     TenSP = row["TenSP"].ToString(),
                     TenLoai = row["TenLoai"].ToString(),
-                    KichCo = string.Empty,
                     GiaBan = row.Table.Columns.Contains("GiaBan") ? Convert.ToDecimal(row["GiaBan"]) : 0m,
                     DuongDanAnh = row.Table.Columns.Contains("DuongDanAnh") ? row["DuongDanAnh"].ToString() : string.Empty,
                     Maloai = row.Table.Columns.Contains("Maloai") ? Convert.ToInt32(row["Maloai"]) : 0,

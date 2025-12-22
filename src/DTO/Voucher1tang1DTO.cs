@@ -11,14 +11,14 @@ namespace DTO
         public int ID { get; set; }              // ID dòng chi tiết
         public int Mavc { get; set; }            // Mã voucher
         public string? TenMaGiamGia { get; set; }
-        public int IdMua { get; set; }           // Sản phẩm mua (KICHCOSP.Id)
-        public int IdTang { get; set; }          // Sản phẩm tặng (KICHCOSP.Id)
+
+        // Use product-level Masp (no more KICHCOSP.Id / sizes)
+        public int MaspMua { get; set; }         // Masp của sản phẩm mua
+        public int MaspTang { get; set; }        // Masp của sản phẩm tặng
 
         // Thông tin hiển thị (không bắt buộc, dùng cho UI)
         public string TenSanPhamMua { get; set; }
-        public string SizeMua { get; set; }
         public string TenSanPhamTang { get; set; }
-        public string SizeTang { get; set; }
         public decimal? DieuKien { get; set; }
     }
 }
