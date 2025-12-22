@@ -1,11 +1,8 @@
 ﻿using DAO;
+using DTO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using DTO;
+
 namespace BUS
 {
     public class ChamCongBUS
@@ -13,36 +10,26 @@ namespace BUS
         private static ChamCongBUS instance;
         public static ChamCongBUS Instance => instance ??= new ChamCongBUS();
 
-        // Bắt đầu làm việc
-        public bool BatDauLam(string mand)
+        public bool BatDauLam(string manv)
         {
-            DateTime gioBatDau = DateTime.Now;
-            return ChamCongDAO.Instance.InsertBatDauLam(mand, gioBatDau);
+            return ChamCongDAO.Instance.InsertBatDauLam(manv, DateTime.Now);
         }
 
-        // Chấm công (kết thúc ca làm)
-        public bool ChamCong(string mand)
+        public bool ChamCong(string manv)
         {
             DateTime ngay = DateTime.Today;
-            DateTime? gioBatDau = ChamCongDAO.Instance.GetGioBatDauChuaChamCong(mand, ngay);
-            if (gioBatDau == null) return false;
+            DateTime? gioBD = ChamCongDAO.Instance.GetGioBatDauChuaChamCong(manv, ngay);
+            if (gioBD == null) return false;
 
-            DateTime gioKetThuc = DateTime.Now;
-            int tongPhut = (int)(gioKetThuc - gioBatDau.Value).TotalMinutes;
+            DateTime gioKT = DateTime.Now;
+            int tongPhut = (int)(gioKT - gioBD.Value).TotalMinutes;
 
-            return ChamCongDAO.Instance.UpdateChamCong(mand, ngay, gioKetThuc, tongPhut);
+            return ChamCongDAO.Instance.UpdateChamCong(manv, ngay, gioKT, tongPhut);
         }
 
-        // Lưu chấm công đầy đủ (nếu không dùng bắt đầu riêng)
-        public bool LuuChamCong(string mand, DateTime gioBatDau, DateTime gioKetThuc, int tongPhut)
+        public int TinhTongGioLamTrongNgay(string manv, DateTime ngay)
         {
-            return ChamCongDAO.Instance.InsertChamCongFull(mand, gioBatDau, gioKetThuc, tongPhut);
-        }
-
-        // Xem tổng giờ làm trong ngày
-        public int TinhTongGioLamTrongNgay(string mand, DateTime ngay)
-        {
-            return ChamCongDAO.Instance.GetTongPhutTrongNgay(mand, ngay);
+            return ChamCongDAO.Instance.GetTongPhutTrongNgay(manv, ngay);
         }
 
         public List<ChamCongDTO> LayLichSuChamCong(string keyword, DateTime tuNgay, DateTime denNgay)
@@ -50,9 +37,10 @@ namespace BUS
             return ChamCongDAO.Instance.GetLichSuChamCongChiTiet(keyword, tuNgay, denNgay);
         }
 
-        public int LayLuongTheoGio(string mand)
+        public decimal LayLuongTheoGio(string manv)
         {
-            return ChamCongDAO.Instance.GetLuongTheoGio(mand);
+            return ChamCongDAO.Instance.GetLuongTheoGio(manv);
         }
+
     }
 }

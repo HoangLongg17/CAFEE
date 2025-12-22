@@ -43,7 +43,7 @@ namespace CF36
             UIDataGridView.FormatDataGridView(dgvLSChamCong);
             if (dgvLSChamCong.Columns.Count > 0)
             {
-                dgvLSChamCong.Columns["MaND"].HeaderText = "Mã nhân viên";
+                dgvLSChamCong.Columns["Manv"].HeaderText = "Mã nhân viên";
                 dgvLSChamCong.Columns["TenNhanVien"].HeaderText = "Tên nhân viên";
                 dgvLSChamCong.Columns["Luong"].HeaderText = "Lương theo giờ";
                 dgvLSChamCong.Columns["Ngay"].HeaderText = "Ngày";

@@ -1,12 +1,5 @@
 ﻿using BUS;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CF36
@@ -25,36 +18,53 @@ namespace CF36
             string username = txtusernv.Text.Trim();
             string password = txtpasswordnv.Text.Trim();
 
+            // 🛑 Validate input
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ tài khoản và mật khẩu.",
+                    "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 🔐 Login
             var result = userBUS.Login(username, password);
 
-            if (!result.isSuccess)
+            // ❌ Đăng nhập thất bại
+            if (!result.success)
             {
-                MessageBox.Show(result.message, "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(result.message,
+                    "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(result.message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // ✅ Đăng nhập thành công
+            MessageBox.Show(result.message,
+                "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // ✅ Lấy mã nhân viên bằng hàm đúng
-            string mand = userBUS.GetEmployeeIDByUsername(username);
+            // 👉 Lấy thẳng từ result.user (KHÔNG query lại DB)
+            string manv = result.user.Manv;
 
-            if (string.IsNullOrEmpty(mand))
+            if (string.IsNullOrEmpty(manv))
             {
-                MessageBox.Show("Không tìm thấy mã nhân viên tương ứng.");
+                MessageBox.Show("Không tìm thấy mã nhân viên.",
+                    "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Gán thông tin người dùng hiện tại
-            CurrentUser.Manv = mand;
+            // 🌍 Lưu user hiện tại (context)
+            CurrentUser.Manv = manv;
 
-            // Tạo form nhân viên
-            NHANVIEN nhanvien = new NHANVIEN(result.user.Hoten, username, mand);
+            // 🚀 Mở form nhân viên
+            NHANVIEN nhanvien = new NHANVIEN(
+                result.user.Hoten,
+                username,
+                manv
+            );
 
             this.Hide();
             nhanvien.ShowDialog();
             this.Close();
         }
-
 
         private void btnexit_Click(object sender, EventArgs e)
         {
@@ -63,22 +73,26 @@ namespace CF36
 
         private void DangNhapNV_Load(object sender, EventArgs e)
         {
-            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
-            UIText.ApplyButtonTextStyle(this);
+            UIButton.ReplaceStandardButtonsWithIcons(
+                this,
+                Properties.Resources.exit,
+                Properties.Resources.delete,
+                Properties.Resources.refresh,
+                Properties.Resources.done
+            );
 
+            UIText.ApplyButtonTextStyle(this);
         }
 
         private void btnPassword_Click_1(object sender, EventArgs e)
         {
             if (txtpasswordnv.PasswordChar == '*')
             {
-                // Hiện mật khẩu
                 txtpasswordnv.PasswordChar = '\0';
                 btnPassword.Text = "🙈";
             }
             else
             {
-                // Ẩn mật khẩu
                 txtpasswordnv.PasswordChar = '*';
                 btnPassword.Text = "👁️";
             }
