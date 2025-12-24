@@ -17,10 +17,10 @@ namespace DAO
             List<NhanVienDTO> dsNV = new List<NhanVienDTO>();
             try
             {
-                string query = "SELECT * FROM NHANVIEN";
-                DataTable data = DataProvider.Instance.ExecuteQuery(query);
+                string spName = "sp_LayDanhSachNhanVien"; // create this proc in DB if not exists
+                DataTable data = DataProvider.Instance.ExecuteStoredProcedure(spName);
 
-                if (data != null && data.Rows.Count > 0)
+                if (data != null && data.Rows.Count >0)
                 {
                     foreach (DataRow row in data.Rows)
                     {
@@ -39,55 +39,51 @@ namespace DAO
 
         public static void XoaNV(string maNV)
         {
-            string sql = "DELETE FROM NHANVIEN WHERE Manv=@Manv";
+            string spName = "sp_XoaNhanVien"; // should delete by Manv
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Manv", maNV)
             };
-            DataProvider.Instance.ExecuteNonQuery(sql, parameters);
+            DataProvider.Instance.ExecuteNonQueryStoredProcedure(spName, parameters);
         }
 
         public static void SuaNV(NhanVienDTO nv)
         {
-            string sql = @"
-                UPDATE NHANVIEN SET 
-                    Hoten=@Hoten, Sdt=@Sdt, email=@Email, Vitri=@Vitri, Luong=@Luong, 
-                    Tk=@Tk, Mk=@Mk, Bank=@Bank, stk=@Stk, Ngsinh=@Ngsinh
-                WHERE Manv=@Manv";
+            string spName = "sp_SuaNhanVien"; // update proc
 
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Manv", nv.Mand),
                 new SqlParameter("@Hoten", nv.Hoten),
-                new SqlParameter("@Sdt", nv.Sdt),
-                new SqlParameter("@Email", nv.Email),
-                new SqlParameter("@Vitri", nv.Pos),
+                new SqlParameter("@Sdt", nv.Sdt ?? (object)DBNull.Value),
+                new SqlParameter("@Email", nv.Email ?? (object)DBNull.Value),
+                new SqlParameter("@Vitri", nv.Pos ?? (object)DBNull.Value),
                 new SqlParameter("@Luong", nv.Luong),
-                new SqlParameter("@Tk", nv.Tk),
-                new SqlParameter("@Mk", nv.Mk),
+                new SqlParameter("@Tk", nv.Tk ?? (object)DBNull.Value),
+                new SqlParameter("@Mk", nv.Mk ?? (object)DBNull.Value),
                 new SqlParameter("@Bank", nv.Bank ?? (object)DBNull.Value),
                 new SqlParameter("@Stk", nv.Stk ?? (object)DBNull.Value),
-                new SqlParameter("@Ngsinh", nv.NgaySinh),
+                new SqlParameter("@Ngsinh", nv.NgaySinh == DateTime.MinValue ? (object)DBNull.Value : nv.NgaySinh)
             };
-            DataProvider.Instance.ExecuteNonQuery(sql, parameters);
+            DataProvider.Instance.ExecuteNonQueryStoredProcedure(spName, parameters);
         }
 
         public static DataTable LayDanhSachNhanVien()
         {
-            string query = "SELECT Manv AS Mand, Hoten, Sdt, email, Vitri, Luong, Tk, Mk, Bank, stk, Ngsinh FROM NHANVIEN";
-            return DataProvider.Instance.ExecuteQuery(query);
+            string spName = "sp_LayDanhSachNhanVienForGrid"; // proc for grid
+            return DataProvider.Instance.ExecuteStoredProcedure(spName);
         }
 
         public static DataTable TimKiemNhanVien(string keyword)
         {
-            string query = "SELECT * FROM NHANVIEN WHERE Hoten LIKE @Keyword OR Sdt LIKE @Keyword";
+            string spName = "sp_TimKiemNhanVien";
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@Keyword", "%" + keyword + "%")
+                new SqlParameter("@TuKhoa", keyword)
             };
             try
             {
-                return DataProvider.Instance.ExecuteQuery(query, parameters);
+                return DataProvider.Instance.ExecuteStoredProcedure(spName, parameters);
             }
             catch (Exception ex)
             {
@@ -101,8 +97,8 @@ namespace DAO
             List<NhanVienDTO> dsNV = new List<NhanVienDTO>();
             try
             {
-                string query = "SELECT * FROM NHANVIEN WHERE Luong > 0";
-                DataTable data = DataProvider.Instance.ExecuteQuery(query);
+                string spName = "sp_LayNhanVienTheoGio";
+                DataTable data = DataProvider.Instance.ExecuteStoredProcedure(spName);
                 foreach (DataRow row in data.Rows)
                 {
                     NhanVienDTO nv = new NhanVienDTO(row);
@@ -118,35 +114,33 @@ namespace DAO
 
         public static void themNV(NhanVienDTO hs)
         {
-            string sql = @"
-                INSERT INTO NHANVIEN (Manv, Hoten, Sdt, email, Vitri, Luong, Tk, Mk, Bank, stk, Ngsinh) 
-                VALUES (@Manv, @Hoten, @Sdt, @Email, @Vitri, @Luong, @Tk, @Mk, @Bank, @Stk, @Ngsinh)";
+            string spName = "sp_ThemNhanVien";
 
             SqlParameter[] parameters = new SqlParameter[11];
             parameters[0] = new SqlParameter("@Manv", hs.Mand);
             parameters[1] = new SqlParameter("@Hoten", hs.Hoten);
-            parameters[2] = new SqlParameter("@Sdt", hs.Sdt);
-            parameters[3] = new SqlParameter("@Email", hs.Email);
-            parameters[4] = new SqlParameter("@Vitri", hs.Pos);
+            parameters[2] = new SqlParameter("@Sdt", hs.Sdt ?? (object)DBNull.Value);
+            parameters[3] = new SqlParameter("@Email", hs.Email ?? (object)DBNull.Value);
+            parameters[4] = new SqlParameter("@Vitri", hs.Pos ?? (object)DBNull.Value);
             parameters[5] = new SqlParameter("@Luong", hs.Luong);
-            parameters[6] = new SqlParameter("@Tk", hs.Tk);
-            parameters[7] = new SqlParameter("@Mk", hs.Mk);
+            parameters[6] = new SqlParameter("@Tk", hs.Tk ?? (object)DBNull.Value);
+            parameters[7] = new SqlParameter("@Mk", hs.Mk ?? (object)DBNull.Value);
             parameters[8] = new SqlParameter("@Bank", hs.Bank ?? (object)DBNull.Value);
             parameters[9] = new SqlParameter("@Stk", hs.Stk ?? (object)DBNull.Value);
-            parameters[10] = new SqlParameter("@Ngsinh", hs.NgaySinh);
+            parameters[10] = new SqlParameter("@Ngsinh", hs.NgaySinh == DateTime.MinValue ? (object)DBNull.Value : hs.NgaySinh);
 
-            DataProvider.Instance.ExecuteNonQuery(sql, parameters);
+            DataProvider.Instance.ExecuteNonQueryStoredProcedure(spName, parameters);
         }
 
         public static NhanVienDTO LayNhanVienTheoID(string id)
         {
-            string query = "SELECT * FROM NHANVIEN WHERE Manv = @Manv";
+            string spName = "sp_LayNhanVienTheoID";
             SqlParameter[] parameters = new SqlParameter[]
             {
                 new SqlParameter("@Manv", id)
             };
-            DataTable data = DataProvider.Instance.ExecuteQuery(query, parameters);
-            if (data.Rows.Count > 0)
+            DataTable data = DataProvider.Instance.ExecuteStoredProcedure(spName, parameters);
+            if (data.Rows.Count >0)
             {
                 return new NhanVienDTO(data.Rows[0]);
             }
@@ -154,11 +148,11 @@ namespace DAO
         }
         public static string LayTenNhanVien(string mand)
         {
-            string query = "SELECT Hoten FROM NHANVIEN WHERE Manv = @manv";
-            SqlParameter[] parameters = { new SqlParameter("@manv", mand) };
-            DataTable dt = DataProvider.Instance.ExecuteQuery(query, parameters);
+            string spName = "sp_LayTenNhanVien";
+            SqlParameter[] parameters = { new SqlParameter("@Manv", mand) };
+            DataTable dt = DataProvider.Instance.ExecuteStoredProcedure(spName, parameters);
 
-            if (dt.Rows.Count > 0)
+            if (dt.Rows.Count >0)
             {
                 return dt.Rows[0]["Hoten"].ToString();
             }
@@ -168,16 +162,14 @@ namespace DAO
         // thêm nhân viên
         public static bool KiemTraTonTaiMaNV(string maNV)
         {
-            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Manv = @Manv";
+            string spName = "sp_KiemTraTonTaiMaNV";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@Manv", maNV)
+                new SqlParameter("@Manv", maNV)
             };
-            // ExecuteScalar sẽ trả về giá trị đầu tiên của hàng đầu tiên (là COUNT(*))
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            object result = DataProvider.Instance.ExecuteScalarStoredProcedure(spName, parameters);
 
-            // Nếu COUNT(*) > 0, mã đã tồn tại
-            if (result != null && Convert.ToInt32(result) > 0)
+            if (result != null && Convert.ToInt32(result) >0)
             {
                 return true;
             }
@@ -185,16 +177,14 @@ namespace DAO
         }
         public static bool KiemTraTonTaiTenTaiKhoan(string tenTaiKhoan)
         {
-            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Tk = @Tk";
+            string spName = "sp_KiemTraTonTaiTk";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@Tk", tenTaiKhoan)
+                new SqlParameter("@Tk", tenTaiKhoan)
             };
-            // ExecuteScalar trả về số lượng bản ghi có Tk trùng
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            object result = DataProvider.Instance.ExecuteScalarStoredProcedure(spName, parameters);
 
-            // Nếu COUNT(*) > 0, tên tài khoản đã tồn tại
-            if (result != null && Convert.ToInt32(result) > 0)
+            if (result != null && Convert.ToInt32(result) >0)
             {
                 return true;
             }
@@ -202,69 +192,63 @@ namespace DAO
         }
         public static bool KiemTraTonTaiSdt(string sdt)
         {
-            // Dùng COUNT(*) để kiểm tra số lượng bản ghi có Sdt trùng khớp
-            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Sdt = @Sdt";
+            string spName = "sp_KiemTraTonTaiSdt";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@Sdt", sdt)
+                new SqlParameter("@Sdt", sdt)
             };
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            object result = DataProvider.Instance.ExecuteScalarStoredProcedure(spName, parameters);
 
-            return result != null && Convert.ToInt32(result) > 0;
+            return result != null && Convert.ToInt32(result) >0;
         }
         public static bool KiemTraTonTaiEmail(string email)
         {
-            // Dùng COUNT(*) để kiểm tra số lượng bản ghi có Email trùng khớp
-            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Email = @Email";
+            string spName = "sp_KiemTraTonTaiEmail";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@Email", email)
+                new SqlParameter("@Email", email)
             };
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            object result = DataProvider.Instance.ExecuteScalarStoredProcedure(spName, parameters);
 
-            return result != null && Convert.ToInt32(result) > 0;
+            return result != null && Convert.ToInt32(result) >0;
         }
         // sửa nhân viên
         public static bool KiemTraTonTaiTenTaiKhoanKhac(string tenTaiKhoan, string mandCanLoaiTru)
         {
-            // Tìm COUNT(*) của các bản ghi có Tk trùng với tenTaiKhoan VÀ Manv KHÁC với mandCanLoaiTru
-            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Tk = @Tk AND Manv != @ManvCanLoaiTru";
+            string spName = "sp_KiemTraTonTaiTkKhac";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@Tk", tenTaiKhoan),
-        new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
+                new SqlParameter("@Tk", tenTaiKhoan),
+                new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
             };
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            object result = DataProvider.Instance.ExecuteScalarStoredProcedure(spName, parameters);
 
-            // Nếu COUNT > 0, có một nhân viên khác đang sử dụng Tk này
-            return result != null && Convert.ToInt32(result) > 0;
+            return result != null && Convert.ToInt32(result) >0;
         }
         public static bool KiemTraTonTaiSdtKhac(string sdt, string mandCanLoaiTru)
         {
-            // Tìm COUNT(*) các bản ghi có Sdt trùng VÀ Manv KHÁC với ManvCanLoaiTru
-            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Sdt = @Sdt AND Manv != @ManvCanLoaiTru";
+            string spName = "sp_KiemTraTonTaiSdtKhac";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@Sdt", sdt),
-        new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
+                new SqlParameter("@Sdt", sdt),
+                new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
             };
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            object result = DataProvider.Instance.ExecuteScalarStoredProcedure(spName, parameters);
 
-            return result != null && Convert.ToInt32(result) > 0;
+            return result != null && Convert.ToInt32(result) >0;
         }
 
         public static bool KiemTraTonTaiEmailKhac(string email, string mandCanLoaiTru)
         {
-            // Tìm COUNT(*) các bản ghi có Email trùng VÀ Manv KHÁC với ManvCanLoaiTru
-            string query = "SELECT COUNT(*) FROM NHANVIEN WHERE Email = @Email AND Manv != @ManvCanLoaiTru";
+            string spName = "sp_KiemTraTonTaiEmailKhac";
             SqlParameter[] parameters = new SqlParameter[]
             {
-        new SqlParameter("@Email", email),
-        new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
+                new SqlParameter("@Email", email),
+                new SqlParameter("@ManvCanLoaiTru", mandCanLoaiTru)
             };
-            object result = DataProvider.Instance.ExecuteScalar(query, parameters);
+            object result = DataProvider.Instance.ExecuteScalarStoredProcedure(spName, parameters);
 
-            return result != null && Convert.ToInt32(result) > 0;
+            return result != null && Convert.ToInt32(result) >0;
         }
     }
 }

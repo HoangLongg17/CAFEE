@@ -118,9 +118,9 @@
             // 
             lbTimKiem.Anchor = AnchorStyles.Right;
             lbTimKiem.AutoSize = true;
-            lbTimKiem.Location = new Point(287, 5);
+            lbTimKiem.Location = new Point(286, 5);
             lbTimKiem.Name = "lbTimKiem";
-            lbTimKiem.Size = new Size(56, 15);
+            lbTimKiem.Size = new Size(57, 15);
             lbTimKiem.TabIndex = 1;
             lbTimKiem.Text = "Tìm kiếm";
             // 

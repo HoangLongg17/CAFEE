@@ -5,7 +5,12 @@ namespace DTO
 {
     public class NhanVienDTO
     {
-            public string Mand { get; set; }
+            // Main property aligned with DB column
+            public string Manv { get; set; }
+            // Backwards-compatible alias (some code may still use Mand)
+            public string Mand { get { return Manv; } set { Manv = value; } }
+
+
             public string Tk { get; set; }
             public string Mk { get; set; }
             public string Vitri { get; set; }
@@ -24,16 +29,16 @@ namespace DTO
             public NhanVienDTO(DataRow row)
             {
 
-                this.Mand = row["Manv"].ToString();
+                this.Manv = row["Manv"].ToString();
                 this.Tk = row["Tk"].ToString();
                 this.Mk = row["Mk"].ToString();
                 this.Vitri = row["Vitri"].ToString();
                 this.Hoten = row["Hoten"].ToString();
-                this.Sdt = row["Sdt"].ToString();
+                this.Sdt = row.IsNull("Sdt") ? string.Empty : row["Sdt"].ToString();
                 this.Email = row.IsNull("email") ? string.Empty : row["email"].ToString();
                 this.NgaySinh = row.IsNull("Ngsinh") ? DateTime.MinValue : Convert.ToDateTime(row["Ngsinh"]);
                 this.Diachi = row.IsNull("Diachi") ? string.Empty : row["Diachi"].ToString();
-                this.Luong = row.IsNull("Luong") ? 0m : Convert.ToDecimal(row["Luong"]);
+                this.Luong = row.IsNull("Luong") ?0m : Convert.ToDecimal(row["Luong"]);
                 this.Bank = row.IsNull("Bank") ? string.Empty : row["Bank"].ToString();
                 this.Stk = row.IsNull("stk") ? string.Empty : row["stk"].ToString();
             }

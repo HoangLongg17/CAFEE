@@ -33,7 +33,7 @@ namespace CF36
         private void KhoiTaoComboBox()
         {
             cbbViTri.Items.Clear();
-            cbbViTri.Items.AddRange(new object[] { "Admin", "NhanVien" });
+            cbbViTri.Items.AddRange(new object[] { "Admin", "Nvthungan", "Nvkho" });
             cbbViTri.SelectedIndex = 1;
             cbbNganHang.Items.Clear();
             cbbNganHang.Items.AddRange(new object[] { "VCB", "MB", "AGR", "OCB", "SCB" });
@@ -50,8 +50,8 @@ namespace CF36
                 return;
             }
             //tên tài khoản
-            if(!NhanVienBUS.IsValidUsername(txtTenTaiKhoan.Text.Trim()))
-    {
+            if (!NhanVienBUS.IsValidUsername(txtTenTaiKhoan.Text.Trim()))
+            {
                 MessageBox.Show("Tên tài khoản không hợp lệ. Vui lòng chỉ sử dụng chữ cái (không dấu) và số.", "Lỗi Nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenTaiKhoan.Focus();
                 return;
@@ -78,9 +78,19 @@ namespace CF36
                 return;
             }
 
+            // Map the UI position to DB value expected by constraint ck_vitri
+            string vitriDb = null;
+            if (cbbViTri.SelectedItem != null)
+            {
+                var sel = cbbViTri.SelectedItem.ToString();
+                if (sel == "Admin") vitriDb = "Quanly"; // DB expects 'Quanly'
+                else if (sel == "NhanVien") vitriDb = "Nvthungan"; // map to cashier role
+                else vitriDb = sel; // fallback
+            }
+
             NhanVienDTO nvMoi = new NhanVienDTO
             {
-                Mand = txtMaNhanVien.Text.Trim(),
+                Manv = txtMaNhanVien.Text.Trim(),
                 Hoten = txtTenNhanVien.Text,
                 Sdt = txtSoDienThoai.Text,
                 Diachi = txtDiaChi.Text,
@@ -88,7 +98,7 @@ namespace CF36
                 NgaySinh = dTPNgaySinh.Value,
                 Tk = txtTenTaiKhoan.Text.Trim(),
                 Mk = txtMatKhau.Text,
-                Vitri = cbbViTri.SelectedItem?.ToString(),
+                Vitri = vitriDb,
                 Luong = luongTheoGio,
                 Bank = cbbNganHang.SelectedItem?.ToString(),
                 Stk = txtSoTaiKhoan.Text
@@ -134,6 +144,9 @@ namespace CF36
 
         }
 
-        
+        private void picLogo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

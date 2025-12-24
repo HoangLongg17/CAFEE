@@ -105,7 +105,7 @@
             lbTimKiem.AutoSize = true;
             lbTimKiem.Location = new Point(176, 0);
             lbTimKiem.Name = "lbTimKiem";
-            lbTimKiem.Size = new Size(56, 15);
+            lbTimKiem.Size = new Size(57, 15);
             lbTimKiem.TabIndex = 0;
             lbTimKiem.Text = "Tìm kiếm";
             // 

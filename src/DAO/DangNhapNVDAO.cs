@@ -9,7 +9,7 @@ namespace DAO
         public DangNhapNVDTO DangNhap(string username)
         {
             string query = @"
-                SELECT Manv, Tk, Mk, Hoten
+                SELECT Manv, Tk, Mk, Hoten, Vitri
                 FROM NHANVIEN
                 WHERE Tk = @Tk";
 
@@ -30,7 +30,8 @@ namespace DAO
                 Manv = row["Manv"].ToString(),
                 Tk = row["Tk"].ToString(),
                 Mk = row["Mk"].ToString(),
-                Hoten = row["Hoten"].ToString()
+                Hoten = row["Hoten"].ToString(),
+                Vitri = row["Vitri"].ToString() 
             };
         }
     }

@@ -35,7 +35,7 @@ namespace CF36
         {
 
             cbbViTri.Items.Clear();
-            cbbViTri.Items.AddRange(new object[] { "Admin", "NhanVien" });
+            cbbViTri.Items.AddRange(new object[] { "Admin", "Nvthungan", "Nvkho" });
 
             cbbNganHang.Items.Clear();
             cbbNganHang.Items.AddRange(new object[] { "VCB", "MB", "AGR", "OCB", "SCB" });
@@ -63,7 +63,7 @@ namespace CF36
 
                 if (nv != null)
                 {
-                    txtMaNhanVien.Text = nv.Mand;
+                    txtMaNhanVien.Text = nv.Manv;
                     txtTenNhanVien.Text = nv.Hoten;
                     txtSoDienThoai.Text = nv.Sdt;
                     txtEmail.Text = nv.Email;
@@ -74,7 +74,21 @@ namespace CF36
                     txtTenTaiKhoan.Text = nv.Tk;
                     txtMatKhau.Text = nv.Mk;
 
-                    cbbViTri.SelectedItem = nv.Vitri;
+                    // Map DB values to friendly UI labels
+                    if (!string.IsNullOrWhiteSpace(nv.Vitri))
+                    {
+                        if (nv.Vitri.Equals("Quanly", StringComparison.OrdinalIgnoreCase))
+                            cbbViTri.SelectedItem = "Admin";
+                        else if (nv.Vitri.Equals("Nvthungan", StringComparison.OrdinalIgnoreCase))
+                            cbbViTri.SelectedItem = "NhanVien";
+                        else
+                            cbbViTri.SelectedItem = nv.Vitri; // fallback
+                    }
+                    else
+                    {
+                        cbbViTri.SelectedIndex =1; // default NhanVien
+                    }
+
                     cbbNganHang.SelectedItem = nv.Bank;
 
                     txtLuongTheoGio.Text = nv.Luong.ToString();
@@ -137,16 +151,26 @@ namespace CF36
                 return;
             }
 
+            // Map displayed selection back to DB expected values
+            string vitriDb = null;
+            if (cbbViTri.SelectedItem != null)
+            {
+                var sel = cbbViTri.SelectedItem.ToString();
+                if (sel == "Admin") vitriDb = "Quanly";
+                else if (sel == "NhanVien") vitriDb = "Nvthungan";
+                else vitriDb = sel;
+            }
+
             NhanVienDTO nvMoi = new NhanVienDTO
             {
-                Mand = txtMaNhanVien.Text,
+                Manv = txtMaNhanVien.Text,
                 Hoten = txtTenNhanVien.Text,
                 Sdt = txtSoDienThoai.Text,
                 Email = txtEmail.Text,
                 NgaySinh = dTPNgaySinh.Value,
                 Tk = txtTenTaiKhoan.Text,
                 Mk = txtMatKhau.Text,
-                Vitri = cbbViTri.SelectedItem.ToString(),
+                Vitri = vitriDb,
                 Luong = luongTheoGio,
                 Bank = cbbNganHang.SelectedItem.ToString(),
                 Stk = txtSTK.Text

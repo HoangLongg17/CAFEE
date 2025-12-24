@@ -1,15 +1,14 @@
-﻿using DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAO;
+using DTO;
 using System.Text.RegularExpressions;
 using System.Data;
 using System.Windows.Forms;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace BUS
 {
@@ -55,7 +54,7 @@ namespace BUS
         public static bool themNV(NhanVienDTO nv)
         {
             // mã nhân viên
-            if (NhanVienDAO.KiemTraTonTaiMaNV(nv.Mand))
+            if (NhanVienDAO.KiemTraTonTaiMaNV(nv.Manv))
             {
                 MessageBox.Show("Mã nhân viên đã tồn tại. Vui lòng chọn mã khác.", "Lỗi Kiểm tra Dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -131,7 +130,7 @@ namespace BUS
 
         public static bool SuaNV(NhanVienDTO nv)
         {
-            if (NhanVienDAO.KiemTraTonTaiTenTaiKhoanKhac(nv.Tk, nv.Mand))
+            if (NhanVienDAO.KiemTraTonTaiTenTaiKhoanKhac(nv.Tk, nv.Manv))
             {
                 MessageBox.Show("Tên tài khoản '" + nv.Tk + "' đã được sử dụng bởi nhân viên khác.", "Lỗi Kiểm tra Dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -146,12 +145,12 @@ namespace BUS
             string originalPassword = nv.Mk;
             nv.Mk = HashPassword(originalPassword);
 
-            if (NhanVienDAO.KiemTraTonTaiSdtKhac(nv.Sdt, nv.Mand))
+            if (NhanVienDAO.KiemTraTonTaiSdtKhac(nv.Sdt, nv.Manv))
             {
                 MessageBox.Show("Số điện thoại này đã được sử dụng cho nhân viên khác.", "Lỗi Kiểm tra Dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (NhanVienDAO.KiemTraTonTaiEmailKhac(nv.Email, nv.Mand))
+            if (NhanVienDAO.KiemTraTonTaiEmailKhac(nv.Email, nv.Manv))
             {
                 MessageBox.Show("Địa chỉ Email này đã được sử dụng cho nhân viên khác.", "Lỗi Kiểm tra Dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -180,7 +179,7 @@ namespace BUS
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(nv.Mand))
+            if (string.IsNullOrWhiteSpace(nv.Manv))
             {
                 MessageBox.Show("Không tìm thấy Mã nhân viên để sửa.", "Lỗi Nghiệp vụ");
                 return false;

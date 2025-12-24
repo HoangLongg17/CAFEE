@@ -8,10 +8,12 @@ namespace DTO
 {
     public class DangNhapNVDTO
     {
-        public string Manv {  get; set; }
+        public string Manv { get; set; }
         public string Tk { get; set; }
         public string Mk { get; set; }
         public string Hoten { get; set; }
+        // Thêm thuộc tính Vị trí để phân quyền
+        public string Vitri { get; set; }
 
     }
 }
