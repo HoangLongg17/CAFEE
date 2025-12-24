@@ -40,7 +40,22 @@ namespace CF36
                 return;
             }
 
-            string maNhanVien = dgvNhanVien.SelectedRows[0].Cells["Mand"].Value.ToString();
+            // C#
+            var row = dgvNhanVien.SelectedRows[0];
+            string idCol = dgvNhanVien.Columns.Contains("Manv") ? "Manv"
+                           : dgvNhanVien.Columns.Contains("Mand") ? "Mand"
+                           : dgvNhanVien.Columns.Cast<DataGridViewColumn>().First().Name;
+            string maNhanVien = row.Cells[idCol].Value?.ToString() ?? string.Empty;
+
+            // Option B: use DataRowView to read by DataTable column names
+            var drv = dgvNhanVien.SelectedRows[0].DataBoundItem as DataRowView;
+            string ma = null;
+            if (drv != null)
+            {
+                if (drv.DataView.Table.Columns.Contains("Manv")) ma = drv["Manv"]?.ToString();
+                else if (drv.DataView.Table.Columns.Contains("Mand")) ma = drv["Mand"]?.ToString();
+                else ma = drv.Row.ItemArray.FirstOrDefault()?.ToString();
+            }
 
             SuaNhanVien suaNhanVien = new SuaNhanVien(maNhanVien);
             if (suaNhanVien.ShowDialog() == DialogResult.OK)
@@ -74,10 +89,12 @@ namespace CF36
             try
             {
                 DataTable dt = NhanVienBUS.LayDanhSachNhanVien();
+                if (dt.Columns.Contains("Mand") && !dt.Columns.Contains("Manv"))
+                    dt.Columns["Mand"].ColumnName = "Manv";
                 dgvNhanVien.DataSource = dt;
 
-                if (dgvNhanVien.Columns.Contains("Mand"))
-                    dgvNhanVien.Columns["Mand"].HeaderText = "Mã nhân viên";
+                if (dgvNhanVien.Columns.Contains("Manv"))
+                    dgvNhanVien.Columns["Manv"].HeaderText = "Mã nhân viên";
                 if (dgvNhanVien.Columns.Contains("Tk"))
                     dgvNhanVien.Columns["Tk"].HeaderText = "Tài khoản";
                 if (dgvNhanVien.Columns.Contains("Mk"))
@@ -90,7 +107,7 @@ namespace CF36
                     dgvNhanVien.Columns["Sdt"].HeaderText = "Số điện thoại";
                 if (dgvNhanVien.Columns.Contains("Email"))
                     dgvNhanVien.Columns["Email"].HeaderText = "Email";
-                if (dgvNhanVien.Columns.Contains("Ngsing"))
+                if (dgvNhanVien.Columns.Contains("Ngsinh"))
                     dgvNhanVien.Columns["Ngsinh"].HeaderText = "Ngày sinh";
                 if (dgvNhanVien.Columns.Contains("Diachi"))
                     dgvNhanVien.Columns["Diachi"].HeaderText = "Địa chỉ";
@@ -187,7 +204,7 @@ namespace CF36
                 MessageBox.Show("Vui lòng chọn một nhân viên để xóa.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            var maNhanVienCell = dgvNhanVien.SelectedRows[0].Cells["Mand"];
+            var maNhanVienCell = dgvNhanVien.SelectedRows[0].Cells["Manv"];
 
             if (maNhanVienCell == null || maNhanVienCell.Value == null)
             {

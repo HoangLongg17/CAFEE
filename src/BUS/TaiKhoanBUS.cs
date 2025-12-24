@@ -58,7 +58,7 @@ namespace BUS
             return System.Text.RegularExpressions.Regex.IsMatch(input, pattern);
         }
 
-        // 🔹 Hàm băm SHA-256
+        // Hash helper reused for login
         private string HashSHA256(string input)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -110,6 +110,16 @@ namespace BUS
             bool updated = dao.CapNhatMatKhau(username, newHashed);
 
             return updated ? "Đổi mật khẩu thành công!" : "Đổi mật khẩu thất bại!";
+        }
+
+        // Authenticate and return NhanVienDTO or null
+        public NhanVienDTO Authenticate(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrEmpty(password))
+                return null;
+
+            string hashed = HashSHA256(password);
+            return dao.DangNhap(username, hashed);
         }
     }
 }

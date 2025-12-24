@@ -41,8 +41,9 @@ namespace CF36
             MessageBox.Show(result.message,
                 "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // 👉 Lấy thẳng từ result.user (KHÔNG query lại DB)
+            // 👉 Lấy thông tin từ result.user
             string manv = result.user.Manv;
+            string vitri = result.user.Vitri; // Lấy vị trí
 
             if (string.IsNullOrEmpty(manv))
             {
@@ -54,15 +55,41 @@ namespace CF36
             // 🌍 Lưu user hiện tại (context)
             CurrentUser.Manv = manv;
 
-            // 🚀 Mở form nhân viên
-            NHANVIEN nhanvien = new NHANVIEN(
-                result.user.Hoten,
-                username,
-                manv
-            );
-
             this.Hide();
-            nhanvien.ShowDialog();
+
+            // 🚀 PHÂN QUYỀN MỞ FORM DỰA TRÊN VỊ TRÍ
+            if (vitri == "Nvkho")
+            {
+                // Giả sử form NhanVienKho có constructor tương tự hoặc không tham số
+                // Bạn cần đảm bảo đã tạo form NhanVienKho.cs trong project
+                NhanVienKho frmKho = new NhanVienKho(result.user.Hoten,
+                    username,
+                    manv);
+                frmKho.ShowDialog();
+            }
+            else if (vitri == "Nvthungan")
+            {
+                // Mở form thu ngân (NHANVIEN)
+                NHANVIEN nhanvien = new NHANVIEN(
+                    result.user.Hoten,
+                    username,
+                    manv
+                );
+                nhanvien.ShowDialog();
+            }
+            else
+            {
+                // Xử lý các vị trí khác (Ví dụ: Quanly)
+                // Mặc định có thể mở form NHANVIEN hoặc thông báo
+                MessageBox.Show($"Chức năng cho vị trí '{vitri}' đang được cập nhật.", "Thông báo");
+
+                // Nếu muốn Quản lý cũng vào form NHANVIEN thì bỏ comment dòng dưới:
+                /*
+                NHANVIEN frmDefault = new NHANVIEN(result.user.Hoten, username, manv);
+                frmDefault.ShowDialog();
+                */
+            }
+
             this.Close();
         }
 

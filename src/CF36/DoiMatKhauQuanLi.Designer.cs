@@ -111,9 +111,9 @@
             // 
             lbNhapTenTaiKhoan.Anchor = AnchorStyles.Right;
             lbNhapTenTaiKhoan.AutoSize = true;
-            lbNhapTenTaiKhoan.Location = new Point(95, 5);
+            lbNhapTenTaiKhoan.Location = new Point(94, 5);
             lbNhapTenTaiKhoan.Name = "lbNhapTenTaiKhoan";
-            lbNhapTenTaiKhoan.Size = new Size(77, 15);
+            lbNhapTenTaiKhoan.Size = new Size(78, 15);
             lbNhapTenTaiKhoan.TabIndex = 0;
             lbNhapTenTaiKhoan.Text = "Tên tài khoản";
             // 
