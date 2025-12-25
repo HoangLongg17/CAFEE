@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CF36", "src\CF36\CF36.csproj", "{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ABC", "src\CF36\ABC.csproj", "{7F88A8C4-C6F8-447C-9E7E-D2E8A73ACDBB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "src\DTO\DTO.csproj", "{3C604619-42D5-4066-83EF-69AABABE7626}"
 EndProject
