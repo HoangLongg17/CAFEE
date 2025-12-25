@@ -134,5 +134,11 @@ namespace CF36
         {
 
         }
+
+        private void NhanVienKho_Load_1(object sender, EventArgs e)
+        {
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
+            UIText.ApplyButtonTextStyle(this);
+        }
     }
 }

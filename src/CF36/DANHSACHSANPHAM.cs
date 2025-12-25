@@ -133,8 +133,10 @@ namespace CF36
                 dgvDanhSachSanPham.Columns["GiaGoc"].Visible = false;
             if (dgvDanhSachSanPham.Columns.Contains("TienGiam"))
                 dgvDanhSachSanPham.Columns["TienGiam"].Visible = false;
-
-            dgvDanhSachSanPham.RowHeadersWidth = 50;
+            if (dgvDanhSachSanPham.Columns.Contains("LoaiVoucher"))
+                dgvDanhSachSanPham.Columns["LoaiVouCher"].Visible = false;
+            if (dgvDanhSachSanPham.Columns.Contains("PhanTramGiam"))
+                dgvDanhSachSanPham.Columns["PhanTramGiam"].Visible = false;
         }
 
         // Hàm tải/tải lại dữ liệu cho DataGridView

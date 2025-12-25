@@ -99,5 +99,13 @@ namespace CF36
                 dgvChiTietTraHang.Columns["ThanhTien"].HeaderText = "Thành Tiền";
             }
         }
+
+        private void LichSuTraHang_Load(object sender, EventArgs e)
+        {
+            UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
+            UIText.ApplyButtonTextStyle(this);
+            UIDataGridView.FormatDataGridView(dgvChiTietTraHang);
+            UIDataGridView.FormatDataGridView(dgvDanhSachTraHang);
+        }
     }
 }

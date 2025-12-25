@@ -35,17 +35,7 @@ namespace CF36
         {
             dtSanPham = DanhSachSanPhamBUS.Instance.GetSanPhamWithVoucher();
             dgvSanPham.DataSource = dtSanPham;
-
-            if (dgvSanPham.Columns.Contains("Giá bán"))
-            {
-                dgvSanPham.Columns["Giá bán"].DefaultCellStyle.Format = "N0";
-                dgvSanPham.Columns["Giá bán"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            }
-
-            if (dgvSanPham.Columns.Contains("Voucher liên quan"))
-            {
-                dgvSanPham.Columns["Voucher liên quan"].DefaultCellStyle.ForeColor = Color.DarkGreen;
-            }
+            SetupDataGridView();
             UIButton.ReplaceStandardButtonsWithIcons(this, Properties.Resources.exit, Properties.Resources.delete, Properties.Resources.refresh, Properties.Resources.done);
             UIText.ApplyButtonTextStyle(this);
             UIDataGridView.FormatDataGridView(dgvSanPham);
@@ -55,7 +45,32 @@ namespace CF36
         {
             this.Close();
         }
+        private void SetupDataGridView()
+        {
+            var columns = dgvSanPham.Columns;
 
+            // Đổi tên hiển thị cột sang tiếng Việt
+            if (columns.Contains("MaSP"))
+                columns["MaSP"].HeaderText = "Mã sản phẩm";
+            if (columns.Contains("TenSP"))
+                columns["TenSP"].HeaderText = "Tên sản phẩm";
+            if (columns.Contains("TenLoai"))
+                columns["TenLoai"].HeaderText = "Loại";
+            if (columns.Contains("GiaBan"))
+                columns["GiaBan"].HeaderText = "Giá bán";
+            if (columns.Contains("SoLuongTon"))
+                columns["SoLuongTon"].HeaderText = "Tồn kho";
+            if (columns.Contains("TrangThai"))
+                columns["TrangThai"].HeaderText = "Trạng thái";
+            if (columns.Contains("CanhBaoTon"))
+                columns["CanhBaoTon"].HeaderText = "Cảnh báo tồn kho";
+            if (columns.Contains("Maloai"))
+                columns["Maloai"].HeaderText = "Mã loại";
+
+            // Ẩn cột hình ảnh đường dẫn
+            if (columns.Contains("DuongDanAnh"))
+                columns["DuongDanAnh"].Visible = false;
+        }
         private void tlpTimKiem_Paint(object sender, PaintEventArgs e)
         {
 
