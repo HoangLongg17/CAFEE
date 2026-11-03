@@ -437,8 +437,16 @@ namespace ABC
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    bus.XuatHoaDonPDF(hoaDonDTO, danhSachSP_InPDF, sfd.FileName);
-                    MessageBox.Show("✅ Hóa đơn PDF đã được xuất thành công!");
+                    try
+                    {
+                        bus.XuatHoaDonPDF(hoaDonDTO, danhSachSP_InPDF, sfd.FileName);
+                        MessageBox.Show("✅ Hóa đơn PDF đã được xuất thành công!");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Hóa đơn đã được lưu; lỗi in PDF không được chặn bước trừ tồn kho phía dưới
+                        PdfHelper.ThongBaoLoi(ex);
+                    }
                 }
             }
 

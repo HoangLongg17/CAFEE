@@ -207,14 +207,11 @@ namespace ABC
                     MessageBox.Show("Xuất file PDF lịch sử thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Mở file (đã sửa lỗi)
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(saveFileDialog.FileName)
-                    {
-                        UseShellExecute = true
-                    });
+                    PdfHelper.MoTapTin(saveFileDialog.FileName);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Đã xảy ra lỗi khi xuất PDF: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    PdfHelper.ThongBaoLoi(ex);
                 }
             }
         }
@@ -228,7 +225,9 @@ namespace ABC
 
             // 2. Tạo Document
             Document document = new Document(PageSize.A4, 25f, 25f, 30f, 30f); // Trang đứng A4
-            PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
+            // using: luôn giải phóng file kể cả khi có lỗi giữa chừng (tránh file bị khóa / file hỏng)
+            using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            PdfWriter writer = PdfWriter.GetInstance(document, fileStream);
             document.Open();
 
             // 3. Thêm Tiêu đề
@@ -287,11 +286,17 @@ namespace ABC
         }
         private PdfPTable CreatePdfTableFromDgv(DataGridView dgv, iTextSharp.text.Font headerFont, iTextSharp.text.Font cellFont)
         {
-            PdfPTable pdfTable = new PdfPTable(dgv.Columns.Count);
+            // Chỉ xuất các cột đang hiển thị, đúng thứ tự như trên lưới
+            var cols = dgv.Columns.Cast<DataGridViewColumn>()
+                                  .Where(dc => dc.Visible && !(dc is DataGridViewButtonColumn))
+                                  .OrderBy(dc => dc.DisplayIndex)
+                                  .ToList();
+
+            PdfPTable pdfTable = new PdfPTable(cols.Count);
             pdfTable.WidthPercentage = 100;
 
             // Thêm Header
-            foreach (DataGridViewColumn column in dgv.Columns)
+            foreach (DataGridViewColumn column in cols)
             {
                 PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText, headerFont));
                 cell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -304,13 +309,15 @@ namespace ABC
             // Thêm Dữ liệu
             foreach (DataGridViewRow row in dgv.Rows)
             {
-                foreach (DataGridViewCell cell in row.Cells)
+                if (row.IsNewRow) continue;
+                foreach (DataGridViewColumn column in cols)
                 {
-                    string cellValue = cell.Value?.ToString() ?? "";
+                    DataGridViewCell cell = row.Cells[column.Index];
+                    // Định dạng tiền / ngày giờ cho dễ đọc
+                    string cellValue = PdfHelper.DinhDang(cell);
                     PdfPCell pdfCell = new PdfPCell(new Phrase(cellValue, cellFont));
                     pdfCell.Padding = 5;
 
-                    // Căn lề
                     if (cell.ValueType == typeof(decimal) || cell.ValueType == typeof(int))
                     {
                         pdfCell.HorizontalAlignment = Element.ALIGN_RIGHT;
