@@ -386,14 +386,11 @@ namespace ABC
                     ExportDataGridViewToPdf(dgvDanhSachSanPham, saveFileDialog.FileName);
                     MessageBox.Show("Xuất file PDF thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(saveFileDialog.FileName)
-                    {
-                        UseShellExecute = true
-                    });
+                    PdfHelper.MoTapTin(saveFileDialog.FileName);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Đã xảy ra lỗi khi xuất PDF: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    PdfHelper.ThongBaoLoi(ex);
                 }
             }
         }
@@ -407,7 +404,9 @@ namespace ABC
 
             // 2. Tạo Document
             Document document = new Document(PageSize.A4.Rotate(), 10f, 10f, 10f, 10f); // Trang ngang
-            PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
+            // using: luôn giải phóng file kể cả khi có lỗi giữa chừng (tránh file bị khóa / file hỏng)
+            using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            PdfWriter writer = PdfWriter.GetInstance(document, fileStream);
             document.Open();
 
             // 3. Thêm Tiêu đề
@@ -492,7 +491,9 @@ namespace ABC
                         }
                     }
 
-                    PdfPCell pdfCell = new PdfPCell(new Phrase(cellValue, cellFont));
+                    PdfPCell pdfCell = cell.Value is System.Drawing.Image anh
+                        ? PdfHelper.TaoOAnh(anh, cellFont)   // cột Ảnh: chèn ảnh thật
+                        : new PdfPCell(new Phrase(cellValue, cellFont));
                     pdfCell.Padding = 5;
 
                     // Căn lề

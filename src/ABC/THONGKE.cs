@@ -250,7 +250,9 @@ namespace ABC
 
             // 2. Tạo Document
             Document document = new Document(PageSize.A4, 25f, 25f, 30f, 30f); // Trang đứng A4
-            PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(filePath, FileMode.Create));
+            // using: luôn giải phóng file kể cả khi có lỗi giữa chừng (tránh file bị khóa / file hỏng)
+            using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            PdfWriter writer = PdfWriter.GetInstance(document, fileStream);
             document.Open();
 
             // 3. Thêm Tiêu đề
@@ -292,7 +294,7 @@ namespace ABC
                 using (MemoryStream chartStream = new MemoryStream())
                 {
                     chrThongKe.SaveImage(chartStream, ChartImageFormat.Png);
-                    iTextSharp.text.Image chartImage = iTextSharp.text.Image.GetInstance(chartStream.GetBuffer());
+                    iTextSharp.text.Image chartImage = iTextSharp.text.Image.GetInstance(chartStream.ToArray());
 
                     // Thay đổi kích cỡ ảnh cho vừa trang
                     float chartWidth = PageSize.A4.Width - document.LeftMargin - document.RightMargin;
@@ -314,11 +316,15 @@ namespace ABC
             if (dgvHoaDon.Rows.Count > 0 && isViewingTopProducts)
             {
                 // (SỬA) Tự động lấy số cột mới (giờ là 3)
-                PdfPTable pdfTable = new PdfPTable(dgvHoaDon.Columns.Count);
+                var cols = dgvHoaDon.Columns.Cast<DataGridViewColumn>()
+                                           .Where(dc => dc.Visible && !(dc is DataGridViewButtonColumn))
+                                           .OrderBy(dc => dc.DisplayIndex)
+                                           .ToList();
+                PdfPTable pdfTable = new PdfPTable(cols.Count);
                 pdfTable.WidthPercentage = 100;
 
-                // Thêm Header (Không cần sửa)
-                foreach (DataGridViewColumn column in dgvHoaDon.Columns)
+                // Thêm Header
+                foreach (DataGridViewColumn column in cols)
                 {
                     PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText, subHeaderFont));
                     cell.HorizontalAlignment = Element.ALIGN_CENTER;
@@ -331,15 +337,16 @@ namespace ABC
                 // Thêm Dữ liệu
                 foreach (DataGridViewRow row in dgvHoaDon.Rows)
                 {
-                    foreach (DataGridViewCell cell in row.Cells)
+                    if (row.IsNewRow) continue;
+                    foreach (DataGridViewColumn column in cols)
                     {
-                        string cellValue = cell.Value?.ToString() ?? "";
+                        DataGridViewCell cell = row.Cells[column.Index];
+                        // Định dạng tiền / ngày giờ cho dễ đọc
+                        string cellValue = PdfHelper.DinhDang(cell);
                         PdfPCell pdfCell = new PdfPCell(new Phrase(cellValue, normalFont));
                         pdfCell.Padding = 5;
 
-                        // (SỬA LẠI DÒNG IF NÀY)
-                        // Căn lề phải cho cột Số lượng Bán và Tổng Doanh Thu
-                        if (cell.OwningColumn.Name == "SoLuongBan" || cell.OwningColumn.Name == "TongDoanhThu")
+                        if (column.Name == "SoLuongBan" || column.Name == "TongDoanhThu")
                         {
                             pdfCell.HorizontalAlignment = Element.ALIGN_RIGHT;
                         }
@@ -380,14 +387,11 @@ namespace ABC
 
                     MessageBox.Show("Xuất file PDF thống kê thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(saveFileDialog.FileName)
-                    {
-                        UseShellExecute = true
-                    });
+                    PdfHelper.MoTapTin(saveFileDialog.FileName);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Đã xảy ra lỗi khi xuất PDF: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    PdfHelper.ThongBaoLoi(ex);
                 }
             }
         }
