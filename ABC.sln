@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CAFEE_Setup", "..\CAFEE_Setup\CAFEE_Setup.vdproj", "{514660F3-9530-190F-13BE-D3A0BBDBD32B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5C51DA0B-6563-4ED5-9E75-03DBDFF327D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C51DA0B-6563-4ED5-9E75-03DBDFF327D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C51DA0B-6563-4ED5-9E75-03DBDFF327D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{514660F3-9530-190F-13BE-D3A0BBDBD32B}.Debug|Any CPU.ActiveCfg = Debug
+		{514660F3-9530-190F-13BE-D3A0BBDBD32B}.Debug|Any CPU.Build.0 = Debug
+		{514660F3-9530-190F-13BE-D3A0BBDBD32B}.Release|Any CPU.ActiveCfg = Release
+		{514660F3-9530-190F-13BE-D3A0BBDBD32B}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
